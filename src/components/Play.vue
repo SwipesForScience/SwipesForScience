@@ -80,19 +80,24 @@
 
   export default {
     name: 'play',
-    firebase: {
-      sampleCounts: {
-        source: db.ref('sampleCounts'),
-        asObject: false, // keep it bound as a list
-        readyCallback() {
-          if (!this.sampleCounts.length) {
-            this.noData = true;
-          } else {
-            this.startTime = new Date();
-            this.setNextSampleId();
-          }
+    firebase() {
+      return {
+        sampleCounts: {
+          source: db.ref('sampleCounts'),
+          asObject: false, // keep it bound as a list
+          readyCallback() {
+            if (!this.sampleCounts.length) {
+              this.noData = true;
+            } else {
+              this.startTime = new Date();
+              this.setNextSampleId();
+            }
+          },
         },
-      },
+        userSeenSamples: {
+          source: db.ref('userSeenSamples').child(this.userInfo.displayName),
+        },
+      };
       // userSeenSamples: db.ref('doneSamples').child(this.userInfo.displayName),
     },
     props: ['userInfo', 'userData', 'levels', 'currentLevel'],
@@ -188,8 +193,9 @@
           let samplesRemain;
           if (this.userSeenSamples) {
             // if the user has seen some samples, remove them
+            const userSeenList = _.map(this.userSeenSamples, s => s['.key']);
             samplesRemain = _.filter(this.samplePriority,
-              v => Object.keys(this.userSeenSamples).indexOf(v['.key']) < 0);
+              v => userSeenList.indexOf(v['.key']) < 0);
 
             // but if the user has seen everything,
             // return the total sample priority
@@ -239,7 +245,9 @@
 
         // 3. update the score and count for the sample
         this.updateScore(this.$refs.widget.getScore(response));
+        // TODO: this.updateScore(this.$refs.widget.getSummary(response));
         this.updateCount();
+        this.updateSeen();
 
         // 3. set the next Sample
         this.setNextSampleId();
@@ -281,6 +289,15 @@
 
       updateCount() {
         db.ref('sampleCounts')
+          .child(this.widgetPointer)
+          .transaction(count => (count || 0) + 1);
+      },
+
+      updateSeen() {
+        // mark that this user has seen this widgetPointer
+
+        db.ref('userSeenSamples')
+          .child(this.userInfo.displayName)
           .child(this.widgetPointer)
           .transaction(count => (count || 0) + 1);
       },
