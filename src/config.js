@@ -35,4 +35,16 @@ export default {
     storageBucket: '',
     messagingSenderId: '574942180600',
   },
+
+  // Homepage configuration
+
+  // your app's title and tagline
+  title: 'SwipesForScience',
+  tagline: 'Swipe right for results',
+
+  // background image on Homepage
+  backgroundUrl: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/SwipesForScience.svg',
+
+  // Play configuration
+  blankImage: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/undraw_blank_canvas.svg',
 };

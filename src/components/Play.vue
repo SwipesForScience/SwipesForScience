@@ -19,7 +19,9 @@
          {{feedback.message}}
       </b-alert>
 
-      <WidgetSelector :widgetType="widgetType"
+      <WidgetSelector
+       v-if="sampleCounts.length"
+       :widgetType="widgetType"
        :widgetPointer="widgetPointer"
        :widgetProperties="widgetProperties"
        :widgetSummary="widgetSummary"
@@ -27,6 +29,12 @@
        :playMode='true'
        ref="widget"
       />
+
+      <div v-else>
+        <h1>There is no data in your database!</h1>
+        <p class="lead">Follow the instructions to set up your SwipesForScience App</p>
+        <img class="blankImage" :src="blankImage" alt="there is no data" />
+      </div>
 
     </div>
 
@@ -48,6 +56,10 @@
     margin: auto;
     position: absolute;
     right: 0;
+  }
+
+  .blankImage {
+    max-width: 100%;
   }
 
 </style>
@@ -75,6 +87,9 @@
           message: '',
         },
         status: 'loading',
+
+        // if there is no data loaded, show an image from the config.
+        blankImage: config.blankImage,
 
         // type of widget, named exactly how it is in the Widgets folder
         widgetType: config.widgetType,

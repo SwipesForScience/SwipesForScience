@@ -1,9 +1,9 @@
 <template>
   <div class="home container">
-    <div class="jumbotron landing">
-      <h1>{{msg}}</h1>
+    <div class="jumbotron landing" :style="landingStyle">
+      <h1>{{title}}</h1>
       <p class="lead buttons mt-3">
-        Swipe right for results
+        {{tagline}}
       </p>
       <p class="buttons mt-3">
         <router-link class="btn btn-primary white" to="/play"> Play Now </router-link>
@@ -21,13 +21,17 @@
 </template>
 
 <script>
-
+import config from '../config';
 
 export default {
   name: 'Home',
   data() {
     return {
-      msg: 'whaledr.',
+      title: config.title,
+      tagline: config.tagline,
+      landingStyle: {
+        'background-image': `url("${config.backgroundUrl}")`,
+      },
     };
   },
 };
@@ -77,7 +81,7 @@ a {
 .landing h1 {
   background-color: black;
   color: white;
-  max-width: 250px;
+  max-width: 350px;
   margin: auto;
 }
 
