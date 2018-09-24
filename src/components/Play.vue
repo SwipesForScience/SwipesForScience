@@ -12,18 +12,18 @@
     <div class="main">
 
       <b-alert :show="dismissCountDown"
-         :variant="score.variant"
+         :variant="feedback.variant"
          class="toast"
          @dismissed="dismissCountdown=0"
          @dismiss-count-down="countDownChanged">
-         {{score.message}}
+         {{feedback.message}}
       </b-alert>
 
       <WidgetSelector :widgetType="widgetType"
        :widgetPointer="widgetPointer"
        :widgetProperties="widgetProperties"
        :widgetSummary="widgetSummary"
-       v-on:widgetRating="sendwidgetPointer"
+       v-on:widgetRating="sendWidgetResponse"
        :playMode='true'
        ref="widget"
       />
@@ -38,122 +38,6 @@
 
   .main {
     min-height: 100vh;
-  }
-
-  .user-card {
-      max-width: 500px;
-      height: fit-content;
-      width: 100%;
-      border: 1px solid #ccc;
-      padding: 8px;
-      box-shadow: 0px 2px 5px 0px #ccc;
-      position: absolute;
-      left: 0;
-      right: 0;
-      margin: auto
-  }
-
-  .user-card__picture {
-      width: 100%;
-      height: 100%;
-      display: block;
-  }
-
-  .progressive-image-main {
-    width: 100%;
-    height: 100% !important;
-  }
-
-  .image_area {
-    background: white !important;
-    position: relative;
-  }
-
-  .loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9;
-  }
-
-  .user-card__name {
-      margin-bottom: 0;
-      margin-top: 8px;
-  }
-
-  .swipe-left {
-      -webkit-animation: swipe-left 1s forwards;
-              animation: swipe-left 1s forwards;
-  }
-
-  .swipe-right {
-      -webkit-animation: swipe-right 1s forwards;
-              animation: swipe-right 1s forwards;
-  }
-
-  @-webkit-keyframes swipe-left {
-      to {
-          -webkit-transform: rotate(-13deg) translate3d(-100%, 0, 0);
-                  transform: rotate(-13deg) translate3d(-100%, 0, 0);
-          opacity: 0;
-      }
-  }
-
-  @keyframes swipe-left {
-      to {
-          -webkit-transform: rotate(-13deg) translate3d(-100%, 0, 0);
-                  transform: rotate(-13deg) translate3d(-100%, 0, 0);
-          opacity: 0;
-      }
-  }
-
-  @-webkit-keyframes swipe-right {
-      to {
-          -webkit-transform: rotate(13deg) translate3d(100%, 0, 0);
-                  transform: rotate(13deg) translate3d(100%, 0, 0);
-          opacity: 0;
-      }
-  }
-
-  @keyframes swipe-right {
-      to {
-          -webkit-transform: rotate(13deg) translate3d(100%, 0, 0);
-                  transform: rotate(13deg) translate3d(100%, 0, 0);
-          opacity: 0;
-      }
-  }
-
-  /* Enter and leave animations can use different */
-  /* durations and timing functions.              */
-  /*.swipe-right-enter-active {
-    transition: all .3s ease;
-  }
-
-  .swipe-right-enter-to {
-    transition: all .3s ease;
-  }*/
-
-  .swipe-right-leave-active {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-  }
-  .swipe-right-leave-to
-  /* .slide-fade-leave-active below version 2.1.8 */ {
-    -webkit-transform: rotate(13deg) translate3d(100%, 0, 0);
-            transform: rotate(13deg) translate3d(100%, 0, 0);
-    opacity: 0;
-  }
-  /*.swipe-left-enter-active {
-    transition: all .3s ease;
-  }*/
-  .swipe-left-leave-active {
-    transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-  }
-  .swipe-left-leave-to
-  /* .slide-fade-leave-active below version 2.1.8 */ {
-    -webkit-transform: rotate(-13deg) translate3d(-100%, 0, 0);
-            transform: rotate(-13deg) translate3d(-100%, 0, 0);
-    opacity: 0;
   }
 
   .toast {
@@ -178,7 +62,7 @@
     name: 'play',
     firebase: {
       sampleCounts: db.ref('sampleCounts'),
-      userSeenSamples: db.ref('doneSamples').child(this.userInfo.displayName),
+      // userSeenSamples: db.ref('doneSamples').child(this.userInfo.displayName),
     },
     props: ['userInfo', 'userData', 'levels', 'currentLevel'],
     data() {

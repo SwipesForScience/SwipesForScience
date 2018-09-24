@@ -1,7 +1,7 @@
 <template>
   <b-container>
-    <h1>WhaleChats</h1>
-    <p class="lead">See which clips people are talking about</p>
+    <h1>Chats</h1>
+    <p class="lead">See which samples people are talking about</p>
     <p v-for="(c, index) in imageChat" :key="index">
       <b-alert show>
         <router-link :to="'/listen/' + c['.key']">{{c['.key']}}</router-link>
