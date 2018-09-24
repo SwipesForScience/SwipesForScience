@@ -7,9 +7,9 @@
     <p v-if="!playMode" class="mb-3 pb-3 mt-3 pt-3">{{widgetSummary}}</p>
 
     <div class="row" v-if="playMode">
-      <b-btn varient="danger" @click="vote(0)">Vote No</b-btn>
-      <b-btn variant="success" @click="vote(1)">Vote Yes</b-btn>
-      <b-btn variant="info" :to="'/review/' + widgetPointer">Help</b-btn>
+      <b-btn variant="danger" @click="vote(0)" class="mx-auto ml-3 mr-3">Vote No</b-btn>
+      <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3" >Help</b-btn>
+      <b-btn variant="success" @click="vote(1)" class="mx-auto ml-3 mr-3">Vote Yes</b-btn>
     </div>
 
   </div>

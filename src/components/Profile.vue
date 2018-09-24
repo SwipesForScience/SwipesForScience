@@ -56,7 +56,7 @@
               {{chatInfo[c].message}}
             </b-alert>
             <b-alert :show="!chatInfo[c].notify" variant="light">
-              <router-link :to="'/listen/' + c">{{c}}</router-link>:
+              <router-link :to="'/review/' + c">{{c}}</router-link>:
               <b>{{chatInfo[c].username}}</b>
               {{chatInfo[c].message}}
             </b-alert>
@@ -119,7 +119,11 @@ export default {
     },
     chats() {
       this.chats.forEach((c) => {
-        db.ref('imageChat').child(c).orderByKey().limitToLast(1)
+        db.ref('chats')
+          .child('sampleChats')
+          .child(c)
+          .orderByKey()
+          .limitToLast(1)
           .on('value', (snap) => {
             const data = snap.val();
             this.chatInfo[c] = data[Object.keys(data)[0]];
@@ -130,25 +134,24 @@ export default {
     },
   },
   methods: {
-    setTheme() {
-      this.$emit('theme', this.selectedTheme);
-    },
     getUserChats() {
-      db.ref('userChat').child(this.userData['.key']).on('value', (snap) => {
-        const data = snap.val();
-        // console.log(data);
-        if (data) {
-          this.chats = Object.keys(data);
-        }
-        // console.log('this chats', this.chats);
-      });
+      db.ref('chats')
+        .child('userChat')
+        .child(this.userData['.key'])
+        .on('value', (snap) => {
+          const data = snap.val();
+          if (data) {
+            this.chats = Object.keys(data);
+          }
+          // console.log('this chats', this.chats);
+        });
     },
     getNotifications(key) {
+      // I'm not sure what this part is for...
       db.ref('notifications')
         .child(this.userData['.key'])
         .child(key)
         .on('value', (snap) => {
-          // console.log('notifications for', snap.val());
           if (snap.val()) {
             this.chatInfo[key].notify = true;
             this.$forceUpdate();

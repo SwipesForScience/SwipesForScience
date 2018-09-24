@@ -2,7 +2,7 @@
   <div id="review" class="container">
 
 
-    <div class="main">
+    <div>
       <WidgetSelector :widgetType="widgetType"
        :widgetPointer="widgetPointer"
        :widgetProperties="widgetProperties"
@@ -15,7 +15,7 @@
     <div class="chat container">
       <h3 class="mb-2">Chat</h3>
       <div class="chatHistory pl-3 pr-3 pt-3 pb-3 mb-3" v-if="chatOrder.length">
-        <p v-for="msg in chatOrder" class="text-left" :key="msg.message">
+        <p v-for="msg in chatOrder" class="text-left" :key="msg.time">
           <b>{{msg.username}}</b>: {{msg.message}}
         </p>
       </div>
@@ -68,6 +68,7 @@
   import _ from 'lodash';
   import { db } from '../firebaseConfig';
   import config from '../config';
+  import WidgetSelector from './WidgetSelector';
 
   export default {
     name: 'review',
@@ -75,9 +76,17 @@
 
     },
     props: ['userInfo', 'userData', 'levels', 'currentLevel'],
+    components: {
+      WidgetSelector,
+    },
     data() {
       return {
-
+        widgetType: config.widgetType,
+        widgetProperties: config.widgetProperties,
+        widgetPointer: null,
+        widgetSummary: null,
+        chatMessage: '',
+        chatHistory: [],
       };
     },
     computed: {
@@ -92,14 +101,13 @@
     },
     watch: {
       $route() {
-        // console.log('changed route');
-        this.setCurrentImage();
+        this.widgetPointer = this.$route.params.key;
       },
     },
     mounted() {
-      this.setCurrentImage();
+      this.widgetPointer = this.$route.params.key;
+      this.setSampleInfo();
     },
-    components: { },
     directives: {
 
     },
@@ -107,75 +115,61 @@
       sendChat(e) {
         e.preventDefault();
         const key = this.$route.params.key;
-        db.ref('sampleChats').child(key).push({
-          username: this.userData['.key'],
-          message: this.chatMessage,
-          time: new Date().toISOString(),
-        });
-        db.ref('sampleChatIndex').child(key).set({ time: new Date().toISOString() });
-        db.ref('userChat').child(this.userData['.key']).child(key).set({
-          watch: 1,
-        });
+
+        db.ref('chats')
+          .child('sampleChats')
+          .child(key).push({
+            username: this.userData['.key'],
+            message: this.chatMessage,
+            time: new Date().toISOString(),
+          });
+
+        db.ref('chats')
+          .child('sampleChatIndex')
+          .child(key).set({
+            time: new Date().toISOString(),
+          });
+
+        db.ref('chats')
+          .child('userChat')
+          .child(this.userData['.key'])
+          .child(key)
+          .set({
+            watch: 1,
+          });
+
         this.chatMessage = '';
-        // TODO: need to add a flag to all other users following this chat.
+
+        // add a flag to all other users following this chat.
         const usersToNotify = [];
         this.chatOrder.forEach((v) => {
           if (usersToNotify.indexOf(v.username) < 0 && v.username !== this.userData['.key']) {
             usersToNotify.push(v.username);
           }
         });
+
         usersToNotify.forEach((u) => {
-          db.ref('userNotifications').child(u).child(key).set(true);
+          db.ref('chats')
+            .child('userNotifications')
+            .child(u)
+            .child(key)
+            .set(true);
         });
-        // console.log('users to notify', usersToNotify);
+      },
+      unravelFirebaseListObject(inputObject) {
+        const output = [];
+        _.mapValues(inputObject, (v) => {
+          output.push(v);
+        });
+        return output;
       },
       setSampleInfo() {
-        db.ref('sampleCounts').child(this.$route.params.key)
-          .once('value')
-          .then((snap) => {
-            const data = snap.val();
-            // console.log('snap si', data);
-            const key = this.$route.params.key;
-            data['.key'] = this.$route.params.key;
-            // console.log('data snap is', data);
-            this.currentImage = `${this.imageBaseUrl}/${key}.${config.imageExt}`;
-            this.currentCount = data;
-            // console.log(this.currentImage);
-            this.startTime = new Date();
-            this.status = 'ready';
-            this.playSound();
-            db.ref('votes')
-              .orderByChild('image_id')
-              .equalTo(key)
-              .once('value')
-              .then((snap1) => {
-                const vdata = snap1.val();
-                // console.log('votedata', vdata);
-                if (vdata) {
-                  let votes = 0;
-                  let N = 0;
-                  _.mapValues(vdata, (v) => {
-                    // console.log(v);
-                    votes += v.vote;
-                    N += 1;
-                  });
-                  // console.log(votes, N);
-                  this.stats.ave_vote = votes / N;
-                  this.stats.num_votes = N;
-                }
-              });
-
-            db.ref('imageChat').child(key)
-              .on('value', (snap2) => {
-                const chatData = snap2.val();
-                this.chatHistory = chatData;
-              });
-
-            // TODO: only do this if this key is in the notifications/username tho
-            db.ref('notifications')
-              .child(this.userData['.key'])
-              .child(key)
-              .set(false);
+        db.ref('chats')
+          .child('sampleChats')
+          .child(this.widgetPointer)
+          .on('value', (snap2) => {
+            const chatData = snap2.val();
+            this.chatHistory = chatData;
           });
       },
     },
