@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <div v-if="sampleChat.length">
+    <div v-if="!noData">
       <h1>Chats</h1>
       <p class="lead">See which samples people are talking about</p>
       <p v-for="(c, index) in sampleChat" :key="index">
@@ -44,12 +44,17 @@
                 this.$forceUpdate();
               });
           });
+
+          if (!this.sampleChat.length) {
+            this.noData = true;
+          }
         },
       },
     },
     data() {
       return {
         chatInfo: {},
+        noData: false,
         blankChatImage: config.chats.blankImage,
       };
     },

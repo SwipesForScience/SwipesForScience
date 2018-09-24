@@ -19,7 +19,13 @@
          {{feedback.message}}
       </b-alert>
 
-      <div v-if="sampleCounts.length">
+      <div v-if="noData">
+        <h1>There is no data in your database!</h1>
+        <p class="lead">Follow the instructions to set up your SwipesForScience App</p>
+        <img class="blankImage" :src="blankImage" alt="there is no data" />
+      </div>
+
+      <div>
         <div v-if="!widgetPointer">
           loading...
         </div>
@@ -36,11 +42,7 @@
         />
       </div>
 
-      <div v-else>
-        <h1>There is no data in your database!</h1>
-        <p class="lead">Follow the instructions to set up your SwipesForScience App</p>
-        <img class="blankImage" :src="blankImage" alt="there is no data" />
-      </div>
+
 
     </div>
 
@@ -83,8 +85,12 @@
         source: db.ref('sampleCounts'),
         asObject: false, // keep it bound as a list
         readyCallback() {
-          this.startTime = new Date();
-          this.setNextSampleId();
+          if (!this.sampleCounts.length) {
+            this.noData = true;
+          } else {
+            this.startTime = new Date();
+            this.setNextSampleId();
+          }
         },
       },
       // userSeenSamples: db.ref('doneSamples').child(this.userInfo.displayName),
@@ -93,6 +99,7 @@
     data() {
       return {
         startTime: null,
+        noData: false,
         dismissSecs: 1,
         dismissCountDown: 0,
         feedback: {
