@@ -3,9 +3,9 @@
 
     <Highlight v-if="widgetType=='Highlight'"
      ref="Highlight"
-     :data="widgetPointer"
-     :properties="widgetProperties"
-     :summary="widgetSummary"
+     :widgetPointer="widgetPointer"
+     :widgetProperties="widgetProperties"
+     :widgetSummary="widgetSummary"
      v-on:widgetRating="widgetRating"
      :playMode="playMode"
      />
@@ -13,9 +13,9 @@
     <ImageSwipe
      v-else-if="widgetType=='ImageSwipe'"
      ref="ImageSwipe"
-     :data="widgetPointer"
-     :properties="widgetProperties"
-     :summary="widgetSummary"
+     :widgetPointer="widgetPointer"
+     :widgetProperties="widgetProperties"
+     :widgetSummary="widgetSummary"
      v-on:widgetRating="widgetRating"
      :playMode="playMode"
      />
@@ -23,27 +23,27 @@
     <ImageSoundSwipe
      ref="ImageSoundSwipe"
      v-else-if="widgetType=='ImageSoundSwipe'"
-     :data="widgetPointer"
-     :properties="widgetProperties"
-     :summary="widgetSummary"
+     :widgetPointer="widgetPointer"
+     :widgetProperties="widgetProperties"
+     :widgetSummary="widgetSummary"
      v-on:widgetRating="widgetRating"
      :playMode="playMode"
      />
 
     <NLP  v-else-if="widgetType=='NLP'"
      ref="NLP"
-     :data="widgetPointer"
-     :properties="widgetProperties"
-     :summary="widgetSummary"
+     :widgetPointer="widgetPointer"
+     :widgetProperties="widgetProperties"
+     :widgetSummary="widgetSummary"
      v-on:widgetRating="widgetRating"
      :playMode="playMode"
     />
 
     <TemplateWidget v-else
     ref="TemplateWidget"
-    :data="widgetPointer"
-    :properties="widgetProperties"
-    :summary="widgetSummary"
+    :widgetPointer="widgetPointer"
+    :widgetProperties="widgetProperties"
+    :widgetSummary="widgetSummary"
     v-on:widgetRating="widgetRating"
     :playMode="playMode"
     />

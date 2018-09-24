@@ -9,6 +9,7 @@
     <div class="row" v-if="playMode">
       <b-btn varient="danger" @click="vote(0)">Vote No</b-btn>
       <b-btn variant="success" @click="vote(1)">Vote Yes</b-btn>
+      <b-btn variant="info" :to="'/review/' + widgetPointer">Help</b-btn>
     </div>
 
   </div>

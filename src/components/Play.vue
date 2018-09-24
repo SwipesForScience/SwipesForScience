@@ -19,16 +19,22 @@
          {{feedback.message}}
       </b-alert>
 
-      <WidgetSelector
-       v-if="sampleCounts.length"
-       :widgetType="widgetType"
-       :widgetPointer="widgetPointer"
-       :widgetProperties="widgetProperties"
-       :widgetSummary="widgetSummary"
-       v-on:widgetRating="sendWidgetResponse"
-       :playMode='true'
-       ref="widget"
-      />
+      <div v-if="sampleCounts.length">
+        <div v-if="!widgetPointer">
+          loading...
+        </div>
+
+        <WidgetSelector
+         v-else
+         :widgetType="widgetType"
+         :widgetPointer="widgetPointer"
+         :widgetProperties="widgetProperties"
+         :widgetSummary="widgetSummary"
+         v-on:widgetRating="sendWidgetResponse"
+         :playMode='true'
+         ref="widget"
+        />
+      </div>
 
       <div v-else>
         <h1>There is no data in your database!</h1>
@@ -50,7 +56,7 @@
 
   .toast {
     width: auto;
-    max-width: 100px;
+    max-width: 200px;
     top: 60px;
     left: 0;
     margin: auto;
@@ -73,7 +79,14 @@
   export default {
     name: 'play',
     firebase: {
-      sampleCounts: db.ref('sampleCounts'),
+      sampleCounts: {
+        source: db.ref('sampleCounts'),
+        asObject: false, // keep it bound as a list
+        readyCallback() {
+          this.startTime = new Date();
+          this.setNextSampleId();
+        },
+      },
       // userSeenSamples: db.ref('doneSamples').child(this.userInfo.displayName),
     },
     props: ['userInfo', 'userData', 'levels', 'currentLevel'],
@@ -124,8 +137,8 @@
       },
     },
     mounted() {
-      this.startTime = new Date();
-      this.setNextSampleId();
+      // this.startTime = new Date();
+      // this.setNextSampleId();
     },
     components: { WidgetSelector },
     directives: {
@@ -214,7 +227,7 @@
         }
 
         // 2. send the widget data
-        const timeDiff = new Date() - this.startTime();
+        const timeDiff = new Date() - this.startTime;
         this.sendVote(response, timeDiff);
 
         // 3. update the score and count for the sample
@@ -233,7 +246,10 @@
 
         const sampleId = this.sampleUserPriority()[0];
 
-        this.widgetPointer = sampleId;
+        // if sampleId isn't null, set the widgetPointer
+        if (sampleId) {
+          this.widgetPointer = sampleId['.key'];
+        }
       },
 
       sendVote(response, time) {

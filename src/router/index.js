@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import About from '@/components/About';
+import Admin from '@/components/Admin';
 import Home from '@/components/Home';
 import Profile from '@/components/Profile';
 import Play from '@/components/Play';
@@ -93,6 +94,11 @@ const router = new Router({
       path: '/review/:key',
       name: 'Review',
       component: Review,
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: Admin,
     },
   ],
 });

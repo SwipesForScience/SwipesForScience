@@ -27,6 +27,7 @@
           <b-nav-item to="/leaderboard">Leaderboard</b-nav-item>
           <b-nav-item to="/play">Play</b-nav-item>
           <b-nav-item to="/chats">Chats</b-nav-item>
+          <b-nav-item v-if="userData.admin" to="/admin">Admin</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
