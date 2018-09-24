@@ -39,12 +39,26 @@ export default {
   // Homepage configuration
 
   // your app's title and tagline
-  title: 'SwipesForScience',
-  tagline: 'Swipe right for results',
-
-  // background image on Homepage
-  backgroundUrl: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/SwipesForScience.svg',
+  home: {
+    title: 'SwipesForScience',
+    tagline: 'Swipe right for results',
+    // background image on Homepage
+    backgroundUrl: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/SwipesForScience.svg',
+  },
 
   // Play configuration
-  blankImage: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/undraw_blank_canvas.svg',
+  play: {
+    blankImage: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/undraw_blank_canvas.svg',
+
+  },
+
+  // Chats configuration
+  chats: {
+    blankImage: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/undraw_no_data.svg',
+  },
+
+  // Profile configuration
+  profile: {
+    blankImage: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/undraw_chatting.svg',
+  },
 };

@@ -27,10 +27,10 @@ export default {
   name: 'Home',
   data() {
     return {
-      title: config.title,
-      tagline: config.tagline,
+      title: config.home.title,
+      tagline: config.home.tagline,
       landingStyle: {
-        'background-image': `url("${config.backgroundUrl}")`,
+        'background-image': `url("${config.home.backgroundUrl}")`,
       },
     };
   },

@@ -89,7 +89,7 @@
         status: 'loading',
 
         // if there is no data loaded, show an image from the config.
-        blankImage: config.blankImage,
+        blankImage: config.play.blankImage,
 
         // type of widget, named exactly how it is in the Widgets folder
         widgetType: config.widgetType,

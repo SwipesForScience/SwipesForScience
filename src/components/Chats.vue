@@ -1,21 +1,29 @@
 <template>
   <b-container>
-    <h1>Chats</h1>
-    <p class="lead">See which samples people are talking about</p>
-    <p v-for="(c, index) in imageChat" :key="index">
-      <b-alert show>
-        <router-link :to="'/listen/' + c['.key']">{{c['.key']}}</router-link>
-        <br>
-        <span v-if="chatInfo[c['.key']]">
-          <b>{{chatInfo[c['.key']].username}}</b> : {{chatInfo[c['.key']].message}}
-        </span>
-      </b-alert>
-    </p>
+    <div v-if="imageChat.length">
+      <h1>Chats</h1>
+      <p class="lead">See which samples people are talking about</p>
+      <p v-for="(c, index) in imageChat" :key="index">
+        <b-alert show>
+          <router-link :to="'/listen/' + c['.key']">{{c['.key']}}</router-link>
+          <br>
+          <span v-if="chatInfo[c['.key']]">
+            <b>{{chatInfo[c['.key']].username}}</b> : {{chatInfo[c['.key']].message}}
+          </span>
+        </b-alert>
+      </p>
+    </div>
+    <div v-else>
+      <h1>Chats</h1>
+      <p class="lead">No one has said anything yet!</p>
+      <img :src="blankChatImage" class="blankImage"/>
+    </div>
   </b-container>
 </template>
 
 <script>
   import { db } from '../firebaseConfig';
+  import config from '../config';
 
   export default {
     firebase: {
@@ -38,6 +46,7 @@
     data() {
       return {
         chatInfo: {},
+        blankChatImage: config.chats.blankImage,
       };
     },
     computed: {

@@ -42,24 +42,33 @@
 
       <hr>
 
-      <h2> WhaleChats </h2>
-      <p class="lead">
-        Your discussions on specific sound clips
-      </p>
+      <div v-if="chats.length">
+        <h2> Your Chats </h2>
+        <p class="lead">
+          Your discussions on specific samples
+        </p>
 
-      <div v-for="c in chats" v-if="chats.length" class="text-left" :key="c">
-        <div v-if="chatInfo[c]">
-          <b-alert :show="chatInfo[c].notify">
-            <router-link :to="'/listen/' + c">{{c}}</router-link>:
-            <b>{{chatInfo[c].username}}</b>
-            {{chatInfo[c].message}}
-          </b-alert>
-          <b-alert :show="!chatInfo[c].notify" variant="light">
-            <router-link :to="'/listen/' + c">{{c}}</router-link>:
-            <b>{{chatInfo[c].username}}</b>
-            {{chatInfo[c].message}}
-          </b-alert>
+        <div v-for="c in chats"  class="text-left" :key="c">
+          <div v-if="chatInfo[c]">
+            <b-alert :show="chatInfo[c].notify">
+              <router-link :to="'/listen/' + c">{{c}}</router-link>:
+              <b>{{chatInfo[c].username}}</b>
+              {{chatInfo[c].message}}
+            </b-alert>
+            <b-alert :show="!chatInfo[c].notify" variant="light">
+              <router-link :to="'/listen/' + c">{{c}}</router-link>:
+              <b>{{chatInfo[c].username}}</b>
+              {{chatInfo[c].message}}
+            </b-alert>
+          </div>
         </div>
+      </div>
+      <div v-else>
+        <h2> Chats </h2>
+        <p class="lead">
+          You haven't said anything yet! When you're ready, join the discussion.
+        </p>
+        <img :src="blankImage" class="blankImage"/>
       </div>
     </b-container>
 
@@ -82,6 +91,7 @@
 <script>
 
 import { db } from '../firebaseConfig';
+import config from '../config';
 
 export default {
   name: 'profile',
@@ -90,6 +100,7 @@ export default {
       selectedTheme: null,
       chats: [],
       chatInfo: {},
+      blankImage: config.profile.blankImage,
     };
   },
   // the parent component feeds these vars to this component
@@ -126,7 +137,9 @@ export default {
       db.ref('userChat').child(this.userData['.key']).on('value', (snap) => {
         const data = snap.val();
         // console.log(data);
-        this.chats = Object.keys(data);
+        if (data) {
+          this.chats = Object.keys(data);
+        }
         // console.log('this chats', this.chats);
       });
     },
