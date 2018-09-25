@@ -80,26 +80,25 @@
 
   export default {
     name: 'play',
-    firebase() {
-      return {
-        sampleCounts: {
-          source: db.ref('sampleCounts'),
-          asObject: false, // keep it bound as a list
-          readyCallback() {
-            if (!this.sampleCounts.length) {
-              this.noData = true;
-            } else {
-              this.startTime = new Date();
-              this.setNextSampleId();
-            }
-          },
-        },
-        userSeenSamples: {
-          source: db.ref('userSeenSamples').child(this.userInfo.displayName),
-        },
-      };
-      // userSeenSamples: db.ref('doneSamples').child(this.userInfo.displayName),
-    },
+    // firebase() {
+    //   return {
+    //     sampleCounts: {
+    //       source: db.ref('sampleCounts'),
+    //       asObject: false, // keep it bound as a list
+    //       readyCallback() {
+    //         if (!this.sampleCounts.length) {
+    //           this.noData = true;
+    //         } else {
+    //           this.startTime = new Date();
+    //           this.setNextSampleId();
+    //         }
+    //       },
+    //     },
+    //     userSeenSamples: {
+    //       source: db.ref('userSeenSamples').child(this.userInfo.displayName),
+    //     },
+    //   };
+    // },
     props: ['userInfo', 'userData', 'levels', 'currentLevel'],
     data() {
       return {
@@ -112,6 +111,10 @@
           message: '',
         },
         status: 'loading',
+
+        // these keys will be filled by firebase when the component is mounted()
+        sampleCounts: [],
+        userSeenSamples: [],
 
         // if there is no data loaded, show an image from the config.
         blankImage: config.play.blankImage,
@@ -151,6 +154,8 @@
     mounted() {
       // this.startTime = new Date();
       // this.setNextSampleId();
+      this.initSampleCounts();
+      this.initSeenSamples();
     },
     components: { WidgetSelector },
     directives: {
@@ -162,6 +167,32 @@
       },
     },
     methods: {
+      initSampleCounts() {
+        db.ref('sampleCounts').once('value', (snap) => {
+          /* eslint-disable */
+          this.sampleCounts = _.map(snap.val(), (val, key) => {
+            return { '.key': key, '.value': val };
+          });
+          /* eslint-enable */
+          if (!this.sampleCounts.length) {
+            this.noData = true;
+          } else {
+            this.startTime = new Date();
+            this.setNextSampleId();
+          }
+        });
+      },
+      initSeenSamples() {
+        db.ref('userSeenSamples')
+          .child(this.userInfo.displayName)
+          .once('value', (snap) => {
+            /* eslint-disable */
+            this.userSeenSamples = _.map(snap.val(), (val, key) => {
+              return { '.key': key, '.value': val };
+            });
+            /* eslint-enable */
+          });
+      },
       shuffle(array) {
         // a method to shuffle an array, from
         // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -288,18 +319,31 @@
       },
 
       updateCount() {
+        // update the firebase database copy
         db.ref('sampleCounts')
           .child(this.widgetPointer)
           .transaction(count => (count || 0) + 1);
+
+        // update the local copy
+        _.map(this.sampleCounts, (val) => {
+          if (val['.key'] === this.widgetPointer) {
+            /* eslint-disable */
+            val['.value'] += 1;
+            /* eslint-enable */
+          }
+        });
       },
 
       updateSeen() {
         // mark that this user has seen this widgetPointer
-
+        // update the firebase database copy
         db.ref('userSeenSamples')
           .child(this.userInfo.displayName)
           .child(this.widgetPointer)
           .transaction(count => (count || 0) + 1);
+
+        // update the local copy
+        this.userSeenSamples.push({ '.key': this.widgetPointer, '.value': 1 });
       },
 
       countDownChanged(dismissCountDown) {

@@ -1,12 +1,12 @@
 <template>
-  <div id="about">
+  <div id="admin">
     <h1> Admin </h1>
 
     <b-container>
 
-      <p class="lead">You have {{sampleCounts.length}} items currently</p>
+      <p class="lead" v-if="status=='complete'">You have {{sampleCounts.length}} items currently</p>
 
-      <p>Click the button below to sync your firebase database with your manifest.</p>
+      <p v-if="status=='complete'">Click the button below to sync your firebase database with your manifest.</p>
 
       <p>
         <b-button @click="refreshSamples">
@@ -33,28 +33,48 @@ import config from '../config';
 import { db } from '../firebaseConfig';
 
 export default {
-  name: 'about',
+  name: 'admin',
   data() {
     return {
-      status: 'complete',
+      status: 'loading...',
+      sampleCounts: [],
     };
   },
-  firebase: {
-    sampleCounts: db.ref('sampleCounts'),
-  },
+  // firebase() {
+  //   return {
+  //     sampleCounts: {
+  //       source: db.ref('sampleCounts'),
+  //       readyCallback() {
+  //         this.status = 'complete';
+  //       },
+  //     },
+  //   };
+  // },
   props: ['levels'],
+  mounted() {
+    this.addFirebaseListener();
+  },
   methods: {
+    addFirebaseListener() {
+      db.ref('sampleCounts').once('value', (snap) => {
+        /* eslint-disable */
+        this.sampleCounts = _.map(snap.val(), (val, key) => {
+          return { '.key': key, '.value': val };
+        });
+        /* eslint-enable */
+        this.status = 'complete';
+      });
+    },
     refreshSamples() {
       this.status = 'refreshing';
       // grab all the data from the json file defined in the config
       axios.get(config.manifestUrl).then((resp) => {
         // resp.data has a list of firebase-friendly strings
         const manifestEntries = resp.data;
-
+        const firebaseEntries = _.map(this.sampleCounts, v => v['.key']);
         // first check all of the items in firebase db
         // and remove any that aren't in manifestEntries
-        _.map(this.sampleCounts, (s) => {
-          const key = s['.key'];
+        _.map(firebaseEntries, (key) => {
           // check to see if the key is in the manifest.
           if (manifestEntries.indexOf(key) < 0) {
             // since the key isn't there, remove it from firebase.
@@ -63,9 +83,10 @@ export default {
         });
         // then, for anything in manifest entries that isn't in firebase db
         // add them.
-        _.map(manifestEntries, (key) => {
-          db.ref('sampleCounts').child(key).set(0);
-        });
+        _.map(_.filter(manifestEntries, m => firebaseEntries.indexOf(m) < 0),
+          (key) => {
+            db.ref('sampleCounts').child(key).set(0);
+          });
 
         this.status = 'complete';
       });
