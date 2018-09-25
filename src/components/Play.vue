@@ -27,7 +27,8 @@
 
       <div>
         <div v-if="!widgetPointer">
-          loading...
+          <Flask />
+          <p class="mt-3 pt-3 lead">loading...</p>
         </div>
 
         <WidgetSelector
@@ -77,6 +78,7 @@
   import { db } from '../firebaseConfig';
   import config from '../config';
   import WidgetSelector from './WidgetSelector';
+  import Flask from './Animations/Flask';
 
   export default {
     name: 'play',
@@ -142,7 +144,10 @@
       this.initSampleCounts();
       this.initSeenSamples();
     },
-    components: { WidgetSelector },
+    components: {
+      WidgetSelector,
+      Flask,
+    },
     directives: {
 
     },
