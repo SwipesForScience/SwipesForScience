@@ -164,12 +164,20 @@
         return output;
       },
       setSampleInfo() {
+        // get the chat for this sample
         db.ref('chats')
           .child('sampleChats')
           .child(this.widgetPointer)
           .on('value', (snap2) => {
             const chatData = snap2.val();
             this.chatHistory = chatData;
+          });
+
+        // get the widget's summary info
+        db.ref('sampleSummary')
+          .child(this.widgetPointer)
+          .on('value', (snap) => {
+            this.widgetSummary = snap.val();
           });
       },
     },

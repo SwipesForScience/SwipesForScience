@@ -80,41 +80,32 @@
 
   export default {
     name: 'play',
-    // firebase() {
-    //   return {
-    //     sampleCounts: {
-    //       source: db.ref('sampleCounts'),
-    //       asObject: false, // keep it bound as a list
-    //       readyCallback() {
-    //         if (!this.sampleCounts.length) {
-    //           this.noData = true;
-    //         } else {
-    //           this.startTime = new Date();
-    //           this.setNextSampleId();
-    //         }
-    //       },
-    //     },
-    //     userSeenSamples: {
-    //       source: db.ref('userSeenSamples').child(this.userInfo.displayName),
-    //     },
-    //   };
-    // },
     props: ['userInfo', 'userData', 'levels', 'currentLevel'],
     data() {
       return {
+        // keep track of the time a user took to vote on a sample
         startTime: null,
-        noData: false,
+
+        // flags for the small toast that shows feedback
         dismissSecs: 1,
         dismissCountDown: 0,
+
+        // feedback will be filled by the widget component
+        // for now its initialized here
         feedback: {
           variant: 'warning',
           message: '',
         },
+
+        // status flag that is set to "complete" when the firebase keys are filled.
         status: 'loading',
 
-        // these keys will be filled by firebase when the component is mounted()
+        // these keys will be filled by firebase when the component is mounted
         sampleCounts: [],
         userSeenSamples: [],
+        // if sampleCounts is empty after its fetched from the db, then noData
+        // flag is set to true. TODO: prompt the user to the setup instructions
+        noData: false,
 
         // if there is no data loaded, show an image from the config.
         blankImage: config.play.blankImage,
@@ -130,10 +121,6 @@
 
         // widget summary comes from firebase when the widget Pointer is set.
         widgetSummary: {},
-
-        // get this data from the firebase database
-        // sampleCounts: [],
-        // userSeenSamples: [],
       };
     },
     watch: {
@@ -152,8 +139,6 @@
       },
     },
     mounted() {
-      // this.startTime = new Date();
-      // this.setNextSampleId();
       this.initSampleCounts();
       this.initSeenSamples();
     },
@@ -276,7 +261,7 @@
 
         // 3. update the score and count for the sample
         this.updateScore(this.$refs.widget.getScore(response));
-        // TODO: this.updateScore(this.$refs.widget.getSummary(response));
+        this.updateSummary(this.$refs.widget.getSummary(response));
         this.updateCount();
         this.updateSeen();
 
@@ -316,6 +301,12 @@
           .child(this.userInfo.displayName)
           .child('score')
           .transaction(score => (score || 0) + scoreIncrement);
+      },
+
+      updateSummary(summary) {
+        db.ref('sampleSummary')
+          .child(this.widgetPointer)
+          .set(summary);
       },
 
       updateCount() {

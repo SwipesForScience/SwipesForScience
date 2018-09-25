@@ -24,11 +24,6 @@
       };
     },
     methods: {
-      setSummary() {
-        this.widgetSummaryPointer.once('value', (snap) => {
-          this.widgetSummary = snap.val();
-        });
-      },
       getScore(response) {
         if (response) {
           return 1;
@@ -48,6 +43,25 @@
           show: true,
           variant: 'danger',
           message: 'bad job',
+        };
+      },
+      getSummary(response) {
+        // this widget will keep track of
+        // the number of votes and the average vote
+        if (!this.widgetSummary) {
+          // the summary isn't initialized yet
+          return {
+            aveVote: response,
+            count: 1,
+          };
+        }
+
+        let newVote = ((this.widgetSummary.aveVote * this.widgetSummary.count) + response);
+        newVote /= (this.widgetSummary.count + 1);
+
+        return {
+          aveVote: newVote,
+          count: this.widgetSummary.count + 1,
         };
       },
       vote(val) {

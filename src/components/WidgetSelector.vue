@@ -81,6 +81,9 @@
       getScore(response) {
         return this.$refs[this.widgetType].getScore(response);
       },
+      getSummary(response) {
+        return this.$refs[this.widgetType].getSummary(response);
+      },
       widgetRating(response) {
         this.$emit('widgetRating', response);
       },
