@@ -39,6 +39,15 @@
      :playMode="playMode"
     />
 
+    <ImageSplat  v-else-if="widgetType=='ImageSplat'"
+     ref="ImageSplat"
+     :widgetPointer="widgetPointer"
+     :widgetProperties="widgetProperties"
+     :widgetSummary="widgetSummary"
+     v-on:widgetRating="widgetRating"
+     :playMode="playMode"
+    />
+
     <TemplateWidget v-else
     ref="TemplateWidget"
     :widgetPointer="widgetPointer"
@@ -57,6 +66,7 @@
   import ImageSoundSwipe from './Widgets/ImageSoundSwipe';
   import NLP from './Widgets/NLP';
   import TemplateWidget from './Widgets/TemplateWidget';
+  import ImageSplat from './Widgets/ImageSplat';
 
   export default {
     name: 'WidgetSelector',
@@ -73,6 +83,7 @@
       ImageSoundSwipe,
       NLP,
       TemplateWidget,
+      ImageSplat,
     },
     methods: {
       getFeedback(response) {

@@ -7,14 +7,17 @@ export default {
   // each time the app is run, it will check this manifest and update the firebase database
   // if new entries are there, they will be added, and entries that aren't in the manifest
   // but are in the firebase database will be *removed*
-  manifestUrl: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/whaledrManifest.json',
+  manifestUrl: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/bsHbnManifest.json',
+  // 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/whaledrManifest.json',
   // 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/textWidgetManifest.json',
 
   // set the type of widget and its properties here.
-  widgetType: 'TemplateWidget',
+  widgetType: 'ImageSplat',
   widgetProperties: {
-    baseUrl: 'https://d2ndgqavqxbnim.cloudfront.net/autism/',
-    fileExt: 'json',
+    baseUrlTemplate: 'https://s3-us-west-2.amazonaws.com/akeshavan-mindcontrol/hbnSplat/{0}/tiles/base_{1}.png',
+    maskUrlTemplate: 'https://s3-us-west-2.amazonaws.com/akeshavan-mindcontrol/hbnSplat/{0}/tiles/mask_{1}.png',
+    contourUrlTemplate: 'https://s3-us-west-2.amazonaws.com/akeshavan-mindcontrol/hbnSplat/{0}/tiles/contour_{1}.png',
+    delimiter: '__',
   },
 
   // widgetType: 'ImageSwipe',

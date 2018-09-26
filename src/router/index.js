@@ -89,6 +89,9 @@ const router = new Router({
       path: '/chats',
       name: 'Chats',
       component: Chats,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: '/review/:key',
@@ -112,7 +115,9 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin);
 
-  if (requiresAuth && !currentUser) next('login');
+  if (requiresAuth && !currentUser) {
+    next('login');
+  }
   // make sure the user has take the tutorial
   if (to.name === 'Play') {
     if (currentUser) {
