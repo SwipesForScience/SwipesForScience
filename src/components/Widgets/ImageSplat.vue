@@ -21,16 +21,16 @@
           <div class="col-1">
             <i class="fa fa-sun-o"></i>
           </div>
-          <div class="col-11">
+          <div class="col-10">
             <vue-slider ref="slider1" v-model="brightness" v-bind="brightnessOptions">
             </vue-slider>
           </div>
         </div>
         <div class="row mb-2">
-          <div class="col-1 col-xs-2">
+          <div class="col-1">
             <i class="fa fa-adjust"></i>
           </div>
-          <div class="col-11 col-xs-10">
+          <div class="col-10">
             <vue-slider ref="slider1" v-model="contrast" v-bind="brightnessOptions">
             </vue-slider>
           </div>
@@ -72,13 +72,9 @@
 
 <script>
   import _ from 'lodash';
-  import Vue from 'vue';
-  import { ResizeObserver } from 'vue-resize';
-  import 'vue-resize/dist/vue-resize.css';
-  import Paper from './Tools/Paper';
   import vueSlider from 'vue-slider-component';
+  import Paper from './Tools/Paper';
 
-  Vue.component('resize-observer', ResizeObserver);
 
   export default {
     props: ['widgetPointer', 'widgetProperties', 'widgetSummary', 'playMode'],
@@ -130,8 +126,7 @@
       };
     },
     mounted() {
-      // const width = this.$refs.baseImage.clientWidth;
-      // this.overlayStyle.left = `calc(50% - ${width}px)`;
+
     },
     components: {
       Paper,
@@ -168,47 +163,85 @@
         return output;
       },
       getScore(response) {
-        if (response) {
-          return 1;
+        const fb = this.getFeedback(response);
+        if (fb.variant === 'danger') {
+          return 0;
         }
-        return 0;
+        return 1;
       },
       getFeedback(response) {
-        if (response) {
+        let widgetSummary;
+        if (!this.widgetSummary) {
+          widgetSummary = {
+            count: 0,
+          };
+        } else {
+          widgetSummary = this.widgetSummary;
+        }
+        if (widgetSummary.count > 4) {
+          // if this sample has been seen more than 4 times
+          // count the number of points
+          const nPoints = widgetSummary.points.length;
+          const pointRatio = nPoints / widgetSummary.count;
+
+          if (pointRatio >= 0.7 && !response.length) {
+            // on average, most people gave this sample some points. If you didn't, lose a point
+            return {
+              show: false,
+              variant: 'danger',
+              message: '+0 you missed some points',
+            };
+          } else if (pointRatio <= 0.3 && response.length) {
+            // on average, most people did not mark this image, but you did
+            return {
+              show: false,
+              variant: 'danger',
+              message: '+0 you did not need to mark points',
+            };
+          }
+
           return {
             show: true,
             variant: 'success',
-            message: 'good job',
+            message: '+1 good job',
           };
         }
 
         return {
           show: true,
-          variant: 'danger',
-          message: 'bad job',
+          variant: 'success',
+          message: '+1 thanks',
         };
       },
       getSummary(response) {
         // this widget will keep track of
-        // the number of votes and the average vote
+        // the number of times the widget is seen (count)
+        // and also its associated points.
         if (!this.widgetSummary) {
           // the summary isn't initialized yet
           return {
-            aveVote: response,
+            points: [response],
             count: 1,
           };
         }
 
-        let newVote = ((this.widgetSummary.aveVote * this.widgetSummary.count) + response);
-        newVote /= (this.widgetSummary.count + 1);
+        const newPoints = this.widgetSummary.points;
+        newPoints.push([response]);
 
         return {
-          aveVote: newVote,
+          points: newPoints,
           count: this.widgetSummary.count + 1,
         };
       },
-      vote(val) {
-        this.$emit('widgetRating', val);
+      getSplatPoints() {
+        /* eslint-disable */
+        return _.map(this.$refs.paper.draw.points, (v) => {
+          return { x: v.x, y: v.y };
+            /* eslint-enable */
+        });
+      },
+      vote() {
+        this.$emit('widgetRating', this.getSplatPoints());
       },
     },
   };

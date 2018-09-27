@@ -65,6 +65,7 @@
     margin: auto;
     position: absolute;
     right: 0;
+    z-index: 999;
   }
 
   .blankImage {

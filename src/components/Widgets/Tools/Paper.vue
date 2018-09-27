@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import chai from 'chai';
+// import chai from 'chai';
 import Hammer from 'hammerjs';
 import Vue from 'vue';
 import { ResizeObserver } from 'vue-resize';
@@ -347,7 +347,6 @@ export default {
     },
     visibility: {
       handler() {
-        console.log('setting visibility...');
         this.contour.visible = this.visibility.contour;
         this.mask.visible = this.visibility.mask;
       },
