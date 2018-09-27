@@ -1,7 +1,7 @@
 <template>
   <div class="paper" oncontextmenu="return false;">
       <resize-observer @notify="onresize" />
-      <canvas :id="id" resize v-on:click="activate"></canvas>
+      <canvas ref="canvas" :id="id" resize v-on:click="activate"></canvas>
       <!-- resize -->
   </div>
 
@@ -16,10 +16,6 @@ import 'vue-resize/dist/vue-resize.css';
 import paper from '../../../../node_modules/paper/dist/paper-core.min';
 
 Vue.component('resize-observer', ResizeObserver);
-
-function isNumeric(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
-}
 
 // Thanks https://github.com/licson0729/CanvasEffects
 
@@ -78,7 +74,7 @@ function initializeBaseRaster(raster, scope) {
   raster.fitBounds(scope.view.bounds);
 
   const tmpCanvas = document.createElement('canvas');
-  console.log(tmpCanvas);
+  // console.log(tmpCanvas);
   tmpCanvas.width = raster.width;
   tmpCanvas.height = raster.height;
   const tmpCtx = tmpCanvas.getContext('2d');
@@ -134,7 +130,19 @@ xfm.get_local = function getLocal(e, baseRaster) {
   return local;
 };
 
+xfm.get_global = function getGlobal(local, baseRaster) {
+  const width = baseRaster.size.width;
+  const height = baseRaster.size.height;
+  const halfW = width / 2;
+  const halfH = height / 2;
+  let global = {}; // baseRaster.localToGlobal(local);
 
+  global.x = local.x - halfW;
+  global.y = local.y - halfH;
+
+  global = baseRaster.localToGlobal(global);
+  return global;
+};
 /* =============================================================================
                               MAIN APP
 ============================================================================= */
@@ -160,11 +168,9 @@ export default {
       panMouseDown: null,
       drawOrPan: 'draw',
       draw: {
-        last: null,
-        counter: 0,
-        history: [
-          [],
-        ],
+        points: [],
+        pointsRelative: [],
+        shapes: [],
       },
 
     };
@@ -180,71 +186,26 @@ export default {
       this.zoomFactor = xfm.clamp(zoomFactor, 0.3, 3);
       this.view.setZoom(this.zoomFactor);
     },
-
     doPan(e) {
       if (this.panMouseDown == null) {
         this.panMouseDown = e;
         this.drawOrPan = 'pan';
       }
-      // console.log('panMouseDown', this.panMouseDown);
 
       this.panFactor.x = e.point.x - this.panMouseDown.point.x;
       this.panFactor.y = e.point.y - this.panMouseDown.point.y;
-      // console.log('panning', this.panFactor.x, this.panFactor.y);
       this.view.translate(this.panFactor.x, this.panFactor.y);
     },
-
     resetPan() {
       // console.log('reset');
       this.panFactor.x = 0;
       this.panFactor.y = 0;
       this.panMouseDown = null;
     },
-
-    add_roi(data, type, doDrag, lut) {
-      this.scope.activate();
-      chai.assert.oneOf(type, ['fp', 'tp', 'fn']);
-      this[type] = new paper.Raster({});
-      this[type].setSize(this.base.size);
-
-      this[type].opacity = 0.5;
-      this[type].position = this.view.center;
-      this[type].initPixelLog();
-
-      const colors = {
-        fp: this.LUT[2], // '#87BCDE',
-        tp: this.LUT[1],
-        fn: this.LUT[3], // '#FF595E',
-      };
-      const LUT = lut || { 0: this.LUT[0], 1: colors[type] };
-      this[type].fillPixelLog(data, LUT);
-      this[type].fitBounds(this.base.bounds);
-      const self = this;
-      if (doDrag) {
-        // TODO: this[type].onMouseDrag =
-        this[type].onMouseDrag = function onMouseDrag(e) {
-          if (e.event.buttons === 2 || self.touch.mode) {
-            // right click and drag
-
-            self.doPan(e);
-          }
-        };
-        this[type].onMouseUp = function onMouseUp(e) {
-          self.reset_draw(e);
-        };
-      }
-      // fp.onMouseDrag = dragHandlerPan
-    },
-
     onresize() {
       /*
         When the window size changes, change the bounds of all rasters
       */
-
-      // allRasters.map(function(r){r.fitBounds(view.bounds)})
-      // console.log("resizing")
-      // console.log('resizing', this.id);
-      // console.log('scrollHeight', document.body.scrollHeight, this.viewHeight);
 
       if (document.body.scrollHeight !== this.viewHeight) {
         // this.viewHeight = document.body.scrollHeight;
@@ -253,17 +214,28 @@ export default {
           this.base.fitBounds(this.view.bounds);
           this.mask.fitBounds(this.view.bounds);
           this.contour.fitBounds(this.view.bounds);
+
+          this.draw.shapes.forEach((s, i) => {
+            s.position = xfm.get_global(this.draw.points[i], this.base);
+          });
           this.zoomFactor = 1;
         }
       }
     },
 
     drawSplat(e, me) {
-      // TODO: save local coordinates somewhere
-      // const local = xfm.get_local(e, me);
       const shape = new paper.Shape.Circle(e.point, this.splatRadius);
       shape.strokeColor = this.splatColor;
       shape.strokeWidth = 2;
+
+      // push info to the vue instance.
+      this.draw.shapes.push(shape);
+
+      // calculate the coordinates w.r.t the image pixels and push that
+      const local = xfm.get_local(e, me);
+      this.draw.points.push(local);
+
+      this.base.addChild(shape);
     },
 
     dragHandler(e) {
@@ -272,19 +244,16 @@ export default {
         this.doPan(e);
       }
     },
-
     clickHandler(e) {
       if (e.event.button !== 2) {
         this.drawSplat(e, this.base);
       }
     },
-
     brightcont() {
       const bright = ((parseInt(this.brightness, 10) - 50) / 50) + 1;
       const cont = (parseInt(this.contrast, 10) * 2) - 100;
       this.base.brightness_contrast(bright, cont);
     },
-
     removeEvents() {
       const el = document.getElementById(this.id);
       if (el) {
@@ -293,7 +262,6 @@ export default {
         el.removeEventListener('mousewheel', this.doZoom);
       }
     },
-
     clearImg() {
       // console.log("paper source changed")
       this.scope.paper.project.clear();
@@ -309,7 +277,6 @@ export default {
         y: 0,
       };
     },
-
     initImg() {
       // console.log('activating scope', this.id);
       this.scope.activate();
@@ -407,10 +374,6 @@ export default {
       default: '#ffc107',
     },
   },
-
-  // ['paperSrc', 'fillErrorStart', 'fillErrorEnd',
-  // 'paintSize', 'paintVal', 'brightness',
-  // 'contrast', 'id', 'mouseUp'],
 
   beforeDestroy: function beforeDestroy(to, from, next) {
     // ('destroying', this.id);
