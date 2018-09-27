@@ -2,7 +2,7 @@
   <!-- This is a dummy Widget Template -->
   <div class="imageSplat">
 
-    <div class="parent">
+    <div class="parent user-card">
       <resize-observer @notify="onresize" />
       <Paper :paperSrc="baseUrl"
              :maskSrc="maskUrl"
@@ -11,15 +11,15 @@
       <!-- <img ref="baseImage" id="baseImage" class="baseImage" :src="baseUrl">
       <img class="overlay mask" :style="overlayStyle" :src="maskUrl">
       <img class="overlay contour" :style="overlayStyle" :src="contourUrl"> -->
-
+      <div class="user-card__name mb-3 pb-3 mt-3 pt-3" v-if="playMode">
+        <b-btn variant="danger" @click="vote(0)" class="mx-auto ml-3 mr-3">Vote No</b-btn>
+        <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3" >Help</b-btn>
+        <b-btn variant="success" @click="vote(1)" class="mx-auto ml-3 mr-3">Vote Yes</b-btn>
+      </div>
     </div>
     <p v-if="!playMode" class="mt-3 pt-3 mb-3 pb-3 mt-3 pt-3">{{widgetSummary}}</p>
 
-    <div class="row mb-3 pb-3" v-if="playMode">
-      <b-btn variant="danger" @click="vote(0)" class="mx-auto ml-3 mr-3">Vote No</b-btn>
-      <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3" >Help</b-btn>
-      <b-btn variant="success" @click="vote(1)" class="mx-auto ml-3 mr-3">Vote Yes</b-btn>
-    </div>
+
 
   </div>
 </template>
@@ -133,7 +133,11 @@
     top: 0;
     left: 0;
     width: 100%;
-    background-color: black;
+    height: calc(100% - 156px);
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px;
+    box-shadow: 0 2px 5px 0 #ccc;
   }
   .baseImage {
     position: relative;
@@ -158,16 +162,16 @@
     background-color: black;
   }
 
-  canvas {
+  .paper canvas {
     display: block;
     width: 100%;
     height: 100%;
     z-index: 0;
   }
 
-  /* .imageSplat {
+  .imageSplat {
     width: inherit;
     height: calc(100vh - 56px);
     overflow-y: hidden;
-  } */
+  }
 </style>

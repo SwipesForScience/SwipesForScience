@@ -77,26 +77,15 @@ function initializeBaseRaster(raster, scope) {
   raster.position = scope.view.center;
   raster.fitBounds(scope.view.bounds);
 
-  // const tmpCanvas = document.createElement('canvas');
-  // tmpCanvas.width = raster.width;
-  // tmpCanvas.height = raster.height;
-  // const tmpCtx = tmpCanvas.getContext('2d');
-
+  const tmpCanvas = document.createElement('canvas');
+  console.log(tmpCanvas);
+  tmpCanvas.width = raster.width;
+  tmpCanvas.height = raster.height;
+  const tmpCtx = tmpCanvas.getContext('2d');
+  // console.log(raster, raster.canvas.getContext('2d'));
   // TODO: uncomment this for brightness/contrast!
-  // raster.origImg = copyImageData(tmpCtx,
-  // raster.canvas.getContext('2d').getImageData(0, 0, raster.width, raster.height));
-}
-
-function initializeRoiRaster(baseRaster, roiRaster, scope, Alpha) {
-  /*
-    Initialize the roi image so that its the same size and position of the
-    base image, and also set the opacity to alpha (0.25 by default)
-  */
-  const alpha = Alpha || 0.25;
-  roiRaster.setSize(baseRaster.size);
-  initializeBaseRaster(roiRaster, scope);
-  roiRaster.opacity = alpha; // 0.25
-  // roiRaster.initPixelLog();
+  raster.origImg = copyImageData(tmpCtx,
+  raster.canvas.getContext('2d').getImageData(0, 0, raster.width, raster.height));
 }
 
 /* =============================================================================
@@ -250,198 +239,36 @@ export default {
       // console.log('resizing', this.id);
       // console.log('scrollHeight', document.body.scrollHeight, this.viewHeight);
 
-      // if (document.body.scrollHeight !== this.viewHeight) {
-      //   // this.viewHeight = document.body.scrollHeight;
-      //   if (this.base) {
-      //     this.view.setZoom(1);
-      //     this.base.fitBounds(this.view.bounds);
-      //     this.zoomFactor = 1;
-      //   }
-      // }
-      console.log('resizing');
-    },
-
-    reset_draw(e) {
-      // console.log("resetting draw");
-      this.draw.last = null;
-      this.draw.counter = 0;
-      this.panFactor.x = 0;
-      this.panFactor.y = 0;
-      if (this.draw.history[this.draw.history.length - 1].length) {
-        this.draw.history.push([]);
-      }
-      // console.log("e is", e)
-      if (e) {
-        if (e.event.button === 2) {
-          this.panMouseDown = null;
+      if (document.body.scrollHeight !== this.viewHeight) {
+        // this.viewHeight = document.body.scrollHeight;
+        if (this.base) {
+          this.view.setZoom(1);
+          this.base.fitBounds(this.view.bounds);
+          this.mask.fitBounds(this.view.bounds);
+          this.contour.fitBounds(this.view.bounds);
+          this.zoomFactor = 1;
         }
       }
-    },
-
-    draw_addHistory(x0, y0, oldval, newval) {
-      /*
-        Add an item to history so we can revert. Save coordinates x0, y0,
-        and the oldval. Only save to history if there is a change (oldval != newval)
-      */
-      if (oldval !== newval) {
-        this.draw.history[this.draw.history.length - 1].push({
-          x: x0,
-          y: y0,
-          prev: oldval,
-        });
-      }
-    },
-
-    draw_line(X0, Y0, x1, y1, val, roi, paintVal) {
-      /*
-        Algorithm to connect two points with a line
-      */
-      let x0 = X0;
-      let y0 = Y0;
-      const dx = Math.abs(x1 - x0);
-      const dy = Math.abs(y1 - y0);
-      const sx = (x0 < x1) ? 1 : -1;
-      const sy = (y0 < y1) ? 1 : -1;
-      let err = dx - dy;
-      // const new_arr = [];
-
-      while (true) {
-        this.draw_addHistory(x0, y0, roi.pixelLog[x0][y0], paintVal);
-        roi.setPixelLog(x0, y0, val, paintVal); // Do what you need to for this
-
-        if (Math.abs(x0 - x1) < 0.25 && Math.abs(y0 - y1) < 0.25) break;
-        const e2 = 2 * err;
-        if (e2 > -dy) {
-          err -= dy;
-          x0 += sx;
-        }
-        if (e2 < dx) {
-          err += dx;
-          y0 += sy;
-        }
-      }
-    },
-
-    draw_revert(Roi, InitPop) {
-      /*
-        Revert based on history. if init_pop is 0 then it undos a bad floodFill
-      */
-      // console.log('in draw_revert');
-      let roi = Roi;
-      roi = roi || this.roi;
-      let initPop = InitPop;
-      if (initPop === undefined) {
-        initPop = 1;
-      }
-      if (this.draw.history.length > 1) {
-        if (initPop) {
-          this.draw.history.pop(); // this one is always empty
-        }
-        const values = this.draw.history.pop();
-        if (initPop) {
-          const self = this;
-          values.forEach((val) => {
-            roi.setPixelLog(val.x, val.y, self.LUT[val.prev], val.prev);
-          });
-        } else {
-          // console.log('reverting w/ no color');
-          const self = this;
-          values.forEach((val) => {
-            if (isNumeric(val.prev)) {
-              roi.setPixelLogNoColor(val.x, val.y, self.LUT[val.prev], val.prev);
-            } else {
-              // console.log(val.prev);
-            }
-          });
-        }
-        this.draw.history.push([]);
-        // console.log(draw.history)
-      }
-    },
-
-    testLine() {
-      const xs = Object.keys(this.roi.pixelLog);
-      const ys = Object.keys(this.roi.pixelLog[0]);
-      const xN = xs.length - 1;
-      const yN = ys.length - 1;
-
-      this.draw_addHistory(parseInt(xs[1], 0), parseInt(ys[yN - 1], 0),
-        this.roi.pixelLog[parseInt(xs[1], 0)][parseInt(ys[yN - 1], 0)],
-        1);
-
-      this.draw_line(parseInt(xs[1], 0), parseInt(ys[yN - 1], 0),
-        parseInt(xs[xN - 1], 0), parseInt(ys[1], 0), this.LUT[1], this.roi, 1);
-      this.reset_draw();
     },
 
     drawSplat(e, me) {
       const local = xfm.get_local(e, me);
-      console.log(local);
-      const shape = new paper.Shape.Circle(e.point, 5);
-      shape.strokeColor = '#c82333';
-    },
-
-    drawLine(e, me, paintVal, paintSize) {
-      /*
-        Draws a line from e.point to the previous point
-      */
-      const local = xfm.get_local(e, me);
-
-      this.draw_addHistory(local.x, local.y,
-        me.pixelLog[local.x][local.y],
-        paintVal);
-
-      me.setPixelLog(local.x, local.y, this.LUT[paintVal], paintVal);
-
-      // console.log("draw.last is", draw.last)
-      if (this.draw.last != null) {
-        this.draw_line(local.x,
-          local.y,
-          this.draw.last.x,
-          this.draw.last.y, this.LUT[paintVal], me, paintVal);
-      }
-
-      if (paintSize > 1) {
-        this.drawLineRad(local, me, paintSize, paintVal);
-      }
-
-      this.draw.last = local;
-    },
-
-    doFloodFill(e, me, paintVal) {
-      /*
-        Starts the recursive flood fill on the raster starting from e.point
-      */
-      const local = xfm.get_local(e, me);
-      // console.log(local.x, local.y);
-      // console.log('targetVal', me.pixelLog[local.x][local.y]);
-      // console.log('replacementVal', paintVal);
-      if (!isNumeric(me.pixelLog[local.x][local.y])) {
-        // console.log('is not a number!!');
-        return;
-      }
-      this.draw_floodFill(me, local, me.pixelLog[local.x][local.y], paintVal);
-    },
-
-    dblClickHandler(e) {
-      this.doFloodFill(e, this.roi, this.paintVal, this);
-      this.reset_draw();
+      const shape = new paper.Shape.Circle(e.point, this.splatRadius);
+      shape.strokeColor = this.splatColor;
+      shape.strokeWidth = 2;
     },
 
     dragHandler(e) {
       if (e.event.buttons === 2 || this.touch.mode) {
-        // right click and drag
+        // not a right click
         this.doPan(e);
       }
-      // else {
-      //   this.drawOrPan = 'draw';
-      //   this.drawLine(e, this.roi, this.paintVal, this.paintSize);
-      // }
     },
 
     clickHandler(e) {
-      console.log('click', e);
-      this.drawSplat(e, this.base);
+      if (e.event.button !== 2) {
+        this.drawSplat(e, this.base);
+      }
     },
 
     brightcont() {
@@ -478,7 +305,10 @@ export default {
     initImg() {
       // console.log('activating scope', this.id);
       this.scope.activate();
-      this.base = new this.scope.paper.Raster(this.paperSrc);
+      this.base = new this.scope.paper.Raster({
+        source: this.paperSrc,
+        crossOrigin: 'anonymous',
+      });
 
       this.base.visible = true;
       this.view = this.scope.view;
@@ -486,17 +316,14 @@ export default {
       const self = this;
 
       this.base.onLoad = function onLoad() {
-        console.log('base loaded');
         this.visible = true;
         // console.log("mounted canvas")
         initializeBaseRaster(this, self.scope);
         self.base.onMouseDrag = self.dragHandler;
         self.base.onClick = self.clickHandler;
 
-        self.mask = new self.scope.paper.Raster(this.maskSrc);
-        console.log('paper scope', self.scope);
+        self.mask = new self.scope.paper.Raster(self.maskSrc);
         self.mask.onLoad = function onLoad2() {
-          console.log('mask loaded');
           self.mask.visible = true;
           self.mask.setSize(self.base.size);
           self.mask.position = self.scope.view.center;
@@ -506,23 +333,19 @@ export default {
           self.mask.opacity = 0.5;
         };
 
-        // self.roi = new self.scope.paper.Raster({});
-        // initializeRoiRaster(this, self.roi, self.scope, 0.35);
-        // console.log("roi??")
-        // ROI events
-        // self.roi.onDoubleClick = (e) => {
-        //   self.dblClickHandler(e);
-        //   // self.$emit('dblclick', self.roi.getNonZeroPixels());
-        // };
+        self.contour = new self.scope.paper.Raster(self.contourSrc);
+        self.contour.onLoad = function onLoad3() {
+          self.contour.visible = true;
+          self.contour.setSize(self.base.size);
+          self.contour.position = self.scope.view.center;
+          self.contour.fitBounds(self.scope.view.bounds);
+          self.contour.onMouseDrag = self.dragHandler;
+          self.contour.onClick = self.clickHandler;
+          self.contour.opacity = 0.5;
+        };
 
-        // self.roi.onMouseUp = (e) => {
-        //   self.reset_draw(e);
-        //   // console.log('touchmode', self.touch.mode, self.id);
-        //   self.$emit(self.drawOrPan, self.roi.getNonZeroPixels());
-        // };
-        // self.brightcont();
+        self.brightcont();
         self.$emit('loaded_image', self.id);
-        // console.log('completed loading', self.id);
       };
     },
   },
@@ -563,6 +386,14 @@ export default {
     id: {
       type: String,
       default: 'canvas-id',
+    },
+    splatRadius: {
+      type: Number,
+      default: 10,
+    },
+    splatColor: {
+      type: String,
+      default: '#ffc107',
     },
   },
 
