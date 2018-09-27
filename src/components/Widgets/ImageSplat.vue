@@ -3,18 +3,64 @@
   <div class="imageSplat">
 
     <div class="parent user-card">
-      <resize-observer @notify="onresize" />
+
       <Paper :paperSrc="baseUrl"
              :maskSrc="maskUrl"
              :contourSrc="contourUrl"
+             :visibility="visible"
+             :brightness="brightness"
+             :contrast="contrast"
+             ref="paper"
              id="baseImage"/>
       <!-- <img ref="baseImage" id="baseImage" class="baseImage" :src="baseUrl">
       <img class="overlay mask" :style="overlayStyle" :src="maskUrl">
       <img class="overlay contour" :style="overlayStyle" :src="contourUrl"> -->
-      <div class="user-card__name mb-3 pb-3 mt-3 pt-3" v-if="playMode">
-        <b-btn variant="danger" @click="vote(0)" class="mx-auto ml-3 mr-3">Vote No</b-btn>
-        <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3" >Help</b-btn>
-        <b-btn variant="success" @click="vote(1)" class="mx-auto ml-3 mr-3">Vote Yes</b-btn>
+      <div class="user-card__name mb-3 pb-3 mt-2 pt-3" v-if="playMode">
+
+        <div class="row">
+          <div class="col-1">
+            <i class="fa fa-sun-o"></i>
+          </div>
+          <div class="col-11">
+            <vue-slider ref="slider1" v-model="brightness" v-bind="brightnessOptions">
+            </vue-slider>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-1 col-xs-2">
+            <i class="fa fa-adjust"></i>
+          </div>
+          <div class="col-11 col-xs-10">
+            <vue-slider ref="slider1" v-model="contrast" v-bind="brightnessOptions">
+            </vue-slider>
+          </div>
+        </div>
+
+        <b-btn variant="danger" @click="undo" class="mx-auto ml-3 mr-3">
+          <i class="fa fa-undo"></i>
+        </b-btn>
+
+        <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3 pl-3 pr-3" >
+          <i class="fa fa-question"></i>
+        </b-btn>
+
+        <b-dropdown id="ddown-dropup" dropup variant="secondary" class=" mx-auto ml-2 mr-2">
+          <template slot="button-content">
+            <i class="fa fa-eye"></i>
+          </template>
+          <b-dropdown-item @click="visible.mask = !visible.mask">
+            <i class="fa fa-check" aria-hidden="true" v-if="visible.mask"></i>
+            Mask
+          </b-dropdown-item>
+          <b-dropdown-item @click="visible.contour = !visible.contour">
+            <i class="fa fa-check" aria-hidden="true" v-if="visible.contour"></i>
+            Contour
+          </b-dropdown-item>
+        </b-dropdown>
+
+        <b-btn variant="success" @click="vote(1)" class=" mx-auto ml-3 mr-3">
+          Submit <i class="fa fa-arrow-right"></i>
+        </b-btn>
       </div>
     </div>
     <p v-if="!playMode" class="mt-3 pt-3 mb-3 pb-3 mt-3 pt-3">{{widgetSummary}}</p>
@@ -30,6 +76,7 @@
   import { ResizeObserver } from 'vue-resize';
   import 'vue-resize/dist/vue-resize.css';
   import Paper from './Tools/Paper';
+  import vueSlider from 'vue-slider-component';
 
   Vue.component('resize-observer', ResizeObserver);
 
@@ -40,6 +87,46 @@
         overlayStyle: {
           opacity: 0.5,
         },
+        visible: {
+          mask: true,
+          contour: true,
+        },
+        brightness: 50,
+        contrast: 50,
+        brightnessOptions: {
+          eventType: 'auto',
+          width: 'auto',
+          height: 6,
+          dotSize: 16,
+          dotHeight: null,
+          dotWidth: null,
+          min: 0,
+          max: 100,
+          interval: 1,
+          show: true,
+          speed: 0.5,
+          disabled: false,
+          piecewise: false,
+          piecewiseStyle: {},
+          piecewiseLabel: false,
+          tooltip: false,
+          tooltipDir: 'top',
+          reverse: false,
+          data: null,
+          clickable: true,
+          realTime: true,
+          lazy: true,
+          formatter: null,
+          bgStyle: null,
+          sliderStyle: null,
+          processStyle: {
+            'background-color': '#17a2b8',
+          },
+          piecewiseActiveStyle: null,
+          tooltipStyle: null,
+          labelStyle: null,
+          labelActiveStyle: null,
+        },
       };
     },
     mounted() {
@@ -48,6 +135,7 @@
     },
     components: {
       Paper,
+      vueSlider,
     },
     computed: {
       maskUrl() {
@@ -67,9 +155,8 @@
       },
     },
     methods: {
-      onresize() {
-        // const width = this.$refs.baseImage.clientWidth;
-        // this.overlayStyle.left = `calc(50% - ${width}px)`;
+      undo() {
+        this.$refs.paper.undo();
       },
       fillPropertyPattern(pattern, delimiter) {
         // fill the pattern by splitting the widgetPointer by delimiter

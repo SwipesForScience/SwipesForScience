@@ -37,6 +37,7 @@
     "vue-resize": "^0.4.4",
     "vue-router": "^3.0.1",
     "vue-shortkey": "^3.0.4",
+    "vue-slider-component": "^2.7.7",
     "vue-spinner": "^1.0.3",
     "vue-swing": "0.0.7",
     "vue-touch": "^2.0.0-beta.4",

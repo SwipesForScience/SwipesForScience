@@ -169,7 +169,6 @@ export default {
       drawOrPan: 'draw',
       draw: {
         points: [],
-        pointsRelative: [],
         shapes: [],
       },
 
@@ -178,6 +177,13 @@ export default {
   methods: {
     activate() {
       this.scope.activate();
+    },
+    undo() {
+      this.draw.points.pop();
+      const s = this.draw.shapes.pop();
+      if (s) {
+        s.remove();
+      }
     },
     doZoom(e) {
       e.preventDefault();
@@ -300,7 +306,7 @@ export default {
 
         self.mask = new self.scope.paper.Raster(self.maskSrc);
         self.mask.onLoad = function onLoad2() {
-          self.mask.visible = true;
+          self.mask.visible = self.visibility.mask;
           self.mask.setSize(self.base.size);
           self.mask.position = self.scope.view.center;
           self.mask.fitBounds(self.scope.view.bounds);
@@ -312,7 +318,7 @@ export default {
 
         self.contour = new self.scope.paper.Raster(self.contourSrc);
         self.contour.onLoad = function onLoad3() {
-          self.contour.visible = true;
+          self.contour.visible = self.visibility.contour;
           self.contour.setSize(self.base.size);
           self.contour.position = self.scope.view.center;
           self.contour.fitBounds(self.scope.view.bounds);
@@ -339,6 +345,14 @@ export default {
     contrast() {
       this.brightcont();
     },
+    visibility: {
+      handler() {
+        console.log('setting visibility...');
+        this.contour.visible = this.visibility.contour;
+        this.mask.visible = this.visibility.mask;
+      },
+      deep: true,
+    },
   },
   props: {
     paperSrc: {
@@ -352,6 +366,13 @@ export default {
     contourSrc: {
       type: String,
       default: null,
+    },
+    visibility: {
+      type: Object,
+      default: {
+        contour: true,
+        mask: true,
+      },
     },
     brightness: {
       type: Number,

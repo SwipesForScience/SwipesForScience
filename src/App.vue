@@ -286,7 +286,7 @@ export default {
   }
 
   .router {
-    padding-top: 40px;
+    padding-top: 20px;
   }
 
   #signupForm {

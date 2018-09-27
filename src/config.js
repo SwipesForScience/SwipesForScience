@@ -28,7 +28,7 @@ export default {
   // },
 
   // this shows a 'beta' ribbon in the bottom right corner
-  betaMode: true,
+  betaMode: false,
 
   // this comes from your firebase console
   firebaseKeys: {
