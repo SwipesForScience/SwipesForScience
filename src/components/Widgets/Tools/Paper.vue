@@ -190,8 +190,15 @@ export default {
 
       this.panFactor.x = e.point.x - this.panMouseDown.point.x;
       this.panFactor.y = e.point.y - this.panMouseDown.point.y;
-      // console.log("panning?", this.panFactor.x, this.panFactor.y)
+      // console.log('panning', this.panFactor.x, this.panFactor.y);
       this.view.translate(this.panFactor.x, this.panFactor.y);
+    },
+
+    resetPan() {
+      // console.log('reset');
+      this.panFactor.x = 0;
+      this.panFactor.y = 0;
+      this.panMouseDown = null;
     },
 
     add_roi(data, type, doDrag, lut) {
@@ -252,7 +259,8 @@ export default {
     },
 
     drawSplat(e, me) {
-      const local = xfm.get_local(e, me);
+      // TODO: save local coordinates somewhere
+      // const local = xfm.get_local(e, me);
       const shape = new paper.Shape.Circle(e.point, this.splatRadius);
       shape.strokeColor = this.splatColor;
       shape.strokeWidth = 2;
@@ -321,6 +329,7 @@ export default {
         initializeBaseRaster(this, self.scope);
         self.base.onMouseDrag = self.dragHandler;
         self.base.onClick = self.clickHandler;
+        self.base.onMouseUp = self.resetPan;
 
         self.mask = new self.scope.paper.Raster(self.maskSrc);
         self.mask.onLoad = function onLoad2() {
@@ -330,6 +339,7 @@ export default {
           self.mask.fitBounds(self.scope.view.bounds);
           self.mask.onMouseDrag = self.dragHandler;
           self.mask.onClick = self.clickHandler;
+          self.mask.onMouseUp = self.resetPan;
           self.mask.opacity = 0.5;
         };
 
@@ -341,6 +351,7 @@ export default {
           self.contour.fitBounds(self.scope.view.bounds);
           self.contour.onMouseDrag = self.dragHandler;
           self.contour.onClick = self.clickHandler;
+          self.contour.onMouseUp = self.resetPan;
           self.contour.opacity = 0.5;
         };
 
