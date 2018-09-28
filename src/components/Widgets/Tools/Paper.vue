@@ -207,6 +207,7 @@ export default {
       this.panFactor.x = 0;
       this.panFactor.y = 0;
       this.panMouseDown = null;
+      // this.drawOrPan = 'draw';
     },
     onresize() {
       /*
@@ -251,8 +252,11 @@ export default {
       }
     },
     clickHandler(e) {
-      if (e.event.button !== 2) {
+      console.log('clicking', e.event.button, this.drawOrPan);
+      if (e.event.button !== 2 && this.drawOrPan === 'draw') {
         this.drawSplat(e, this.base);
+      } else {
+        this.drawOrPan = 'draw';
       }
     },
     brightcont() {
@@ -298,6 +302,15 @@ export default {
 
       this.base.onLoad = function onLoad() {
         this.visible = true;
+        /* eslint-disable */
+        const ctx = self.view._context;
+        // this doesn't seem to do anything
+        ctx.mozImageSmoothingEnabled = false;
+        ctx.webkitImageSmoothingEnabled = false;
+        ctx.msImageSmoothingEnabled = false;
+        ctx.imageSmoothingEnabled = false;
+        /* eslint-enable */
+
         // console.log("mounted canvas")
         initializeBaseRaster(this, self.scope);
         self.base.onMouseDrag = self.dragHandler;
@@ -445,23 +458,25 @@ export default {
     mc.on('pinchend', (e) => {
         // do something cool
         // console.log("pinchend", window.mode)
-      // console.log('ending pinch');
+      console.log('ending pinch');
       self.touch.mode = false;
       if (e) {
         e.preventDefault();
 
         self.zoomFactor = tmpzoom;
         self.panMouseDown = null;
+        self.drawOrPan = 'pan';
       }
     });
 
     mc.on('pinchstart', (e) => {
       // do something cool
-      // console.log('starting pinch');
+      console.log('starting pinch');
       if (e) {
         self.touch.mode = true;
         e.preventDefault();
         self.touch.startScale = e.scale;
+        self.drawOrPan = 'pan';
       }
     });
   },

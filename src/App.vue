@@ -140,7 +140,7 @@ export default {
   data() {
     return {
       userInfo: {},
-      brandName: 'SwipesForScience',
+      brandName: config.home.title,
       betaMode: config.betaMode,
       allUsers: [],
       levels: {
