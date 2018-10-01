@@ -10,6 +10,7 @@
 <script>
 // import chai from 'chai';
 import Hammer from 'hammerjs';
+import _ from 'lodash';
 import Vue from 'vue';
 import { ResizeObserver } from 'vue-resize';
 import 'vue-resize/dist/vue-resize.css';
@@ -171,7 +172,7 @@ export default {
         points: [],
         shapes: [],
       },
-
+      deleteRadius: 6,
     };
   },
   methods: {
@@ -234,6 +235,7 @@ export default {
       const shape = new paper.Shape.Circle(e.point, this.splatRadius);
       shape.strokeColor = this.splatColor;
       shape.strokeWidth = 2;
+      shape.onClick = this.clickHandler;
 
       // push info to the vue instance.
       this.draw.shapes.push(shape);
@@ -245,6 +247,29 @@ export default {
       this.base.addChild(shape);
     },
 
+    checkToRemove(e, me) {
+      // push info to the vue instance.
+      // calculate the coordinates w.r.t the image pixels and push that
+      const local = xfm.get_local(e, me);
+      const shapeIdxToRemove = [];
+      const pointsToRemove = _.filter(this.draw.points, (p, i) => {
+        const dist = Math.sqrt(((p.x - local.x) ** 2) + ((p.y - local.y) ** 2));
+        if (dist < this.deleteRadius) {
+          shapeIdxToRemove.push(i);
+        }
+        return dist < this.deleteRadius;
+      });
+      return { shapeIdxToRemove, pointsToRemove };
+    },
+
+    removeSplat(splats) {
+      _.map(splats.shapeIdxToRemove, (s) => {
+        this.draw.shapes[s].remove();
+      });
+      _.remove(this.draw.shapes, (d, i) => splats.shapeIdxToRemove.indexOf(i) > -1);
+      _.remove(this.draw.points, (d, i) => splats.shapeIdxToRemove.indexOf(i) > -1);
+    },
+
     dragHandler(e) {
       if (e.event.buttons === 2 || this.touch.mode) {
         // not a right click
@@ -252,9 +277,13 @@ export default {
       }
     },
     clickHandler(e) {
-      console.log('clicking', e.event.button, this.drawOrPan);
       if (e.event.button !== 2 && this.drawOrPan === 'draw') {
-        this.drawSplat(e, this.base);
+        const toRemove = this.checkToRemove(e, this.base);
+        if (!toRemove.pointsToRemove.length) {
+          this.drawSplat(e, this.base);
+        } else {
+          this.removeSplat(toRemove);
+        }
       } else {
         this.drawOrPan = 'draw';
       }
