@@ -25,6 +25,8 @@ export default {
     baseUrlTemplate: 'http://himatdata.s3.amazonaws.com/whaledr_renamed/{0}.jpg',
     soundUrlTemplate: 'http://himatdata.s3.amazonaws.com/whaledr_renamed/{0}.wav',
     delimiter: '%',
+    leftSwipeLabel: 'Fail',
+    rightSwipeLabel: 'Whale',
   },
 
   // this shows a 'beta' ribbon in the bottom right corner

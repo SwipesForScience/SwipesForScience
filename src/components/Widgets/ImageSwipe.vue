@@ -13,35 +13,47 @@
                 >
               </progressive-img>
             </div>
-          <div class="user-card__name">
-            <b-button variant="danger"
-              style="float:left"
-              @click="swipeLeft"
-              v-shortkey="['arrowleft']"
-              @shortkey="swipeLeft"
-              v-hammer:swipe.left="swipeLeft"
-            > <i class="fa fa-long-arrow-left" aria-hidden="true"></i> Fail </b-button>
-            <span class="align-middle">Fail or Pass</span>
-            <b-button variant="success"
-              style="float:right"
-              @click="swipeRight"
-              v-shortkey="['arrowright']"
-              @shortkey="swipeRight"
-            > Pass <i class="fa fa-long-arrow-right" aria-hidden="true"></i>  </b-button>
-          </div>
-        </div>
-        <!--<b-card :img-src="images[index].pic"
-                img-alt="Card image"
-                img-top
-                style="position: absolute"
-                class="mx-auto"
-                :key="index" v-if="images[index]">
-          <p class="card-text">
-            <b-button variant="danger" style="float:left" @click="swipeLeft"> Fail </b-button>
-            <b-button variant="success" style="float:right" @click="swipeRight"> Pass </b-button>
-          </p>
-        </b-card>-->
 
+            <div class="user-card__name">
+              <b-button variant="danger"
+                v-if="playMode"
+                style="float:left"
+                @click="swipeLeft"
+                v-shortkey="['arrowleft']"
+                @shortkey="swipeLeft"
+                v-hammer:swipe.left="swipeLeft"
+              > <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+              {{widgetProperties.leftSwipeLabel}}
+             </b-button>
+
+             <span style="float:left" v-else>
+               <span v-if="widgetSummary"> ave vote: {{widgetSummary.aveVote || 0}} </span>
+               <span v-else>ave vote: N/A</span>
+             </span>
+
+             <!-- <span v-else>
+               ave vote: {{widgetSummary.aveVote}}
+             </span> -->
+
+              <b-btn v-if="playMode" :to="'/review/'+widgetPointer">Help</b-btn>
+
+              <b-button variant="success"
+                v-if="playMode"
+                style="float:right"
+                @click="swipeRight"
+                v-shortkey="['arrowright']"
+                @shortkey="swipeRight"
+              > {{widgetProperties.rightSwipeLabel}}
+              <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+              </b-button>
+
+              <span style="float:right" v-else>
+                <span v-if="widgetSummary"> num votes: {{widgetSummary.count || 0}} </span>
+                <span v-else>num votes: 0</span>
+              </span>
+
+            </div>
+          </div>
       </transition>
   </div>
 </template>
@@ -186,6 +198,7 @@
 <style>
   .imageSwipe {
     min-height: 100vh;
+    height: 532px;
   }
   .user-card {
       max-width: 500px;

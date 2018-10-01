@@ -1,17 +1,6 @@
 <template name="review">
   <div id="review" class="container">
 
-
-    <div>
-      <WidgetSelector :widgetType="widgetType"
-       :widgetPointer="widgetPointer"
-       :widgetProperties="widgetProperties"
-       :widgetSummary="widgetSummary"
-       :playMode="false"
-       ref="widget"
-      />
-    </div>
-
     <div class="chat container">
       <h3 class="mb-2">Chat</h3>
       <div class="chatHistory pl-3 pr-3 pt-3 pb-3 mb-3" v-if="chatOrder.length">
@@ -38,6 +27,17 @@
       </b-form>
 
     </div>
+    <div>
+      <WidgetSelector :widgetType="widgetType"
+       :widgetPointer="widgetPointer"
+       :widgetProperties="widgetProperties"
+       :widgetSummary="widgetSummary"
+       :playMode="false"
+       ref="widget"
+      />
+    </div>
+
+
 
   </div>
 </template>
