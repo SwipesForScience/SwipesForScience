@@ -2,7 +2,7 @@ export default {
 
   // if set to true, the user will be routed to /tutorial instead of /play if
   // they haven't taken a tutorial
-  needsTutorial: false,
+  needsTutorial: true,
 
   // each time the app is run, it will check this manifest and update the firebase database
   // if new entries are there, they will be added, and entries that aren't in the manifest
@@ -28,6 +28,7 @@ export default {
     leftSwipeLabel: 'Fail',
     rightSwipeLabel: 'Whale',
   },
+
 
   // this shows a 'beta' ribbon in the bottom right corner
   betaMode: false,
@@ -67,4 +68,74 @@ export default {
   profile: {
     blankImage: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/undraw_chatting.svg',
   },
+
+  // your app's tutorial page
+  // describe your problem and the way you want people to annotate
+  tutorial: {
+    // there is only 1 available custom animiation right now, and its 'Bubbles'
+    customBackgroundAnimation: 'Bubbles',
+    // steps have 2 parts, the intro and examples. In the intro you provide
+    // text and images. In the examples, you provide text, data pointers, and tutorial steps
+    // that the widget will display
+    steps: {
+      intro: [
+        {
+          // keep the text really short
+          text: 'we want to learn about whales',
+          image: 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Humpback_whales_in_singing_position.jpg',
+        },
+        {
+          // use \n to linebreak the text
+          text: 'there is a sound recorder in the ocean, \n its called a hydrophone \n and its always on',
+          image: 'https://upload.wikimedia.org/wikipedia/commons/d/dd/Hydrophone_being_lowered_into_the_Atlantic.jpg',
+        },
+        {
+          text: 'we can make a picture from the sound waves \n the vertical lines are from the hydrophone \n using ecolocation to hear ocean sounds',
+          image: 'http://himatdata.s3.amazonaws.com/whaledr_renamed/OO_HYVM1__YDH_2017_10_06T05_16_45.jpg',
+        },
+        {
+          text: 'most of the time you do not hear anything.',
+          image: 'http://himatdata.s3.amazonaws.com/whaledr_renamed/OO_HYVM1__YDH_2017_10_06T21_55_05.jpg',
+        },
+        {
+          text: 'but sometimes you hear a whale',
+          image: 'http://himatdata.s3.amazonaws.com/whaledr_renamed/OO_HYVM1__YDH_2017_10_06T19_04_25.jpg',
+        },
+        {
+          text: 'or dolphins',
+          image: 'http://himatdata.s3.amazonaws.com/whaledr_renamed/OO_HYVM1__YDH_2017_10_06T01_50_25.jpg',
+        },
+        {
+          text: 'we want to train a machine to recognize the whales and dolphins. \n For that we need your help.',
+          image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Gnome-computer.svg/600px-Gnome-computer.svg.png',
+        },
+      ],
+      examples: [
+        {
+          // fill these with examples with respect to the widget you're using
+          text: 'swipe right when you hear/see a whale \n you can tap the image to hear it.',
+          pointer: 'OO_HYVM1__YDH_2017_10_06T06_48_00',
+          answer: 1,
+          tutorialStep: 0,
+        },
+        {
+          text: 'when it is not a whale \n swipe left',
+          pointer: 'OO_HYVM1__YDH_2017_10_06T06_48_00',
+          answer: 0,
+          tutorialStep: 1,
+        },
+        {
+          text: `if you're not sure, click 'help' \n to discuss with scientists ${''}`,
+          pointer: 'OO4_HYVM1__YDH_2017_10_06T06_48_00',
+          answer: 0,
+          tutorialStep: 2,
+        },
+        {
+          text: 'Are you ready to play?',
+          tutorialCompleted: true,
+        },
+      ],
+    },
+  },
+
 };

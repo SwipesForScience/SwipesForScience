@@ -6,6 +6,7 @@
      :widgetPointer="widgetPointer"
      :widgetProperties="widgetProperties"
      :widgetSummary="widgetSummary"
+     :tutorialStep="tutorialStep"
      v-on:widgetRating="widgetRating"
      :playMode="playMode"
      />
@@ -16,6 +17,7 @@
      :widgetPointer="widgetPointer"
      :widgetProperties="widgetProperties"
      :widgetSummary="widgetSummary"
+     :tutorialStep="tutorialStep"
      v-on:widgetRating="widgetRating"
      :playMode="playMode"
      />
@@ -26,6 +28,7 @@
      :widgetPointer="widgetPointer"
      :widgetProperties="widgetProperties"
      :widgetSummary="widgetSummary"
+     :tutorialStep="tutorialStep"
      v-on:widgetRating="widgetRating"
      :playMode="playMode"
      />
@@ -35,6 +38,7 @@
      :widgetPointer="widgetPointer"
      :widgetProperties="widgetProperties"
      :widgetSummary="widgetSummary"
+     :tutorialStep="tutorialStep"
      v-on:widgetRating="widgetRating"
      :playMode="playMode"
     />
@@ -44,6 +48,7 @@
      :widgetPointer="widgetPointer"
      :widgetProperties="widgetProperties"
      :widgetSummary="widgetSummary"
+     :tutorialStep="tutorialStep"
      v-on:widgetRating="widgetRating"
      :playMode="playMode"
     />
@@ -53,6 +58,7 @@
     :widgetPointer="widgetPointer"
     :widgetProperties="widgetProperties"
     :widgetSummary="widgetSummary"
+    :tutorialStep="tutorialStep"
     v-on:widgetRating="widgetRating"
     :playMode="playMode"
     />
@@ -76,6 +82,7 @@
       'widgetProperties',
       'widgetSummary',
       'playMode',
+      'tutorialStep',
     ],
     components: {
       Highlight,

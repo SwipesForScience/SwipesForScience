@@ -14,6 +14,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "aos": "^3.0.0-beta.5",
     "axios": "^0.17.1",
     "bootstrap": "^4.0.0-beta.2",
     "bootstrap-vue": "^1.0.2",
@@ -36,11 +37,13 @@
     "vue-progressive-image": "^2.5.0",
     "vue-resize": "^0.4.4",
     "vue-router": "^3.0.1",
+    "vue-scrollto": "^2.13.0",
     "vue-shortkey": "^3.1.6",
     "vue-slider-component": "^2.7.7",
     "vue-spinner": "^1.0.3",
     "vue-swing": "0.0.7",
     "vue-touch": "^2.0.0-beta.4",
+    "vue-typer": "^1.2.0",
     "vue-upload-component": "^2.7.4",
     "vue2-hammer": "^1.0.6",
     "vuefire": "^1.4.5"

@@ -1,40 +1,188 @@
 <template name="tutorial">
-  <div class="tutorial">
-    <p>
-      The code for the tutorial will go here.
+  <div class="tutorial" ref="tutorial">
+    <Bubbles v-if="backgroundAnimation == 'Bubbles' "/>
+    <!-- Title -->
+    <div>
+      <h1>Tutorial</h1>
+      <p class="lead">Scroll down to learn how to play</p>
+    </div>
 
-      Until then, click the button to play.
+    <!-- Progress Bar -->
+    <div class="pbar pt-3 pb-3" v-if="currentBin.bin">
+      <b-progress :value="scrollPosition" :max="1" show-progress class="ml-3 mr-3"></b-progress>
+    </div>
+
+    <!-- Introduction steps -->
+    <div v-for="(step, index) in steps.intro" class="fullpage">
+      <div class="" :id="'intro'+index">
+        <vue-typer v-if="currentBin.bin === index" :text='step.text' :repeat='0' class="message"></vue-typer>
+        <span class="invisible">{{step.text}}</span>
+      </div>
+      <img data-aos="fade-up" data-aos-delay="400" :src="step.image" class="mt-3 pt-3 img"/>
+    </div>
+
+    <!-- Example Steps -->
+    <div v-for="(step, index) in steps.examples" class="fullpage">
+      <div class="text-center ml-3 mr-3 message w-100" :id="'example'+index">
+        <vue-typer v-if="currentBin.bin === index+steps.intro.length" :text='step.text' :repeat='0' class="message"></vue-typer>
+        <span class="invisible">{{step.text}}</span>
+        <div v-if="step.pointer">
+          <WidgetSelector :widgetType="widgetType"
+           :widgetPointer="step.pointer"
+           :widgetProperties="widgetProperties"
+           :widgetSummary="widgetSummary"
+           :playMode="'tutorial'"
+           :tutorialStep="step.tutorialStep"
+           ref="widget"
+          />
+        </div>
+        <div v-if="step.tutorialCompleted">
+          <b-button @click="tutorialComplete" class="mt-3">Play now</b-button>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="bins.length-1 != currentBin.bin" v-scroll-to="nextStep">
+      <Arrow />
+    </div>
+
+    <p>
     </p>
-    <b-button @click="tutorialComplete">Done</b-button>
   </div>
 </template>
 
 <style>
 
+  .img {
+    max-height: 80vh;
+    max-width: 100%;
+  }
+  .tutorial {
+    /* height: 500vh; */
+  }
+
+  .fullpage {
+    height: 100vh;
+  }
+
+  .message {
+    position: absolute;
+  }
+
+  .invisible {
+    opacity: 0;
+    white-space: pre-wrap;
+  }
+
+  .pbar {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    background: white;
+    top: 0;
+    z-index: 2;
+  }
 </style>
 
 <script>
+  import { VueTyper } from 'vue-typer';
+  import _ from 'lodash';
+  import Vue from 'vue';
+  import Arrow from './Animations/ArrowDown';
+  import Bubbles from './Animations/Bubbles';
+  import WidgetSelector from './WidgetSelector';
+  import config from '../config';
 
-export default {
-  name: 'tutorial',
-  firebase: {
+  const VueScrollTo = require('vue-scrollto');
 
-  },
-  data() {
-    return {
+  // You can also pass in the default options
+  Vue.use(VueScrollTo, {
+    container: 'body',
+    duration: 500,
+    easing: 'ease',
+    offset: -75,
+    force: true,
+    cancelable: true,
+    onStart: false,
+    onDone: false,
+    onCancel: false,
+    x: false,
+    y: true,
+  });
 
-    };
-  },
-  computed: {
-  },
-  components: { },
-  props: ['levels'],
-  watch: {
-  },
-  methods: {
-    tutorialComplete() {
-      this.$emit('taken_tutorial', true);
+  export default {
+    name: 'tutorial',
+    components: {
+      'vue-typer': VueTyper,
+      Arrow,
+      Bubbles,
+      WidgetSelector,
     },
-  },
-};
+    data() {
+      return {
+        scrollPosition: 0,
+        widgetType: config.widgetType,
+        widgetProperties: config.widgetProperties,
+        widgetSummary: {}, // TODO: fill this properly
+        steps: config.tutorial.steps,
+        backgroundAnimation: config.tutorial.customBackgroundAnimation,
+      };
+    },
+    props: ['levels'],
+    watch: {
+    },
+    computed: {
+      bins() {
+        const Nsteps = this.steps.intro.length + this.steps.examples.length;
+        const binSize = 1 / Nsteps;
+        const bins = [];
+        for (let i = 0; i < Nsteps; i += 1) {
+          bins.push({ bin: i, from: i * binSize, to: (i + 1) * binSize });
+        }
+        return bins;
+      },
+      currentBin() {
+        const cBin = _.filter(this.bins,
+          b => this.scrollPosition <= b.to && this.scrollPosition > b.from);
+        if (cBin.length) {
+          return cBin[0];
+        }
+
+        return { bin: 0 };
+      },
+      currentStage() {
+        if (this.currentBin.bin < this.steps.intro.length) {
+          return { ...this.steps.intro[this.currentBin.bin], mode: 'intro' };
+        }
+        return { ...this.steps.examples[this.currentBin.bin - this.steps.intro.length], mode: 'examples' };
+      },
+      nextStep() {
+        if (this.currentBin.bin < this.steps.intro.length - 1) {
+          return `#intro${this.currentBin.bin + 1}`;
+        }
+        return `#example${(this.currentBin.bin - this.steps.intro.length) + 1}`;
+      },
+    },
+    methods: {
+      tutorialComplete() {
+        this.$emit('taken_tutorial', true);
+      },
+      handleScroll() {
+        const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+        const scrollPosition = (window.scrollY - 60) / (this.$refs.tutorial.clientHeight - h);
+        if (scrollPosition < 0) {
+          this.scrollPosition = 0;
+        } else if (scrollPosition > 1) {
+          this.scrollPosition = 1;
+        } else {
+          this.scrollPosition = scrollPosition;
+        }
+      },
+    },
+    created() {
+      window.addEventListener('scroll', this.handleScroll);
+    },
+    destroyed() {
+      window.removeEventListener('scroll', this.handleScroll);
+    },
+  };
 </script>

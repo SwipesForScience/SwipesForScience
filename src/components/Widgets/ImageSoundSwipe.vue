@@ -21,6 +21,7 @@
               v-shortkey="['arrowleft']"
               @shortkey="swipeLeft"
               v-hammer:swipe.left="swipeLeft"
+              ref="leftSwipe"
             > <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
             {{widgetProperties.leftSwipeLabel}}
            </b-button>
@@ -34,7 +35,11 @@
              ave vote: {{widgetSummary.aveVote}}
            </span> -->
 
-            <b-btn v-if="playMode" :to="'/review/'+widgetPointer">Help</b-btn>
+            <b-button v-if="playMode"
+             :to="'/review/'+widgetPointer"
+             ref="helpButton"
+             class="helpbtn"
+             >Help</b-button>
 
             <b-button variant="success"
               v-if="playMode"
@@ -42,6 +47,7 @@
               @click="swipeRight"
               v-shortkey="['arrowright']"
               @shortkey="swipeRight"
+              ref="rightSwipe"
             > {{widgetProperties.rightSwipeLabel}}
             <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
             </b-button>
@@ -72,7 +78,7 @@
   Vue.use(require('vue-shortkey'));
 
   export default {
-    props: ['widgetPointer', 'widgetProperties', 'widgetSummary', 'playMode'],
+    props: ['widgetPointer', 'widgetProperties', 'widgetSummary', 'playMode', 'tutorialStep'],
     components: { VueHammer, GridLoader },
     directives: {
       imagesLoaded,
@@ -86,11 +92,17 @@
     },
     watch: {
       widgetPointer() {
-        this.playSound();
+        if (this.playMode !== 'tutorial') {
+          this.playSound();
+        }
       },
     },
     mounted() {
-      this.playSound();
+      if (this.playMode !== 'tutorial') {
+        this.playSound();
+      } else {
+        this.showTutorialStep(this.tutorialStep);
+      }
     },
     computed: {
       baseUrl() {
@@ -105,6 +117,24 @@
       },
     },
     methods: {
+      showTutorialStep(stepNumber) {
+        switch (stepNumber) {
+          case 0:
+            // highlight the pass button
+            this.$refs.rightSwipe.classList.add('focus');
+            break;
+          case 1:
+            // highlight the fail button
+            this.$refs.leftSwipe.classList.add('focus');
+            break;
+          case 2:
+            // highlight the help button
+            this.$refs.helpButton.$el.classList.add('focus');
+            break;
+          default:
+            break;
+        }
+      },
       fillPropertyPattern(pattern, delimiter) {
         // fill the pattern by splitting the widgetPointer by delimiter
         let output = pattern;
@@ -239,7 +269,8 @@
       position: absolute;
       left: 0;
       right: 0;
-      margin: auto
+      margin: auto;
+      background-color: white;
   }
   .user-card__picture {
       width: 100%;
@@ -325,4 +356,15 @@
             transform: rotate(-13deg) translate3d(-100%, 0, 0);
     opacity: 0;
   }
+
+  .focus {
+    animation:pulse 0.5s infinite alternate;
+  }
+
+
+  @keyframes pulse {
+    from { box-shadow:0px 0px 10px 0px #ffffff;}
+    to { box-shadow:0px 0px 20px 5px #17a2b8;}
+  }
+
 </style>

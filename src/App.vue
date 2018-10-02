@@ -27,6 +27,7 @@
           <b-nav-item to="/leaderboard">Leaderboard</b-nav-item>
           <b-nav-item to="/play">Play</b-nav-item>
           <b-nav-item to="/chats">Chats</b-nav-item>
+          <b-nav-item v-if="needsTutorial" to="/tutorial">Tutorial</b-nav-item>
           <b-nav-item v-if="userData.admin" to="/admin">Admin</b-nav-item>
         </b-navbar-nav>
 
@@ -106,6 +107,10 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 // useful library for objects and arrays
 import _ from 'lodash';
 
+// Animate on scroll, for the tutorial
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 // firebase-related libraries
 import VueFire from 'vuefire';
 import firebase from 'firebase';
@@ -143,6 +148,7 @@ export default {
       brandName: config.home.title,
       betaMode: config.betaMode,
       allUsers: [],
+      needsTutorial: config.needsTutorial,
       levels: {
         0: {
           level: 0,
@@ -240,10 +246,12 @@ export default {
     },
     setTutorial(val) {
       db.ref(`/users/${this.userInfo.displayName}`).child('taken_tutorial').set(val);
+      this.$router.replace('play');
     },
   },
 
   created() {
+    AOS.init();
     this.userInfo = firebase.auth().currentUser;
     const self = this;
     firebase.auth().onAuthStateChanged((user) => {
