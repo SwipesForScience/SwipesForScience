@@ -273,6 +273,7 @@ export default {
   body {
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
   }
   .content {
     flex: 1 0 auto;

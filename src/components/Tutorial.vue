@@ -23,10 +23,10 @@
 
     <!-- Example Steps -->
     <div v-for="(step, index) in steps.examples" class="fullpage">
-      <div class="text-center ml-3 mr-3 message w-100" :id="'example'+index">
+      <div class="text-center message w-100" :id="'example'+index">
         <vue-typer v-if="currentBin.bin === index+steps.intro.length" :text='step.text' :repeat='0' class="message"></vue-typer>
         <span class="invisible">{{step.text}}</span>
-        <div v-if="step.pointer">
+        <div v-if="step.pointer" class="mt-3">
           <WidgetSelector :widgetType="widgetType"
            :widgetPointer="step.pointer"
            :widgetProperties="widgetProperties"
