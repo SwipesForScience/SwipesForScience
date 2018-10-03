@@ -259,6 +259,11 @@
     padding: 8px;
     box-shadow: 0 2px 5px 0 #ccc;
   }
+
+  .user-card {
+    max-width: 100%;
+  }
+
   .baseImage {
     position: relative;
     top: 0;
