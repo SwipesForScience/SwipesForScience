@@ -217,7 +217,7 @@ export default {
 
       if (document.body.scrollHeight !== this.viewHeight) {
         // this.viewHeight = document.body.scrollHeight;
-        if (this.base) {
+        if (this.base && this.mask && this.contour) {
           this.view.setZoom(1);
           this.base.fitBounds(this.view.bounds);
           this.mask.fitBounds(this.view.bounds);
@@ -331,9 +331,11 @@ export default {
 
       this.base.onLoad = function onLoad() {
         this.visible = true;
+
         /* eslint-disable */
+
+        // make the view context pixelated
         const ctx = self.view._context;
-        // this doesn't seem to do anything
         ctx.mozImageSmoothingEnabled = false;
         ctx.webkitImageSmoothingEnabled = false;
         ctx.msImageSmoothingEnabled = false;
