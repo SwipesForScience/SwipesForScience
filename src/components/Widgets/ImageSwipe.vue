@@ -224,7 +224,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   .imageSwipe {
     min-height: 100vh;
     height: 532px;

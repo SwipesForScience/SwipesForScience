@@ -247,7 +247,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   .parent {
     position: relative;
     top: 0;

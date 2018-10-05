@@ -254,7 +254,7 @@
   };
 </script>
 
-<style>
+<style scoped>
   .imageSoundSwipe {
     min-height: 75vh;
     max-height: 600px;
