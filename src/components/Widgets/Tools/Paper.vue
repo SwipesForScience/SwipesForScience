@@ -1,6 +1,7 @@
 <template>
   <div class="paper" oncontextmenu="return false;">
       <resize-observer @notify="onresize" />
+      <!-- <button @click="takeScreenshot"></button> -->
       <canvas ref="canvas" :id="id" resize v-on:click="activate"></canvas>
       <!-- resize -->
   </div>
@@ -231,6 +232,15 @@ export default {
       }
     },
 
+    takeScreenshot() {
+      const canvasData = this.view._context.canvas.toDataURL();
+      const iframe = `<iframe width='100%' height='100%' src="${canvasData}" style="border: none;"></iframe>`;
+      const x = window.open();
+      x.document.open();
+      x.document.write(iframe);
+      x.document.close();
+    },
+
     drawSplat(e, me) {
       const shape = new paper.Shape.Circle(e.point, this.splatRadius);
       shape.strokeColor = this.splatColor;
@@ -348,7 +358,10 @@ export default {
         self.base.onClick = self.clickHandler;
         self.base.onMouseUp = self.resetPan;
 
-        self.mask = new self.scope.paper.Raster(self.maskSrc);
+        self.mask = new self.scope.paper.Raster({
+          source: self.maskSrc,
+          crossOrigin: 'anonymous',
+        });
         self.mask.onLoad = function onLoad2() {
           self.mask.visible = self.visibility.mask;
           self.mask.setSize(self.base.size);
@@ -360,7 +373,10 @@ export default {
           self.mask.opacity = 0.5;
         };
 
-        self.contour = new self.scope.paper.Raster(self.contourSrc);
+        self.contour = new self.scope.paper.Raster({
+          source: self.contourSrc,
+          crossOrigin: 'anonymous',
+        });
         self.contour.onLoad = function onLoad3() {
           self.contour.visible = self.visibility.contour;
           self.contour.setSize(self.base.size);

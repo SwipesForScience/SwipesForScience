@@ -86,6 +86,10 @@
   #profile {
     min-height: 100vh;
   }
+
+  .blankImage {
+    max-width: 500px;
+  }
 </style>
 
 <script>

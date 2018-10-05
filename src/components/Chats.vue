@@ -68,4 +68,8 @@
   };
 </script>
 
-<style></style>
+<style>
+  .blankImage {
+    max-width: 500px;
+  }
+</style>
