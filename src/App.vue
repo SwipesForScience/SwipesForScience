@@ -10,7 +10,7 @@
     -->
     <div class="content">
       <div v-if="betaMode" class="corner-ribbon bottom-right sticky blue">Beta</div>
-    <b-navbar toggleable="md" type="dark" variant="info">
+    <b-navbar toggleable="md" type="dark" :variant="navbarVariant">
 
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
@@ -91,6 +91,11 @@
             icons on this site were <a href='https://www.freepik.com/free-vector/cute-woodland-animals_1585897.htm'>Designed by Freepik</a>
             </td>
           </tr>
+          <tr>
+            <td class="align-middle text-center text-white">
+              and illustrations from <a href="https://undraw.co">undraw.co</a>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -149,6 +154,7 @@ export default {
       betaMode: config.betaMode,
       allUsers: [],
       needsTutorial: config.needsTutorial,
+      navbarVariant: config.app.navbarVariant || 'info',
       levels: {
         0: {
           level: 0,

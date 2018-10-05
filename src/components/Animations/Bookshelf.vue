@@ -24,10 +24,11 @@ export default {
 <style>
   .bookshelf_wrapper {
     position: relative;
-    top: 60%;
+    height: 500px;
+    top: 250px;
     left: 50%;
-    -webkit-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, 0%);
+            transform: translate(-50%, 0%);
   }
 
   .books_list {

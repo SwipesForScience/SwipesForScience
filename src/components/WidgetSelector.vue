@@ -33,8 +33,8 @@
      :playMode="playMode"
      />
 
-    <NLP  v-else-if="widgetType=='NLP'"
-     ref="NLP"
+    <PubMedNLP  v-else-if="widgetType=='PubMedNLP'"
+     ref="PubMedNLP"
      :widgetPointer="widgetPointer"
      :widgetProperties="widgetProperties"
      :widgetSummary="widgetSummary"
@@ -70,7 +70,7 @@
   import Highlight from './Widgets/Highlight';
   import ImageSwipe from './Widgets/ImageSwipe';
   import ImageSoundSwipe from './Widgets/ImageSoundSwipe';
-  import NLP from './Widgets/NLP';
+  import PubMedNLP from './Widgets/PubMedNLP';
   import TemplateWidget from './Widgets/TemplateWidget';
   import ImageSplat from './Widgets/ImageSplat';
 
@@ -88,7 +88,7 @@
       Highlight,
       ImageSwipe,
       ImageSoundSwipe,
-      NLP,
+      PubMedNLP,
       TemplateWidget,
       ImageSplat,
     },
