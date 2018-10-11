@@ -30,9 +30,9 @@ This document (the README file) is a hub to give you some information about the 
 
 The SwipesForScience game template will:
 
-* 
-* 
-* 
+* Generate a game from a configuration file provided by a researcher
+* The game should be easy to deploy online, and require very little knowledge of web technologies/cloud technologies
+* Be fun and easy for citizen scientists to use
 
 ## Who are we?
 
@@ -116,5 +116,11 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+### Structure
+
+The app structure looks like:
+
+![diagram](https://raw.githubusercontent.com/SwipesForScience/SwipesForScience/master/src/assets/swipesforscience_architecture.svg)
 
 
