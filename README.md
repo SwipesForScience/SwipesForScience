@@ -121,6 +121,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 The app structure looks like:
 
-![diagram](https://raw.githubusercontent.com/SwipesForScience/SwipesForScience/master/src/assets/swipesforscience_architecture.svg)
+![diagram](https://raw.githubusercontent.com/SwipesForScience/SwipesForScience/master/src/assets/swipesforscience_architecture.svg?sanitize=true)
 
 
