@@ -31,6 +31,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import config from '../config';
 import { db } from '../firebaseConfig';
+import loadManifestWorker from 'worker-loader!../workers/loadManifestWorker';
 
 export default {
   name: 'admin',
@@ -83,12 +84,14 @@ export default {
         });
         // then, for anything in manifest entries that isn't in firebase db
         // add them.
-        _.map(_.filter(manifestEntries, m => firebaseEntries.indexOf(m) < 0),
-          (key) => {
-            db.ref('sampleCounts').child(key).set(0);
-          });
-
-        this.status = 'complete';
+        
+        const element = this;
+        const worker = new loadManifestWorker();
+        worker.postMessage([manifestEntries, firebaseEntries]);
+        worker.onmessage = function(e) {
+          element.status = 'complete';
+          element.addFirebaseListener();
+        }
       });
     },
   },
