@@ -233,6 +233,7 @@ export default {
     },
 
     takeScreenshot() {
+      // eslint-disable-next-line
       const canvasData = this.view._context.canvas.toDataURL();
       const iframe = `<iframe width='100%' height='100%' src="${canvasData}" style="border: none;"></iframe>`;
       const x = window.open();
@@ -505,7 +506,7 @@ export default {
     mc.on('pinchend', (e) => {
         // do something cool
         // console.log("pinchend", window.mode)
-      console.log('ending pinch');
+      // console.log('ending pinch');
       self.touch.mode = false;
       if (e) {
         e.preventDefault();
@@ -518,7 +519,7 @@ export default {
 
     mc.on('pinchstart', (e) => {
       // do something cool
-      console.log('starting pinch');
+      // console.log('starting pinch');
       if (e) {
         self.touch.mode = true;
         e.preventDefault();
