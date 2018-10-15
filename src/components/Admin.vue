@@ -8,12 +8,15 @@
 
       <p v-if="status=='complete'">Click the button below to sync your firebase database with your manifest.</p>
 
-      <p>
-        <b-button @click="refreshSamples">
-          <span v-if="status=='complete'">Refresh Sample List</span>
-          <span v-else>{{status}}</span>
+      <div>
+        <b-button v-if="status=='complete'" @click="refreshSamples">
+          <span> Refresh Sample List </span>
         </b-button>
-      </p>
+        <div v-else>
+          <p>{{status}} {{progress}} / {{manifestEntries.length}}</p>
+          <b-progress :value="progress" :max="manifestEntries.length" variant="info" striped class="mb-2"></b-progress>
+        </div>
+      </div>
 
 
     </b-container>
@@ -31,6 +34,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import config from '../config';
 import { db } from '../firebaseConfig';
+// eslint-disable-next-line
 import loadManifestWorker from 'worker-loader!../workers/loadManifestWorker';
 
 export default {
@@ -38,19 +42,11 @@ export default {
   data() {
     return {
       status: 'loading...',
+      progress: 0,
+      manifestEntries: [],
       sampleCounts: [],
     };
   },
-  // firebase() {
-  //   return {
-  //     sampleCounts: {
-  //       source: db.ref('sampleCounts'),
-  //       readyCallback() {
-  //         this.status = 'complete';
-  //       },
-  //     },
-  //   };
-  // },
   props: ['levels'],
   mounted() {
     this.addFirebaseListener();
@@ -72,6 +68,7 @@ export default {
       axios.get(config.manifestUrl).then((resp) => {
         // resp.data has a list of firebase-friendly strings
         const manifestEntries = resp.data;
+        this.manifestEntries = manifestEntries;
         const firebaseEntries = _.map(this.sampleCounts, v => v['.key']);
         // first check all of the items in firebase db
         // and remove any that aren't in manifestEntries
@@ -84,14 +81,19 @@ export default {
         });
         // then, for anything in manifest entries that isn't in firebase db
         // add them.
-        
+
         const element = this;
+        // eslint-disable-next-line
         const worker = new loadManifestWorker();
         worker.postMessage([manifestEntries, firebaseEntries]);
-        worker.onmessage = function(e) {
-          element.status = 'complete';
-          element.addFirebaseListener();
-        }
+        worker.onmessage = function onmessage(e) {
+          if (e.data === 'done') {
+            element.status = 'complete';
+            element.addFirebaseListener();
+          } else {
+            element.progress += 1;
+          }
+        };
       });
     },
   },

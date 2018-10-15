@@ -15,6 +15,7 @@ onmessage = function(e) {
             // We then have treated all the objects
           postMessage('done');
         }
+        postMessage('progress');
       });
     });
 };
