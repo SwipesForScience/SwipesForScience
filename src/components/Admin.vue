@@ -31,7 +31,8 @@ import axios from 'axios';
 import _ from 'lodash';
 import config from '../config';
 import { db } from '../firebaseConfig';
-import loadManifestWorker from 'worker-loader!../workers/loadManifestWorker';
+//eslint-disable-next-line
+import LoadManifestWorker from 'worker-loader!../workers/loadManifestWorker';
 
 export default {
   name: 'admin',
@@ -84,14 +85,13 @@ export default {
         });
         // then, for anything in manifest entries that isn't in firebase db
         // add them.
-        
         const element = this;
-        const worker = new loadManifestWorker();
+        const worker = new LoadManifestWorker();
         worker.postMessage([manifestEntries, firebaseEntries]);
-        worker.onmessage = function(e) {
+        worker.onmessage = () => {
           element.status = 'complete';
           element.addFirebaseListener();
-        }
+        };
       });
     },
   },

@@ -96,8 +96,6 @@ a, a:hover, .pic .pic-image, .pic-caption, .pic:hover .pic-caption, .pic:hover i
 </style>
 
 <script>
-
-import _ from 'lodash';
 import numeral from 'numeral';
 import Vue from 'vue';
 import VueLazyload from 'vue-lazyload';
@@ -106,7 +104,7 @@ import config from '../config';
 // import '../assets/sass-compiled.css';
 Vue.filter('formatNumber', value => numeral(value).format('0.0[0]'));
 
-Vue.use(VueLazyload)
+Vue.use(VueLazyload);
 
 export default {
   name: 'images',
@@ -125,14 +123,15 @@ export default {
       return { 'background-color': c };
     },
     adminVote(img, vote) {
-      db.ref('imageCount').child(img['.key']).child('adminVote').set(vote).then((r) => {
-        console.log('set', img['.key'], 'to', vote);
+      db.ref('imageCount').child(img['.key']).child('adminVote').set(vote)
+      .then(() => {
+        // console.log('set', img['.key'], 'to', vote);
       });
     },
   },
   firebase: {
     imageCount: {
-      source: db.ref('imageCount'), //.orderByChild('num_votes'),
+      source: db.ref('imageCount'), // .orderByChild('num_votes'),
       readyCallback() {
         // console.log(this.imageCount);
 
