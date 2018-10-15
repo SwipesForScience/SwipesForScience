@@ -32,7 +32,7 @@ import _ from 'lodash';
 import config from '../config';
 import { db } from '../firebaseConfig';
 //eslint-disable-next-line
-import LoadManifestWorker from 'worker-loader!../workers/loadManifestWorker';
+import LoadManifestWorker from 'worker-loader!../workers/LoadManifestWorker';
 
 export default {
   name: 'admin',

@@ -46,7 +46,8 @@
     "vue-typer": "^1.2.0",
     "vue-upload-component": "^2.7.4",
     "vue2-hammer": "^1.0.6",
-    "vuefire": "^1.4.5"
+    "vuefire": "^1.4.5",
+    "worker-loader": "^2.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
