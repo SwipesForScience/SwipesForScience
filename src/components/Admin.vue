@@ -34,8 +34,8 @@ import axios from 'axios';
 import _ from 'lodash';
 import config from '../config';
 import { db } from '../firebaseConfig';
-// eslint-disable-next-line
-import loadManifestWorker from 'worker-loader!../workers/loadManifestWorker';
+import LoadManifestWorker from 'worker-loader!../workers/LoadManifestWorker';
+//eslint-disable-next-line
 
 export default {
   name: 'admin',
@@ -83,12 +83,12 @@ export default {
         // add them.
 
         const element = this;
+        const worker = new LoadManifestWorker();
         // eslint-disable-next-line
-        const worker = new loadManifestWorker();
         worker.postMessage([manifestEntries, firebaseEntries]);
         worker.onmessage = function onmessage(e) {
-          if (e.data === 'done') {
             element.status = 'complete';
+          if (e.data === 'done') {
             element.addFirebaseListener();
           } else {
             element.progress += 1;
