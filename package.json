@@ -16,6 +16,7 @@
   "dependencies": {
     "aos": "^3.0.0-beta.5",
     "axios": "^0.17.1",
+    "babel-preset-es2015": "^6.24.1",
     "bootstrap": "^4.0.0-beta.2",
     "bootstrap-vue": "^1.0.2",
     "d3-array": "^1.2.1",
@@ -45,6 +46,7 @@
     "vue-touch": "^2.0.0-beta.4",
     "vue-typer": "^1.2.0",
     "vue-upload-component": "^2.7.4",
+    "vue2-hammer": "^2.1.1",
     "vuefire": "^1.4.5",
     "worker-loader": "^2.0.0"
   },
