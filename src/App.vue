@@ -110,6 +110,7 @@ import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import axios from 'axios';
 
 // useful library for objects and arrays
 import _ from 'lodash';
@@ -147,12 +148,14 @@ import config from './config';
 Vue.use(VueFire);
 Vue.use(BootstrapVue);
 
+window.firebase = firebase;
+
 export default {
   name: 'app',
   data() {
     return {
       userInfo: {},
-      // db: null,
+      db: firebase.database(),
       config,
       allUsers: [],
       levels: {
@@ -209,39 +212,54 @@ export default {
   },
 
   mounted() {
-    this.$router.replace('/');
+    if (this.$route.query.config) {
+      // the URL has a config file that overrides the default one for this app!
+      axios.get(this.$route.query.config).then((resp) => {
+        // remove the firebase project
+        this.config = resp.data;
+      }).catch(() => {
+        // TODO: set a warning if the config url wasn't valid
+        // console.log(e.message);
+      });
+    }
   },
 
   firebase() {
     return {
       allUsers: {
         source: this.db.ref('/users/').orderByChild('score'),
-        asObject: false,
+        asObject: true,
       },
     };
   },
+  watch: {
+    firebaseKeys(newKeys) {
+      // there has been a change in firebaseKeys
+      firebase.app().delete().then(() => {
+        firebase.initializeApp(newKeys);
+        this.db = firebase.database();
+        this.db.ref('/users/').orderByChild('score').on('value', (snap) => {
+          this.allUsers = snap.val();
+        });
+      });
+    },
+  },
 
   computed: {
-    db() {
-      if (!firebase.apps.length) {
-        firebase.initializeApp(this.firebaseKeys);
-      }
-      return firebase.database();
-    },
     firebaseKeys() {
-      return config.firebaseKeys;
+      return this.config.firebaseKeys;
     },
     brandName() {
-      return config.home.title;
+      return this.config.home.title;
     },
     betaMode() {
-      return config.betaMode;
+      return this.config.betaMode;
     },
     needsTutorial() {
-      return config.needsTutorial;
+      return this.config.needsTutorial;
     },
     navbarVariant() {
-      return config.app ? config.app.navbarVariant || 'info' : 'info';
+      return this.config.app ? this.config.app.navbarVariant || 'info' : 'info';
     },
     userData() {
       let data = {};
@@ -252,6 +270,7 @@ export default {
       _.map(this.allUsers, (value, key) => {
         if (key === this.userInfo.displayName) {
           data = value;
+          data['.key'] = key;
         }
       });
       return data;
