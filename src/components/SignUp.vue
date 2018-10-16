@@ -94,7 +94,6 @@
 
   import firebase from 'firebase';
   import Terms from '@/components/Terms';
-  import config from '../config';
 
   export default {
     name: 'signup',
@@ -114,6 +113,7 @@
         },
       };
     },
+    props: ['config'],
     components: { terms: Terms },
     computed: {
       validated() {
@@ -179,7 +179,7 @@
         }).then(() => {
             // Profile updated successfully!
           this.insertUser(user);
-          if (config.needsTutorial) {
+          if (this.config.needsTutorial) {
             this.$router.replace('tutorial');
           } else {
             this.$router.replace('play');

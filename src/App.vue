@@ -68,6 +68,8 @@
                    :allUsers="allUsers"
                    :levels="levels"
                    :currentLevel="currentLevel"
+                   :config="config"
+                   :db="db"
                    v-on:taken_tutorial="setTutorial"
                    />
     </div>
@@ -119,7 +121,7 @@ import 'aos/dist/aos.css';
 // firebase-related libraries
 import VueFire from 'vuefire';
 import firebase from 'firebase';
-import { db } from './firebaseConfig';
+// import { db } from './firebaseConfig';
 
 // font-awesome icons
 import '../node_modules/font-awesome/css/font-awesome.min.css';
@@ -150,11 +152,9 @@ export default {
   data() {
     return {
       userInfo: {},
-      brandName: config.home.title,
-      betaMode: config.betaMode,
+      // db: null,
+      config,
       allUsers: [],
-      needsTutorial: config.needsTutorial,
-      navbarVariant: config.app ? config.app.navbarVariant || 'info' : 'info',
       levels: {
         0: {
           level: 0,
@@ -209,22 +209,49 @@ export default {
   },
 
   mounted() {
-
+    this.$router.replace('/');
   },
 
-  firebase: {
-    allUsers: db.ref('/users/').orderByChild('score'),
+  firebase() {
+    return {
+      allUsers: {
+        source: this.db.ref('/users/').orderByChild('score'),
+        asObject: false,
+      },
+    };
   },
 
   computed: {
+    db() {
+      if (!firebase.apps.length) {
+        firebase.initializeApp(this.firebaseKeys);
+      }
+      return firebase.database();
+    },
+    firebaseKeys() {
+      return config.firebaseKeys;
+    },
+    brandName() {
+      return config.home.title;
+    },
+    betaMode() {
+      return config.betaMode;
+    },
+    needsTutorial() {
+      return config.needsTutorial;
+    },
+    navbarVariant() {
+      return config.app ? config.app.navbarVariant || 'info' : 'info';
+    },
     userData() {
       let data = {};
       if (!this.userInfo) {
         return data;
       }
-      this.allUsers.forEach((val) => {
-        if (val['.key'] === this.userInfo.displayName) {
-          data = val;
+
+      _.map(this.allUsers, (value, key) => {
+        if (key === this.userInfo.displayName) {
+          data = value;
         }
       });
       return data;
@@ -251,7 +278,7 @@ export default {
       this.userInfo = user;
     },
     setTutorial(val) {
-      db.ref(`/users/${this.userInfo.displayName}`).child('taken_tutorial').set(val);
+      this.db.ref(`/users/${this.userInfo.displayName}`).child('taken_tutorial').set(val);
       this.$router.replace('play');
     },
   },

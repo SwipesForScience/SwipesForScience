@@ -25,14 +25,22 @@ import config from '../config';
 
 export default {
   name: 'Home',
+  props: ['config'],
   data() {
     return {
-      title: config.home.title,
-      tagline: config.home.tagline,
-      landingStyle: {
-        'background-image': `url("${config.home.backgroundUrl}")`,
-      },
+
     };
+  },
+  computed: {
+    title() {
+      return this.config.home.title;
+    },
+    tagline() {
+      return this.config.home.tagline;
+    },
+    landingStyle() {
+      return { 'background-image': `url("${config.home.backgroundUrl}")` };
+    },
   },
 };
 </script>

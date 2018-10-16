@@ -94,8 +94,8 @@
 
 <script>
 
-import { db } from '../firebaseConfig';
-import config from '../config';
+// import { db } from '../firebaseConfig';
+// import config from '../config';
 
 export default {
   name: 'profile',
@@ -104,11 +104,15 @@ export default {
       selectedTheme: null,
       chats: [],
       chatInfo: {},
-      blankImage: config.profile.blankImage,
     };
   },
+  computed: {
+    blankImage() {
+      return this.config.profile.blankImage;
+    },
+  },
   // the parent component feeds these vars to this component
-  props: ['userInfo', 'userData', 'levels', 'currentLevel', 'themes'],
+  props: ['userInfo', 'userData', 'levels', 'currentLevel', 'config', 'db'],
   mounted() {
     if (this.userData['.key']) {
       this.getUserChats();
@@ -123,7 +127,7 @@ export default {
     },
     chats() {
       this.chats.forEach((c) => {
-        db.ref('chats')
+        this.db.ref('chats')
           .child('sampleChats')
           .child(c)
           .orderByKey()
@@ -139,7 +143,7 @@ export default {
   },
   methods: {
     getUserChats() {
-      db.ref('chats')
+      this.db.ref('chats')
         .child('userChat')
         .child(this.userData['.key'])
         .on('value', (snap) => {
@@ -152,7 +156,7 @@ export default {
     },
     getNotifications(key) {
       // I'm not sure what this part is for...
-      db.ref('notifications')
+      this.db.ref('notifications')
         .child(this.userData['.key'])
         .child(key)
         .on('value', (snap) => {
