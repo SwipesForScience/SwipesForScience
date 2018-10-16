@@ -154,7 +154,7 @@ export default {
       betaMode: config.betaMode,
       allUsers: [],
       needsTutorial: config.needsTutorial,
-      navbarVariant: config.app.navbarVariant || 'info',
+      navbarVariant: config.app ? config.app.navbarVariant || 'info' : 'info',
       levels: {
         0: {
           level: 0,

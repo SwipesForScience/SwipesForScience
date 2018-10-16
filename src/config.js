@@ -6,7 +6,7 @@ export default {
     // each time the app is run, it will check this manifest and update the firebase database
     // if new entries are there, they will be added, and entries that aren't in the manifest
     // but are in the firebase database will be *removed*
-  manifestUrl: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/whaledrManifest.json',
+  manifestUrl: 'https://raw.githubusercontent.com/SwipesForScience/exampleConfig/master/config.js',
     // 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/bsHbnManifest.json',
     // 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/textWidgetManifest.json',
 
@@ -42,30 +42,33 @@ export default {
     messagingSenderId: '390175687447',
   },
 
-    // Homepage configuration
+  // app: {
+  //   navbarVariant: 'info',
+  // },
 
+    // Homepage configuration
     // your app's title and tagline
   home: {
     title: 'whaledr',
     tagline: 'Help oceanographers find whales',
       // background image on Homepage
-    backgroundUrl: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/SwipesForScience.svg',
+    backgroundUrl: 'https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/SwipesForScience.svg?sanitize=true',
   },
 
     // Play configuration
   play: {
-    blankImage: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/undraw_blank_canvas.svg',
+    blankImage: 'https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_blank_canvas.svg?sanitize=true',
 
   },
 
     // Chats configuration
   chats: {
-    blankImage: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/undraw_no_data.svg',
+    blankImage: 'https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_no_data.svg?sanitize=true',
   },
 
     // Profile configuration
   profile: {
-    blankImage: 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/undraw_chatting.svg',
+    blankImage: 'https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_chatting.svg?sanitize=true',
   },
 
     // your app's tutorial page
