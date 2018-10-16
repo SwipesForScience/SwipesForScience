@@ -235,11 +235,19 @@ export default {
   watch: {
     firebaseKeys(newKeys) {
       // there has been a change in firebaseKeys
-      firebase.app().delete().then(() => {
-        firebase.initializeApp(newKeys);
-        this.db = firebase.database();
-        this.db.ref('/users/').orderByChild('score').on('value', (snap) => {
-          this.allUsers = snap.val();
+      firebase.auth().signOut().then(() => {
+        this.userInfo = null;
+        firebase.app().delete().then(() => {
+          firebase.initializeApp(newKeys);
+          this.db = firebase.database();
+          this.db.ref('/users/').orderByChild('score').on('value', (snap) => {
+            this.allUsers = snap.val();
+          });
+          this.userInfo = firebase.auth().currentUser;
+          const self = this;
+          firebase.auth().onAuthStateChanged((user) => {
+            self.userInfo = user;
+          });
         });
       });
     },
