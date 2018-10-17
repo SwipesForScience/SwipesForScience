@@ -3,17 +3,9 @@ import About from '@/components/About';
 
 // Here are some badges we set
 import jelly from '../../../src/assets/badges/jelly.svg';
-import dolphin from '../../../src/assets/badges/dolphin.svg';
-import orca from '../../../src/assets/badges/orca.svg';
-import narwhal from '../../../src/assets/badges/narwhal.svg';
-import bluewhale from '../../../src/assets/badges/blueWhale_or_baleen.svg';
 
 // Here are the grayed out versions of the badges
 import jellyGrey from '../../../src/assets/badges/jelly_gray.svg';
-import dolphinGrey from '../../../src/assets/badges/dolphin_gray.svg';
-import orcaGrey from '../../../src/assets/badges/orca_gray.svg';
-import narwhalGrey from '../../../src/assets/badges/narwhal_gray.svg';
-import bluewhaleGrey from '../../../src/assets/badges/blueWhale_or_baleen_gray.svg';
 
 function getRenderedHtml(Component, propsData) {
   const Constructor = Vue.extend(Component);
