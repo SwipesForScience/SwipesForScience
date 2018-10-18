@@ -42,9 +42,9 @@ export default {
     messagingSenderId: '390175687447',
   },
 
-  // app: {
-  //   navbarVariant: 'info',
-  // },
+  app: {
+    navbarVariant: 'info',
+  },
 
     // Homepage configuration
     // your app's title and tagline
