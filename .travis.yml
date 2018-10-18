@@ -3,3 +3,4 @@ node_js:
  - "node"
 env:
 - NODE_ENV=TEST
+before_install: npm install
