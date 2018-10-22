@@ -73,13 +73,16 @@
                    v-on:taken_tutorial="setTutorial"
                    />
     </div>
+      <!-- Configuration Drawer -->
+      <Configure v-if="showConfig" :config="config" v-on:closeConfig="closeConfig"/>
+
   </div>
     <div class="footer bg-dark">
       <table style="height: 200px; width: 100%;">
         <tbody>
           <tr>
             <td class="align-middle text-center text-white">
-
+              <a href="" @click="openConfig"> Configure </a>
             </td>
           </tr>
           <tr>
@@ -143,6 +146,7 @@ import bluewhaleGrey from './assets/badges/blueWhale_or_baleen_gray.svg';
 
 // config options
 import config from './config';
+import Configure from './components/Configure';
 
 // explicit installation required in module environments
 Vue.use(VueFire);
@@ -157,6 +161,7 @@ export default {
       userInfo: {},
       db: firebase.database(),
       config,
+      showConfig: false,
       allUsers: [],
       levels: {
         0: {
@@ -222,6 +227,10 @@ export default {
         // console.log(e.message);
       });
     }
+  },
+
+  components: {
+    Configure,
   },
 
   firebase() {
@@ -307,6 +316,13 @@ export default {
     setTutorial(val) {
       this.db.ref(`/users/${this.userInfo.displayName}`).child('taken_tutorial').set(val);
       this.$router.replace('play');
+    },
+    openConfig(e) {
+      e.preventDefault();
+      this.showConfig = true;
+    },
+    closeConfig() {
+      this.showConfig = false;
     },
   },
 
