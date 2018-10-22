@@ -66,8 +66,8 @@
 
 <script>
   import _ from 'lodash';
-  import { db } from '../firebaseConfig';
-  import config from '../config';
+  // import { db } from '../firebaseConfig';
+  // import config from '../config';
   import WidgetSelector from './WidgetSelector';
 
   export default {
@@ -75,14 +75,12 @@
     firebase: {
 
     },
-    props: ['userInfo', 'userData', 'levels', 'currentLevel'],
+    props: ['userInfo', 'userData', 'levels', 'currentLevel', 'config', 'db'],
     components: {
       WidgetSelector,
     },
     data() {
       return {
-        widgetType: config.widgetType,
-        widgetProperties: config.widgetProperties,
         widgetPointer: null,
         widgetSummary: null,
         chatMessage: '',
@@ -97,6 +95,12 @@
         });
         chats.reverse();
         return chats;
+      },
+      widgetType() {
+        return this.config.widgetType;
+      },
+      widgetProperties() {
+        return this.config.widgetProperties;
       },
     },
     watch: {
@@ -116,7 +120,7 @@
         e.preventDefault();
         const key = this.$route.params.key;
 
-        db.ref('chats')
+        this.db.ref('chats')
           .child('sampleChats')
           .child(key).push({
             username: this.userData['.key'],
@@ -124,13 +128,13 @@
             time: new Date().toISOString(),
           });
 
-        db.ref('chats')
+        this.db.ref('chats')
           .child('sampleChatIndex')
           .child(key).set({
             time: new Date().toISOString(),
           });
 
-        db.ref('chats')
+        this.db.ref('chats')
           .child('userChat')
           .child(this.userData['.key'])
           .child(key)
@@ -149,7 +153,7 @@
         });
 
         usersToNotify.forEach((u) => {
-          db.ref('chats')
+          this.db.ref('chats')
             .child('userNotifications')
             .child(u)
             .child(key)
@@ -165,7 +169,7 @@
       },
       setSampleInfo() {
         // get the chat for this sample
-        db.ref('chats')
+        this.db.ref('chats')
           .child('sampleChats')
           .child(this.widgetPointer)
           .on('value', (snap2) => {
@@ -174,7 +178,7 @@
           });
 
         // get the widget's summary info
-        db.ref('sampleSummary')
+        this.db.ref('sampleSummary')
           .child(this.widgetPointer)
           .on('value', (snap) => {
             this.widgetSummary = snap.val();

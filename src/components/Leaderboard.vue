@@ -1,7 +1,7 @@
 <template name="leaderboard">
   <div class="container" id="leaderboard">
     <h1>Leaderboard</h1>
-    <b-table striped hover :items="allUsers" :fields="fields"
+    <b-table striped hover :items="allUsersList" :fields="fields"
     :sort-desc.sync="sortDesc" :sortBy.sync="sortBy">
     <template slot="rank" slot-scope="data">
       {{data.index + 1}}
@@ -24,10 +24,19 @@
 </style>
 
 <script>
+  import _ from 'lodash';
 
   export default {
     name: 'leaderboard',
     props: ['allUsers', 'levels'],
+    computed: {
+      allUsersList() {
+        // eslint-disable-next-line
+        return _.filter(_.map(this.allUsers, (value, key) => {
+          return { ...value, '.key': key };
+        }), v => v['.key'] !== '.key');
+      },
+    },
     data() {
       return {
         sortBy: 'score',

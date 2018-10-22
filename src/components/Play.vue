@@ -76,14 +76,14 @@
 
 <script>
   import _ from 'lodash';
-  import { db } from '../firebaseConfig';
-  import config from '../config';
+  // import { db } from '../firebaseConfig';
+  // import config from '../config';
   import WidgetSelector from './WidgetSelector';
   import Flask from './Animations/Flask';
 
   export default {
     name: 'play',
-    props: ['userInfo', 'userData', 'levels', 'currentLevel'],
+    props: ['userInfo', 'userData', 'levels', 'currentLevel', 'config', 'db'],
     data() {
       return {
         // keep track of the time a user took to vote on a sample
@@ -110,15 +110,6 @@
         // flag is set to true. TODO: prompt the user to the setup instructions
         noData: false,
 
-        // if there is no data loaded, show an image from the config.
-        blankImage: config.play.blankImage,
-
-        // type of widget, named exactly how it is in the Widgets folder
-        widgetType: config.widgetType,
-
-        // specific properties for a widget
-        widgetProperties: config.widgetProperties,
-
         // widgetPointer is a pointer to the keys in sampleCounts, sampleSummary, and sampleChats
         widgetPointer: null,
 
@@ -130,12 +121,12 @@
       currentLevel() {
         if (this.userData.score === this.currentLevel.min && this.currentLevel.min) {
           this.$refs.levelUp.show();
-          db.ref(`/users/${this.userInfo.displayName}`).child('level').set(this.currentLevel.level);
+          this.db.ref(`/users/${this.userInfo.displayName}`).child('level').set(this.currentLevel.level);
         }
       },
       widgetPointer() {
         /* eslint-disable */
-        this.widgetPointer ? db.ref('sampleSummary').child(this.widgetPointer).once('value', (snap) => {
+        this.widgetPointer ? this.db.ref('sampleSummary').child(this.widgetPointer).once('value', (snap) => {
           this.widgetSummary = snap.val();
         }) : null;
         /* eslint-enable */
@@ -156,10 +147,22 @@
       samplePriority() {
         return _.sortBy(this.sampleCounts, '.value');
       },
+      blankImage() {
+        // if there is nothing in the database, display a blank image
+        return this.config.play.blankImage;
+      },
+      widgetType() {
+        // type of widget, named exactly how it is in the Widgets folder
+        return this.config.widgetType;
+      },
+      widgetProperties() {
+        // specific properties for a widget
+        return this.config.widgetProperties;
+      },
     },
     methods: {
       initSampleCounts() {
-        db.ref('sampleCounts').once('value', (snap) => {
+        this.db.ref('sampleCounts').once('value', (snap) => {
           /* eslint-disable */
           this.sampleCounts = _.map(snap.val(), (val, key) => {
             return { '.key': key, '.value': val };
@@ -174,7 +177,7 @@
         });
       },
       initSeenSamples() {
-        db.ref('userSeenSamples')
+        this.db.ref('userSeenSamples')
           .child(this.userInfo.displayName)
           .once('value', (snap) => {
             /* eslint-disable */
@@ -292,7 +295,7 @@
       sendVote(response, time) {
         // the user's response for the sample is sent to the db
         // along with their user displayName and the time they took to respond.
-        db.ref('votes').push({
+        this.db.ref('votes').push({
           user: this.userInfo.displayName,
           sample: this.widgetPointer,
           response,
@@ -303,21 +306,21 @@
       updateScore(scoreIncrement) {
         // this method update's the user's score by scoreIncrement;
 
-        db.ref('users')
+        this.db.ref('users')
           .child(this.userInfo.displayName)
           .child('score')
           .transaction(score => (score || 0) + scoreIncrement);
       },
 
       updateSummary(summary) {
-        db.ref('sampleSummary')
+        this.db.ref('sampleSummary')
           .child(this.widgetPointer)
           .set(summary);
       },
 
       updateCount() {
         // update the firebase database copy
-        db.ref('sampleCounts')
+        this.db.ref('sampleCounts')
           .child(this.widgetPointer)
           .transaction(count => (count || 0) + 1);
 
@@ -334,7 +337,7 @@
       updateSeen() {
         // mark that this user has seen this widgetPointer
         // update the firebase database copy
-        db.ref('userSeenSamples')
+        this.db.ref('userSeenSamples')
           .child(this.userInfo.displayName)
           .child(this.widgetPointer)
           .transaction(count => (count || 0) + 1);

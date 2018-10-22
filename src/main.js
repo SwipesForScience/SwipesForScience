@@ -4,12 +4,23 @@ import Vue from 'vue';
 import firebase from 'firebase';
 import App from './App';
 import router from './router';
+import config from './config';
 
 
 Vue.config.productionTip = false;
 
 let app;
 
+// we have to to initialize the app w/ existing config keys here.
+// this is important for when the user refreshes.
+
+/*
+"Import your Firebase configuration and set up the Firebase method onAuthStateChanged.
+This will make sure Firebase initializes before loading the app when a user refreshes a page."
+- https://savvyapps.com/blog/definitive-guide-building-web-app-vuejs-firebase
+*/
+
+firebase.initializeApp(config.firebaseKeys);
 
 firebase.auth().onAuthStateChanged(() => {
   if (!app) {
@@ -21,7 +32,7 @@ firebase.auth().onAuthStateChanged(() => {
       router,
     });
   }
-  // console.log('user is', user);
+    // console.log('user is', user);
 });
 
 

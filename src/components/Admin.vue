@@ -32,8 +32,7 @@
 <script>
 import axios from 'axios';
 import _ from 'lodash';
-import config from '../config';
-import { db } from '../firebaseConfig';
+// import { db } from '../firebaseConfig';
 //eslint-disable-next-line
 import LoadManifestWorker from 'worker-loader!../workers/LoadManifestWorker';
 
@@ -47,13 +46,13 @@ export default {
       sampleCounts: [],
     };
   },
-  props: ['levels'],
+  props: ['levels', 'config', 'db'],
   mounted() {
     this.addFirebaseListener();
   },
   methods: {
     addFirebaseListener() {
-      db.ref('sampleCounts').once('value', (snap) => {
+      this.db.ref('sampleCounts').once('value', (snap) => {
         /* eslint-disable */
         this.sampleCounts = _.map(snap.val(), (val, key) => {
           return { '.key': key, '.value': val };
@@ -65,7 +64,7 @@ export default {
     refreshSamples() {
       this.status = 'refreshing';
       // grab all the data from the json file defined in the config
-      axios.get(config.manifestUrl).then((resp) => {
+      axios.get(this.config.manifestUrl).then((resp) => {
         // resp.data has a list of firebase-friendly strings
         const manifestEntries = resp.data;
         this.manifestEntries = manifestEntries;
@@ -76,7 +75,7 @@ export default {
           // check to see if the key is in the manifest.
           if (manifestEntries.indexOf(key) < 0) {
             // since the key isn't there, remove it from firebase.
-            db.ref('sampleCounts').child(key).remove();
+            this.db.ref('sampleCounts').child(key).remove();
           }
         });
         // then, for anything in manifest entries that isn't in firebase db

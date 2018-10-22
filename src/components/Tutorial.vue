@@ -91,7 +91,7 @@
   import Arrow from './Animations/ArrowDown';
   import Bubbles from './Animations/Bubbles';
   import WidgetSelector from './WidgetSelector';
-  import config from '../config';
+  // import config from '../config';
 
   const VueScrollTo = require('vue-scrollto');
 
@@ -121,17 +121,25 @@
     data() {
       return {
         scrollPosition: 0,
-        widgetType: config.widgetType,
-        widgetProperties: config.widgetProperties,
         widgetSummary: {}, // TODO: fill this properly
-        steps: config.tutorial.steps,
-        backgroundAnimation: config.tutorial.customBackgroundAnimation,
       };
     },
-    props: ['levels'],
+    props: ['levels', 'config'],
     watch: {
     },
     computed: {
+      widgetType() {
+        return this.config.widgetType;
+      },
+      widgetProperties() {
+        return this.config.widgetProperties;
+      },
+      steps() {
+        return this.config.tutorial.steps;
+      },
+      backgroundAnimation() {
+        return this.config.tutorial.customBackgroundAnimation;
+      },
       bins() {
         const Nsteps = this.steps.intro.length + this.steps.examples.length;
         const binSize = 1 / Nsteps;
