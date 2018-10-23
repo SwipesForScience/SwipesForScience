@@ -14,7 +14,7 @@
 
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-      <b-navbar-brand to="/">{{brandName}}</b-navbar-brand>
+      <b-navbar-brand to="/" id="brandName">{{brandName}}</b-navbar-brand>
 
       <!-- If the viewport is small, the navbar collapses.
           Everything in b-collapse is what gets collapsed.
@@ -22,7 +22,7 @@
       <b-collapse is-nav id="nav_collapse">
 
         <!--  Here are links to different routes  -->
-        <b-navbar-nav>
+        <b-navbar-nav id="navLinks">
           <b-nav-item to="/" exact>Home</b-nav-item>
           <b-nav-item to="/leaderboard">Leaderboard</b-nav-item>
           <b-nav-item to="/play">Play</b-nav-item>
@@ -74,7 +74,7 @@
                    />
     </div>
       <!-- Configuration Drawer -->
-      <Configure v-if="showConfig" :config="config" v-on:closeConfig="closeConfig"/>
+      <Configure ref="configurationPane" v-if="showConfig" :config="config" v-on:closeConfig="closeConfig"/>
 
   </div>
     <div class="footer bg-dark">
