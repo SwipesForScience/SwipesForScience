@@ -30,6 +30,9 @@
 </template>
 
 <script>
+/**
+ *
+ */
 import FirebaseKeys from './ConfigureComponents/FirebaseKeys';
 import App from './ConfigureComponents/App';
 import Home from './ConfigureComponents/Home';
@@ -38,12 +41,35 @@ import Widget from './ConfigureComponents/Widget';
 
 export default {
   name: 'configuration',
-  props: ['config'],
+  props: {
+    /**
+     * The config object that is loaded from src/config.js.
+     * It defines how the app is configured, including
+     * any content that needs to be displayed (app title, images, etc)
+     * and also the type of widget and where to update pointers to data
+     */
+    config: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
+      /**
+       *
+       */
       localConfig: {},
+      /**
+       *
+       */
       fkeys: null,
+      /**
+       *
+       */
       width: 300,
+      /**
+       *
+       */
       resizing: false,
     };
   },
@@ -55,6 +81,9 @@ export default {
     Widget,
   },
   computed: {
+    /**
+     *
+     */
     styleContent() {
       return {
         width: `${this.width}px`,
@@ -67,42 +96,72 @@ export default {
         'overflow-y': 'scroll',
       };
     },
+    /**
+     *
+     */
     styleResize() {
       return { left: `${this.width}px` };
     },
   },
   methods: {
+    /**
+     *
+     */
     update() {
       // tell the parent component that the app was updated.
     },
+    /**
+     *
+     */
     startResize() {
       this.resizing = true;
     },
+    /**
+     *
+     */
     resize(e) {
       if (this.resizing) {
         this.width = e.clientX;
       }
     },
+    /**
+     *
+     */
     endResize() {
       this.resizing = false;
     },
+    /**
+     *
+     */
     close() {
       this.$emit('closeConfig');
     },
+    /**
+     *
+     */
     setNewFirebaseKeys(fkeys) {
       this.config.firebaseKeys = fkeys;
     },
   },
   watch: {
+    /**
+     *
+     */
     config() {
       this.localConfig = this.config;
     },
   },
+  /**
+   *
+   */
   mounted() {
     this.localConfig = this.config;
     window.addEventListener('mousemove', this.resize);
     window.addEventListener('mouseup', this.endResize);
   },
+  /**
+   *
+   */
   beforeDestroy() {
     window.removeEventListener('mousemove', this.resize);
     window.removeEventListener('mouseup', this.endResize);

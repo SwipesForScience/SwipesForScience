@@ -30,9 +30,11 @@
 </style>
 
 <script>
+/**
+ * Admin panel
+ */
 import axios from 'axios';
 import _ from 'lodash';
-// import { db } from '../firebaseConfig';
 //eslint-disable-next-line
 import LoadManifestWorker from 'worker-loader!../workers/LoadManifestWorker';
 
@@ -40,17 +42,61 @@ export default {
   name: 'admin',
   data() {
     return {
+      /**
+       *
+       */
       status: 'loading...',
+      /**
+       *
+       */
       progress: 0,
+      /**
+       *
+       */
       manifestEntries: [],
+      /**
+       *
+       */
       sampleCounts: [],
     };
   },
-  props: ['levels', 'config', 'db'],
+  props: {
+    /**
+     * the various levels, the points need to reach the levels,
+     * and the badges (colored and greyed out) to display
+     */
+    levels: {
+      type: Object,
+      required: true,
+    },
+    /**
+     * The config object that is loaded from src/config.js.
+     * It defines how the app is configured, including
+     * any content that needs to be displayed (app title, images, etc)
+     * and also the type of widget and where to update pointers to data
+     */
+    config: {
+      type: Object,
+      required: true,
+    },
+    /**
+     * the intialized firebase database
+     */
+    db: {
+      type: Object,
+      required: true,
+    },
+  },
+  /**
+   *
+   */
   mounted() {
     this.addFirebaseListener();
   },
   methods: {
+    /**
+     *
+     */
     addFirebaseListener() {
       this.db.ref('sampleCounts').once('value', (snap) => {
         /* eslint-disable */
@@ -61,6 +107,9 @@ export default {
         this.status = 'complete';
       });
     },
+    /**
+     *
+     */
     refreshSamples() {
       this.status = 'refreshing';
       // grab all the data from the json file defined in the config

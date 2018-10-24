@@ -71,24 +71,78 @@
 </template>
 
 <script>
+/**
+ * TODO: fill this in.
+ */
   import _ from 'lodash';
   import vueSlider from 'vue-slider-component';
   import Paper from './Tools/Paper';
 
 
   export default {
-    props: ['widgetPointer', 'widgetProperties', 'widgetSummary', 'playMode'],
+    props: {
+      /**
+       * TODO: fill this in.
+       */
+      widgetPointer: {
+        type: String,
+        required: true,
+      },
+     /**
+      * TODO: fill this in.
+      */
+      widgetProperties: {
+        type: Object,
+        required: true,
+      },
+     /**
+      * TODO: fill this in.
+      */
+      widgetSummary: {
+        type: Object,
+        required: false,
+      },
+     /**
+      * TODO: fill this in.
+      */
+      playMode: {
+        type: Boolean,
+        required: false,
+      },
+     /**
+      * TODO: fill this in.
+      */
+      tutorialStep: {
+        type: Number,
+        required: false,
+      },
+    },
     data() {
       return {
+        /**
+         * TODO: fill this in.
+         */
         overlayStyle: {
           opacity: 0.5,
         },
+        /**
+         * TODO: fill this in.
+         */
         visible: {
           mask: true,
           contour: true,
         },
+        /**
+         * TODO: fill this in.
+         */
         brightness: 50,
+        /**
+         * TODO: fill this in.
+         */
         contrast: 50,
+        /**
+         * TODO: fill this in.
+         */
         brightnessOptions: {
           eventType: 'auto',
           width: 'auto',
@@ -133,16 +187,25 @@
       vueSlider,
     },
     computed: {
+      /**
+       * TODO: fill this in.
+       */
       maskUrl() {
         return this.widgetProperties.maskUrlTemplate && this.widgetPointer ?
           this.fillPropertyPattern(this.widgetProperties.maskUrlTemplate,
           this.widgetProperties.delimiter) : null;
       },
+      /**
+       * TODO: fill this in.
+       */
       baseUrl() {
         return this.widgetProperties.baseUrlTemplate && this.widgetPointer ?
           this.fillPropertyPattern(this.widgetProperties.baseUrlTemplate,
           this.widgetProperties.delimiter) : null;
       },
+      /**
+       * TODO: fill this in.
+       */
       contourUrl() {
         return this.widgetProperties.contourUrlTemplate && this.widgetPointer ?
           this.fillPropertyPattern(this.widgetProperties.contourUrlTemplate,
@@ -150,9 +213,15 @@
       },
     },
     methods: {
+      /**
+       * TODO: fill this in.
+       */
       undo() {
         this.$refs.paper.undo();
       },
+      /**
+       * TODO: fill this in.
+       */
       fillPropertyPattern(pattern, delimiter) {
         // fill the pattern by splitting the widgetPointer by delimiter
         let output = pattern;
@@ -162,6 +231,9 @@
         });
         return output;
       },
+      /**
+       * TODO: fill this in.
+       */
       getScore(response) {
         const fb = this.getFeedback(response);
         if (fb.variant === 'danger') {
@@ -169,6 +241,9 @@
         }
         return 1;
       },
+      /**
+       * TODO: fill this in.
+       */
       getFeedback(response) {
         let widgetSummary;
         if (!this.widgetSummary) {
@@ -213,6 +288,9 @@
           message: '+1 thanks',
         };
       },
+      /**
+       * TODO: fill this in.
+       */
       getSummary(response) {
         // this widget will keep track of
         // the number of times the widget is seen (count)
@@ -233,6 +311,9 @@
           count: this.widgetSummary.count + 1,
         };
       },
+      /**
+       * TODO: fill this in.
+       */
       getSplatPoints() {
         /* eslint-disable */
         return _.map(this.$refs.paper.draw.points, (v) => {
@@ -240,6 +321,9 @@
             /* eslint-enable */
         });
       },
+      /**
+       * TODO: fill this in.
+       */
       vote() {
         this.$emit('widgetRating', this.getSplatPoints());
       },

@@ -8,15 +8,24 @@
   </div>
 </template>
 <script>
+/**
+ * TODO: fill this in.
+ */
   import _ from 'lodash';
 
   export default {
     data() {
       return {
+        /**
+         * TODO: fill this in.
+         */
         fkeys: null,
       };
     },
     methods: {
+      /**
+       * TODO: fill this in.
+       */
       parseFirebaseKeys() {
         const keys = ['apiKey', 'authDomain', 'databaseURL', 'projectId', 'storageBucket', 'messagingSenderId'];
         const newFirebaseKeys = {};

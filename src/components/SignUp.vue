@@ -91,7 +91,9 @@
 }
 </style>
 <script>
-
+/**
+ * TODO: fill this in.
+ */
   import firebase from 'firebase';
   import Terms from '@/components/Terms';
 
@@ -99,6 +101,9 @@
     name: 'signup',
     data() {
       return {
+        /**
+         * TODO: fill this in.
+         */
         form: {
           email: '',
           password: '',
@@ -106,24 +111,50 @@
           username: '',
           consented: false,
         },
+        /**
+         * TODO: fill this in.
+         */
         show: true,
+        /**
+         * TODO: fill this in.
+         */
         errors: {
           show: false,
           message: null,
         },
       };
     },
-    props: ['config'],
+    props: {
+      /**
+       * The config object that is loaded from src/config.js.
+       * It defines how the app is configured, including
+       * any content that needs to be displayed (app title, images, etc)
+       * and also the type of widget and where to update pointers to data
+       */
+      config: {
+        type: Object,
+        required: true,
+      },
+    },
     components: { terms: Terms },
     computed: {
+      /**
+       * TODO: fill this in.
+       */
       validated() {
         return this.form.password === this.form.password2;
       },
+      /**
+       * TODO: fill this in.
+       */
       consentFormLabel() {
         return this.form.consented ? 'You have consented!' : 'Click to read and sign the consent form';
       },
     },
     methods: {
+      /**
+       * TODO: fill this in.
+       */
       onSubmit(e) {
         e.preventDefault();
         // check for a unique username
@@ -140,17 +171,23 @@
           }
         });
       },
-
+      /**
+       * TODO: fill this in.
+       */
       saveConsent(e) {
         e.preventDefault();
         this.form.consented = true;
         this.$refs.consentform.hide();
       },
-
+      /**
+       * TODO: fill this in.
+       */
       openConsentModal() {
         this.$refs.consentform.show();
       },
-
+      /**
+       * TODO: fill this in.
+       */
       createAccount() {
         firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.password).then(
           (user) => {
@@ -162,7 +199,9 @@
           this.errors.message = err.message;
         });
       },
-
+      /**
+       * TODO: fill this in.
+       */
       insertUser(user) {
         firebase.database().ref('users').child(user.displayName).set({
           score: 0,
@@ -173,6 +212,9 @@
           consentedOn: new Date(),
         });
       },
+      /**
+       * TODO: fill this in.
+       */
       updateProfile(user) {
         user.updateProfile({
           displayName: this.form.username,

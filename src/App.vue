@@ -109,6 +109,9 @@
 </template>
 
 <script>
+/**
+ * The main entrypoint to the app.
+ */
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -158,11 +161,29 @@ export default {
   name: 'app',
   data() {
     return {
+      /**
+       *
+       */
       userInfo: {},
+      /**
+       *
+       */
       db: firebase.database(),
+      /**
+       *
+       */
       config,
+      /**
+       *
+       */
       showConfig: false,
+      /**
+       *
+       */
       allUsers: [],
+      /**
+       *
+       */
       levels: {
         0: {
           level: 0,
@@ -215,7 +236,9 @@ export default {
       },
     };
   },
-
+  /**
+   *
+   */
   mounted() {
     if (this.$route.query.config) {
       // the URL has a config file that overrides the default one for this app!
@@ -242,6 +265,9 @@ export default {
     };
   },
   watch: {
+    /**
+     *
+     */
     firebaseKeys(newKeys) {
       // there has been a change in firebaseKeys
       firebase.auth().signOut().then(() => {
@@ -263,21 +289,39 @@ export default {
   },
 
   computed: {
+    /**
+     *
+     */
     firebaseKeys() {
       return this.config.firebaseKeys;
     },
+    /**
+     *
+     */
     brandName() {
       return this.config.home.title;
     },
+    /**
+     *
+     */
     betaMode() {
       return this.config.betaMode;
     },
+    /**
+     *
+     */
     needsTutorial() {
       return this.config.needsTutorial;
     },
+    /**
+     *
+     */
     navbarVariant() {
       return this.config.app ? this.config.app.navbarVariant || 'info' : 'info';
     },
+    /**
+     *
+     */
     userData() {
       let data = {};
       if (!this.userInfo) {
@@ -292,6 +336,9 @@ export default {
       });
       return data;
     },
+    /**
+     *
+     */
     currentLevel() {
       let clev = {};
       _.mapValues(this.levels, (val) => {
@@ -304,28 +351,45 @@ export default {
     },
   },
   methods: {
+    /**
+     * log out of firebase
+     */
     logout() {
       firebase.auth().signOut().then(() => {
         this.userInfo = null;
         this.$router.replace('login');
       });
     },
+    /**
+     * set the userInfo attribute
+     */
     setUser(user) {
       this.userInfo = user;
     },
+    /**
+     * set the tutorial status of the current user
+     */
     setTutorial(val) {
       this.db.ref(`/users/${this.userInfo.displayName}`).child('taken_tutorial').set(val);
       this.$router.replace('play');
     },
+    /**
+     * open the config panel
+     */
     openConfig(e) {
       e.preventDefault();
       this.showConfig = true;
     },
+    /**
+     * close the config panel
+     */
     closeConfig() {
       this.showConfig = false;
     },
   },
-
+  /**
+   * intialize the animate on scroll library (for tutorial) and listen to authentication state
+   */
   created() {
     AOS.init();
     this.userInfo = firebase.auth().currentUser;

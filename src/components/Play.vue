@@ -75,55 +75,128 @@
 </style>
 
 <script>
+  /**
+   * TODO: fill this in.
+   */
   import _ from 'lodash';
-  // import { db } from '../firebaseConfig';
-  // import config from '../config';
   import WidgetSelector from './WidgetSelector';
   import Flask from './Animations/Flask';
 
   export default {
     name: 'play',
-    props: ['userInfo', 'userData', 'levels', 'currentLevel', 'config', 'db'],
+    props: {
+      /**
+       * the authenticated user object from firebase
+       */
+      userInfo: {
+        type: Object,
+        required: true,
+      },
+      /**
+       * the computed user data object based on userInfo
+       */
+      userData: {
+        type: Object,
+        required: true,
+      },
+      /**
+       * the various levels, the points need to reach the levels,
+       * and the badges (colored and greyed out) to display
+       */
+      levels: {
+        type: Object,
+        required: true,
+      },
+      /**
+       * the user's current level
+       */
+      currentLevel: {
+        type: Object,
+        required: true,
+      },
+      /**
+       * The config object that is loaded from src/config.js.
+       * It defines how the app is configured, including
+       * any content that needs to be displayed (app title, images, etc)
+       * and also the type of widget and where to update pointers to data
+       */
+      config: {
+        type: Object,
+        required: true,
+      },
+      /**
+       * the intialized firebase database
+       */
+      db: {
+        type: Object,
+        required: true,
+      },
+    },
     data() {
       return {
-        // keep track of the time a user took to vote on a sample
+        /**
+         * keep track of the time a user took to vote on a sample
+         */
         startTime: null,
-
-        // flags for the small toast that shows feedback
+        /**
+         * flags for the small toast that shows feedback
+         */
         dismissSecs: 1,
+        /**
+         * flags for the small toast that shows feedback
+         */
         dismissCountDown: 0,
 
-        // feedback will be filled by the widget component
-        // for now its initialized here
+        /**
+         * feedback will be filled by the widget component
+         * for now its initialized here
+         */
         feedback: {
           variant: 'warning',
           message: '',
         },
 
-        // status flag that is set to "complete" when the firebase keys are filled.
+        /**
+         * status flag that is set to "complete" when the firebase keys are filled.
+         */
         status: 'loading',
 
-        // these keys will be filled by firebase when the component is mounted
+        /**
+         * these keys will be filled by firebase when the component is mounted
+         */
         sampleCounts: [],
         userSeenSamples: [],
-        // if sampleCounts is empty after its fetched from the db, then noData
-        // flag is set to true. TODO: prompt the user to the setup instructions
+
+        /**
+         * if sampleCounts is empty after its fetched from the db, then noData
+         * flag is set to true. TODO: prompt the user to the setup instructions
+         */
         noData: false,
 
-        // widgetPointer is a pointer to the keys in sampleCounts, sampleSummary, and sampleChats
+        /**
+         * widgetPointer is a pointer to the keys in sampleCounts, sampleSummary, and sampleChats
+         */
         widgetPointer: null,
 
-        // widget summary comes from firebase when the widget Pointer is set.
+        /**
+         * widget summary comes from firebase when the widget Pointer is set.
+         */
         widgetSummary: {},
       };
     },
     watch: {
+      /**
+       * TODO: fill this in.
+       */
       currentLevel() {
         if (this.userData.score === this.currentLevel.min && this.currentLevel.min) {
           this.$refs.levelUp.show();
           this.db.ref(`/users/${this.userInfo.displayName}`).child('level').set(this.currentLevel.level);
         }
       },
+      /**
+       * TODO: fill this in.
+       */
       widgetPointer() {
         /* eslint-disable */
         this.widgetPointer ? this.db.ref('sampleSummary').child(this.widgetPointer).once('value', (snap) => {
@@ -132,6 +205,9 @@
         /* eslint-enable */
       },
     },
+    /**
+     * TODO: fill this in.
+     */
     mounted() {
       this.initSampleCounts();
       this.initSeenSamples();
@@ -140,27 +216,36 @@
       WidgetSelector,
       Flask,
     },
-    directives: {
-
-    },
     computed: {
+      /**
+       * TODO: fill this in.
+       */
       samplePriority() {
         return _.sortBy(this.sampleCounts, '.value');
       },
+      /**
+       * if there is nothing in the database, display a blank image
+       */
       blankImage() {
-        // if there is nothing in the database, display a blank image
         return this.config.play.blankImage;
       },
+      /**
+       * type of widget, named exactly how it is in the Widgets folder
+       */
       widgetType() {
-        // type of widget, named exactly how it is in the Widgets folder
         return this.config.widgetType;
       },
+      /**
+       * specific properties for a widget
+       */
       widgetProperties() {
-        // specific properties for a widget
         return this.config.widgetProperties;
       },
     },
     methods: {
+      /**
+       * TODO: fill this in.
+       */
       initSampleCounts() {
         this.db.ref('sampleCounts').once('value', (snap) => {
           /* eslint-disable */
@@ -176,6 +261,9 @@
           }
         });
       },
+      /**
+       * TODO: fill this in.
+       */
       initSeenSamples() {
         this.db.ref('userSeenSamples')
           .child(this.userInfo.displayName)
@@ -187,6 +275,9 @@
             /* eslint-enable */
           });
       },
+      /**
+       * TODO: fill this in.
+       */
       shuffle(array) {
         // a method to shuffle an array, from
         // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -207,7 +298,9 @@
         }
         return array;
       },
-
+      /**
+       * TODO: fill this in.
+       */
       sampleUserPriority() {
         // A method that returns an array of samples prioritized by
         // the least seen overall and by the user
@@ -249,7 +342,9 @@
         // if samplePriority was empty the whole time, return null
         return null;
       },
-
+      /**
+       * TODO: fill this in.
+       */
       sendWidgetResponse(response) {
         // this method is called from the child widget
         // it will first get feedback from the child on the response
@@ -277,7 +372,9 @@
         // 3. set the next Sample
         this.setNextSampleId();
       },
-
+      /**
+       * TODO: fill this in.
+       */
       setNextSampleId() {
         // method to get the next sample id to show in the widget
         // view time gets reset first, then the new sample is found and set.
@@ -291,7 +388,9 @@
           this.widgetPointer = sampleId['.key'];
         }
       },
-
+      /**
+       * TODO: fill this in.
+       */
       sendVote(response, time) {
         // the user's response for the sample is sent to the db
         // along with their user displayName and the time they took to respond.
@@ -302,7 +401,9 @@
           time,
         });
       },
-
+      /**
+       * TODO: fill this in.
+       */
       updateScore(scoreIncrement) {
         // this method update's the user's score by scoreIncrement;
 
@@ -311,13 +412,17 @@
           .child('score')
           .transaction(score => (score || 0) + scoreIncrement);
       },
-
+      /**
+       * TODO: fill this in.
+       */
       updateSummary(summary) {
         this.db.ref('sampleSummary')
           .child(this.widgetPointer)
           .set(summary);
       },
-
+      /**
+       * TODO: fill this in.
+       */
       updateCount() {
         // update the firebase database copy
         this.db.ref('sampleCounts')
@@ -333,7 +438,9 @@
           }
         });
       },
-
+      /**
+       * TODO: fill this in.
+       */
       updateSeen() {
         // mark that this user has seen this widgetPointer
         // update the firebase database copy
@@ -345,11 +452,15 @@
         // update the local copy
         this.userSeenSamples.push({ '.key': this.widgetPointer, '.value': 1 });
       },
-
+      /**
+       * TODO: fill this in.
+       */
       countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown;
       },
-
+      /**
+       * TODO: fill this in.
+       */
       showAlert() {
         this.dismissCountDown = this.dismissSecs;
       },

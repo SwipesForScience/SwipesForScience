@@ -1,18 +1,8 @@
 <template>
   <div class="WidgetSelector">
 
-    <Highlight v-if="widgetType=='Highlight'"
-     ref="Highlight"
-     :widgetPointer="widgetPointer"
-     :widgetProperties="widgetProperties"
-     :widgetSummary="widgetSummary"
-     :tutorialStep="tutorialStep"
-     v-on:widgetRating="widgetRating"
-     :playMode="playMode"
-     />
-
     <ImageSwipe
-     v-else-if="widgetType=='ImageSwipe'"
+     v-if="widgetType=='ImageSwipe'"
      ref="ImageSwipe"
      :widgetPointer="widgetPointer"
      :widgetProperties="widgetProperties"
@@ -67,7 +57,9 @@
 </template>
 
 <script>
-  import Highlight from './Widgets/Highlight';
+/**
+ * TODO: fill this in.
+ */
   import ImageSwipe from './Widgets/ImageSwipe';
   import ImageSoundSwipe from './Widgets/ImageSoundSwipe';
   import PubMedNLP from './Widgets/PubMedNLP';
@@ -76,16 +68,51 @@
 
   export default {
     name: 'WidgetSelector',
-    props: [
-      'widgetType',
-      'widgetPointer',
-      'widgetProperties',
-      'widgetSummary',
-      'playMode',
-      'tutorialStep',
-    ],
+    props: {
+      /**
+       * TODO: fill this in.
+       */
+      widgetType: {
+        type: String,
+        required: true,
+      },
+       /**
+        * TODO: fill this in.
+        */
+      widgetPointer: {
+        type: String,
+        required: true,
+      },
+      /**
+       * TODO: fill this in.
+       */
+      widgetProperties: {
+        type: Object,
+        required: true,
+      },
+      /**
+       * TODO: fill this in.
+       */
+      widgetSummary: {
+        type: Object,
+        required: false,
+      },
+      /**
+       * TODO: fill this in.
+       */
+      playMode: {
+        type: Boolean,
+        required: false,
+      },
+      /**
+       * TODO: fill this in.
+       */
+      tutorialStep: {
+        type: Number,
+        required: false,
+      },
+    },
     components: {
-      Highlight,
       ImageSwipe,
       ImageSoundSwipe,
       PubMedNLP,
@@ -93,15 +120,27 @@
       ImageSplat,
     },
     methods: {
+      /**
+       * TODO: fill this in.
+       */
       getFeedback(response) {
         return this.$refs[this.widgetType].getFeedback(response);
       },
+      /**
+       * TODO: fill this in.
+       */
       getScore(response) {
         return this.$refs[this.widgetType].getScore(response);
       },
+      /**
+       * TODO: fill this in.
+       */
       getSummary(response) {
         return this.$refs[this.widgetType].getSummary(response);
       },
+      /**
+       * TODO: fill this in.
+       */
       widgetRating(response) {
         this.$emit('widgetRating', response);
       },

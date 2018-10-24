@@ -16,20 +16,65 @@
 </template>
 
 <script>
+/**
+ * TODO: fill this in.
+ */
   export default {
-    props: ['widgetPointer', 'widgetProperties', 'widgetSummary', 'playMode'],
+    props: {
+       /**
+        * TODO: fill this in.
+        */
+      widgetPointer: {
+        type: String,
+        required: true,
+      },
+      /**
+       * TODO: fill this in.
+       */
+      widgetProperties: {
+        type: Object,
+        required: true,
+      },
+      /**
+       * TODO: fill this in.
+       */
+      widgetSummary: {
+        type: Object,
+        required: false,
+      },
+      /**
+       * TODO: fill this in.
+       */
+      playMode: {
+        type: Boolean,
+        required: false,
+      },
+      /**
+       * TODO: fill this in.
+       */
+      tutorialStep: {
+        type: Number,
+        required: false,
+      },
+    },
     data() {
       return {
 
       };
     },
     methods: {
+      /**
+       * TODO: fill this in.
+       */
       getScore(response) {
         if (response) {
           return 1;
         }
         return 0;
       },
+      /**
+       * TODO: fill this in.
+       */
       getFeedback(response) {
         if (response) {
           return {
@@ -45,6 +90,9 @@
           message: 'bad job',
         };
       },
+      /**
+       * TODO: fill this in.
+       */
       getSummary(response) {
         // this widget will keep track of
         // the number of votes and the average vote
@@ -64,6 +112,9 @@
           count: this.widgetSummary.count + 1,
         };
       },
+      /**
+       * TODO: fill this in.
+       */
       vote(val) {
         this.$emit('widgetRating', val);
       },

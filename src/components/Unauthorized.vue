@@ -8,7 +8,9 @@
 <style></style>
 
 <script>
-
+/**
+ * TODO: fill this in.
+ */
   export default {
     name: 'unauthorized',
     data() {

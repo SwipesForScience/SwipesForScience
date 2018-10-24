@@ -65,6 +65,9 @@
 </template>
 
 <script>
+/**
+ * TODO: fill this in.
+ */
   import _ from 'lodash';
   import Vue from 'vue';
   import { VueHammer } from 'vue2-hammer';
@@ -77,30 +80,81 @@
   Vue.use(require('vue-shortkey'));
 
   export default {
-    props: ['widgetPointer', 'widgetProperties', 'widgetSummary', 'playMode', 'tutorialStep'],
+    props: {
+      /**
+       * TODO: fill this in.
+       */
+      widgetPointer: {
+        type: String,
+        required: true,
+      },
+     /**
+      * TODO: fill this in.
+      */
+      widgetProperties: {
+        type: Object,
+        required: true,
+      },
+     /**
+      * TODO: fill this in.
+      */
+      widgetSummary: {
+        type: Object,
+        required: false,
+      },
+     /**
+      * TODO: fill this in.
+      */
+      playMode: {
+        type: Boolean,
+        required: false,
+      },
+     /**
+      * TODO: fill this in.
+      */
+      tutorialStep: {
+        type: Number,
+        required: false,
+      },
+    },
     components: { VueHammer, GridLoader },
     directives: {
       imagesLoaded,
     },
     data() {
       return {
+        /**
+         * TODO: fill this in.
+         */
         status: 'loading',
+        /**
+         * TODO: fill this in.
+         */
         swipe: null,
       };
     },
     computed: {
+      /**
+       * TODO: fill this in.
+       */
       baseUrl() {
         return this.widgetProperties.baseUrlTemplate && this.widgetPointer ?
           this.fillPropertyPattern(this.widgetProperties.baseUrlTemplate,
           this.widgetProperties.delimiter) : null;
       },
     },
+    /**
+     * TODO: fill this in.
+     */
     mounted() {
       if (this.playMode === 'tutorial') {
         this.showTutorialStep(this.tutorialStep);
       }
     },
     methods: {
+      /**
+       * TODO: fill this in.
+       */
       showTutorialStep(stepNumber) {
         switch (stepNumber) {
           case 0:
@@ -119,6 +173,9 @@
             break;
         }
       },
+      /**
+       * TODO: fill this in.
+       */
       fillPropertyPattern(pattern, delimiter) {
         // fill the pattern by splitting the widgetPointer by delimiter
         let output = pattern;
@@ -128,6 +185,9 @@
         });
         return output;
       },
+      /**
+       * TODO: fill this in.
+       */
       getScore(response) {
         const fb = this.getFeedback(response);
         if (fb.variant === 'danger') {
@@ -135,6 +195,9 @@
         }
         return 1;
       },
+      /**
+       * TODO: fill this in.
+       */
       getFeedback(response) {
         let widgetSummary;
         if (!this.widgetSummary) {
@@ -178,6 +241,9 @@
           message: '+1 thanks',
         };
       },
+      /**
+       * TODO: fill this in.
+       */
       getSummary(response) {
         // this widget will keep track of
         // the number of votes and the average vote
@@ -197,19 +263,31 @@
           count: this.widgetSummary.count + 1,
         };
       },
+      /**
+       * TODO: fill this in.
+       */
       vote(val) {
         this.$emit('widgetRating', val);
       },
+      /**
+       * TODO: fill this in.
+       */
       swipeLeft() {
         // set the transition style
         this.setSwipe('swipe-left');
         this.vote(0);
       },
+      /**
+       * TODO: fill this in.
+       */
       swipeRight() {
         // set the transition style
         this.setSwipe('swipe-right');
         this.vote(1);
       },
+      /**
+       * TODO: fill this in.
+       */
       onSwipe(evt) {
         if (evt.direction === 2) {
           this.swipeLeft();
@@ -217,6 +295,9 @@
           this.swipeRight();
         }
       },
+      /**
+       * TODO: fill this in.
+       */
       setSwipe(sw) {
         this.swipe = sw;
       },

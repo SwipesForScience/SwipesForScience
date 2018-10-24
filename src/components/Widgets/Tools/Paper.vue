@@ -9,7 +9,9 @@
 </template>
 
 <script>
-// import chai from 'chai';
+/**
+ * TODO: fill this in.
+ */
 import Hammer from 'hammerjs';
 import _ from 'lodash';
 import Vue from 'vue';
@@ -153,33 +155,76 @@ export default {
   name: 'Paper',
   data() {
     return {
+      /**
+       * TODO: fill this in.
+       */
       base: null,
+      /**
+       * TODO: fill this in.
+       */
       mask: null,
+      /**
+       * TODO: fill this in.
+       */
       contour: null,
+      /**
+       * TODO: fill this in.
+       */
       view: null,
+      /**
+       * TODO: fill this in.
+       */
       viewHeight: null,
+      /**
+       * TODO: fill this in.
+       */
       zoomFactor: 1,
+      /**
+       * TODO: fill this in.
+       */
       touch: {
         startScale: null,
         mode: null,
       },
-      // paintVal: 1,
-      // paintSize: 1,
+      /**
+       * TODO: fill this in.
+       */
       scope: null,
+      /**
+       * TODO: fill this in.
+       */
       panFactor: { x: 0, y: 0 },
+      /**
+       * TODO: fill this in.
+       */
       panMouseDown: null,
+      /**
+       * TODO: fill this in.
+       */
       drawOrPan: 'draw',
+      /**
+       * TODO: fill this in.
+       */
       draw: {
         points: [],
         shapes: [],
       },
+      /**
+       * TODO: fill this in.
+       */
       deleteRadius: 6,
     };
   },
   methods: {
+    /**
+     * TODO: fill this in.
+     */
     activate() {
       this.scope.activate();
     },
+    /**
+     * TODO: fill this in.
+     */
     undo() {
       this.draw.points.pop();
       const s = this.draw.shapes.pop();
@@ -187,6 +232,9 @@ export default {
         s.remove();
       }
     },
+    /**
+     * TODO: fill this in.
+     */
     doZoom(e) {
       e.preventDefault();
       /* console.log("zooming") */
@@ -194,6 +242,9 @@ export default {
       this.zoomFactor = xfm.clamp(zoomFactor, 0.3, 3);
       this.view.setZoom(this.zoomFactor);
     },
+    /**
+     * TODO: fill this in.
+     */
     doPan(e) {
       if (this.panMouseDown == null) {
         this.panMouseDown = e;
@@ -204,6 +255,9 @@ export default {
       this.panFactor.y = e.point.y - this.panMouseDown.point.y;
       this.view.translate(this.panFactor.x, this.panFactor.y);
     },
+    /**
+     * TODO: fill this in.
+     */
     resetPan() {
       // console.log('reset');
       this.panFactor.x = 0;
@@ -211,6 +265,9 @@ export default {
       this.panMouseDown = null;
       // this.drawOrPan = 'draw';
     },
+    /**
+     * TODO: fill this in.
+     */
     onresize() {
       /*
         When the window size changes, change the bounds of all rasters
@@ -231,7 +288,9 @@ export default {
         }
       }
     },
-
+    /**
+     * TODO: fill this in.
+     */
     takeScreenshot() {
       // eslint-disable-next-line
       const canvasData = this.view._context.canvas.toDataURL();
@@ -241,7 +300,9 @@ export default {
       x.document.write(iframe);
       x.document.close();
     },
-
+    /**
+     * TODO: fill this in.
+     */
     drawSplat(e, me) {
       const shape = new paper.Shape.Circle(e.point, this.splatRadius);
       shape.strokeColor = this.splatColor;
@@ -257,7 +318,9 @@ export default {
 
       this.base.addChild(shape);
     },
-
+    /**
+     * TODO: fill this in.
+     */
     checkToRemove(e, me) {
       // push info to the vue instance.
       // calculate the coordinates w.r.t the image pixels and push that
@@ -272,7 +335,9 @@ export default {
       });
       return { shapeIdxToRemove, pointsToRemove };
     },
-
+    /**
+     * TODO: fill this in.
+     */
     removeSplat(splats) {
       _.map(splats.shapeIdxToRemove, (s) => {
         this.draw.shapes[s].remove();
@@ -280,13 +345,18 @@ export default {
       _.remove(this.draw.shapes, (d, i) => splats.shapeIdxToRemove.indexOf(i) > -1);
       _.remove(this.draw.points, (d, i) => splats.shapeIdxToRemove.indexOf(i) > -1);
     },
-
+    /**
+     * TODO: fill this in.
+     */
     dragHandler(e) {
       if (e.event.buttons === 2 || this.touch.mode) {
         // not a right click
         this.doPan(e);
       }
     },
+    /**
+     * TODO: fill this in.
+     */
     clickHandler(e) {
       if (e.event.button !== 2 && this.drawOrPan === 'draw') {
         const toRemove = this.checkToRemove(e, this.base);
@@ -299,11 +369,17 @@ export default {
         this.drawOrPan = 'draw';
       }
     },
+    /**
+     * TODO: fill this in.
+     */
     brightcont() {
       const bright = ((parseInt(this.brightness, 10) - 50) / 50) + 1;
       const cont = (parseInt(this.contrast, 10) * 2) - 100;
       this.base.brightness_contrast(bright, cont);
     },
+    /**
+     * TODO: fill this in.
+     */
     removeEvents() {
       const el = document.getElementById(this.id);
       if (el) {
@@ -312,6 +388,9 @@ export default {
         el.removeEventListener('mousewheel', this.doZoom);
       }
     },
+    /**
+     * TODO: fill this in.
+     */
     clearImg() {
       // console.log("paper source changed")
       this.scope.paper.project.clear();
@@ -327,6 +406,9 @@ export default {
         y: 0,
       };
     },
+    /**
+     * TODO: fill this in.
+     */
     initImg() {
       // console.log('activating scope', this.id);
       this.scope.activate();
@@ -396,16 +478,28 @@ export default {
   },
 
   watch: {
+    /**
+     * TODO: fill this in.
+     */
     paperSrc() {
       this.clearImg();
       this.initImg();
     },
+    /**
+     * TODO: fill this in.
+     */
     brightness() {
       this.brightcont();
     },
+    /**
+     * TODO: fill this in.
+     */
     contrast() {
       this.brightcont();
     },
+    /**
+     * TODO: fill this in.
+     */
     visibility: {
       handler() {
         this.contour.visible = this.visibility.contour;
@@ -415,18 +509,30 @@ export default {
     },
   },
   props: {
+    /**
+     * TODO: fill this in.
+     */
     paperSrc: {
       type: String,
       default: null,
     },
+    /**
+     * TODO: fill this in.
+     */
     maskSrc: {
       type: String,
       default: null,
     },
+    /**
+     * TODO: fill this in.
+     */
     contourSrc: {
       type: String,
       default: null,
     },
+    /**
+     * TODO: fill this in.
+     */
     visibility: {
       type: Object,
       default: {
@@ -434,28 +540,45 @@ export default {
         mask: true,
       },
     },
+    /**
+     * TODO: fill this in.
+     */
     brightness: {
       type: Number,
       default: 50,
     },
+    /**
+     * TODO: fill this in.
+     */
     contrast: {
       type: Number,
       default: 50,
     },
+    /**
+     * TODO: fill this in.
+     */
     id: {
       type: String,
       default: 'canvas-id',
     },
+    /**
+     * TODO: fill this in.
+     */
     splatRadius: {
       type: Number,
       default: 10,
     },
+    /**
+     * TODO: fill this in.
+     */
     splatColor: {
       type: String,
       default: '#ffc107',
     },
   },
-
+  /**
+   * TODO: fill this in.
+   */
   beforeDestroy: function beforeDestroy(to, from, next) {
     // ('destroying', this.id);
     this.removeEvents();
@@ -463,7 +586,9 @@ export default {
       next();
     }
   },
-
+  /**
+   * TODO: fill this in.
+   */
   mounted() {
     // console.log('mounting canvas', this.id);
     const scope = new paper.PaperScope();

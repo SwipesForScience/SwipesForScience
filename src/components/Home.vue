@@ -22,22 +22,48 @@
 
 <script>
 import config from '../config';
+/**
+ * The landing page, on the route /
+ *
+ * @author Anisha Keshavan
+ * @license Apache 2.0
+ */
 
 export default {
   name: 'Home',
-  props: ['config'],
+  props: {
+    /**
+     * The config object that is loaded from src/config.js.
+     * It defines how the app is configured, including
+     * any content that needs to be displayed (app title, images, etc)
+     * and also the type of widget and where to update pointers to data
+     */
+    config: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
 
     };
   },
   computed: {
+    /**
+     * The title to display. Defined in `config.home.title`
+     */
     title() {
       return this.config.home.title;
     },
+    /**
+     * The tagline to display. Defined in `config.home.tagline`
+     */
     tagline() {
       return this.config.home.tagline;
     },
+    /**
+     * The background image to display. Defined in `config.home.backgroundUrl`
+     */
     landingStyle() {
       return { 'background-image': `url("${config.home.backgroundUrl}")` };
     },
