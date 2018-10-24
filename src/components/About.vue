@@ -65,7 +65,7 @@ export default {
      */
     levels: {
       type: Object,
-      required: true,
+      required: false,
     },
   },
 };
