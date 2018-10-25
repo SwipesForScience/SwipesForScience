@@ -32,7 +32,7 @@
        :widgetPointer="widgetPointer"
        :widgetProperties="widgetProperties"
        :widgetSummary="widgetSummary"
-       :playMode="false"
+       :playMode="''"
        ref="widget"
       />
     </div>

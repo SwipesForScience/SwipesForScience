@@ -46,7 +46,7 @@
        * TODO: fill this in.
        */
       playMode: {
-        type: Boolean,
+        type: String,
         required: false,
       },
       /**

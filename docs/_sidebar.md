@@ -1,3 +1,10 @@
+* Quickstart
+
+  * [1. Host your data](Setup/DataPrep)
+  * [2. Set up firebase](Setup/Firebase)
+  * [3. Create your configuration file](Setup/Config)
+  * [4. Deploy on GitHub](Setup/Deploy)
+
 * Components
 
   * Route Components

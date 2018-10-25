@@ -12,15 +12,30 @@
         Here you can configure your own SwipesForScience App
       </p>
 
-      <FirebaseKeys v-on:newFirebaseKeys="setNewFirebaseKeys"/>
+      <FirebaseKeys v-if="step===0" v-on:newFirebaseKeys="setNewFirebaseKeys"/>
 
-      <App :config="config" />
+      <div v-if="step===1 && userInfo === null">
+        <b-alert show>
+          Thanks for your keys! Now please log in or sign up to continue with configuration.
+        </b-alert>
+      </div>
 
-      <Home :config="config" />
+      <div v-if="step===1 && userInfo !== null">
+        <Initializer v-if="step===1 && userInfo.displayName !== null"
+         :config="config"
+         :userInfo="userInfo"
+         :db="db"
+         v-on:next="next"
+         />
+      </div>
 
-      <Tutorial :config="config" />
+      <App v-if="step===2" :config="config" />
 
-      <Widget :config="config" />
+      <Home v-if="step===3" :config="config" />
+
+      <Tutorial v-if="step===4" :config="config" />
+
+      <Widget v-if="step===5" :config="config" />
 
     </div>
     <div id="expander" :style="styleResize" @mousedown="startResize">
@@ -38,6 +53,7 @@ import App from './ConfigureComponents/App';
 import Home from './ConfigureComponents/Home';
 import Tutorial from './ConfigureComponents/Tutorial';
 import Widget from './ConfigureComponents/Widget';
+import Initializer from './ConfigureComponents/InitializeDatabase';
 
 export default {
   name: 'configuration',
@@ -49,6 +65,20 @@ export default {
      * and also the type of widget and where to update pointers to data
      */
     config: {
+      type: Object,
+      required: true,
+    },
+    /**
+     * the authenticated user object from firebase
+     */
+    userInfo: {
+      type: Object,
+      required: true,
+    },
+    /**
+     * the intialized firebase database
+     */
+    db: {
       type: Object,
       required: true,
     },
@@ -71,6 +101,10 @@ export default {
        *
        */
       resizing: false,
+      /**
+       * Step counter
+       */
+      step: 0,
     };
   },
   components: {
@@ -79,6 +113,7 @@ export default {
     Home,
     Tutorial,
     Widget,
+    Initializer,
   },
   computed: {
     /**
@@ -137,10 +172,20 @@ export default {
       this.$emit('closeConfig');
     },
     /**
-     *
+     * Set the firebase keys in the config
+     * this launches a watcher on the parent that reinitializes
+     * a new firebase database.
+     * Also we set the step counter to 1.
      */
     setNewFirebaseKeys(fkeys) {
       this.config.firebaseKeys = fkeys;
+      this.step = 1;
+    },
+    /**
+     * increment this.step by 1
+     */
+    next() {
+      this.step += 1;
     },
   },
   watch: {
@@ -158,6 +203,7 @@ export default {
     this.localConfig = this.config;
     window.addEventListener('mousemove', this.resize);
     window.addEventListener('mouseup', this.endResize);
+    this.config.needsTutorial = false;
   },
   /**
    *
@@ -173,10 +219,12 @@ export default {
   #expander {
     height: 100%;
     position: fixed;
-    width: 10px;
+    width: 7px;
     top: 0;
     left: 300px;
-    background: #6c757d !important;
+    background: rgba(255, 255, 255, 0.88) !important;
     cursor: ew-resize;
+    -webkit-box-shadow: 5px 2px 38px -3px #000000;
+    box-shadow: 5px 2px 38px -3px #000000;
   }
 </style>

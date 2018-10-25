@@ -191,7 +191,7 @@
       createAccount() {
         firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.password).then(
           (user) => {
-            // console.log('user created', user);
+            console.log('user created', user);
             this.updateProfile(user);
           }, (err) => {
           // console.log('error', err);
@@ -203,6 +203,7 @@
        * TODO: fill this in.
        */
       insertUser(user) {
+        console.log('inserting user', user.displayName);
         firebase.database().ref('users').child(user.displayName).set({
           score: 0,
           level: 0,
@@ -210,6 +211,12 @@
           taken_tutorial: false,
           consent: this.form.consented,
           consentedOn: new Date(),
+        })
+        .then(() => {
+          console.log('updated');
+        })
+        .catch((e) => {
+          console.log(e.message);
         });
       },
       /**

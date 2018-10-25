@@ -25,7 +25,7 @@
         <img class="blankImage" :src="blankImage" alt="there is no data" />
       </div>
 
-      <div>
+      <div v-else>
         <div v-if="!widgetPointer">
           <Flask />
           <p class="mt-3 pt-3 lead">loading...</p>
@@ -38,7 +38,7 @@
          :widgetProperties="widgetProperties"
          :widgetSummary="widgetSummary"
          v-on:widgetRating="sendWidgetResponse"
-         :playMode='true'
+         :playMode="'play'"
          ref="widget"
         />
       </div>

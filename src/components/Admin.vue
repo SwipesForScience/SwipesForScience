@@ -133,7 +133,7 @@ export default {
         const element = this;
         const worker = new LoadManifestWorker();
         // eslint-disable-next-line
-        worker.postMessage([manifestEntries, firebaseEntries]);
+        worker.postMessage([manifestEntries, firebaseEntries, element.config.firebaseKeys]);
         worker.onmessage = function onmessage(e) {
           element.status = 'complete';
           if (e.data === 'done') {

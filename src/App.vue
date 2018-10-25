@@ -74,7 +74,11 @@
                    />
     </div>
       <!-- Configuration Drawer -->
-      <Configure ref="configurationPane" v-if="showConfig" :config="config" v-on:closeConfig="closeConfig"/>
+      <Configure ref="configurationPane" v-if="showConfig"
+       :config="config" v-on:closeConfig="closeConfig"
+       :userInfo="userInfo"
+       :db="db"
+      />
 
   </div>
     <div class="footer bg-dark">
@@ -271,7 +275,7 @@ export default {
     firebaseKeys(newKeys) {
       // there has been a change in firebaseKeys
       firebase.auth().signOut().then(() => {
-        this.userInfo = null;
+        this.userInfo = {};
         firebase.app().delete().then(() => {
           firebase.initializeApp(newKeys);
           this.db = firebase.database();
@@ -356,7 +360,7 @@ export default {
      */
     logout() {
       firebase.auth().signOut().then(() => {
-        this.userInfo = null;
+        this.userInfo = {};
         this.$router.replace('login');
       });
     },
