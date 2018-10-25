@@ -1,8 +1,6 @@
 <template>
   <div>
     <h5>App</h5>
-    <label for="navbarVariant">Navbar variant:</label>
-    <b-form-select id="navbarVariant" v-model="config.app.navbarVariant" :options="navbarOptions" class="mb-3" />
     <label for="manifestUrl">manifestUrl</label>
     <b-form-input v-model="config.manifestUrl"
               type="text"
@@ -33,14 +31,14 @@ export default {
   },
   data() {
     return {
-      /**
-       * TODO: fill this in.
-       */
-      navbarOptions: ['primary', 'secondary', 'info', 'warning', 'danger'],
+
     };
   },
   methods: {
 
+  },
+  mounted() {
+    this.$router.replace('/admin');
   },
 };
 </script>

@@ -133,11 +133,11 @@
         /**
          *
          */
-        widgetPointer: null,
+        widgetPointer: '',
         /**
          *
          */
-        widgetSummary: null,
+        widgetSummary: {},
         /**
          *
          */

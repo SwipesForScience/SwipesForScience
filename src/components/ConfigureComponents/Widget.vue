@@ -38,6 +38,9 @@
         widgetOptions: ['ImageSwipe', 'ImageSoundSwipe', 'ImageSplat', 'PubMedNLP', 'TemplateWidget'],
       };
     },
+    mounted() {
+      this.$router.replace('/play');
+    },
   };
 </script>
 <style></style>

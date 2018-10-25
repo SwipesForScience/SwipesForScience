@@ -1,6 +1,9 @@
 <template>
   <div>
     <h5 class="mt3 pt-3">Home</h5>
+    <label for="navbarVariant">Navbar variant:</label>
+    <b-form-select id="navbarVariant" v-model="config.app.navbarVariant" :options="navbarOptions" class="mb-3" />
+
     <label for="title">Title</label>
     <b-form-input v-model="config.home.title"
               type="text"
@@ -39,6 +42,17 @@
         type: Object,
         required: true,
       },
+    },
+    data() {
+      return {
+        /**
+         * TODO: fill this in.
+         */
+        navbarOptions: ['primary', 'secondary', 'info', 'warning', 'danger'],
+      };
+    },
+    mounted() {
+      this.$router.replace('/');
     },
   };
 </script>

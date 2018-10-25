@@ -34,7 +34,7 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <!-- This part only displays if the user is authenticated -->
-          <b-nav-item-dropdown right v-if="userInfo">
+          <b-nav-item-dropdown right v-if="userIsDefined">
             <template slot="button-content">
               <em>{{userInfo.displayName}}</em>
             </template>
@@ -46,7 +46,7 @@
 
           <b-nav-item v-else to="login">Login</b-nav-item>
 
-          <b-nav-text v-if="userInfo">
+          <b-nav-text v-if="userIsDefined">
             <b-img v-if="currentLevel.img"
               rounded="circle" width="20"
               height="20"
@@ -78,6 +78,7 @@
        :config="config" v-on:closeConfig="closeConfig"
        :userInfo="userInfo"
        :db="db"
+       :configurationState="configurationState"
       />
 
   </div>
@@ -188,6 +189,12 @@ export default {
       /**
        *
        */
+      configurationState: {
+        step: 0,
+      },
+      /**
+       *
+       */
       levels: {
         0: {
           level: 0,
@@ -282,10 +289,10 @@ export default {
           this.db.ref('/users/').orderByChild('score').on('value', (snap) => {
             this.allUsers = snap.val();
           });
-          this.userInfo = firebase.auth().currentUser;
+          this.userInfo = firebase.auth().currentUser || {};
           const self = this;
           firebase.auth().onAuthStateChanged((user) => {
-            self.userInfo = user;
+            self.userInfo = user || {};
           });
         });
       });
@@ -328,7 +335,9 @@ export default {
      */
     userData() {
       let data = {};
-      if (!this.userInfo) {
+      if (this.userInfo == null) {
+        return data;
+      } else if (!Object.keys(this.userInfo).length) {
         return data;
       }
 
@@ -353,6 +362,15 @@ export default {
 
       return clev;
     },
+    /**
+     *
+     */
+    userIsDefined() {
+      if (this.userInfo == null) {
+        return false;
+      }
+      return Object.keys(this.userInfo).length;
+    },
   },
   methods: {
     /**
@@ -368,7 +386,7 @@ export default {
      * set the userInfo attribute
      */
     setUser(user) {
-      this.userInfo = user;
+      this.userInfo = user || {};
     },
     /**
      * set the tutorial status of the current user
@@ -399,7 +417,7 @@ export default {
     this.userInfo = firebase.auth().currentUser;
     const self = this;
     firebase.auth().onAuthStateChanged((user) => {
-      self.userInfo = user;
+      self.userInfo = user || {};
     });
   },
 };
