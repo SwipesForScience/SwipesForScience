@@ -19,13 +19,27 @@ export default {
     //   delimiter: '__',
     // },
 
-  widgetType: 'ImageSwipe',
+  widgetType: 'ImageSwipeChoices',
   widgetProperties: {
     baseUrlTemplate: 'http://himatdata.s3.amazonaws.com/whaledr_renamed/{0}.jpg',
-    soundUrlTemplate: 'http://himatdata.s3.amazonaws.com/whaledr_renamed/{0}.wav',
     delimiter: '%',
-    leftSwipeLabel: 'Fail',
-    rightSwipeLabel: 'Whale',
+    choices: [
+      {
+        id: 'artifact',
+        name: 'Artifact',
+        variant: 'danger',
+      },
+      {
+        id: 'unknown',
+        name: 'Don\'t know',
+        variant: 'info',
+      },
+      {
+        id: 'brain',
+        name: 'Brain',
+        variant: 'success',
+      },
+    ],
   },
 
 
@@ -128,7 +142,7 @@ export default {
         },
         {
           text: `if you're not sure, click 'help' \n to discuss with scientists ${''}`,
-          pointer: 'OO4_HYVM1__YDH_2017_10_06T06_48_00',
+          pointer: 'OO_HYVM1__YDH_2017_10_06T06_48_00',
           answer: 0,
           tutorialStep: 2,
         },
