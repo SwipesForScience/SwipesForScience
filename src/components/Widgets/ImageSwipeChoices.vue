@@ -67,8 +67,9 @@
     },
     methods: {
       showTutorialStep(stepNumber) {
-        if(stepNumber < this.widgetProperties.length){
-          const element = this.widgetProperties.choices[stepNumber].id
+        if (stepNumber < this.widgetProperties.length) {
+          // eslint-disable-next-line
+          const element = this.widgetProperties.choices[stepNumber].id;
           this.$refs.element.$el.classList.add('focus');
         }
       },
