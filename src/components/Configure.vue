@@ -8,15 +8,21 @@
       </h3>
 
       <p class="lead">Configuration</p>
-      <p>
-        Here you can configure your own SwipesForScience App
-      </p>
 
       <FirebaseKeys v-if="step===0" v-on:newFirebaseKeys="setNewFirebaseKeys"/>
 
       <div v-if="step===1 && Object.keys(userInfo).length === 0">
         <b-alert show>
-          Thanks for your keys! Now please log in or sign up to continue with configuration.
+          Thanks for your keys!
+          Follow the steps on the video above:
+        </b-alert>
+        <video class="video" src="https://s3.amazonaws.com/hotdognothotdog/setupAuthAndDatabase.webm" controls>
+        </video>
+        <b-alert show>
+          when you're done,
+          <router-link to="/login">log in</router-link>
+          or <router-link to="/signup">sign up</router-link>
+          to continue with configuration.
         </b-alert>
       </div>
 
@@ -46,7 +52,7 @@
       <div v-if="step===7">
         <h5>Lock down your database!</h5>
         <p>Copy/paste your rules into your firebase console in the 'rules' tab.</p>
-        <textarea class="codeBlock" :value="rules" disabled>
+        <textarea class="codeBlock" :value="rules" disabled rows="15">
         </textarea>
         <br>
         <b-button variant="primary">Copy to clipboard</b-button>
@@ -218,7 +224,7 @@ export default {
           "userSeenSamples": {
             ".read": true,
             "$displayName": {
-              ".write": "$displayName === auth.token.name"
+              ".write": true, // "$displayName === auth.token.name"
             },
           },
           "votes": {
@@ -345,5 +351,9 @@ export default {
     border-color: #f1f1f1;
     width: 100%;
     cursor: text;
+  }
+
+  .video {
+      max-width: -webkit-fill-available;
   }
 </style>

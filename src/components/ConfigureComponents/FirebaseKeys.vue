@@ -1,10 +1,22 @@
 <template>
   <div>
-    <h5>Database</h5>
-    <label for="firebase">Firebase Keys:</label>
-    <b-textarea :rows="5" v-model="fkeys"/>
+    <h5>Setting up your database</h5>
 
-    <b-button class="mt-2 mb-2" variant="secondary" @click="parseFirebaseKeys">Apply</b-button>
+    <ol class="text-left ml-3 pl-3">
+      <li>
+        Create a new Firebase project
+        at <a href="https://console.firebase.google.com">console.firebase.google.com</a>
+      </li>
+      <li>
+        Copy the API keys to the text box below and hit "Apply"
+      </li>
+    </ol>
+
+    <video class="video" src="https://s3.amazonaws.com/hotdognothotdog/createFirebaseProject.webm" controls></video>
+    <label for="firebase">Firebase Keys:</label>
+    <b-textarea placeholder="Copy/paste your firebase API keys from the firebase console in here" :rows="5" v-model="fkeys"/>
+
+    <b-button class="mt-2 mb-2" variant="secondary" @click="parseFirebaseKeys" :disabled="!fkeys">Apply</b-button>
   </div>
 </template>
 <script>
@@ -38,4 +50,8 @@
     },
   };
 </script>
-<style></style>
+<style scoped>
+  .video {
+      max-width: -webkit-fill-available;
+  }
+</style>
