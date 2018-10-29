@@ -32,3 +32,6 @@ The landing page, on the route /
 
   The background image to display. Defined in `config.home.backgroundUrl` 
 
+   **dependencies:** `config` 
+
+

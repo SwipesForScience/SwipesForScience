@@ -42,5 +42,9 @@ eslint-disable-next-line
 
 - `addFirebaseListener()` 
 
+- `previewManifest()` 
+
+  A method that fetches the manifest so the user can see what's in it. 
+
 - `refreshSamples()` 
 

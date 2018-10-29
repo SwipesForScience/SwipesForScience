@@ -24,6 +24,10 @@ explicit installation required in module environments
 
 **initial value:** `[object Object]` 
 
+- `configurationState` 
+
+**initial value:** `[object Object]` 
+
 - `levels` 
 
 **initial value:** `[object Object]` 
@@ -52,11 +56,15 @@ explicit installation required in module environments
 
 - `userData` 
 
-   **dependencies:** `userInfo`, `allUsers`, `userInfo` 
+   **dependencies:** `userInfo`, `userInfo`, `allUsers`, `userInfo` 
 
 - `currentLevel` 
 
    **dependencies:** `levels`, `userData`, `userData` 
+
+- `userIsDefined` 
+
+   **dependencies:** `userInfo`, `userInfo` 
 
 
 ## methods 
@@ -73,7 +81,7 @@ explicit installation required in module environments
 
   set the tutorial status of the current user 
 
-- `openConfig(e)` 
+- `openConfig()` 
 
   open the config panel 
 

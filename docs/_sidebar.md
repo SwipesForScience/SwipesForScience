@@ -25,6 +25,7 @@
     * [Tutorial](RouteComponents/Tutorial)
     * [Unauthorized](RouteComponents/Unauthorized)
     * [WidgetSelector](RouteComponents/WidgetSelector)
+    * [Footer](RouteComponents/Footer)
 
   * Widget Components
 

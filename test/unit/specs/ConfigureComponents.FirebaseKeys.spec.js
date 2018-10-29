@@ -10,7 +10,7 @@ describe('ConfigureComponents/FirebaseKeys.vue', () => {
   it('should have correct title', () => {
     const Constructor = Vue.extend(FirebaseKeys);
     const vm = new Constructor({ propsData: { config } }).$mount();
-    expect(vm.$el.querySelector('h5').textContent.indexOf('Database')).to.equal(0);
+    expect(vm.$el.querySelector('h5').textContent.indexOf('Setting up your database')).to.equal(0);
   });
 
   const Constructor = Vue.extend(FirebaseKeys);

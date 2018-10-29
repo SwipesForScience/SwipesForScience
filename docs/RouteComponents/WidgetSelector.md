@@ -20,7 +20,7 @@ TODO: fill this in.
 
   TODO: fill this in. 
 
-- `play-mode` ***Boolean*** (*optional*) 
+- `play-mode` ***String*** (*optional*) 
 
   TODO: fill this in. 
 
