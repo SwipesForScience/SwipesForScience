@@ -47,17 +47,25 @@
 }
 </style>
 <script>
-
+/**
+ * TODO: fill this in.
+ */
   import firebase from 'firebase';
 
   export default {
     name: 'login',
     data() {
       return {
+        /**
+         * TODO: fill this in.
+         */
         form: {
           email: null,
           password: null,
         },
+        /**
+         * TODO: fill this in.
+         */
         errors: {
           show: false,
           message: null,
@@ -65,6 +73,9 @@
       };
     },
     methods: {
+      /**
+       * TODO: fill this in.
+       */
       onSubmit(e) {
         e.preventDefault();
         firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password).then(

@@ -1,7 +1,10 @@
 import Vue from 'vue';
 import _ from 'lodash';
+import BootstrapVue from 'bootstrap-vue';
 import config from '@/config';
 import FirebaseKeys from '@/components/ConfigureComponents/FirebaseKeys';
+// import router from '@/router/index';
+Vue.use(BootstrapVue);
 
 describe('ConfigureComponents/FirebaseKeys.vue', () => {
   it('should have correct title', () => {

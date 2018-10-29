@@ -49,13 +49,24 @@
 </style>
 
 <script>
+/**
+ * TODO: fill this in.
+ */
 export default {
   name: 'about',
   data() {
     return {
-      count: 1,
     };
   },
-  props: ['levels'],
+  props: {
+    /**
+     * the various levels, the points need to reach the levels,
+     * and the badges (colored and greyed out) to display
+     */
+    levels: {
+      type: Object,
+      required: false,
+    },
+  },
 };
 </script>

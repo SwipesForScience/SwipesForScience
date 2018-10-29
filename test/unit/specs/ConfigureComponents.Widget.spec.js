@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import config from '@/config';
 import Widget from '@/components/ConfigureComponents/Widget';
+// import router from '@/router/index';
 
 describe('ConfigureComponents/Widget.vue', () => {
   it('should have correct title', () => {

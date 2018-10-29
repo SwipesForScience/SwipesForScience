@@ -85,13 +85,15 @@
 </style>
 
 <script>
+/**
+ * TODO: fill this in.
+ */
   import { VueTyper } from 'vue-typer';
   import _ from 'lodash';
   import Vue from 'vue';
   import Arrow from './Animations/ArrowDown';
   import Bubbles from './Animations/Bubbles';
   import WidgetSelector from './WidgetSelector';
-  // import config from '../config';
 
   const VueScrollTo = require('vue-scrollto');
 
@@ -124,22 +126,56 @@
         widgetSummary: {}, // TODO: fill this properly
       };
     },
-    props: ['levels', 'config'],
+    props: {
+      /**
+       * the various levels, the points need to reach the levels,
+       * and the badges (colored and greyed out) to display
+       */
+      levels: {
+        type: Object,
+        required: true,
+      },
+      /**
+       * The config object that is loaded from src/config.js.
+       * It defines how the app is configured, including
+       * any content that needs to be displayed (app title, images, etc)
+       * and also the type of widget and where to update pointers to data
+       */
+      config: {
+        type: Object,
+        required: true,
+      },
+    },
     watch: {
     },
     computed: {
+      /**
+       * TODO: fill this in.
+       */
       widgetType() {
         return this.config.widgetType;
       },
+      /**
+       * TODO: fill this in.
+       */
       widgetProperties() {
         return this.config.widgetProperties;
       },
+      /**
+       * TODO: fill this in.
+       */
       steps() {
         return this.config.tutorial.steps;
       },
+      /**
+       * TODO: fill this in.
+       */
       backgroundAnimation() {
         return this.config.tutorial.customBackgroundAnimation;
       },
+      /**
+       * TODO: fill this in.
+       */
       bins() {
         const Nsteps = this.steps.intro.length + this.steps.examples.length;
         const binSize = 1 / Nsteps;
@@ -149,6 +185,9 @@
         }
         return bins;
       },
+      /**
+       * TODO: fill this in.
+       */
       currentBin() {
         const cBin = _.filter(this.bins,
           b => this.scrollPosition <= b.to && this.scrollPosition > b.from);
@@ -158,12 +197,18 @@
 
         return { bin: 0 };
       },
+      /**
+       * TODO: fill this in.
+       */
       currentStage() {
         if (this.currentBin.bin < this.steps.intro.length) {
           return { ...this.steps.intro[this.currentBin.bin], mode: 'intro' };
         }
         return { ...this.steps.examples[this.currentBin.bin - this.steps.intro.length], mode: 'examples' };
       },
+      /**
+       * TODO: fill this in.
+       */
       nextStep() {
         if (this.currentBin.bin < this.steps.intro.length - 1) {
           return `#intro${this.currentBin.bin + 1}`;
@@ -172,9 +217,15 @@
       },
     },
     methods: {
+      /**
+       * TODO: fill this in.
+       */
       tutorialComplete() {
         this.$emit('taken_tutorial', true);
       },
+      /**
+       * TODO: fill this in.
+       */
       handleScroll() {
         const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
         const scrollPosition = (window.scrollY - 60) / (this.$refs.tutorial.clientHeight - h);
@@ -187,9 +238,15 @@
         }
       },
     },
+    /**
+     * TODO: fill this in.
+     */
     created() {
       window.addEventListener('scroll', this.handleScroll);
     },
+    /**
+     * TODO: fill this in.
+     */
     destroyed() {
       window.removeEventListener('scroll', this.handleScroll);
     },
