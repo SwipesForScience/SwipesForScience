@@ -39,7 +39,9 @@
       };
     },
     mounted() {
-      this.$router.replace('/play');
+      if (this.$router) {
+        this.$router.replace('/play');
+      }
     },
   };
 </script>

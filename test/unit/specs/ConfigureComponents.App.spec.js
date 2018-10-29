@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import config from '@/config';
 import App from '@/components/ConfigureComponents/App';
+// import router from '@/router/index';
+
 
 describe('ConfigureComponents/App.vue', () => {
   it('should have correct title', () => {

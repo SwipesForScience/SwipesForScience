@@ -38,7 +38,9 @@ export default {
 
   },
   mounted() {
-    this.$router.replace('/admin');
+    if (this.$router) {
+      this.$router.replace('/admin');
+    }
   },
 };
 </script>

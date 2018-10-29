@@ -52,7 +52,9 @@
       };
     },
     mounted() {
-      this.$router.replace('/');
+      if (this.$router) {
+        this.$router.replace('/');
+      }
     },
   };
 </script>
