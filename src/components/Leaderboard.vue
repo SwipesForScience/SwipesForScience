@@ -24,12 +24,34 @@
 </style>
 
 <script>
+/**
+ * Leaderboard
+ */
   import _ from 'lodash';
 
   export default {
     name: 'leaderboard',
-    props: ['allUsers', 'levels'],
+    props: {
+      /**
+       * the various levels, the points need to reach the levels,
+       * and the badges (colored and greyed out) to display
+       */
+      levels: {
+        type: Object,
+        required: true,
+      },
+      /**
+       * TODO: fill this in.
+       */
+      allUsers: {
+        type: Object,
+        required: true,
+      },
+    },
     computed: {
+      /**
+       * TODO: fill this in.
+       */
       allUsersList() {
         // eslint-disable-next-line
         return _.filter(_.map(this.allUsers, (value, key) => {
@@ -39,8 +61,17 @@
     },
     data() {
       return {
+        /**
+         * TODO: fill this in.
+         */
         sortBy: 'score',
+        /**
+         * TODO: fill this in.
+         */
         sortDesc: true,
+        /**
+         * TODO: fill this in.
+         */
         fields: [
           'rank',
           'badge',

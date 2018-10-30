@@ -14,7 +14,7 @@
 
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-      <b-navbar-brand to="/">{{brandName}}</b-navbar-brand>
+      <b-navbar-brand to="/" id="brandName">{{brandName}}</b-navbar-brand>
 
       <!-- If the viewport is small, the navbar collapses.
           Everything in b-collapse is what gets collapsed.
@@ -22,7 +22,7 @@
       <b-collapse is-nav id="nav_collapse">
 
         <!--  Here are links to different routes  -->
-        <b-navbar-nav>
+        <b-navbar-nav id="navLinks">
           <b-nav-item to="/" exact>Home</b-nav-item>
           <b-nav-item to="/leaderboard">Leaderboard</b-nav-item>
           <b-nav-item to="/play">Play</b-nav-item>
@@ -34,7 +34,7 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <!-- This part only displays if the user is authenticated -->
-          <b-nav-item-dropdown right v-if="userInfo">
+          <b-nav-item-dropdown right v-if="userIsDefined">
             <template slot="button-content">
               <em>{{userInfo.displayName}}</em>
             </template>
@@ -46,7 +46,7 @@
 
           <b-nav-item v-else to="login">Login</b-nav-item>
 
-          <b-nav-text v-if="userInfo">
+          <b-nav-text v-if="userIsDefined">
             <b-img v-if="currentLevel.img"
               rounded="circle" width="20"
               height="20"
@@ -74,7 +74,12 @@
                    />
     </div>
       <!-- Configuration Drawer -->
-      <Configure v-if="showConfig" :config="config" v-on:closeConfig="closeConfig"/>
+      <Configure ref="configurationPane" v-if="showConfig"
+       :config="config" v-on:closeConfig="closeConfig"
+       :userInfo="userInfo"
+       :db="db"
+       :configurationState="configurationState"
+      />
 
   </div>
     <div class="footer bg-dark">
@@ -109,6 +114,9 @@
 </template>
 
 <script>
+/**
+ * The main entrypoint to the app.
+ */
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -158,11 +166,35 @@ export default {
   name: 'app',
   data() {
     return {
+      /**
+       *
+       */
       userInfo: {},
+      /**
+       *
+       */
       db: firebase.database(),
+      /**
+       *
+       */
       config,
+      /**
+       *
+       */
       showConfig: false,
+      /**
+       *
+       */
       allUsers: [],
+      /**
+       *
+       */
+      configurationState: {
+        step: 0,
+      },
+      /**
+       *
+       */
       levels: {
         0: {
           level: 0,
@@ -215,7 +247,9 @@ export default {
       },
     };
   },
-
+  /**
+   *
+   */
   mounted() {
     if (this.$route.query.config) {
       // the URL has a config file that overrides the default one for this app!
@@ -242,20 +276,23 @@ export default {
     };
   },
   watch: {
+    /**
+     *
+     */
     firebaseKeys(newKeys) {
       // there has been a change in firebaseKeys
       firebase.auth().signOut().then(() => {
-        this.userInfo = null;
+        this.userInfo = {};
         firebase.app().delete().then(() => {
           firebase.initializeApp(newKeys);
           this.db = firebase.database();
           this.db.ref('/users/').orderByChild('score').on('value', (snap) => {
             this.allUsers = snap.val();
           });
-          this.userInfo = firebase.auth().currentUser;
+          this.userInfo = firebase.auth().currentUser || {};
           const self = this;
           firebase.auth().onAuthStateChanged((user) => {
-            self.userInfo = user;
+            self.userInfo = user || {};
           });
         });
       });
@@ -263,24 +300,44 @@ export default {
   },
 
   computed: {
+    /**
+     *
+     */
     firebaseKeys() {
       return this.config.firebaseKeys;
     },
+    /**
+     *
+     */
     brandName() {
       return this.config.home.title;
     },
+    /**
+     *
+     */
     betaMode() {
       return this.config.betaMode;
     },
+    /**
+     *
+     */
     needsTutorial() {
       return this.config.needsTutorial;
     },
+    /**
+     *
+     */
     navbarVariant() {
       return this.config.app ? this.config.app.navbarVariant || 'info' : 'info';
     },
+    /**
+     *
+     */
     userData() {
       let data = {};
-      if (!this.userInfo) {
+      if (this.userInfo == null) {
+        return data;
+      } else if (!Object.keys(this.userInfo).length) {
         return data;
       }
 
@@ -292,6 +349,9 @@ export default {
       });
       return data;
     },
+    /**
+     *
+     */
     currentLevel() {
       let clev = {};
       _.mapValues(this.levels, (val) => {
@@ -302,36 +362,62 @@ export default {
 
       return clev;
     },
+    /**
+     *
+     */
+    userIsDefined() {
+      if (this.userInfo == null) {
+        return false;
+      }
+      return Object.keys(this.userInfo).length;
+    },
   },
   methods: {
+    /**
+     * log out of firebase
+     */
     logout() {
       firebase.auth().signOut().then(() => {
-        this.userInfo = null;
+        this.userInfo = {};
         this.$router.replace('login');
       });
     },
+    /**
+     * set the userInfo attribute
+     */
     setUser(user) {
-      this.userInfo = user;
+      this.userInfo = user || {};
     },
+    /**
+     * set the tutorial status of the current user
+     */
     setTutorial(val) {
       this.db.ref(`/users/${this.userInfo.displayName}`).child('taken_tutorial').set(val);
       this.$router.replace('play');
     },
+    /**
+     * open the config panel
+     */
     openConfig(e) {
       e.preventDefault();
       this.showConfig = true;
     },
+    /**
+     * close the config panel
+     */
     closeConfig() {
       this.showConfig = false;
     },
   },
-
+  /**
+   * intialize the animate on scroll library (for tutorial) and listen to authentication state
+   */
   created() {
     AOS.init();
     this.userInfo = firebase.auth().currentUser;
     const self = this;
     firebase.auth().onAuthStateChanged((user) => {
-      self.userInfo = user;
+      self.userInfo = user || {};
     });
   },
 };

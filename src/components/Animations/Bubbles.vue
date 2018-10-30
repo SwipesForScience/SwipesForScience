@@ -13,6 +13,15 @@
   </div>
 </template>
 
+<script>
+/**
+ * TODO: fill this in.
+ */
+  export default {
+    name: 'bubbles',
+  };
+</script>
+
 <style scoped>
   .bg {
   	background: #ddf5ff;

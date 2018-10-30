@@ -34,11 +34,6 @@ describe('About.vue', () => {
     expect(paragraphs[1].textContent).to.equal('\n      You can unlock the following animals based on the number of points you have:\n    ');
   });
 
-  it('should have correct default data', () => {
-    const defaultData = About.data();
-    expect(defaultData.count).to.equal(1);
-  });
-
   it('should render the levels correctly', () => {
     const levels = {
       0: {

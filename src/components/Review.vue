@@ -32,7 +32,7 @@
        :widgetPointer="widgetPointer"
        :widgetProperties="widgetProperties"
        :widgetSummary="widgetSummary"
-       :playMode="false"
+       :playMode="''"
        ref="widget"
       />
     </div>
@@ -66,28 +66,92 @@
 
 <script>
   import _ from 'lodash';
-  // import { db } from '../firebaseConfig';
-  // import config from '../config';
   import WidgetSelector from './WidgetSelector';
+  /**
+   * The review component shows the widget for a pointer to a sample in its route,
+   * and lets the user discuss the sample in a chat-room type UI
+   *
+   * @author Anisha Keshavan
+   * @license Apache 2.0
+   */
 
   export default {
     name: 'review',
-    firebase: {
-
-    },
-    props: ['userInfo', 'userData', 'levels', 'currentLevel', 'config', 'db'],
+    props: {
+      /**
+       * the authenticated user object from firebase
+       */
+      userInfo: {
+        type: Object,
+        required: true,
+      },
+      /**
+       * the computed user data object based on userInfo
+       */
+      userData: {
+        type: Object,
+        required: true,
+      },
+      /**
+       * the various levels, the points need to reach the levels,
+       * and the badges (colored and greyed out) to display
+       */
+      levels: {
+        type: Object,
+        required: true,
+      },
+      /**
+       * the user's current level
+       */
+      currentLevel: {
+        type: Object,
+        required: true,
+      },
+      /**
+       * The config object that is loaded from src/config.js.
+       * It defines how the app is configured, including
+       * any content that needs to be displayed (app title, images, etc)
+       * and also the type of widget and where to update pointers to data
+       */
+      config: {
+        type: Object,
+        required: true,
+      },
+      /**
+       * the intialized firebase database
+       */
+      db: {
+        type: Object,
+        required: true,
+      },
+    }, // ['userInfo', 'userData', 'levels', 'currentLevel', 'config', 'db'],
     components: {
       WidgetSelector,
     },
     data() {
       return {
-        widgetPointer: null,
-        widgetSummary: null,
+        /**
+         *
+         */
+        widgetPointer: '',
+        /**
+         *
+         */
+        widgetSummary: {},
+        /**
+         *
+         */
         chatMessage: '',
+        /**
+         *
+         */
         chatHistory: [],
       };
     },
     computed: {
+      /**
+       *
+       */
       chatOrder() {
         const chats = [];
         _.mapValues(this.chatHistory, (v) => {
@@ -96,26 +160,38 @@
         chats.reverse();
         return chats;
       },
+      /**
+       *
+       */
       widgetType() {
         return this.config.widgetType;
       },
+      /**
+       *
+       */
       widgetProperties() {
         return this.config.widgetProperties;
       },
     },
     watch: {
+      /**
+       *
+       */
       $route() {
         this.widgetPointer = this.$route.params.key;
       },
     },
+    /**
+     *
+     */
     mounted() {
       this.widgetPointer = this.$route.params.key;
       this.setSampleInfo();
     },
-    directives: {
-
-    },
     methods: {
+      /**
+       *
+       */
       sendChat(e) {
         e.preventDefault();
         const key = this.$route.params.key;
@@ -160,6 +236,9 @@
             .set(true);
         });
       },
+      /**
+       *
+       */
       unravelFirebaseListObject(inputObject) {
         const output = [];
         _.mapValues(inputObject, (v) => {
@@ -167,6 +246,9 @@
         });
         return output;
       },
+      /**
+       *
+       */
       setSampleInfo() {
         // get the chat for this sample
         this.db.ref('chats')
