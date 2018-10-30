@@ -24,6 +24,14 @@
              </b-button>
 
             </div>
+
+            <div class="user-card__name">
+              <b-button v-if="playMode"
+              :to="'/review/'+widgetPointer"
+              ref="helpButton"
+              class="helpbtn"
+              >Help</b-button>
+            </div>
           </div>
       </transition>
   </div>
@@ -159,6 +167,13 @@
 </script>
 
 <style scoped>
+
+  .btn {
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
   .imageSwipe {
     min-height: 100vh;
     height: 532px;
