@@ -11,11 +11,3 @@ TODO: fill this in.
   any content that needs to be displayed (app title, images, etc)
   and also the type of widget and where to update pointers to data 
 
-## data 
-
-- `navbarOptions` 
-
-  TODO: fill this in. 
-
-**initial value:** `[object Object]` 
-

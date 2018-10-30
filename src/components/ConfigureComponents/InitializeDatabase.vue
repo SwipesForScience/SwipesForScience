@@ -1,11 +1,13 @@
 <template>
   <div>
-    <p>Admin: {{admin}}</p>
-    <p>sampleCounts: {{sampleCounts}}</p>
-    <p>sampleSummary: {{sampleSummary}}</p>
-    <p>chats: {{chats}}</p>
-    <p>user seen samples: {{userSeenSamples}}</p>
-    <p>votes: {{votes}}</p>
+    <div class="text-left ml-3 pl-3">
+      <p>Admin: {{admin}}</p>
+      <p>sampleCounts: {{sampleCounts}}</p>
+      <p>sampleSummary: {{sampleSummary}}</p>
+      <p>chats: {{chats}}</p>
+      <p>user seen samples: {{userSeenSamples}}</p>
+      <p>votes: {{votes}}</p>
+    </div>
 
     <b-btn v-if="ready" @click="next()">Next</b-btn>
   </div>
@@ -63,6 +65,13 @@
         return this.admin && this.sampleCounts &&
         this.sampleSummary && this.chats &&
         this.userSeenSamples && this.votes;
+      },
+    },
+    watch: {
+      ready() {
+        if (this.ready) {
+          this.next();
+        }
       },
     },
     mounted() {

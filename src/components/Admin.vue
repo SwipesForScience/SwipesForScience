@@ -5,10 +5,22 @@
     <b-container>
 
       <p class="lead" v-if="status=='complete'">You have {{sampleCounts.length}} items currently</p>
+      <p> <b>Data Source:</b> <a :href="config.manifestUrl">{{config.manifestUrl}}</a></p>
+      <b-button variant="warning" @click="previewManifest">
+        <span> Preview </span>
+      </b-button>
+      <div v-if="manifestEntries.length" class="mt-3 pt-3">
+        <small>Here are a few items in your manifest file. There are {{manifestEntries.length}} items in total</small>
+        <textarea class="mt-3 mb-3 ml-3 mr-3 w-100"
+         :value="manifestEntries.slice(0,100) + '...'"
+         disabled rows="5">
+        </textarea>
+      </div>
 
-      <p v-if="status=='complete'">Click the button below to sync your firebase database with your manifest.</p>
+      <p class="mt-3 pt-3"
+       v-if="status=='complete'">Click the button below to sync your firebase database with your manifest.</p>
 
-      <div>
+      <div class="mb-3 pb-3">
         <b-button v-if="status=='complete'" @click="refreshSamples">
           <span> Refresh Sample List </span>
         </b-button>
@@ -105,6 +117,14 @@ export default {
         });
         /* eslint-enable */
         this.status = 'complete';
+      });
+    },
+    /**
+     * A method that fetches the manifest so the user can see what's in it.
+     */
+    previewManifest() {
+      axios.get(this.config.manifestUrl).then((resp) => {
+        this.manifestEntries = resp.data;
       });
     },
     /**

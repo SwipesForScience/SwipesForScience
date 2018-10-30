@@ -40,11 +40,11 @@ and lets the user discuss the sample in a chat-room type UI
 
 - `widgetPointer` 
 
-**initial value:** `null` 
+**initial value:** `''` 
 
 - `widgetSummary` 
 
-**initial value:** `null` 
+**initial value:** `[object Object]` 
 
 - `chatMessage` 
 

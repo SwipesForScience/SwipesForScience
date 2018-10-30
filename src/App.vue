@@ -82,34 +82,7 @@
       />
 
   </div>
-    <div class="footer bg-dark">
-      <table style="height: 200px; width: 100%;">
-        <tbody>
-          <tr>
-            <td class="align-middle text-center text-white">
-              <a href="" @click="openConfig"> Configure </a>
-            </td>
-          </tr>
-          <tr>
-            <td class="align-middle text-center text-white">
-              <router-link to="/about" class="text-white">About</router-link>
-              <br>
-            </td>
-          </tr>
-          <tr>
-            <td class="align-middle text-center text-white">
-            icons on this site were <a href='https://www.freepik.com/free-vector/cute-woodland-animals_1585897.htm'>Designed by Freepik</a>
-            </td>
-          </tr>
-          <tr>
-            <td class="align-middle text-center text-white">
-              and illustrations from <a href="https://undraw.co">undraw.co</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
+    <Footer v-on:openConfig="openConfig"></Footer>
   </div>
 </template>
 
@@ -155,6 +128,7 @@ import bluewhaleGrey from './assets/badges/blueWhale_or_baleen_gray.svg';
 // config options
 import config from './config';
 import Configure from './components/Configure';
+import Footer from './components/Footer';
 
 // explicit installation required in module environments
 Vue.use(VueFire);
@@ -265,6 +239,7 @@ export default {
 
   components: {
     Configure,
+    Footer,
   },
 
   firebase() {
@@ -398,8 +373,7 @@ export default {
     /**
      * open the config panel
      */
-    openConfig(e) {
-      e.preventDefault();
+    openConfig() {
       this.showConfig = true;
     },
     /**
@@ -441,11 +415,6 @@ export default {
     flex: 1 0 auto;
     min-height: -webkit-fill-available;
     height: fit-content;
-  }
-
-  .footer {
-    position: relative;
-    height: 200px;
   }
 
   #app {

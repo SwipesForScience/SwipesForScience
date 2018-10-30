@@ -51,56 +51,6 @@
 
 * Click Enable. You can start your database in Test mode, we will change these rules in the next step.
 
-![locked mode rules](../Images/TestModeRules.png ':size=400')
+![test mode rules](../Images/TestModeRules.png ':size=400')
 
 * Now navigate to https://dev.swipesforscience.org and scroll to the bottom and click "Configure"
-
-* Now, replace your rules with the text below, **make sure you replace {uid} with your UID! (removing {})**
-
-```javascript
-{
-  "rules": {
-    ".read": false,
-    ".write": false,
-    "users": {
-      ".read": true,
-      ".write": "auth !== null && data.exists()",
-      "$displayName": {
-        ".read": true,
-        ".write": "$displayName === auth.token.name",
-        "admin": {
-          ".write": "auth.uid === '{uid}'", // REPLACE HERE
-        }
-      }
-    },
-    "chats": {
-      ".read": true,
-      ".write": "auth !== null && data.exists()",
-    },
-    "sampleCounts": {
-      ".read": true,
-      ".write": "auth !== null && data.exists()",
-    },
-    "sampleSummary": {
-      ".read": true,
-      ".write": "auth !== null && data.exists()",
-    },
-    "settings": {
-      ".read": true,
-      ".write": "auth.uid === '{uid}'" // REPLACE HERE
-    },
-    "userSeenSamples": {
-      ".read": true,
-      "$displayName": {
-        ".write": "$displayName === auth.token.name"
-      },
-    },
-    "votes": {
-      ".write": "data.exists()",
-      ".read": false,
-    }
-  }
-}
-```
-
-* Last step, go to the database tab and manually create the following by clicking in the database:

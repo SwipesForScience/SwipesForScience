@@ -21,7 +21,6 @@
 </template>
 
 <script>
-import config from '../config';
 /**
  * The landing page, on the route /
  *
@@ -65,7 +64,7 @@ export default {
      * The background image to display. Defined in `config.home.backgroundUrl`
      */
     landingStyle() {
-      return { 'background-image': `url("${config.home.backgroundUrl}")` };
+      return { 'background-image': `url("${this.config.home.backgroundUrl}")` };
     },
   },
 };
