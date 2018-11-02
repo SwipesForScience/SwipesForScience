@@ -47,7 +47,7 @@ The development of this app is supported by [eLife Innovation]()
 
 We need expertise in app development, user experience design, database maintenance, software sustainability, documentation,  technical writing, and project management.
 
-Our primary goal is to 
+Our primary goal is to make it extremely easy for researchers to set up their own data-annotation game. This means that we need to simplify the dev-ops parts of setup, and we need very clear documentation. We also want to design annotation widgets that are easy and fun to use, so that citizen scientists enjoy playing these games. 
 
 ## Get involved
 
