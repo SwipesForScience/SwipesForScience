@@ -63,15 +63,7 @@ If you want to report a problem or suggest an enhancement we'd love for you to [
 
 ## Find out more
 
-You might be interested in:
-
-* 
-
-And of course, you'll want to know our:
-
-* [Contributors' guidelines](CONTRIBUTING.md)
-* [Roadmap](../../issues/1)
-
+* [Roadmap](../../issues/16)
 
 ## Thank you
 
