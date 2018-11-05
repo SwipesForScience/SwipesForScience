@@ -1,6 +1,24 @@
 # play 
 
-TODO: fill this in. 
+This is the component for the `/play` route. It's view depends on the
+config property passed from the parent (`App.vue`). It displays the widget
+based on config.widgetType. It also decides which sample will be presented
+(`widgetPointer`) and passes the sample's summary (`widgetSummary`) to its
+widget component (`WidgetSelector`).
+
+This component is responsible for the following:
+1. Deciding which sample to present by choosing an item in `/sampleCounts`
+that has been seen the least number of times, but also making sure the user
+hasn't seen that sample yet (by reading from `/userSeenSamples/<username>`).
+2. sending the user's response from the widget. This includes:
+1. getting feedback from the widget and displaying it.
+2. saving the response and the time it took to make the response
+(pushes to `/votes` in firebase)
+3. Updating the user's score
+4. Updating that sample's count
+5. Updating that the user has seen the sample
+6. Updating that sample's summary
+7. And then loading the next sample to view. 
 
 ## props 
 
@@ -98,7 +116,7 @@ TODO: fill this in.
 
 - `samplePriority` 
 
-  TODO: fill this in. 
+  sort the sampleCounts from firebase by their value, where the lowest count is first. 
 
    **dependencies:** `sampleCounts` 
 
@@ -125,53 +143,62 @@ TODO: fill this in.
 
 - `initSampleCounts()` 
 
-  TODO: fill this in. 
+  Ask Firebase for the sampleCounts document,
+  but don't watch it in real time, just fetch the data once. 
 
 - `initSeenSamples()` 
 
-  TODO: fill this in. 
+  Initialize the samples that the user has seen, by fetching the
+  `/userSeenSamples/<username>` document from firebase, once. 
 
 - `shuffle(array)` 
 
-  TODO: fill this in. 
+  A method to shuffle an array. 
 
 - `sampleUserPriority()` 
 
-  TODO: fill this in. 
+  A method that returns an array of samples prioritized by
+  the least seen overall and by the user 
 
 - `sendWidgetResponse(response)` 
 
-  TODO: fill this in. 
+  this method is called from the child widget
+  it will first get feedback from the child on the response
+  next, it will send the user response to the db
+  then it will update the user's score and the sample's view count
+  last, it will set the next sample. 
 
 - `setNextSampleId()` 
 
-  TODO: fill this in. 
+  method to get the next sample id to show in the widget
+  view time gets reset first, then the new sample is found and set. 
 
 - `sendVote(response, time)` 
 
-  TODO: fill this in. 
+  the user's response for the sample is sent to the db
+  along with their user displayName and the time they took to respond. 
 
 - `updateScore(scoreIncrement)` 
 
-  TODO: fill this in. 
+  this method update's the user's score by scoreIncrement; 
 
 - `updateSummary(summary)` 
 
-  TODO: fill this in. 
+  Update the summary of a given widgetPointer 
 
 - `updateCount()` 
 
-  TODO: fill this in. 
+  Update the sampleCount of the current widgetPointer. 
 
 - `updateSeen()` 
 
-  TODO: fill this in. 
+  Update that the user has seen this sample, incrementing by 1. 
 
 - `countDownChanged(dismissCountDown)` 
 
-  TODO: fill this in. 
+  This is for the toast component that shows feedback, to keep track of time. 
 
 - `showAlert()` 
 
-  TODO: fill this in. 
+  This is to show the toast alert component, for widget feedback. 
 

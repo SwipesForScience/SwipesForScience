@@ -3,9 +3,6 @@
       <transition :key="swipe" :name="swipe" >
         <div class="user-card" :key="baseUrl">
             <div class="image_area">
-              <!-- <div v-if="status == 'loading'">
-                <grid-loader class="loader" color="#ffc107"></grid-loader>
-              </div> -->
               <progressive-img class="user-card__picture mx-auto" :src="baseUrl"
                 v-hammer:swipe.horizontal="onSwipe"
                 placeholder="https://unsplash.it/500"
@@ -31,10 +28,6 @@
                <span v-if="widgetSummary"> ave vote: {{widgetSummary.aveVote || 0}} </span>
                <span v-else>ave vote: N/A</span>
              </span>
-
-             <!-- <span v-else>
-               ave vote: {{widgetSummary.aveVote}}
-             </span> -->
 
              <b-button v-if="playMode"
               :to="'/review/'+widgetPointer"
@@ -66,7 +59,9 @@
 
 <script>
 /**
- * TODO: fill this in.
+ * The ImageSwipe widget is the original, https://braindr.us Tinder-like widget
+ * where you swipe left to "fail" an image, and swipe right to  "pass" it.
+ * it is for binary classification only.
  */
   import _ from 'lodash';
   import Vue from 'vue';
@@ -82,36 +77,40 @@
   export default {
     props: {
       /**
-       * TODO: fill this in.
+       * The sample ID to tell the widget to display.
        */
       widgetPointer: {
         type: String,
         required: true,
       },
      /**
-      * TODO: fill this in.
+      * The widget-specific properties. The schema is widget specific.
       */
       widgetProperties: {
         type: Object,
         required: true,
       },
      /**
-      * TODO: fill this in.
-      */
+     * The summary data for the widget.
+     * This one keeps track of the running average.
+    */
       widgetSummary: {
         type: Object,
         required: false,
       },
      /**
-      * TODO: fill this in.
+      * Tells the widget if it should be in a "play mode" or maybe a "review mode".
       */
       playMode: {
         type: String,
         required: false,
       },
      /**
-      * TODO: fill this in.
-      */
+     * Tells the widget to display a tutorial step.
+     * tutorialStep = 1 highlights/glows the pass button.
+     * tutorialStep = 2 highlights/glows the fail button.
+     * tutorialStep = 3 highlights/glows the help button.
+     */
       tutorialStep: {
         type: Number,
         required: false,
@@ -124,18 +123,21 @@
     data() {
       return {
         /**
-         * TODO: fill this in.
+         * the status of the image to load
          */
         status: 'loading',
         /**
-         * TODO: fill this in.
+         * save the swipe direction.
          */
         swipe: null,
       };
     },
     computed: {
       /**
-       * TODO: fill this in.
+       * Compute the baseURL based on baseUrlTemplate and delimiter of the widgetProperties,
+       * and the widgetPointer. For example a widgetPointer="contrast1__image1" could be
+       * mapped to https://base_url/contrast1/image1.jpg if
+       * baseUrlTemplate = 'https://base_url/{0}/{1}.jpg' and delimiter === '__'.
        */
       baseUrl() {
         return this.widgetProperties.baseUrlTemplate && this.widgetPointer ?
@@ -144,7 +146,7 @@
       },
     },
     /**
-     * TODO: fill this in.
+     * If the playMode === 'tutorial', show a tutorial step.
      */
     mounted() {
       if (this.playMode === 'tutorial') {
@@ -153,7 +155,7 @@
     },
     methods: {
       /**
-       * TODO: fill this in.
+       * Show a tutorial step
        */
       showTutorialStep(stepNumber) {
         switch (stepNumber) {
@@ -174,7 +176,7 @@
         }
       },
       /**
-       * TODO: fill this in.
+       * Fill a pattern by `this.widgetPointer` based on a delimiter.
        */
       fillPropertyPattern(pattern, delimiter) {
         // fill the pattern by splitting the widgetPointer by delimiter
@@ -186,7 +188,7 @@
         return output;
       },
       /**
-       * TODO: fill this in.
+       * Get the score based on a user's response.
        */
       getScore(response) {
         const fb = this.getFeedback(response);
@@ -196,7 +198,7 @@
         return 1;
       },
       /**
-       * TODO: fill this in.
+       * Get the feedback based on a user's response.
        */
       getFeedback(response) {
         let widgetSummary;
@@ -242,7 +244,8 @@
         };
       },
       /**
-       * TODO: fill this in.
+       * get the widget's new summary based on a user's response.
+       * in this case its a running average.
        */
       getSummary(response) {
         // this widget will keep track of
@@ -264,13 +267,13 @@
         };
       },
       /**
-       * TODO: fill this in.
+       * emit an annotation to the parent.
        */
       vote(val) {
         this.$emit('widgetRating', val);
       },
       /**
-       * TODO: fill this in.
+       * set the swipe-left animation and vote 0
        */
       swipeLeft() {
         // set the transition style
@@ -278,7 +281,7 @@
         this.vote(0);
       },
       /**
-       * TODO: fill this in.
+       * set the swipe-right animation and vote 1
        */
       swipeRight() {
         // set the transition style
@@ -286,7 +289,7 @@
         this.vote(1);
       },
       /**
-       * TODO: fill this in.
+       * set the swipe direction based on the mouse/touch event.
        */
       onSwipe(evt) {
         if (evt.direction === 2) {
@@ -296,7 +299,7 @@
         }
       },
       /**
-       * TODO: fill this in.
+       * save the swipe direction variable.
        */
       setSwipe(sw) {
         this.swipe = sw;

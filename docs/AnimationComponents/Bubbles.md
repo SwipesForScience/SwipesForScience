@@ -1,4 +1,4 @@
 # bubbles 
 
-TODO: fill this in. 
+This is the bubbles animation used in the background of the tutorial component. 
 

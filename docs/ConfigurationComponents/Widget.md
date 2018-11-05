@@ -1,6 +1,6 @@
 # widget 
 
-TODO: fill this in. 
+This is the UI to set up a widget during configuration. 
 
 ## props 
 
@@ -15,7 +15,7 @@ TODO: fill this in.
 
 - `widgetOptions` 
 
-  TODO: fill this in. 
+  The options that are allowed for widgetType. 
 
 **initial value:** `[object Object]` 
 

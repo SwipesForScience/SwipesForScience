@@ -1,12 +1,13 @@
 # firebase-keys 
 
-TODO: fill this in. 
+This is a component for the part of configuration where the researcher inputs
+their firebase keys. 
 
 ## data 
 
 - `fkeys` 
 
-  TODO: fill this in. 
+  the variable to store the user input firebase keys 
 
 **initial value:** `null` 
 
@@ -18,5 +19,5 @@ TODO: fill this in.
 
 - `parseFirebaseKeys()` 
 
-  TODO: fill this in. 
+  parse the firebase keys as they are copied/pasted from the firebase console. 
 

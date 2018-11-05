@@ -44,6 +44,9 @@
       };
     },
     methods: {
+      /**
+      * The method to tell the parent component (App.vue) to open the config panel.
+      */
       openConfig(e) {
         e.preventDefault();
         this.$emit('openConfig');

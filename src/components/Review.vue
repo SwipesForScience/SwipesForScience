@@ -69,10 +69,7 @@
   import WidgetSelector from './WidgetSelector';
   /**
    * The review component shows the widget for a pointer to a sample in its route,
-   * and lets the user discuss the sample in a chat-room type UI
-   *
-   * @author Anisha Keshavan
-   * @license Apache 2.0
+   * and lets the user discuss the sample in a chat-room type UI.
    */
 
   export default {
@@ -124,33 +121,33 @@
         type: Object,
         required: true,
       },
-    }, // ['userInfo', 'userData', 'levels', 'currentLevel', 'config', 'db'],
+    },
     components: {
       WidgetSelector,
     },
     data() {
       return {
         /**
-         *
+         * This sample ID to discuss.
          */
         widgetPointer: '',
         /**
-         *
+         * The summary of the sample ID
          */
         widgetSummary: {},
         /**
-         *
+         * The chat message that the user types.
          */
         chatMessage: '',
         /**
-         *
+         * This list of previous chat messages.
          */
         chatHistory: [],
       };
     },
     computed: {
       /**
-       *
+       * Reverse the order of the chats so that the latest is at the top.
        */
       chatOrder() {
         const chats = [];
@@ -161,13 +158,13 @@
         return chats;
       },
       /**
-       *
+       * The widgetType to display, based on the config value.
        */
       widgetType() {
         return this.config.widgetType;
       },
       /**
-       *
+       * The properties of the widget, from the config.
        */
       widgetProperties() {
         return this.config.widgetProperties;
@@ -175,14 +172,16 @@
     },
     watch: {
       /**
-       *
+       * When the route changes, set the current sample ID
+       * (`widgetPointer`) to the `key` parameter from the route.
        */
       $route() {
         this.widgetPointer = this.$route.params.key;
       },
     },
     /**
-     *
+     * When the component is mounted, set this components `widgetPointer`
+     * to the route's `key` parameter. Also grab this sample's chats and its summary.
      */
     mounted() {
       this.widgetPointer = this.$route.params.key;
@@ -190,7 +189,11 @@
     },
     methods: {
       /**
-       *
+       * Method to add a new chat message. Update
+       * 1. push the username, message and timestamp to `chats/sampleChats`
+       * 2. set the most recent chat time for this sample to `chats/sampleChatIndex`
+       * 3. set that the user has sent a chat for this sample to `chats/userChat/<username>`
+       * 4. **TODO**: set that other users following this chat have something new to see.
        */
       sendChat(e) {
         e.preventDefault();
@@ -237,7 +240,7 @@
         });
       },
       /**
-       *
+       * Take a firebase input object and make it a nice list.
        */
       unravelFirebaseListObject(inputObject) {
         const output = [];
@@ -247,7 +250,7 @@
         return output;
       },
       /**
-       *
+       * Get the chat history for the current sample ID.
        */
       setSampleInfo() {
         // get the chat for this sample

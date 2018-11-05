@@ -1,4 +1,4 @@
 # bookshelf 
 
-TODO: fill this in. 
+This is the bookshelf animation used for the PubMedNLP widget. 
 

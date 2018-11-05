@@ -228,7 +228,7 @@
 
 <script>
 /**
- * TODO: fill this in.
+ * This is the flask animation used in the Play component, while data loads.
  */
   export default {
     name: 'flask',

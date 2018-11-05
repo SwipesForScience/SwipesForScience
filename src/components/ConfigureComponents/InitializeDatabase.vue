@@ -49,18 +49,42 @@
     },
     data() {
       return {
+        /**
+        * whether or not the /settings/admins/<username> is initialized on firebase
+        */
         admin: false,
+        /**
+        * whether or not the /sampleCounts is initialized on firebase
+        */
         sampleCounts: false,
+        /**
+        * whether or not the /sampleSummary is initialized on firebase
+        */
         sampleSummary: false,
+        /**
+        * whether or not the /chats is initialized on firebase
+        */
         chats: false,
+        /**
+        * whether or not the /userSeenSamples is initialized on firebase
+        */
         userSeenSamples: false,
+        /**
+        * whether or not the /votes is initialized on firebase
+        */
         votes: false,
       };
     },
     computed: {
+      /**
+      * the logged in user's UID
+      */
       uid() {
         return this.userInfo.uid;
       },
+      /**
+      * returns whether or not everything is inialized correctly.
+      */
       ready() {
         return this.admin && this.sampleCounts &&
         this.sampleSummary && this.chats &&
@@ -68,18 +92,24 @@
       },
     },
     watch: {
+      /**
+      * once its ready, go to the next step in configuration.
+      */
       ready() {
         if (this.ready) {
           this.next();
         }
       },
     },
+    /**
+    * initialize all documents
+    */
     mounted() {
       this.initAll();
     },
     methods: {
       /**
-       *
+       * initialize the admin schema
        */
       initAdmin() {
         const displayName = this.userInfo.displayName;
@@ -96,7 +126,7 @@
           });
       },
       /**
-       *
+       * initialize /sampleCounts
        */
       initSampleCounts() {
         this.db.ref('sampleCounts').once('value').then((snap) => {
@@ -110,7 +140,7 @@
         });
       },
       /**
-       *
+       * initialize /sampleSummary
        */
       initSampleSummary() {
         this.db.ref('sampleSummary').once('value').then((snap) => {
@@ -124,7 +154,7 @@
         });
       },
       /**
-       *
+       * initialize /chats
        */
       initChats() {
         this.db.ref('chats').once('value').then((snap) => {
@@ -138,7 +168,7 @@
         });
       },
       /**
-       *
+       * initialize /userSeenSamples
        */
       initUserSeenSamples() {
         const displayName = this.userInfo.displayName;
@@ -158,7 +188,7 @@
           });
       },
       /**
-       *
+       * initialize /votes
        */
       initVotes() {
         this.db.ref('votes').once('value').then((snap) => {
@@ -172,7 +202,7 @@
         });
       },
       /**
-       *
+       * initialize all
        */
       initAll() {
         this.initAdmin();

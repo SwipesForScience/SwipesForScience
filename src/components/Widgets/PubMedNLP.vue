@@ -1,5 +1,4 @@
 <template>
-  <!-- This is a dummy Widget Template -->
   <div class="widgetTemplate">
     <div v-if="status === 'ready'">
       <h4 class="lead mb-3 pb-3 mt-3 pt-3">{{title}}</h4>
@@ -23,7 +22,10 @@
 
 <script>
 /**
- * TODO: fill this in.
+ * This widget is still a **work in progress**, but is based off the
+ * https://appstract.pub prototype to annotate sample size from text.
+ * Right now, this is just a pass/fail annotation that displays the pubmed
+ * abstract based on a pubmed ID
  */
   import axios from 'axios';
   import _ from 'lodash';
@@ -32,35 +34,36 @@
   export default {
     props: {
       /**
-       * TODO: fill this in.
+       * the sample ID to display. In this case it should be a pubmed id.
        */
       widgetPointer: {
         type: String,
         required: true,
       },
      /**
-      * TODO: fill this in.
+      * the properties of the widget, that are widget specific.
       */
       widgetProperties: {
         type: Object,
         required: true,
       },
      /**
-      * TODO: fill this in.
+      * the summary data of the widget.
       */
       widgetSummary: {
         type: Object,
         required: false,
       },
      /**
-      * TODO: fill this in.
+      * whether the widget should render in play mode, or review mode, or tutorial mode.
       */
       playMode: {
         type: String,
         required: false,
       },
      /**
-      * TODO: fill this in.
+      * this is not implemented yet, but will be used to keep track of and show off
+      * the annotation features of this widget.
       */
       tutorialStep: {
         type: Number,
@@ -78,7 +81,7 @@
     },
     computed: {
       /**
-       * TODO: fill this in.
+       * the parsed XML from pubmed
        */
       xml() {
         const parser = new DOMParser();
@@ -86,7 +89,7 @@
         return xmlDoc;
       },
       /**
-       * TODO: fill this in.
+       * the pubmed abstract, extracted from the xml
        */
       abstract() {
         if (this.xml) {
@@ -96,7 +99,7 @@
         return null;
       },
       /**
-       * TODO: fill this in.
+       * the pubmed title, extracted from the xml
        */
       title() {
         if (this.xml) {
@@ -106,7 +109,7 @@
         return null;
       },
       /**
-       * TODO: fill this in.
+       * the pubmed author, extracted from the xml
        */
       authors() {
         if (this.xml) {
@@ -116,7 +119,7 @@
         return null;
       },
       /**
-       * TODO: fill this in.
+       * the publication year, extracted from the XML
        */
       year() {
         if (this.xml) {
@@ -129,7 +132,7 @@
     },
     watch: {
       /**
-       * TODO: fill this in.
+       * if the widget pointer changes, update the pubmed data.
        */
       widgetPointer() {
         if (this.widgetPointer) {
@@ -138,7 +141,7 @@
       },
     },
     /**
-     * TODO: fill this in.
+     * when its mounted, update the pubmed data
      */
     mounted() {
       if (this.widgetPointer) {
@@ -147,7 +150,7 @@
     },
     methods: {
       /**
-       * TODO: fill this in.
+       * fetch the data from pubmed
        */
       getPubmedData() {
         this.status = 'loading';
@@ -158,7 +161,7 @@
           });
       },
       /**
-       * TODO: fill this in.
+       * get the score based on the user's response
        */
       getScore(response) {
         if (response) {
@@ -167,7 +170,7 @@
         return 0;
       },
       /**
-       * TODO: fill this in.
+       * get feedback based on the user's response. **work in progress**
        */
       getFeedback(response) {
         if (response) {
@@ -185,7 +188,7 @@
         };
       },
       /**
-       * TODO: fill this in.
+       * get the new summary based on the user's response. This is a running average.
        */
       getSummary(response) {
         // this widget will keep track of
@@ -207,7 +210,7 @@
         };
       },
       /**
-       * TODO: fill this in.
+       * tell the parent component the user's annotation, so it can be saved.
        */
       vote(val) {
         this.$emit('widgetRating', val);

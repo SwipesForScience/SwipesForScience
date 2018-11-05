@@ -1,6 +1,6 @@
 # signup 
 
-TODO: fill this in. 
+The component for the `/signup` route. 
 
 ## props 
 
@@ -15,19 +15,19 @@ TODO: fill this in.
 
 - `form` 
 
-  TODO: fill this in. 
+  This object holds the variables that the user inputs to the sign up form. 
 
 **initial value:** `[object Object]` 
 
 - `show` 
 
-  TODO: fill this in. 
+  **TODO**: I'm not sure this is used anywhere. Check this. 
 
 **initial value:** `true` 
 
 - `errors` 
 
-  TODO: fill this in. 
+  A variable to keep track of errors, whether to show it and the error message. 
 
 **initial value:** `[object Object]` 
 
@@ -35,13 +35,13 @@ TODO: fill this in.
 
 - `validated` 
 
-  TODO: fill this in. 
+  The form is validated if the user types the same password twice. 
 
    **dependencies:** `form`, `form` 
 
 - `consentFormLabel` 
 
-  TODO: fill this in. 
+  Return a message based on whether or not the user has consented. 
 
    **dependencies:** `form` 
 
@@ -50,25 +50,30 @@ TODO: fill this in.
 
 - `onSubmit(e)` 
 
-  TODO: fill this in. 
+  Register a new user to firebase.
+  Make sure the username isn't already taken. 
 
 - `saveConsent(e)` 
 
-  TODO: fill this in. 
+  Save that the user has consented. 
 
 - `openConsentModal()` 
 
-  TODO: fill this in. 
+  Open the consent form modal. 
 
 - `createAccount()` 
 
-  TODO: fill this in. 
+  A method that creates the firebase account and shows an error if there is one. 
 
 - `insertUser(user)` 
 
-  TODO: fill this in. 
+  A method to insert a new user into the `/users` document of firebase.
+  This initializes the user's score, level, whether or not they've consented.
+  and when they consented.
+  **TODO**: set an error message if something goes wrong here. 
 
 - `updateProfile(user)` 
 
-  TODO: fill this in. 
+  Update the user's profile with their username
+  (in the displayName field of an authenticated user.) 
 

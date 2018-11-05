@@ -1,5 +1,8 @@
 # chats 
 
+This is the component for the /chats route. It shows all the chat messages
+for each sample. 
+
 ## props 
 
 - `config` ***Object*** (*required*) 
@@ -21,15 +24,21 @@
 
 - `noData` 
 
+  A flag to tell us if the /chats doc is empty on firebase. 
+
 **initial value:** `false` 
 
 ## computed properties 
 
 - `orderedPosts` 
 
+  Reverses the order of the chats. 
+
    **dependencies:** `sampleChat` 
 
 - `blankChatImage` 
+
+  A blank image from the config file. If this.noData is true, this image is rendered. 
 
    **dependencies:** `config` 
 

@@ -76,7 +76,25 @@
 
 <script>
   /**
-   * TODO: fill this in.
+   * This is the component for the `/play` route. It's view depends on the
+   * config property passed from the parent (`App.vue`). It displays the widget
+   * based on config.widgetType. It also decides which sample will be presented
+   * (`widgetPointer`) and passes the sample's summary (`widgetSummary`) to its
+   * widget component (`WidgetSelector`).
+   *
+   * This component is responsible for the following:
+   * 1. Deciding which sample to present by choosing an item in `/sampleCounts`
+   * that has been seen the least number of times, but also making sure the user
+   * hasn't seen that sample yet (by reading from `/userSeenSamples/<username>`).
+   * 2. sending the user's response from the widget. This includes:
+   *   1. getting feedback from the widget and displaying it.
+   *   2. saving the response and the time it took to make the response
+   *      (pushes to `/votes` in firebase)
+       3. Updating the user's score
+       4. Updating that sample's count
+       5. Updating that the user has seen the sample
+       6. Updating that sample's summary
+       7. And then loading the next sample to view.
    */
   import _ from 'lodash';
   import WidgetSelector from './WidgetSelector';
@@ -186,7 +204,9 @@
     },
     watch: {
       /**
-       * TODO: fill this in.
+       * Keep track of the user's current level.
+       * Update the database if their score pushes them up a level.
+       * This depends on the `level` prop that is passed from the parent (`App.vue`)
        */
       currentLevel() {
         if (this.userData.score === this.currentLevel.min && this.currentLevel.min) {
@@ -195,7 +215,8 @@
         }
       },
       /**
-       * TODO: fill this in.
+       * Watch the widget pointer, which is from `/sampleCounts` document in firebase.
+       * When it changes, also update the `widgetSummary` to be from the new `widgetPointer`.
        */
       widgetPointer() {
         /* eslint-disable */
@@ -206,7 +227,8 @@
       },
     },
     /**
-     * TODO: fill this in.
+     * When the component mounts, initialize the sampleCounts from firebase,
+     * and also the samples the user has seen.
      */
     mounted() {
       this.initSampleCounts();
@@ -218,7 +240,7 @@
     },
     computed: {
       /**
-       * TODO: fill this in.
+       * sort the sampleCounts from firebase by their value, where the lowest count is first.
        */
       samplePriority() {
         return _.sortBy(this.sampleCounts, '.value');
@@ -244,7 +266,8 @@
     },
     methods: {
       /**
-       * TODO: fill this in.
+       * Ask Firebase for the sampleCounts document,
+       * but don't watch it in real time, just fetch the data once.
        */
       initSampleCounts() {
         this.db.ref('sampleCounts').once('value', (snap) => {
@@ -262,7 +285,8 @@
         });
       },
       /**
-       * TODO: fill this in.
+       * Initialize the samples that the user has seen, by fetching the
+       * `/userSeenSamples/<username>` document from firebase, once.
        */
       initSeenSamples() {
         this.db.ref('userSeenSamples')
@@ -276,7 +300,7 @@
           });
       },
       /**
-       * TODO: fill this in.
+       * A method to shuffle an array.
        */
       shuffle(array) {
         // a method to shuffle an array, from
@@ -299,12 +323,10 @@
         return array;
       },
       /**
-       * TODO: fill this in.
-       */
+      * A method that returns an array of samples prioritized by
+      * the least seen overall and by the user
+      */
       sampleUserPriority() {
-        // A method that returns an array of samples prioritized by
-        // the least seen overall and by the user
-
         // if the user is logged in then,
         if (this.userInfo) {
           // remove all the samples that the user has seen
@@ -343,15 +365,13 @@
         return null;
       },
       /**
-       * TODO: fill this in.
-       */
+      * this method is called from the child widget
+      * it will first get feedback from the child on the response
+      * next, it will send the user response to the db
+      * then it will update the user's score and the sample's view count
+      * last, it will set the next sample.
+      */
       sendWidgetResponse(response) {
-        // this method is called from the child widget
-        // it will first get feedback from the child on the response
-        // next, it will send the user response to the db
-        // then it will update the user's score and the sample's view count
-        // last, it will set the next sample.
-
         // 1. get feedback from the widget, and display if needed
         const feedback = this.$refs.widget.getFeedback(response);
         if (feedback.show) {
@@ -373,12 +393,10 @@
         this.setNextSampleId();
       },
       /**
-       * TODO: fill this in.
-       */
+      * method to get the next sample id to show in the widget
+      * view time gets reset first, then the new sample is found and set.
+      */
       setNextSampleId() {
-        // method to get the next sample id to show in the widget
-        // view time gets reset first, then the new sample is found and set.
-
         this.startTime = new Date();
 
         const sampleId = this.sampleUserPriority()[0];
@@ -389,11 +407,10 @@
         }
       },
       /**
-       * TODO: fill this in.
-       */
+      * the user's response for the sample is sent to the db
+      * along with their user displayName and the time they took to respond.
+      */
       sendVote(response, time) {
-        // the user's response for the sample is sent to the db
-        // along with their user displayName and the time they took to respond.
         this.db.ref('votes').push({
           user: this.userInfo.displayName,
           sample: this.widgetPointer,
@@ -402,18 +419,16 @@
         });
       },
       /**
-       * TODO: fill this in.
-       */
+      * this method update's the user's score by scoreIncrement;
+      */
       updateScore(scoreIncrement) {
-        // this method update's the user's score by scoreIncrement;
-
         this.db.ref('users')
           .child(this.userInfo.displayName)
           .child('score')
           .transaction(score => (score || 0) + scoreIncrement);
       },
       /**
-       * TODO: fill this in.
+       * Update the summary of a given widgetPointer
        */
       updateSummary(summary) {
         this.db.ref('sampleSummary')
@@ -421,7 +436,7 @@
           .set(summary);
       },
       /**
-       * TODO: fill this in.
+       * Update the sampleCount of the current widgetPointer.
        */
       updateCount() {
         // update the firebase database copy
@@ -439,7 +454,7 @@
         });
       },
       /**
-       * TODO: fill this in.
+       * Update that the user has seen this sample, incrementing by 1.
        */
       updateSeen() {
         // mark that this user has seen this widgetPointer
@@ -453,13 +468,13 @@
         this.userSeenSamples.push({ '.key': this.widgetPointer, '.value': 1 });
       },
       /**
-       * TODO: fill this in.
+       * This is for the toast component that shows feedback, to keep track of time.
        */
       countDownChanged(dismissCountDown) {
         this.dismissCountDown = dismissCountDown;
       },
       /**
-       * TODO: fill this in.
+       * This is to show the toast alert component, for widget feedback.
        */
       showAlert() {
         this.dismissCountDown = this.dismissSecs;

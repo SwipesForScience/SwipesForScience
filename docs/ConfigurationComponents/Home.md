@@ -1,6 +1,6 @@
 # home 
 
-TODO: fill this in. 
+This is the component for configuring the Home.vue page. 
 
 ## props 
 
@@ -15,7 +15,7 @@ TODO: fill this in.
 
 - `navbarOptions` 
 
-  TODO: fill this in. 
+  These are color options for the navigation bar. 
 
 **initial value:** `[object Object]` 
 

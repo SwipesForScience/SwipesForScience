@@ -1,124 +1,123 @@
 # paper 
 
-=============================================================================
-MAIN APP
-============================================================================= 
+This is a component to annotate X,Y coordinates of images with 2 overlays.
+it is based on **Paper.js** rasters. 
 
 ## props 
 
 - `paper-src` ***String*** (*optional*) `default: null` 
 
-  TODO: fill this in. 
+  a URL to a base image 
 
 - `mask-src` ***String*** (*optional*) `default: null` 
 
-  TODO: fill this in. 
+  a URL to a mask image 
 
 - `contour-src` ***String*** (*optional*) `default: null` 
 
-  TODO: fill this in. 
+  a URL to a contour image 
 
 - `visibility` ***Object*** (*optional*) `default: [object Object]` 
 
-  TODO: fill this in. 
+  visibility of contour and mask overlays. 
 
 - `brightness` ***Number*** (*optional*) `default: 50` 
 
-  TODO: fill this in. 
+  brightness level, from 0-100 
 
 - `contrast` ***Number*** (*optional*) `default: 50` 
 
-  TODO: fill this in. 
+  contrast level, from 0-100 
 
 - `id` ***String*** (*optional*) `default: 'canvas-id'` 
 
-  TODO: fill this in. 
+  canvas id 
 
 - `splat-radius` ***Number*** (*optional*) `default: 10` 
 
-  TODO: fill this in. 
+  how sensitive we should be to delete an annotation. 
 
 - `splat-color` ***String*** (*optional*) `default: '#ffc107'` 
 
-  TODO: fill this in. 
+  the color of the x,y annotation marker. 
 
 ## data 
 
 - `base` 
 
-  TODO: fill this in. 
+  The base raster 
 
 **initial value:** `null` 
 
 - `mask` 
 
-  TODO: fill this in. 
+  The mask raster 
 
 **initial value:** `null` 
 
 - `contour` 
 
-  TODO: fill this in. 
+  The contour raster 
 
 **initial value:** `null` 
 
 - `view` 
 
-  TODO: fill this in. 
+  The paper.js view 
 
 **initial value:** `null` 
 
 - `viewHeight` 
 
-  TODO: fill this in. 
+  The view height 
 
 **initial value:** `null` 
 
 - `zoomFactor` 
 
-  TODO: fill this in. 
+  How much to zoom 
 
 **initial value:** `1` 
 
 - `touch` 
 
-  TODO: fill this in. 
+  Touchscreen controls 
 
 **initial value:** `[object Object]` 
 
 - `scope` 
 
-  TODO: fill this in. 
+  paper.js scope 
 
 **initial value:** `null` 
 
 - `panFactor` 
 
-  TODO: fill this in. 
+  how much to pan 
 
 **initial value:** `[object Object]` 
 
 - `panMouseDown` 
 
-  TODO: fill this in. 
+  the last place panned 
 
 **initial value:** `null` 
 
 - `drawOrPan` 
 
-  TODO: fill this in. 
+  drawing or panning mode 
 
 **initial value:** `'draw'` 
 
 - `draw` 
 
-  TODO: fill this in. 
+  annotation points and their shape objects 
 
 **initial value:** `[object Object]` 
 
 - `deleteRadius` 
 
-  TODO: fill this in. 
+  sensitivity radius to deleting a shape 
 
 **initial value:** `6` 
 
@@ -130,65 +129,66 @@ MAIN APP
 
 - `activate()` 
 
-  TODO: fill this in. 
+  activate the scope 
 
 - `undo()` 
 
-  TODO: fill this in. 
+  undo the last annotation 
 
 - `doZoom(e)` 
 
-  TODO: fill this in. 
+  zoom based on a mouse/touch event 
 
 - `doPan(e)` 
 
-  TODO: fill this in. 
+  pan based on a mouse/touch event 
 
 - `resetPan()` 
 
-  TODO: fill this in. 
+  reset the pan amount 
 
 - `onresize()` 
 
-  TODO: fill this in. 
+  when the window size changes, change all the bounds of all the rasters. 
 
 - `takeScreenshot()` 
 
-  TODO: fill this in. 
+  take a screenshot 
 
 - `drawSplat(e, me)` 
 
-  TODO: fill this in. 
+  draw a shape based on a mouse/touch event coordinates 
 
 - `checkToRemove(e, me)` 
 
-  TODO: fill this in. 
+  remove a point based on a mouse/touch event 
 
 - `removeSplat(splats)` 
 
-  TODO: fill this in. 
+  remove a shape and point 
 
 - `dragHandler(e)` 
 
-  TODO: fill this in. 
+  pan on drag 
 
 - `clickHandler(e)` 
 
-  TODO: fill this in. 
+  handle a click event. remove a point if the user clicked close to an existing point.
+  else, draw a point. 
 
 - `brightcont()` 
 
-  TODO: fill this in. 
+  set the brightness and contrast of the base raster. 
 
 - `removeEvents()` 
 
-  TODO: fill this in. 
+  remove the resize and mousewheel events. 
 
 - `clearImg()` 
 
-  TODO: fill this in. 
+  clear all stuff from the paper scope 
 
 - `initImg()` 
 
-  TODO: fill this in. 
+  initialize the base, mask, and contour rasters. 
 

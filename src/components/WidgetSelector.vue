@@ -58,7 +58,9 @@
 
 <script>
 /**
- * TODO: fill this in.
+ * This a "switch" component, it displays whatever widget is
+ * passed from the parent prop. It is also a proxy for any events emited from
+ * the specific widget to the parent.
  */
   import ImageSwipe from './Widgets/ImageSwipe';
   import ImageSoundSwipe from './Widgets/ImageSoundSwipe';
@@ -70,42 +72,44 @@
     name: 'WidgetSelector',
     props: {
       /**
-       * TODO: fill this in.
+       * WidgetType is a string. It can be "ImageSwipe" for example.
        */
       widgetType: {
         type: String,
         required: true,
       },
        /**
-        * TODO: fill this in.
+        * The sample ID to tell the widget to display.
         */
       widgetPointer: {
         type: String,
         required: true,
       },
       /**
-       * TODO: fill this in.
+       * The widget-specific properties. The schema is widget specific.
        */
       widgetProperties: {
         type: Object,
         required: true,
       },
       /**
-       * TODO: fill this in.
+       * The summary data for the widget.
+       * This could keep track of the running average, for example.
        */
       widgetSummary: {
         type: Object,
         required: false,
       },
       /**
-       * TODO: fill this in.
+       * Tells the widget if it should be in a "play mode" or maybe a "review mode".
        */
       playMode: {
         type: String,
         required: false,
       },
       /**
-       * TODO: fill this in.
+       * Tells the widget to display a tutorial step.
+       * Could be like highlighting a certain button.
        */
       tutorialStep: {
         type: Number,
@@ -121,25 +125,25 @@
     },
     methods: {
       /**
-       * TODO: fill this in.
+       * proxy the widget's getFeedback method.
        */
       getFeedback(response) {
         return this.$refs[this.widgetType].getFeedback(response);
       },
       /**
-       * TODO: fill this in.
+       * proxy the widget's getScore method.
        */
       getScore(response) {
         return this.$refs[this.widgetType].getScore(response);
       },
       /**
-       * TODO: fill this in.
+       * proxy the widget's getSummary method.
        */
       getSummary(response) {
         return this.$refs[this.widgetType].getSummary(response);
       },
       /**
-       * TODO: fill this in.
+       * emit the widget's response to the parent.
        */
       widgetRating(response) {
         this.$emit('widgetRating', response);

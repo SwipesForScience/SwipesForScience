@@ -122,7 +122,13 @@
     },
     data() {
       return {
+        /**
+        * The current scroll position
+        */
         scrollPosition: 0,
+        /**
+        * The sample IDs summary (not implemented yet)
+        */
         widgetSummary: {}, // TODO: fill this properly
       };
     },
@@ -150,31 +156,32 @@
     },
     computed: {
       /**
-       * TODO: fill this in.
+       * The widget type defined in config.
        */
       widgetType() {
         return this.config.widgetType;
       },
       /**
-       * TODO: fill this in.
+       * The widget properties defined in config.
        */
       widgetProperties() {
         return this.config.widgetProperties;
       },
       /**
-       * TODO: fill this in.
+       * The steps defined in config, with text and images to display.
        */
       steps() {
         return this.config.tutorial.steps;
       },
       /**
-       * TODO: fill this in.
+       * The type of background animation to show.
        */
       backgroundAnimation() {
         return this.config.tutorial.customBackgroundAnimation;
       },
       /**
-       * TODO: fill this in.
+       * The cutoffs of scrolling,
+       * to help map scroll position to the step of the tutorial
        */
       bins() {
         const Nsteps = this.steps.intro.length + this.steps.examples.length;
@@ -186,7 +193,7 @@
         return bins;
       },
       /**
-       * TODO: fill this in.
+       * The current bin based on scroll position.
        */
       currentBin() {
         const cBin = _.filter(this.bins,
@@ -198,7 +205,8 @@
         return { bin: 0 };
       },
       /**
-       * TODO: fill this in.
+       * The current stage, either the intro text stage,
+       * or the part that shows how the widget works.
        */
       currentStage() {
         if (this.currentBin.bin < this.steps.intro.length) {
@@ -207,7 +215,7 @@
         return { ...this.steps.examples[this.currentBin.bin - this.steps.intro.length], mode: 'examples' };
       },
       /**
-       * TODO: fill this in.
+       * The next step that should be displayed.
        */
       nextStep() {
         if (this.currentBin.bin < this.steps.intro.length - 1) {
@@ -218,13 +226,14 @@
     },
     methods: {
       /**
-       * TODO: fill this in.
+       * When this method is run, we tell the parent component that the
+       * user has completed the tutorial.
        */
       tutorialComplete() {
         this.$emit('taken_tutorial', true);
       },
       /**
-       * TODO: fill this in.
+       * Keep track of the scroll position and save it to the scrollPosition variable.
        */
       handleScroll() {
         const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
@@ -239,13 +248,13 @@
       },
     },
     /**
-     * TODO: fill this in.
+     * Add a scroll listener when the component is created.
      */
     created() {
       window.addEventListener('scroll', this.handleScroll);
     },
     /**
-     * TODO: fill this in.
+     * Remove the scroll listener when the component is destroyed.
      */
     destroyed() {
       window.removeEventListener('scroll', this.handleScroll);

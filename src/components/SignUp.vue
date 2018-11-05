@@ -92,7 +92,7 @@
 </style>
 <script>
 /**
- * TODO: fill this in.
+ * The component for the `/signup` route.
  */
   import firebase from 'firebase';
   import Terms from '@/components/Terms';
@@ -102,7 +102,7 @@
     data() {
       return {
         /**
-         * TODO: fill this in.
+         * This object holds the variables that the user inputs to the sign up form.
          */
         form: {
           email: '',
@@ -112,11 +112,11 @@
           consented: false,
         },
         /**
-         * TODO: fill this in.
+         * **TODO**: I'm not sure this is used anywhere. Check this.
          */
         show: true,
         /**
-         * TODO: fill this in.
+         * A variable to keep track of errors, whether to show it and the error message.
          */
         errors: {
           show: false,
@@ -139,13 +139,13 @@
     components: { terms: Terms },
     computed: {
       /**
-       * TODO: fill this in.
+       * The form is validated if the user types the same password twice.
        */
       validated() {
         return this.form.password === this.form.password2;
       },
       /**
-       * TODO: fill this in.
+       * Return a message based on whether or not the user has consented.
        */
       consentFormLabel() {
         return this.form.consented ? 'You have consented!' : 'Click to read and sign the consent form';
@@ -153,16 +153,15 @@
     },
     methods: {
       /**
-       * TODO: fill this in.
+       * Register a new user to firebase.
+       * Make sure the username isn't already taken.
        */
       onSubmit(e) {
         e.preventDefault();
         // check for a unique username
-        // console.log('submitted form');
         firebase.database().ref('users').child(this.form.username).once('value')
         .then((snapshot) => {
           const val = snapshot.val();
-          // console.log('val is', val);
           if (!val) {
             this.createAccount();
           } else {
@@ -172,7 +171,7 @@
         });
       },
       /**
-       * TODO: fill this in.
+       * Save that the user has consented.
        */
       saveConsent(e) {
         e.preventDefault();
@@ -180,26 +179,28 @@
         this.$refs.consentform.hide();
       },
       /**
-       * TODO: fill this in.
+       * Open the consent form modal.
        */
       openConsentModal() {
         this.$refs.consentform.show();
       },
       /**
-       * TODO: fill this in.
+       * A method that creates the firebase account and shows an error if there is one.
        */
       createAccount() {
         firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.password).then(
           (user) => {
             this.updateProfile(user);
           }, (err) => {
-          // console.log('error', err);
           this.errors.show = true;
           this.errors.message = err.message;
         });
       },
       /**
-       * TODO: fill this in.
+       * A method to insert a new user into the `/users` document of firebase.
+       * This initializes the user's score, level, whether or not they've consented.
+       * and when they consented.
+       * **TODO**: set an error message if something goes wrong here.
        */
       insertUser(user) {
         firebase.database().ref('users').child(user.displayName).set({
@@ -216,7 +217,8 @@
         });
       },
       /**
-       * TODO: fill this in.
+       * Update the user's profile with their username
+       * (in the displayName field of an authenticated user.)
        */
       updateProfile(user) {
         user.updateProfile({

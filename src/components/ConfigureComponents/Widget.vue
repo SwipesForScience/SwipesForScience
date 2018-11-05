@@ -15,7 +15,7 @@
 </template>
 <script>
 /**
- * TODO: fill this in.
+ * This is the UI to set up a widget during configuration.
  */
   export default {
     props: {
@@ -33,11 +33,14 @@
     data() {
       return {
         /**
-         * TODO: fill this in.
+         * The options that are allowed for widgetType.
          */
         widgetOptions: ['ImageSwipe', 'ImageSoundSwipe', 'ImageSplat', 'PubMedNLP', 'TemplateWidget'],
       };
     },
+    /**
+    * if the router is defined, then navigate to the /play route.
+    */
     mounted() {
       if (this.$router) {
         this.$router.replace('/play');

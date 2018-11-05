@@ -9,9 +9,6 @@
 </template>
 
 <script>
-/**
- * TODO: fill this in.
- */
 import Hammer from 'hammerjs';
 import _ from 'lodash';
 import Vue from 'vue';
@@ -21,9 +18,8 @@ import paper from '../../../../node_modules/paper/dist/paper-core.min';
 
 Vue.component('resize-observer', ResizeObserver);
 
-// Thanks https://github.com/licson0729/CanvasEffects
-
 function copyImageData(ctx, src) {
+  // Thanks https://github.com/licson0729/CanvasEffects
   const dst = ctx.createImageData(src.width, src.height);
   dst.data.set(src.data);
   return dst;
@@ -147,83 +143,85 @@ xfm.get_global = function getGlobal(local, baseRaster) {
   global = baseRaster.localToGlobal(global);
   return global;
 };
-/* =============================================================================
-                              MAIN APP
-============================================================================= */
+
+/**
+ * This is a component to annotate X,Y coordinates of images with 2 overlays.
+ * it is based on **Paper.js** rasters.
+ */
 
 export default {
   name: 'Paper',
   data() {
     return {
       /**
-       * TODO: fill this in.
+       * The base raster
        */
       base: null,
       /**
-       * TODO: fill this in.
+       * The mask raster
        */
       mask: null,
       /**
-       * TODO: fill this in.
+       * The contour raster
        */
       contour: null,
       /**
-       * TODO: fill this in.
+       * The paper.js view
        */
       view: null,
       /**
-       * TODO: fill this in.
+       * The view height
        */
       viewHeight: null,
       /**
-       * TODO: fill this in.
+       * How much to zoom
        */
       zoomFactor: 1,
       /**
-       * TODO: fill this in.
+       * Touchscreen controls
        */
       touch: {
         startScale: null,
         mode: null,
       },
       /**
-       * TODO: fill this in.
+       * paper.js scope
        */
       scope: null,
       /**
-       * TODO: fill this in.
+       * how much to pan
        */
       panFactor: { x: 0, y: 0 },
       /**
-       * TODO: fill this in.
+       * the last place panned
        */
       panMouseDown: null,
       /**
-       * TODO: fill this in.
+       * drawing or panning mode
        */
       drawOrPan: 'draw',
       /**
-       * TODO: fill this in.
+       * annotation points and their shape objects
        */
       draw: {
         points: [],
         shapes: [],
       },
       /**
-       * TODO: fill this in.
+       * sensitivity radius to deleting a shape
        */
       deleteRadius: 6,
     };
   },
   methods: {
     /**
-     * TODO: fill this in.
+     * activate the scope
      */
     activate() {
       this.scope.activate();
     },
     /**
-     * TODO: fill this in.
+     * undo the last annotation
      */
     undo() {
       this.draw.points.pop();
@@ -233,7 +231,7 @@ export default {
       }
     },
     /**
-     * TODO: fill this in.
+     * zoom based on a mouse/touch event
      */
     doZoom(e) {
       e.preventDefault();
@@ -243,7 +241,7 @@ export default {
       this.view.setZoom(this.zoomFactor);
     },
     /**
-     * TODO: fill this in.
+     * pan based on a mouse/touch event
      */
     doPan(e) {
       if (this.panMouseDown == null) {
@@ -256,7 +254,7 @@ export default {
       this.view.translate(this.panFactor.x, this.panFactor.y);
     },
     /**
-     * TODO: fill this in.
+     * reset the pan amount
      */
     resetPan() {
       // console.log('reset');
@@ -266,7 +264,7 @@ export default {
       // this.drawOrPan = 'draw';
     },
     /**
-     * TODO: fill this in.
+     * when the window size changes, change all the bounds of all the rasters.
      */
     onresize() {
       /*
@@ -289,7 +287,7 @@ export default {
       }
     },
     /**
-     * TODO: fill this in.
+     * take a screenshot
      */
     takeScreenshot() {
       // eslint-disable-next-line
@@ -301,7 +299,7 @@ export default {
       x.document.close();
     },
     /**
-     * TODO: fill this in.
+     * draw a shape based on a mouse/touch event coordinates
      */
     drawSplat(e, me) {
       const shape = new paper.Shape.Circle(e.point, this.splatRadius);
@@ -319,7 +317,7 @@ export default {
       this.base.addChild(shape);
     },
     /**
-     * TODO: fill this in.
+     * remove a point based on a mouse/touch event
      */
     checkToRemove(e, me) {
       // push info to the vue instance.
@@ -336,7 +334,7 @@ export default {
       return { shapeIdxToRemove, pointsToRemove };
     },
     /**
-     * TODO: fill this in.
+     * remove a shape and point
      */
     removeSplat(splats) {
       _.map(splats.shapeIdxToRemove, (s) => {
@@ -346,7 +344,7 @@ export default {
       _.remove(this.draw.points, (d, i) => splats.shapeIdxToRemove.indexOf(i) > -1);
     },
     /**
-     * TODO: fill this in.
+     * pan on drag
      */
     dragHandler(e) {
       if (e.event.buttons === 2 || this.touch.mode) {
@@ -355,7 +353,8 @@ export default {
       }
     },
     /**
-     * TODO: fill this in.
+     * handle a click event. remove a point if the user clicked close to an existing point.
+     * else, draw a point.
      */
     clickHandler(e) {
       if (e.event.button !== 2 && this.drawOrPan === 'draw') {
@@ -370,7 +369,7 @@ export default {
       }
     },
     /**
-     * TODO: fill this in.
+     * set the brightness and contrast of the base raster.
      */
     brightcont() {
       const bright = ((parseInt(this.brightness, 10) - 50) / 50) + 1;
@@ -378,7 +377,7 @@ export default {
       this.base.brightness_contrast(bright, cont);
     },
     /**
-     * TODO: fill this in.
+     * remove the resize and mousewheel events.
      */
     removeEvents() {
       const el = document.getElementById(this.id);
@@ -389,7 +388,7 @@ export default {
       }
     },
     /**
-     * TODO: fill this in.
+     * clear all stuff from the paper scope
      */
     clearImg() {
       // console.log("paper source changed")
@@ -407,7 +406,7 @@ export default {
       };
     },
     /**
-     * TODO: fill this in.
+     * initialize the base, mask, and contour rasters.
      */
     initImg() {
       // console.log('activating scope', this.id);
@@ -479,26 +478,26 @@ export default {
 
   watch: {
     /**
-     * TODO: fill this in.
+     * if the paper source changes, clear the scope and re-initialize
      */
     paperSrc() {
       this.clearImg();
       this.initImg();
     },
     /**
-     * TODO: fill this in.
+     * if the brightness changes, adjust it
      */
     brightness() {
       this.brightcont();
     },
     /**
-     * TODO: fill this in.
+     * if the contrast changes, adjust it
      */
     contrast() {
       this.brightcont();
     },
     /**
-     * TODO: fill this in.
+     * if any visibility toggles change, set them on the correct rasters.
      */
     visibility: {
       handler() {
@@ -510,28 +509,28 @@ export default {
   },
   props: {
     /**
-     * TODO: fill this in.
+     * a URL to a base image
      */
     paperSrc: {
       type: String,
       default: null,
     },
     /**
-     * TODO: fill this in.
+     * a URL to a mask image
      */
     maskSrc: {
       type: String,
       default: null,
     },
     /**
-     * TODO: fill this in.
+     * a URL to a contour image
      */
     contourSrc: {
       type: String,
       default: null,
     },
     /**
-     * TODO: fill this in.
+     * visibility of contour and mask overlays.
      */
     visibility: {
       type: Object,
@@ -541,35 +540,35 @@ export default {
       },
     },
     /**
-     * TODO: fill this in.
+     * brightness level, from 0-100
      */
     brightness: {
       type: Number,
       default: 50,
     },
     /**
-     * TODO: fill this in.
+     * contrast level, from 0-100
      */
     contrast: {
       type: Number,
       default: 50,
     },
     /**
-     * TODO: fill this in.
+     * canvas id
      */
     id: {
       type: String,
       default: 'canvas-id',
     },
     /**
-     * TODO: fill this in.
+     * how sensitive we should be to delete an annotation.
      */
     splatRadius: {
       type: Number,
       default: 10,
     },
     /**
-     * TODO: fill this in.
+     * the color of the x,y annotation marker.
      */
     splatColor: {
       type: String,
@@ -577,7 +576,7 @@ export default {
     },
   },
   /**
-   * TODO: fill this in.
+   * remove all events before destroying this component.
    */
   beforeDestroy: function beforeDestroy(to, from, next) {
     // ('destroying', this.id);
@@ -587,7 +586,7 @@ export default {
     }
   },
   /**
-   * TODO: fill this in.
+   * when mounted, setup the paper scope, and all touch events.
    */
   mounted() {
     // console.log('mounting canvas', this.id);

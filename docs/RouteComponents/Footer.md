@@ -10,3 +10,5 @@ Footer component with useful links and stuff.
 
 - `openConfig(e)` 
 
+  The method to tell the parent component (App.vue) to open the config panel. 
+

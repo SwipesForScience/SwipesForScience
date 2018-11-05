@@ -25,7 +25,8 @@
 
 <script>
 /**
- * Leaderboard
+ * The leaderboard component for the route `/leaderboard`. It displays the
+ * rank, badge, player username, and score. You can sort based on the score.
  */
   import _ from 'lodash';
 
@@ -41,7 +42,19 @@
         required: true,
       },
       /**
-       * TODO: fill this in.
+       * This is an object that looks like:
+       ```
+       {
+        username: {
+          level:
+          score:
+          taken_tutorial:
+          consent:
+          admin:
+        }
+      }
+       ```
+       * it comes directly from the `/users` document in Firebase.
        */
       allUsers: {
         type: Object,
@@ -50,7 +63,7 @@
     },
     computed: {
       /**
-       * TODO: fill this in.
+       * Convert the allUsers prop to a list from an Object.
        */
       allUsersList() {
         // eslint-disable-next-line
@@ -62,15 +75,17 @@
     data() {
       return {
         /**
-         * TODO: fill this in.
+         * Tell the table component to sort by the score.
          */
         sortBy: 'score',
         /**
-         * TODO: fill this in.
+         * Tell the table component to sort descending.
          */
         sortDesc: true,
         /**
-         * TODO: fill this in.
+         * The fields specification for the table component. Tell the table
+         * how to display the column names, and whether or not the column can be
+         * sorted.
          */
         fields: [
           'rank',

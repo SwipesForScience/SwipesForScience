@@ -25,25 +25,37 @@ e.g (`{".read": true, ".write": true}`)
 
 - `admin` 
 
+  whether or not the /settings/admins/<username> is initialized on firebase 
+
 **initial value:** `false` 
 
 - `sampleCounts` 
+
+  whether or not the /sampleCounts is initialized on firebase 
 
 **initial value:** `false` 
 
 - `sampleSummary` 
 
+  whether or not the /sampleSummary is initialized on firebase 
+
 **initial value:** `false` 
 
 - `chats` 
+
+  whether or not the /chats is initialized on firebase 
 
 **initial value:** `false` 
 
 - `userSeenSamples` 
 
+  whether or not the /userSeenSamples is initialized on firebase 
+
 **initial value:** `false` 
 
 - `votes` 
+
+  whether or not the /votes is initialized on firebase 
 
 **initial value:** `false` 
 
@@ -51,9 +63,13 @@ e.g (`{".read": true, ".write": true}`)
 
 - `uid` 
 
+  the logged in user's UID 
+
    **dependencies:** `userInfo` 
 
 - `ready` 
+
+  returns whether or not everything is inialized correctly. 
 
    **dependencies:** `admin`, `sampleCounts`, `sampleSummary`, `chats`, `userSeenSamples`, `votes` 
 
@@ -66,17 +82,31 @@ e.g (`{".read": true, ".write": true}`)
 
 - `initAdmin()` 
 
+  initialize the admin schema 
+
 - `initSampleCounts()` 
+
+  initialize /sampleCounts 
 
 - `initSampleSummary()` 
 
+  initialize /sampleSummary 
+
 - `initChats()` 
+
+  initialize /chats 
 
 - `initUserSeenSamples()` 
 
+  initialize /userSeenSamples 
+
 - `initVotes()` 
 
+  initialize /votes 
+
 - `initAll()` 
+
+  initialize all 
 
 - `next()` 
 
