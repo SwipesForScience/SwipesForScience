@@ -87,7 +87,8 @@
 
 <script>
 /**
- * Configuration side panel
+ * Configuration side panel. This panel lets you modify the main config file,
+ * So you can build your own app.
  */
 import FirebaseKeys from './ConfigureComponents/FirebaseKeys';
 import App from './ConfigureComponents/App';
@@ -96,11 +97,12 @@ import Tutorial from './ConfigureComponents/Tutorial';
 import Widget from './ConfigureComponents/Widget';
 import Initializer from './ConfigureComponents/InitializeDatabase';
 
-/*
- Function to download a text file from
- https://stackoverflow.com/questions/3665115/create-a-file-in-memory-for-user-to-download-not-through-server
-*/
+
 function download(filename, text) {
+  /*
+   Function to download a text file from
+   https://stackoverflow.com/questions/3665115/create-a-file-in-memory-for-user-to-download-not-through-server
+  */
   const element = document.createElement('a');
   element.setAttribute('href', `data:text/plain;charset=utf-8,${encodeURIComponent(text)}`);
   element.setAttribute('download', filename);
@@ -263,13 +265,13 @@ export default {
       // tell the parent component that the app was updated.
     },
     /**
-     *
+     * set the resizing flag to true, because the user has mousedown'd on the border.
      */
     startResize() {
       this.resizing = true;
     },
     /**
-     *
+     * Set this.width to e.clientX
      */
     resize(e) {
       if (this.resizing) {
@@ -277,13 +279,13 @@ export default {
       }
     },
     /**
-     *
+     * Set the resizing flag to false to signal that we stopped resizing.
      */
     endResize() {
       this.resizing = false;
     },
     /**
-     *
+     * Tell the parent component that this config panel should be closed.
      */
     close() {
       this.$emit('closeConfig');
@@ -311,7 +313,7 @@ export default {
       this.configurationState.step -= 1;
     },
     /**
-     *
+     * Download the completed config file.
      */
     downloadConfig() {
       download('config.json', JSON.stringify(this.config, null, 2));
@@ -319,7 +321,7 @@ export default {
   },
   watch: {
     /**
-     *
+     * If the user logs in, force update the DOM.
      */
     userInfo: {
       handler() {
@@ -331,7 +333,10 @@ export default {
     },
   },
   /**
-   *
+   * When this component is mounted, set listeners on mousemove and mouseup.
+   * These are listeners for the config panel resize.
+   * We also (for now) set the needsTutorial flag to off, only because
+   * we haven't set up the UI for configuring the tutorial yet.
    */
   mounted() {
     window.addEventListener('mousemove', this.resize);
@@ -339,7 +344,7 @@ export default {
     this.config.needsTutorial = false;
   },
   /**
-   *
+   * Before this component is destroyed, remove the resizing listeners.
    */
   beforeDestroy() {
     window.removeEventListener('mousemove', this.resize);

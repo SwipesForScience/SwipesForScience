@@ -42,32 +42,35 @@
 </style>
 
 <script>
-/**
- * Admin panel
- */
 import axios from 'axios';
 import _ from 'lodash';
-//eslint-disable-next-line
+// eslint-disable-next-line
 import LoadManifestWorker from 'worker-loader!../workers/LoadManifestWorker';
 
+/** Admin panel for the /admin route.
+ * The admin panel syncs data from `config.manifestUrl`. Only people
+ * that are authorized can see this page. Authorization comes from
+ * /user/<username>/admin and from /settings/admins/<username>. Both need to be
+ * true to see this page.
+ */
 export default {
   name: 'admin',
   data() {
     return {
       /**
-       *
+       * The loading status
        */
       status: 'loading...',
       /**
-       *
+       * Progress bar for the entries being synced to firebase
        */
       progress: 0,
       /**
-       *
+       * The list of items to put into /sampleCounts
        */
       manifestEntries: [],
       /**
-       *
+       * the /sampleCounts document from Firebase.
        */
       sampleCounts: [],
     };
@@ -100,14 +103,14 @@ export default {
     },
   },
   /**
-   *
+   * When the app is mounted, add a listener to Firebase to keep track of sampleCounts.
    */
   mounted() {
     this.addFirebaseListener();
   },
   methods: {
     /**
-     *
+     * This method keeps track of sampleCounts, but only loads it once.
      */
     addFirebaseListener() {
       this.db.ref('sampleCounts').once('value', (snap) => {
@@ -121,6 +124,8 @@ export default {
     },
     /**
      * A method that fetches the manifest so the user can see what's in it.
+     * TODO: add a .catch event and display an error if something goes wrong
+     * with this request.
      */
     previewManifest() {
       axios.get(this.config.manifestUrl).then((resp) => {
@@ -128,7 +133,9 @@ export default {
       });
     },
     /**
-     *
+     * this method runs in a worker, to check each item in /sampleCounts and each
+     * item in manifestUrl. If the item is in manifestUrl but not in /sampleCounts,
+     * it is added. If its not in manifestUrl but is in sampleCounts, its removed.
      */
     refreshSamples() {
       this.status = 'refreshing';

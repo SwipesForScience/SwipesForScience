@@ -1,58 +1,62 @@
 # image-splat 
 
-TODO: fill this in. 
+This widget is to annotate the X, Y coordinate of an image. It is still
+a **work in progress** and not ready to be used yet. 
 
 ## props 
 
 - `widget-pointer` ***String*** (*required*) 
 
-  TODO: fill this in. 
+  The sample ID to tell the widget to display. 
 
 - `widget-properties` ***Object*** (*required*) 
 
-  TODO: fill this in. 
+  The widget-specific properties. The schema is widget specific. 
 
 - `widget-summary` ***Object*** (*optional*) 
 
-  TODO: fill this in. 
+  The summary data for the widget.
+  This one keeps track of the number of users who annotated points,
+  and the number of points they annotated 
 
 - `play-mode` ***String*** (*optional*) 
 
-  TODO: fill this in. 
+  Tells the widget if it should be in a "play mode" or maybe a "review mode". 
 
 - `tutorial-step` ***Number*** (*optional*) 
 
-  TODO: fill this in. 
+  Tells the widget to display a tutorial step.
+  **TODO**: this part is not implemented yet. 
 
 ## data 
 
 - `overlayStyle` 
 
-  TODO: fill this in. 
+  how to display an overlay image. 
 
 **initial value:** `[object Object]` 
 
 - `visible` 
 
-  TODO: fill this in. 
+  whether the mask and contour image should be visible 
 
 **initial value:** `[object Object]` 
 
 - `brightness` 
 
-  TODO: fill this in. 
+  base image brightness, 0-100 
 
 **initial value:** `50` 
 
 - `contrast` 
 
-  TODO: fill this in. 
+  base image contrast, 0-100 
 
 **initial value:** `50` 
 
 - `brightnessOptions` 
 
-  TODO: fill this in. 
+  sliderbar options for both the brightness and contrast UI. 
 
 **initial value:** `[object Object]` 
 
@@ -60,19 +64,28 @@ TODO: fill this in.
 
 - `maskUrl` 
 
-  TODO: fill this in. 
+  Compute the maskURL based on baseUrlTemplate and delimiter of the widgetProperties,
+  and the widgetPointer. For example a widgetPointer="contrast1__image1" could be
+  mapped to https://base_url/contrast1/image1.jpg if
+  baseUrlTemplate = 'https://base_url/{0}/{1}.jpg' and delimiter === '__'. 
 
    **dependencies:** `widgetProperties`, `widgetPointer`, `fillPropertyPattern`, `widgetProperties`, `widgetProperties` 
 
 - `baseUrl` 
 
-  TODO: fill this in. 
+  Compute the baseURL based on baseUrlTemplate and delimiter of the widgetProperties,
+  and the widgetPointer. For example a widgetPointer="contrast1__image1" could be
+  mapped to https://base_url/contrast1/image1.jpg if
+  baseUrlTemplate = 'https://base_url/{0}/{1}.jpg' and delimiter === '__'. 
 
    **dependencies:** `widgetProperties`, `widgetPointer`, `fillPropertyPattern`, `widgetProperties`, `widgetProperties` 
 
 - `contourUrl` 
 
-  TODO: fill this in. 
+  Compute the contourURL based on baseUrlTemplate and delimiter of the widgetProperties,
+  and the widgetPointer. For example a widgetPointer="contrast1__image1" could be
+  mapped to https://base_url/contrast1/image1.jpg if
+  baseUrlTemplate = 'https://base_url/{0}/{1}.jpg' and delimiter === '__'. 
 
    **dependencies:** `widgetProperties`, `widgetPointer`, `fillPropertyPattern`, `widgetProperties`, `widgetProperties` 
 
@@ -85,29 +98,30 @@ TODO: fill this in.
 
 - `undo()` 
 
-  TODO: fill this in. 
+  undo the last annotation 
 
 - `fillPropertyPattern(pattern, delimiter)` 
 
-  TODO: fill this in. 
+  Fill a pattern by `this.widgetPointer` based on a delimiter. 
 
 - `getScore(response)` 
 
-  TODO: fill this in. 
+  get the score based on the user's response 
 
 - `getFeedback(response)` 
 
-  TODO: fill this in. 
+  get feedback to show user based on the user's response 
 
 - `getSummary(response)` 
 
-  TODO: fill this in. 
+  get the new widget's summary based on the user's response.
+  here we keep track of the x,y coordatinates annotated 
 
 - `getSplatPoints()` 
 
-  TODO: fill this in. 
+  get a list of the annotated coordinates in the form [{x:, y:}] 
 
 - `vote()` 
 
-  TODO: fill this in. 
+  emit to the parent component the user's response. 
 

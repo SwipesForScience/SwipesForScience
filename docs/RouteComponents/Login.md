@@ -1,18 +1,18 @@
 # login 
 
-TODO: fill this in. 
+The login component for the `/login` route. 
 
 ## data 
 
 - `form` 
 
-  TODO: fill this in. 
+  Elements for the form, with an email and password field. 
 
 **initial value:** `[object Object]` 
 
 - `errors` 
 
-  TODO: fill this in. 
+  Variable to store errors and their messages. 
 
 **initial value:** `[object Object]` 
 
@@ -26,5 +26,7 @@ TODO: fill this in.
 
 - `onSubmit(e)` 
 
-  TODO: fill this in. 
+  When the user hits submit, we log in with firebase.
+  If its succesful, route the user to the `/play` route.
+  If there is an error, show the message. 
 

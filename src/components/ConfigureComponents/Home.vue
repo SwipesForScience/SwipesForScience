@@ -28,7 +28,7 @@
 </template>
 <script>
 /**
- * TODO: fill this in.
+ * This is the component for configuring the Home.vue page.
  */
   export default {
     props: {
@@ -46,11 +46,14 @@
     data() {
       return {
         /**
-         * TODO: fill this in.
+         * These are color options for the navigation bar.
          */
         navbarOptions: ['primary', 'secondary', 'info', 'warning', 'danger'],
       };
     },
+    /**
+    * if there is a router defined, route to the root `/` component.
+    */
     mounted() {
       if (this.$router) {
         this.$router.replace('/');

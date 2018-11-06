@@ -21,7 +21,8 @@
 </template>
 <script>
 /**
- * TODO: fill this in.
+ * This is a component for the part of configuration where the researcher inputs
+ * their firebase keys.
  */
   import _ from 'lodash';
 
@@ -29,14 +30,14 @@
     data() {
       return {
         /**
-         * TODO: fill this in.
+         * the variable to store the user input firebase keys
          */
         fkeys: null,
       };
     },
     methods: {
       /**
-       * TODO: fill this in.
+       * parse the firebase keys as they are copied/pasted from the firebase console.
        */
       parseFirebaseKeys() {
         const keys = ['apiKey', 'authDomain', 'databaseURL', 'projectId', 'storageBucket', 'messagingSenderId'];

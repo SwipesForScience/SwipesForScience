@@ -12,9 +12,7 @@
              :contrast="contrast"
              ref="paper"
              id="baseImage"/>
-      <!-- <img ref="baseImage" id="baseImage" class="baseImage" :src="baseUrl">
-      <img class="overlay mask" :style="overlayStyle" :src="maskUrl">
-      <img class="overlay contour" :style="overlayStyle" :src="contourUrl"> -->
+
       <div class="user-card__name mb-3 pb-3 mt-2 pt-3" v-if="playMode">
 
         <div class="row">
@@ -72,7 +70,8 @@
 
 <script>
 /**
- * TODO: fill this in.
+ * This widget is to annotate the X, Y coordinate of an image. It is still
+ * a **work in progress** and not ready to be used yet.
  */
   import _ from 'lodash';
   import vueSlider from 'vue-slider-component';
@@ -82,35 +81,38 @@
   export default {
     props: {
       /**
-       * TODO: fill this in.
+       * The sample ID to tell the widget to display.
        */
       widgetPointer: {
         type: String,
         required: true,
       },
      /**
-      * TODO: fill this in.
+      * The widget-specific properties. The schema is widget specific.
       */
       widgetProperties: {
         type: Object,
         required: true,
       },
      /**
-      * TODO: fill this in.
+     * The summary data for the widget.
+     * This one keeps track of the number of users who annotated points,
+     * and the number of points they annotated
       */
       widgetSummary: {
         type: Object,
         required: false,
       },
      /**
-      * TODO: fill this in.
+      * Tells the widget if it should be in a "play mode" or maybe a "review mode".
       */
       playMode: {
         type: String,
         required: false,
       },
      /**
-      * TODO: fill this in.
+      * Tells the widget to display a tutorial step.
+      * **TODO**: this part is not implemented yet.
       */
       tutorialStep: {
         type: Number,
@@ -120,28 +122,28 @@
     data() {
       return {
         /**
-         * TODO: fill this in.
+         * how to display an overlay image.
          */
         overlayStyle: {
           opacity: 0.5,
         },
         /**
-         * TODO: fill this in.
+         * whether the mask and contour image should be visible
          */
         visible: {
           mask: true,
           contour: true,
         },
         /**
-         * TODO: fill this in.
+         * base image brightness, 0-100
          */
         brightness: 50,
         /**
-         * TODO: fill this in.
+         * base image contrast, 0-100
          */
         contrast: 50,
         /**
-         * TODO: fill this in.
+         * sliderbar options for both the brightness and contrast UI.
          */
         brightnessOptions: {
           eventType: 'auto',
@@ -188,7 +190,10 @@
     },
     computed: {
       /**
-       * TODO: fill this in.
+      * Compute the maskURL based on baseUrlTemplate and delimiter of the widgetProperties,
+      * and the widgetPointer. For example a widgetPointer="contrast1__image1" could be
+      * mapped to https://base_url/contrast1/image1.jpg if
+      * baseUrlTemplate = 'https://base_url/{0}/{1}.jpg' and delimiter === '__'.
        */
       maskUrl() {
         return this.widgetProperties.maskUrlTemplate && this.widgetPointer ?
@@ -196,7 +201,10 @@
           this.widgetProperties.delimiter) : null;
       },
       /**
-       * TODO: fill this in.
+      * Compute the baseURL based on baseUrlTemplate and delimiter of the widgetProperties,
+      * and the widgetPointer. For example a widgetPointer="contrast1__image1" could be
+      * mapped to https://base_url/contrast1/image1.jpg if
+      * baseUrlTemplate = 'https://base_url/{0}/{1}.jpg' and delimiter === '__'.
        */
       baseUrl() {
         return this.widgetProperties.baseUrlTemplate && this.widgetPointer ?
@@ -204,7 +212,10 @@
           this.widgetProperties.delimiter) : null;
       },
       /**
-       * TODO: fill this in.
+      * Compute the contourURL based on baseUrlTemplate and delimiter of the widgetProperties,
+      * and the widgetPointer. For example a widgetPointer="contrast1__image1" could be
+      * mapped to https://base_url/contrast1/image1.jpg if
+      * baseUrlTemplate = 'https://base_url/{0}/{1}.jpg' and delimiter === '__'.
        */
       contourUrl() {
         return this.widgetProperties.contourUrlTemplate && this.widgetPointer ?
@@ -214,13 +225,13 @@
     },
     methods: {
       /**
-       * TODO: fill this in.
+       * undo the last annotation
        */
       undo() {
         this.$refs.paper.undo();
       },
       /**
-       * TODO: fill this in.
+       * Fill a pattern by `this.widgetPointer` based on a delimiter.
        */
       fillPropertyPattern(pattern, delimiter) {
         // fill the pattern by splitting the widgetPointer by delimiter
@@ -232,7 +243,7 @@
         return output;
       },
       /**
-       * TODO: fill this in.
+       * get the score based on the user's response
        */
       getScore(response) {
         const fb = this.getFeedback(response);
@@ -242,7 +253,7 @@
         return 1;
       },
       /**
-       * TODO: fill this in.
+       * get feedback to show user based on the user's response
        */
       getFeedback(response) {
         let widgetSummary;
@@ -289,7 +300,8 @@
         };
       },
       /**
-       * TODO: fill this in.
+       * get the new widget's summary based on the user's response.
+       * here we keep track of the x,y coordatinates annotated
        */
       getSummary(response) {
         // this widget will keep track of
@@ -312,17 +324,17 @@
         };
       },
       /**
-       * TODO: fill this in.
+       * get a list of the annotated coordinates in the form [{x:, y:}]
        */
       getSplatPoints() {
         /* eslint-disable */
         return _.map(this.$refs.paper.draw.points, (v) => {
           return { x: v.x, y: v.y };
-            /* eslint-enable */
+        /* eslint-enable */
         });
       },
       /**
-       * TODO: fill this in.
+       * emit to the parent component the user's response.
        */
       vote() {
         this.$emit('widgetRating', this.getSplatPoints());

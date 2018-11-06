@@ -1,6 +1,7 @@
 # leaderboard 
 
-Leaderboard 
+The leaderboard component for the route `/leaderboard`. It displays the
+rank, badge, player username, and score. You can sort based on the score. 
 
 ## props 
 
@@ -11,25 +12,39 @@ Leaderboard
 
 - `all-users` ***Object*** (*required*) 
 
-  TODO: fill this in. 
+  This is an object that looks like:
+  ```
+  {
+  username: {
+  level:
+  score:
+  taken_tutorial:
+  consent:
+  admin:
+  }
+  }
+  ```
+  it comes directly from the `/users` document in Firebase. 
 
 ## data 
 
 - `sortBy` 
 
-  TODO: fill this in. 
+  Tell the table component to sort by the score. 
 
 **initial value:** `'score'` 
 
 - `sortDesc` 
 
-  TODO: fill this in. 
+  Tell the table component to sort descending. 
 
 **initial value:** `true` 
 
 - `fields` 
 
-  TODO: fill this in. 
+  The fields specification for the table component. Tell the table
+  how to display the column names, and whether or not the column can be
+  sorted. 
 
 **initial value:** `[object Object]` 
 
@@ -37,7 +52,7 @@ Leaderboard
 
 - `allUsersList` 
 
-  TODO: fill this in. 
+  Convert the allUsers prop to a list from an Object. 
 
    **dependencies:** `allUsers` 
 

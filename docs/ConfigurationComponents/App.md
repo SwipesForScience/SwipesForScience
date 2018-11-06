@@ -1,6 +1,7 @@
 # app 
 
-TODO: fill this in. 
+This a component for configuring the parts of the config file that relate to
+App.vue. 
 
 ## props 
 

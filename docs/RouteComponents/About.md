@@ -1,6 +1,9 @@
 # about 
 
-TODO: fill this in. 
+This is the about page for the route /about.
+Right now this page only shows the various badges you can win if you play
+the game. Eventually, we should fill the content with text that the researcher
+provides, in markdown. 
 
 ## props 
 

@@ -60,7 +60,7 @@
 
 <script>
 /**
- * TODO: fill this in.
+ * This is the arrow down animation used in the Tutorial component.
  */
   export default {
     name: 'Arrow',

@@ -1,28 +1,30 @@
 # template-widget 
 
-TODO: fill this in. 
+This is a dummy widget template, for widget developers to use as a base to start
+developing a new annotation widget. 
 
 ## props 
 
 - `widget-pointer` ***String*** (*required*) 
 
-  TODO: fill this in. 
+  a sample ID to display 
 
 - `widget-properties` ***Object*** (*required*) 
 
-  TODO: fill this in. 
+  properties of the widget, that are widget specific. the schema is up to you. 
 
 - `widget-summary` ***Object*** (*optional*) 
 
-  TODO: fill this in. 
+  annotaion summary for the widget, the schema is up to you. 
 
 - `play-mode` ***String*** (*optional*) 
 
-  TODO: fill this in. 
+  variable to note wheter the widget should be in "play mode"
+  or "review mode" or "tutorial mode" 
 
 - `tutorial-step` ***Number*** (*optional*) 
 
-  TODO: fill this in. 
+  variable to save the current tutorial step. Not used here. 
 
 ## events 
 
@@ -32,17 +34,23 @@ TODO: fill this in.
 
 - `getScore(response)` 
 
-  TODO: fill this in. 
+  all widgets should have a getScore method, based on the user's response 
 
 - `getFeedback(response)` 
 
-  TODO: fill this in. 
+  all widgets should have a getFeedback method, based on the user's response.
+  this is what the user will see once they respond. 
 
 - `getSummary(response)` 
 
-  TODO: fill this in. 
+  all widgets should have a get summary method, that updates the sample's
+  annotation summary based on the user's response. This can help you keep track
+  or summarize the annotations so far, and help you score a user's response based on
+  this summary. For example, if the summary keep track of a running average vote, then
+  you can use this method to score the user
+  (e.g if they don't agree with the running average). 
 
 - `vote(val)` 
 
-  TODO: fill this in. 
+  all widgets should have a vote method, that emits a response to the parent component. 
 

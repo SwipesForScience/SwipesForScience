@@ -48,7 +48,7 @@
 </style>
 <script>
 /**
- * TODO: fill this in.
+ * The login component for the `/login` route.
  */
   import firebase from 'firebase';
 
@@ -57,14 +57,14 @@
     data() {
       return {
         /**
-         * TODO: fill this in.
+         * Elements for the form, with an email and password field.
          */
         form: {
           email: null,
           password: null,
         },
         /**
-         * TODO: fill this in.
+         * Variable to store errors and their messages.
          */
         errors: {
           show: false,
@@ -74,7 +74,9 @@
     },
     methods: {
       /**
-       * TODO: fill this in.
+       * When the user hits submit, we log in with firebase.
+       * If its succesful, route the user to the `/play` route.
+       * If there is an error, show the message.
        */
       onSubmit(e) {
         e.preventDefault();

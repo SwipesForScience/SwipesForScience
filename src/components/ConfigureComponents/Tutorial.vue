@@ -13,7 +13,8 @@
 </template>
 <script>
 /**
- * TODO: fill this in.
+ * **WORK IN PROGRESS** this isn't complete yet. But it will be a UI
+ * for a researcher to set up their tutorial.
  */
   export default {
     props: {

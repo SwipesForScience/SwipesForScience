@@ -1,10 +1,7 @@
 # review 
 
 The review component shows the widget for a pointer to a sample in its route,
-and lets the user discuss the sample in a chat-room type UI 
-
-- **author** - Anisha Keshavan 
-- **license** - Apache 2.0 
+and lets the user discuss the sample in a chat-room type UI. 
 
 ## props 
 
@@ -40,17 +37,25 @@ and lets the user discuss the sample in a chat-room type UI
 
 - `widgetPointer` 
 
+  This sample ID to discuss. 
+
 **initial value:** `''` 
 
 - `widgetSummary` 
+
+  The summary of the sample ID 
 
 **initial value:** `[object Object]` 
 
 - `chatMessage` 
 
+  The chat message that the user types. 
+
 **initial value:** `''` 
 
 - `chatHistory` 
+
+  This list of previous chat messages. 
 
 **initial value:** `[object Object]` 
 
@@ -58,13 +63,19 @@ and lets the user discuss the sample in a chat-room type UI
 
 - `chatOrder` 
 
+  Reverse the order of the chats so that the latest is at the top. 
+
    **dependencies:** `chatHistory` 
 
 - `widgetType` 
 
+  The widgetType to display, based on the config value. 
+
    **dependencies:** `config` 
 
 - `widgetProperties` 
+
+  The properties of the widget, from the config. 
 
    **dependencies:** `config` 
 
@@ -73,7 +84,17 @@ and lets the user discuss the sample in a chat-room type UI
 
 - `sendChat(e)` 
 
+  Method to add a new chat message. Update
+  1. push the username, message and timestamp to `chats/sampleChats`
+  2. set the most recent chat time for this sample to `chats/sampleChatIndex`
+  3. set that the user has sent a chat for this sample to `chats/userChat/<username>`
+  4. **TODO**: set that other users following this chat have something new to see. 
+
 - `unravelFirebaseListObject(inputObject)` 
 
+  Take a firebase input object and make it a nice list. 
+
 - `setSampleInfo()` 
+
+  Get the chat history for the current sample ID. 
 

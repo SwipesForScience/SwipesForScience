@@ -20,9 +20,13 @@ You can also pass in the default options
 
 - `scrollPosition` 
 
+  The current scroll position 
+
 **initial value:** `0` 
 
 - `widgetSummary` 
+
+  The sample IDs summary (not implemented yet) 
 
 **initial value:** `[object Object]` 
 
@@ -30,49 +34,51 @@ You can also pass in the default options
 
 - `widgetType` 
 
-  TODO: fill this in. 
+  The widget type defined in config. 
 
    **dependencies:** `config` 
 
 - `widgetProperties` 
 
-  TODO: fill this in. 
+  The widget properties defined in config. 
 
    **dependencies:** `config` 
 
 - `steps` 
 
-  TODO: fill this in. 
+  The steps defined in config, with text and images to display. 
 
    **dependencies:** `config` 
 
 - `backgroundAnimation` 
 
-  TODO: fill this in. 
+  The type of background animation to show. 
 
    **dependencies:** `config` 
 
 - `bins` 
 
-  TODO: fill this in. 
+  The cutoffs of scrolling,
+  to help map scroll position to the step of the tutorial 
 
    **dependencies:** `steps`, `steps` 
 
 - `currentBin` 
 
-  TODO: fill this in. 
+  The current bin based on scroll position. 
 
    **dependencies:** `bins`, `scrollPosition`, `scrollPosition` 
 
 - `currentStage` 
 
-  TODO: fill this in. 
+  The current stage, either the intro text stage,
+  or the part that shows how the widget works. 
 
    **dependencies:** `currentBin`, `steps`, `steps`, `currentBin`, `steps`, `currentBin`, `steps` 
 
 - `nextStep` 
 
-  TODO: fill this in. 
+  The next step that should be displayed. 
 
    **dependencies:** `currentBin`, `steps`, `currentBin`, `currentBin`, `steps` 
 
@@ -85,9 +91,10 @@ You can also pass in the default options
 
 - `tutorialComplete()` 
 
-  TODO: fill this in. 
+  When this method is run, we tell the parent component that the
+  user has completed the tutorial. 
 
 - `handleScroll()` 
 
-  TODO: fill this in. 
+  Keep track of the scroll position and save it to the scrollPosition variable. 
 

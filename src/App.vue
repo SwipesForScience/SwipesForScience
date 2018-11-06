@@ -134,40 +134,46 @@ import Footer from './components/Footer';
 Vue.use(VueFire);
 Vue.use(BootstrapVue);
 
+// this is only for debugging. probably should get rid of it.
 window.firebase = firebase;
 
+/**
+* This is the main entrypoint to the app.
+*/
 export default {
   name: 'app',
   data() {
     return {
       /**
-       *
+       * This is from firebase
        */
       userInfo: {},
       /**
-       *
+       * This is the firebase database object.
        */
       db: firebase.database(),
       /**
-       *
+       * This is the config object, it defines the look of the app
        */
       config,
       /**
-       *
+       * Whether or not to show the configuration panel
        */
       showConfig: false,
       /**
-       *
+       * All the users in the /users document
        */
       allUsers: [],
       /**
-       *
+       * The configuration state, keeping track of the step number only.
        */
       configurationState: {
         step: 0,
       },
       /**
-       *
+       * The levels are defined based on score bins. Each level also defines
+       * a character image that a user can "unlock" when the annotate enough samples.
+       * eventually, this should be abstracted out into the config variable.
        */
       levels: {
         0: {
@@ -222,7 +228,8 @@ export default {
     };
   },
   /**
-   *
+   * When the component is mounted, if there is a query in the route, then
+   * load the config file from the query and set it to the components config variable.
    */
   mounted() {
     if (this.$route.query.config) {
@@ -252,7 +259,10 @@ export default {
   },
   watch: {
     /**
-     *
+     * watch the firebase keys. if they change, then delete the old firebase app,
+     * and then initialize a new one with the keys.
+     * also, log out of the old app, and set a listener on authentication state for the
+     * new app.
      */
     firebaseKeys(newKeys) {
       // there has been a change in firebaseKeys
@@ -276,37 +286,38 @@ export default {
 
   computed: {
     /**
-     *
+     * the firebase keys from the config file
      */
     firebaseKeys() {
       return this.config.firebaseKeys;
     },
     /**
-     *
+     * the brandname from the config file (home.title)
      */
     brandName() {
       return this.config.home.title;
     },
     /**
-     *
+     * whether or not to show the "beta" ribbon, defined in the config.
      */
     betaMode() {
       return this.config.betaMode;
     },
     /**
-     *
+     * whether or not the user is forced to take the tutorial.
      */
     needsTutorial() {
       return this.config.needsTutorial;
     },
     /**
-     *
+     * color of the navbar, based on bootstrap4 color variants.
      */
     navbarVariant() {
       return this.config.app ? this.config.app.navbarVariant || 'info' : 'info';
     },
     /**
-     *
+     * the current user's data, based on the userInfo from the firebase.auth.
+     * this matches the info in allUsers (/users) to the firebase.auth user info.
      */
     userData() {
       let data = {};
@@ -325,7 +336,7 @@ export default {
       return data;
     },
     /**
-     *
+     * the current user's level.
      */
     currentLevel() {
       let clev = {};
@@ -338,7 +349,7 @@ export default {
       return clev;
     },
     /**
-     *
+     * whether or not a user is authenticated and has a username.
      */
     userIsDefined() {
       if (this.userInfo == null) {

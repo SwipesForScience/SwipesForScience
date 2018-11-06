@@ -1,32 +1,36 @@
 # widget-selector 
 
-TODO: fill this in. 
+This a "switch" component, it displays whatever widget is
+passed from the parent prop. It is also a proxy for any events emited from
+the specific widget to the parent. 
 
 ## props 
 
 - `widget-type` ***String*** (*required*) 
 
-  TODO: fill this in. 
+  WidgetType is a string. It can be "ImageSwipe" for example. 
 
 - `widget-pointer` ***String*** (*required*) 
 
-  TODO: fill this in. 
+  The sample ID to tell the widget to display. 
 
 - `widget-properties` ***Object*** (*required*) 
 
-  TODO: fill this in. 
+  The widget-specific properties. The schema is widget specific. 
 
 - `widget-summary` ***Object*** (*optional*) 
 
-  TODO: fill this in. 
+  The summary data for the widget.
+  This could keep track of the running average, for example. 
 
 - `play-mode` ***String*** (*optional*) 
 
-  TODO: fill this in. 
+  Tells the widget if it should be in a "play mode" or maybe a "review mode". 
 
 - `tutorial-step` ***Number*** (*optional*) 
 
-  TODO: fill this in. 
+  Tells the widget to display a tutorial step.
+  Could be like highlighting a certain button. 
 
 ## events 
 
@@ -36,17 +40,17 @@ TODO: fill this in.
 
 - `getFeedback(response)` 
 
-  TODO: fill this in. 
+  proxy the widget's getFeedback method. 
 
 - `getScore(response)` 
 
-  TODO: fill this in. 
+  proxy the widget's getScore method. 
 
 - `getSummary(response)` 
 
-  TODO: fill this in. 
+  proxy the widget's getSummary method. 
 
 - `widgetRating(response)` 
 
-  TODO: fill this in. 
+  emit the widget's response to the parent. 
 

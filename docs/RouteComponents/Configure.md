@@ -1,7 +1,7 @@
 # configuration 
 
-Function to download a text file from
-https://stackoverflow.com/questions/3665115/create-a-file-in-memory-for-user-to-download-not-through-server 
+Configuration side panel. This panel lets you modify the main config file,
+So you can build your own app. 
 
 ## props 
 
@@ -73,11 +73,19 @@ https://stackoverflow.com/questions/3665115/create-a-file-in-memory-for-user-to-
 
 - `startResize()` 
 
+  set the resizing flag to true, because the user has mousedown'd on the border. 
+
 - `resize(e)` 
+
+  Set this.width to e.clientX 
 
 - `endResize()` 
 
+  Set the resizing flag to false to signal that we stopped resizing. 
+
 - `close()` 
+
+  Tell the parent component that this config panel should be closed. 
 
 - `setNewFirebaseKeys(fkeys)` 
 
@@ -95,4 +103,6 @@ https://stackoverflow.com/questions/3665115/create-a-file-in-memory-for-user-to-
   decrement this.step by 1 
 
 - `downloadConfig()` 
+
+  Download the completed config file. 
 

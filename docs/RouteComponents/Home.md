@@ -1,9 +1,7 @@
 # home 
 
-The landing page, on the route / 
-
-- **author** - Anisha Keshavan 
-- **license** - Apache 2.0 
+The landing page, on the route `/`. This component displays a title, tagline,
+and background image splash page that's defined on the config property. 
 
 ## props 
 

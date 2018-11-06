@@ -1,28 +1,32 @@
 # pub-med-n-l-p 
 
-TODO: fill this in. 
+This widget is still a **work in progress**, but is based off the
+https://appstract.pub prototype to annotate sample size from text.
+Right now, this is just a pass/fail annotation that displays the pubmed
+abstract based on a pubmed ID 
 
 ## props 
 
 - `widget-pointer` ***String*** (*required*) 
 
-  TODO: fill this in. 
+  the sample ID to display. In this case it should be a pubmed id. 
 
 - `widget-properties` ***Object*** (*required*) 
 
-  TODO: fill this in. 
+  the properties of the widget, that are widget specific. 
 
 - `widget-summary` ***Object*** (*optional*) 
 
-  TODO: fill this in. 
+  the summary data of the widget. 
 
 - `play-mode` ***String*** (*optional*) 
 
-  TODO: fill this in. 
+  whether the widget should render in play mode, or review mode, or tutorial mode. 
 
 - `tutorial-step` ***Number*** (*optional*) 
 
-  TODO: fill this in. 
+  this is not implemented yet, but will be used to keep track of and show off
+  the annotation features of this widget. 
 
 ## data 
 
@@ -38,31 +42,31 @@ TODO: fill this in.
 
 - `xml` 
 
-  TODO: fill this in. 
+  the parsed XML from pubmed 
 
    **dependencies:** `xmlString` 
 
 - `abstract` 
 
-  TODO: fill this in. 
+  the pubmed abstract, extracted from the xml 
 
    **dependencies:** `xml`, `xml` 
 
 - `title` 
 
-  TODO: fill this in. 
+  the pubmed title, extracted from the xml 
 
    **dependencies:** `xml`, `xml` 
 
 - `authors` 
 
-  TODO: fill this in. 
+  the pubmed author, extracted from the xml 
 
    **dependencies:** `xml`, `xml` 
 
 - `year` 
 
-  TODO: fill this in. 
+  the publication year, extracted from the XML 
 
    **dependencies:** `xml`, `xml`, `xml` 
 
@@ -75,21 +79,21 @@ TODO: fill this in.
 
 - `getPubmedData()` 
 
-  TODO: fill this in. 
+  fetch the data from pubmed 
 
 - `getScore(response)` 
 
-  TODO: fill this in. 
+  get the score based on the user's response 
 
 - `getFeedback(response)` 
 
-  TODO: fill this in. 
+  get feedback based on the user's response. **work in progress** 
 
 - `getSummary(response)` 
 
-  TODO: fill this in. 
+  get the new summary based on the user's response. This is a running average. 
 
 - `vote(val)` 
 
-  TODO: fill this in. 
+  tell the parent component the user's annotation, so it can be saved. 
 

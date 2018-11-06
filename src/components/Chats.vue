@@ -23,12 +23,16 @@
 
 <script>
 /**
- *
+ * This is the component for the /chats route. It shows all the chat messages
+ * for each sample.
  */
 
   export default {
     firebase() {
       return {
+        /**
+        * keep track of all the samples that have been discussed.
+        */
         sampleChat: {
           source: this.db.ref('chats').child('sampleChatIndex').orderByChild('time'),
           readyCallback() {
@@ -61,7 +65,7 @@
          */
         chatInfo: {},
         /**
-         *
+         * A flag to tell us if the /chats doc is empty on firebase.
          */
         noData: false,
       };
@@ -87,14 +91,14 @@
     },
     computed: {
       /**
-       *
+       * Reverses the order of the chats.
        */
       orderedPosts() {
         const chats = this.sampleChat;
         return chats.reverse();
       },
       /**
-       *
+       * A blank image from the config file. If this.noData is true, this image is rendered.
        */
       blankChatImage() {
         return this.config.chats.blankImage;

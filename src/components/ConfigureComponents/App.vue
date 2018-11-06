@@ -14,7 +14,8 @@
 
 <script>
 /**
- * TODO: fill this in.
+ * This a component for configuring the parts of the config file that relate to
+ * App.vue.
  */
 export default {
   props: {
@@ -37,6 +38,9 @@ export default {
   methods: {
 
   },
+  /**
+  * if there is a router defined, then route to the /admin page.
+  */
   mounted() {
     if (this.$router) {
       this.$router.replace('/admin');
