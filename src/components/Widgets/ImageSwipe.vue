@@ -3,12 +3,16 @@
       <transition :key="swipe" :name="swipe" >
         <div class="user-card" :key="baseUrl">
             <div class="image_area">
-              <progressive-img class="user-card__picture mx-auto" :src="baseUrl"
+              <!-- <progressive-img class="user-card__picture mx-auto" :src="baseUrl"
                 v-hammer:swipe.horizontal="onSwipe"
+                ref="img"
                 placeholder="https://unsplash.it/500"
                 :aspect-ratio="1"
                 >
-              </progressive-img>
+              </progressive-img> -->
+              <img class="user-card__picture mx-auto"
+               id="img" ref="img"
+               :src="baseUrl" crossorigin="anonymous"/>
             </div>
 
             <div class="user-card__name">
@@ -29,6 +33,8 @@
                <span v-else>ave vote: N/A</span>
              </span>
 
+             <b-button @click="learn">Learn</b-button>
+
              <b-button v-if="playMode"
               :to="'/review/'+widgetPointer"
               ref="helpButton"
@@ -43,7 +49,7 @@
                 @shortkey="swipeRight"
                 ref="rightSwipe"
               > {{widgetProperties.rightSwipeLabel}}
-              <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
               </b-button>
 
               <span style="float:right" v-else>
@@ -69,6 +75,7 @@
   import imagesLoaded from 'vue-images-loaded';
   import GridLoader from 'vue-spinner/src/PulseLoader';
   import VueProgressiveImage from '../../../node_modules/vue-progressive-image/dist/vue-progressive-image';
+  import * as dl from './Tools/transferLearn';
 
   Vue.use(VueProgressiveImage);
   Vue.use(VueHammer);
@@ -130,6 +137,18 @@
          * save the swipe direction.
          */
         swipe: null,
+        /**
+        * Decapitated pretrained Mobilenet
+        */
+        decapNet: null,
+        /**
+        * the dataset of x's and y's
+        */
+        controllerDataset: null,
+        /**
+        * the trained model.
+        */
+        model: null,
       };
     },
     computed: {
@@ -278,6 +297,10 @@
       swipeLeft() {
         // set the transition style
         this.setSwipe('swipe-left');
+        // grab the image and add to dataset;
+        const imgElem = document.getElementById('img');
+        this.controllerDataset.addExample(dl.capture(imgElem), 0);
+        // send the vote.
         this.vote(0);
       },
       /**
@@ -286,6 +309,11 @@
       swipeRight() {
         // set the transition style
         this.setSwipe('swipe-right');
+
+        // grab the image and add to dataset;
+        const imgElem = document.getElementById('img');
+        this.controllerDataset.addExample(dl.capture(imgElem), 1);
+        // send the vote.
         this.vote(1);
       },
       /**
@@ -303,6 +331,32 @@
        */
       setSwipe(sw) {
         this.swipe = sw;
+      },
+      /**
+      * transfer learning
+      */
+      learn() {
+        const imgElem = document.getElementById('img');
+
+        if (this.decapNet == null) {
+          console.log('initializing');
+          // eslint-disable-next-line
+          this.decapNet = dl.init(dl.capture(imgElem));
+          this.controllerDataset = dl.controllerDataset;
+        } else {
+          console.log('training', this.controllerDataset.shape);
+          const denseUnits = 100;
+          const learningRate = 0.0001;
+          const batchSizeFraction = 0.4;
+          const epochs = 10;
+          this.model = dl.train(this.decapNet,
+            this.controllerDataset,
+            denseUnits,
+            learningRate,
+            batchSizeFraction,
+            epochs,
+          );
+        }
       },
     },
   };
@@ -419,6 +473,11 @@
   @keyframes pulse {
     from { box-shadow:0px 0px 10px 0px #ffffff;}
     to { box-shadow:0px 0px 20px 5px #17a2b8;}
+  }
+
+  #img {
+    width: 224px !important;
+    height: 224px !important;
   }
 
 </style>
