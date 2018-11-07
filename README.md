@@ -99,7 +99,7 @@ npm run build --report
 
 # run unit tests (we don't have these yet)
 
-./node_modules/.bin/firebase-server -p 5000 -d '{"sampleCounts": {a:0, b:0, c:0}}' &
+./node_modules/.bin/firebase-server -p 5000 -d '{"sampleCounts": {"a":0, "b":0, "c":0}}' &
 npm run unit
 
 # run e2e tests (we don't have these yet)
