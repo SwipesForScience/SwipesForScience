@@ -13,4 +13,6 @@ notifications:
 before_script:
   - npm install
 script:
+  - ./node_modules/.bin/firebase-server -p 5000 -d '{"sampleCounts": {a:0, b:0, c:0, d:0, e:0}}' &
   - npm run unit
+
