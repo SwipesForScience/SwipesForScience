@@ -4,13 +4,13 @@ import Admin from '@/components/Admin';
 const MockReference = require('firebase-mock/src/firebase');
 
 const firebaseRef = new MockReference();
-firebaseRef.push({
-  sampleCounts: 5,
+firebaseRef.set({
+  sampleCounts: 5
 });
-firebaseRef.autoFlush();
+firebaseRef.flush();
 
 describe('Admin.vue', () => {
-  it('should have correct title', () => {
+  it('should have correct content in paragraphs', () => {
     const Constructor = Vue.extend(Admin);
     const vm = new Constructor({
       propsData: {
@@ -22,6 +22,7 @@ describe('Admin.vue', () => {
         },
       },
     }).$mount();
-    expect(vm.$el.querySelector('h1').textContent).to.equal(' Admin ');
+    const paragraphs = vm.$el.getElementsByTagName('p');
+    expect(paragraphs[0].textContent).to.equal('You have 5 items currently');
   });
 });
