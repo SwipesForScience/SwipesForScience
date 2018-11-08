@@ -19,7 +19,7 @@ export default {
     //   delimiter: '__',
     // },
 
-  widgetType: 'ImageSwipe',
+  widgetType: 'ImageSwipeChoices',
   widgetProperties: {
     baseUrlTemplate: 'https://s3-us-west-2.amazonaws.com/akeshavan-mindcontrol/hbnSplat/{0}/tiles/base_{1}.png',
     delimiter: '__',

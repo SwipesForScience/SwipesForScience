@@ -43,6 +43,16 @@
      :playMode="playMode"
     />
 
+    <ImageSwipeChoices  v-else-if="widgetType=='ImageSwipeChoices'"
+     ref="ImageSwipeChoices"
+     :widgetPointer="widgetPointer"
+     :widgetProperties="widgetProperties"
+     :widgetSummary="widgetSummary"
+     :tutorialStep="tutorialStep"
+     v-on:widgetRating="widgetRating"
+     :playMode="playMode"
+    />
+
     <TemplateWidget v-else
     ref="TemplateWidget"
     :widgetPointer="widgetPointer"
@@ -63,6 +73,7 @@
  * the specific widget to the parent.
  */
   import ImageSwipe from './Widgets/ImageSwipe';
+  import ImageSwipeChoices from './Widgets/ImageSwipeChoices';
   import ImageSoundSwipe from './Widgets/ImageSoundSwipe';
   import PubMedNLP from './Widgets/PubMedNLP';
   import TemplateWidget from './Widgets/TemplateWidget';
@@ -122,6 +133,7 @@
       PubMedNLP,
       TemplateWidget,
       ImageSplat,
+      ImageSwipeChoices,
     },
     methods: {
       /**
