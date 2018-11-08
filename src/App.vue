@@ -82,7 +82,7 @@
       />
 
   </div>
-    <Footer v-on:openConfig="openConfig"></Footer>
+    <Footer v-on:openConfig="openConfig" :config="config"></Footer>
   </div>
 </template>
 
@@ -110,20 +110,6 @@ import firebase from 'firebase';
 
 // font-awesome icons
 import '../node_modules/font-awesome/css/font-awesome.min.css';
-
-// Here are some badges we set
-import jelly from './assets/badges/jelly.svg';
-import dolphin from './assets/badges/dolphin.svg';
-import orca from './assets/badges/orca.svg';
-import narwhal from './assets/badges/narwhal.svg';
-import bluewhale from './assets/badges/blueWhale_or_baleen.svg';
-
-// Here are the grayed out versions of the badges
-import jellyGrey from './assets/badges/jelly_gray.svg';
-import dolphinGrey from './assets/badges/dolphin_gray.svg';
-import orcaGrey from './assets/badges/orca_gray.svg';
-import narwhalGrey from './assets/badges/narwhal_gray.svg';
-import bluewhaleGrey from './assets/badges/blueWhale_or_baleen_gray.svg';
 
 // config options
 import config from './config';
@@ -169,61 +155,6 @@ export default {
        */
       configurationState: {
         step: 0,
-      },
-      /**
-       * The levels are defined based on score bins. Each level also defines
-       * a character image that a user can "unlock" when the annotate enough samples.
-       * eventually, this should be abstracted out into the config variable.
-       */
-      levels: {
-        0: {
-          level: 0,
-          min: 0,
-          max: 100,
-          character: null,
-          img: null,
-          img_grey: null,
-        },
-        1: {
-          level: 1,
-          min: 101,
-          max: 750,
-          character: 'jelly',
-          img: jelly,
-          img_grey: jellyGrey,
-        },
-        2: {
-          level: 2,
-          min: 751,
-          max: 2000,
-          character: 'dolphin',
-          img: dolphin,
-          img_grey: dolphinGrey,
-        },
-        3: {
-          level: 3,
-          min: 2001,
-          max: 3500,
-          character: 'orca',
-          img: orca,
-          img_grey: orcaGrey,
-        },
-        4: {
-          level: 4,
-          min: 3501,
-          max: 6000,
-          character: 'narwhal',
-          img: narwhal,
-          img_grey: narwhalGrey,
-        },
-        5: {
-          level: 5,
-          min: 6001,
-          max: 8000,
-          character: 'blue whale',
-          img: bluewhale,
-          img_grey: bluewhaleGrey,
-        },
       },
     };
   },
@@ -334,6 +265,14 @@ export default {
         }
       });
       return data;
+    },
+    /**
+     * The levels are defined based on score bins. Each level also defines
+     * a character image that a user can "unlock" when the annotate enough samples.
+     * eventually, this should be abstracted out into the config variable.
+     */
+    levels() {
+      return this.config.levels;
     },
     /**
      * the current user's level.
