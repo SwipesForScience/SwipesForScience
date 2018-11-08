@@ -82,7 +82,7 @@
       />
 
   </div>
-    <Footer v-on:openConfig="openConfig"></Footer>
+    <Footer v-on:openConfig="openConfig" :config="config"></Footer>
   </div>
 </template>
 

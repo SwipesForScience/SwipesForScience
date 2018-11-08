@@ -8,6 +8,7 @@ describe('config.js', () => {
     'widgetProperties',
     'betaMode',
     'levels',
+    'iconAttribute',
     'firebaseKeys',
     'home',
     'play',

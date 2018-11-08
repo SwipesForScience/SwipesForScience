@@ -27,6 +27,11 @@ export default {
     rightSwipeLabel: 'Pass',
   },
 
+  iconAttribute: {
+    name: 'openmoji',
+    url: 'http://openmoji.org',
+  },
+
   levels: {
     0: {
       level: 0,
