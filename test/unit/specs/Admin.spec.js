@@ -1,20 +1,15 @@
 import Vue from 'vue';
 import Admin from '@/components/Admin';
-import firebase from 'firebase';
+import MockFirebase from './MockFirebase';
+import testData from '../../testData.json';
 
 // eslint-enable
 const manifestUrl = 'https://mydatasource.com';
-const config = {
-  databaseURL: 'ws://localhost:5000',
-};
-
-const app = firebase.initializeApp(config);
-const db = app.database();
 const propsData = {
-  db,
+  db: MockFirebase,
   config: {
     manifestUrl,
-    firebaseKeys: config,
+    firebaseKeys: '',
   },
   levels: {
   },
@@ -44,12 +39,12 @@ describe('Admin.vue', () => {
     vm.status = 'complete';
     await vm.$nextTick(); */
 
-    await db.ref('sampleCounts').once('value').then((snap) => {
+    await MockFirebase.ref('sampleCounts').once('value').then((snap) => {
       snap.val();
     });
 
     const paragraphs = vm.$el.getElementsByTagName('p');
-    expect(paragraphs[0].textContent).to.equal('You have 3 items currently');
+    expect(paragraphs[0].textContent).to.equal(`You have ${Object.keys(testData.sampleCounts).length} items currently`);
     expect(paragraphs[1].textContent).to.equal(`Data Source: ${manifestUrl}`);
     expect(paragraphs[2].textContent).to.equal('Click the button below to sync your firebase database with your manifest.');
   });
