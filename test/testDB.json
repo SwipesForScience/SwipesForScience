@@ -1,7 +1,17 @@
 {
 	"sampleCounts": {
-		"a": 0,
-		"b": 0,
-		"c": 0
+		"a":0,
+		"b":0,
+		"c":0
+	},
+	"chats": {
+		"sampleChatIndex": [{
+			"time": 1,
+			"key": "key1"
+		}],
+		"sampleChats": [[{
+			"message": "Hi!",
+			"username": "John"
+		}]]
 	}
 }
