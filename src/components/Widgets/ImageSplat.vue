@@ -339,6 +339,34 @@
       vote() {
         this.$emit('widgetRating', this.getSplatPoints());
       },
+      /**
+       * This method should tell users how their widgetProperties configuration should be defined.
+       */
+      getPropertiesSchema() {
+        return {
+          baseUrlTemplate: {
+            type: String,
+            required: true,
+            description: 'base url to the image file',
+          },
+          maskUrlTemplate: {
+            type: String,
+            required: true,
+            description: 'base url to the mask file',
+          },
+          contourUrlTemplate: {
+            type: String,
+            required: true,
+            description: 'base url to the contour file',
+          },
+          delimiter: {
+            type: String,
+            required: false,
+            default: '__',
+            description: 'how to split the sample ID to fill in the template',
+          },
+        };
+      },
     },
   };
 </script>

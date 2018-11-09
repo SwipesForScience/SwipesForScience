@@ -273,6 +273,36 @@
         this.$emit('widgetRating', val);
       },
       /**
+       * This method should tell users how their widgetProperties configuration should be defined.
+       */
+      getPropertiesSchema() {
+        return {
+          baseUrlTemplate: {
+            type: String,
+            required: true,
+            description: 'base url to the image file',
+          },
+          delimiter: {
+            type: String,
+            required: false,
+            default: '__',
+            description: 'how to split the sample ID to fill in the template',
+          },
+          leftSwipeLabel: {
+            type: String,
+            required: false,
+            default: 'Fail',
+            description: 'label for the left swipe button',
+          },
+          rightSwipeLabel: {
+            type: String,
+            required: false,
+            default: 'True',
+            description: 'label for the right swipe button',
+          },
+        };
+      },
+      /**
        * set the swipe-left animation and vote 0
        */
       swipeLeft() {

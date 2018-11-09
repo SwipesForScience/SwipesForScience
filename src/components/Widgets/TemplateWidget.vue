@@ -126,6 +126,12 @@
       vote(val) {
         this.$emit('widgetRating', val);
       },
+      /**
+       * This method should tell users how their widgetProperties configuration should be defined.
+       */
+      getPropertiesSchema() {
+        return {};
+      },
     },
   };
 </script>

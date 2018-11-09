@@ -162,6 +162,67 @@
       vote(val) {
         this.$emit('widgetRating', val);
       },
+      /**
+       * This method should tell users how their widgetProperties configuration should be defined.
+       */
+      getPropertiesSchema() {
+        return {
+          baseUrlTemplate: {
+            type: String,
+            required: true,
+            description: 'base url to the image file',
+          },
+          delimiter: {
+            type: String,
+            required: false,
+            default: '__',
+            description: 'how to split the sample ID to fill in the template',
+          },
+          choices: {
+            type: Array,
+            required: true,
+            description: 'the different tags for the image',
+            max_length: 4,
+            default: [
+              {
+                id: 'artifact',
+                name: 'Artifact',
+                variant: 'danger',
+              },
+              {
+                id: 'unknown',
+                name: 'Don\'t know',
+                variant: 'info',
+              },
+              {
+                id: 'brain',
+                name: 'Brain',
+                variant: 'success',
+              },
+            ],
+            schema: {
+              type: Object,
+              schema: {
+                id: {
+                  type: String,
+                  required: true,
+                  description: 'id of the button',
+                },
+                name: {
+                  type: String,
+                  required: true,
+                  description: 'name of the button',
+                },
+                variant: {
+                  type: String,
+                  required: true,
+                  description: 'color variant of the button',
+                },
+              },
+            },
+          },
+        };
+      },
     },
   };
 </script>
