@@ -5,12 +5,17 @@
     <h5 class="mt3 pt-3">Widget Properties</h5>
     <div v-for="(val, key) in widgetSchema" class="mt-2">
       <label :for="key">{{key}}</label>
-      <b-form-input v-model="config.widgetProperties[key]"
-                type="text"
-                :id="key"
-                :placeholder="val.default"
-                >
-      </b-form-input>
+      <div v-if="val.type() === ''">
+        <b-form-input v-model="config.widgetProperties[key]"
+                  type="text"
+                  :id="key"
+                  :placeholder="val.default"
+                  >
+        </b-form-input>
+      </div>
+      <div v-else-if="Array.isArray(val.type())">
+        <b-alert show :variant="danger">Not implemented yet!</b-alert>
+      </div>
     </div>
   </div>
 </template>
