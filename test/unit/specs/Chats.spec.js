@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueFire from 'vuefire';
 import Chats from '@/components/Chats';
 import MockFirebase from './MockFirebase';
-import testData from '../../testData.json';
+import testData from '../../testDB.json';
 
 Vue.use(VueFire);
 

@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Admin from '@/components/Admin';
 import MockFirebase from './MockFirebase';
-import testData from '../../testData.json';
+import testData from '../../testDB.json';
 
 // eslint-enable
 const manifestUrl = 'https://mydatasource.com';
