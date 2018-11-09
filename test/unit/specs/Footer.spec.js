@@ -11,6 +11,7 @@ describe('Footer.vue', () => {
         config: {
           iconAttribute: {
             url: '',
+            name: 'name',
           },
         },
       },
@@ -19,6 +20,6 @@ describe('Footer.vue', () => {
 
     expect(tds).to.have.lengthOf(2);
     expect(tds[0].textContent).to.equal('About ');
-    expect(tds[1].textContent).to.equal('\n          icons on this site are from \n          and illustrations are from undraw.co');
+    expect(tds[1].textContent).to.equal('\n          icons on this site are from name\n          and illustrations are from undraw.co');
   });
 });
