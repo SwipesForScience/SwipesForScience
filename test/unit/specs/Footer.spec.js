@@ -6,11 +6,20 @@ const Constructor = Vue.extend(Footer);
 
 describe('Footer.vue', () => {
   it('should have correct table content', () => {
-    const vm = new Constructor().$mount();
+    const vm = new Constructor({
+      propsData: {
+        config: {
+          iconAttribute: {
+            url: '',
+            name: 'name',
+          },
+        },
+      },
+    }).$mount();
     const tds = vm.$el.getElementsByTagName('td');
 
     expect(tds).to.have.lengthOf(2);
     expect(tds[0].textContent).to.equal('About ');
-    expect(tds[1].textContent).to.equal('\n          icons on this site were Designed by Freepik\n          and illustrations are from undraw.co');
+    expect(tds[1].textContent).to.equal('\n          icons on this site are from name\n          and illustrations are from undraw.co');
   });
 });
