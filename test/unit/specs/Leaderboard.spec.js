@@ -4,11 +4,14 @@ import Leaderboard from '@/components/Leaderboard';
 // eslint-enable
 const Constructor = Vue.extend(Leaderboard);
 const propsData = {
-  levels: {},
+  levels: {
+    sample_level: {
+      img: 'http://www.domain.com/sample_image_url',
+    },
+  },
   allUsers: {
-    key: 'key-1',
     item: {
-      level: 'level-1',
+      level: 'sample_level',
     },
   },
 };
@@ -20,5 +23,13 @@ describe('Leaderboard.vue', () => {
     }).$mount();
 
     expect(vm.$el.querySelector('h1').textContent).to.equal('Leaderboard');
+  });
+
+  it('should have correct image path', () => {
+    const vm = new Constructor({
+      propsData,
+    }).$mount();
+
+    expect(vm.$el.querySelector('img').src).to.equal(propsData.levels.sample_level.img);
   });
 });
