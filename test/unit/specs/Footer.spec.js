@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Footer from '@/components/Footer';
+import router from '@/router';
 
 // eslint-enable
 const Constructor = Vue.extend(Footer);
@@ -15,6 +16,7 @@ describe('Footer.vue', () => {
           },
         },
       },
+      router,
     }).$mount();
     const tds = vm.$el.getElementsByTagName('td');
 
