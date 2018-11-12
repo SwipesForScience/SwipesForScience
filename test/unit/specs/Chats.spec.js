@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueFire from 'vuefire';
 import Chats from '@/components/Chats';
+import router from '@/router';
 import MockFirebase from './MockFirebase';
 import testData from '../../testDB.json';
 
@@ -21,6 +22,7 @@ describe('Chats.vue', () => {
   it('should have correct title', () => {
     const vm = new Constructor({
       propsData,
+      router,
     }).$mount();
     expect(vm.$el.querySelector('h1').textContent).to.equal('Chats');
   });
@@ -28,6 +30,7 @@ describe('Chats.vue', () => {
   it('should have correct content in paragraphs', () => {
     const vm = new Constructor({
       propsData,
+      router,
     }).$mount();
 
     const paragraphs = vm.$el.getElementsByTagName('p');
@@ -37,6 +40,7 @@ describe('Chats.vue', () => {
   it('should have correct data in span', (done) => {
     const vm = new Constructor({
       propsData,
+      router,
     }).$mount();
 
     setTimeout(() => {
