@@ -105,7 +105,8 @@ async function train(decapitatedMobilenet,
   denseUnits,
   learningRate,
   batchSizeFraction,
-  epochs) {
+  epochs,
+  epochCallback) {
   if (cd.xs == null) {
     throw new Error('Add some examples before training!');
   }
@@ -140,13 +141,14 @@ async function train(decapitatedMobilenet,
   });
 
   // Creates the optimizers which drives training of the model.
-  const optimizer = tf.train.adam(learningRate);
+  // const optimizer = tf.train.adam(learningRate);
+
   // We use categoricalCrossentropy which is the loss function we use for
   // categorical classification which measures the error between our predicted
   // probability distribution over classes (probability that an input is of each
   // class), versus the label (100% probability in the true class)>
-  model.compile({ optimizer, loss: 'categoricalCrossentropy' });
-  console.log('compiled model', cd.xs.shape);
+  model.compile({ optimizer: 'adam', loss: 'categoricalCrossentropy' });
+
   // We parameterize batch size as a fraction of the entire dataset because the
   // number of examples that are collected depends on how many examples the user
   // collects. This allows us to have a flexible batch size.
@@ -162,8 +164,11 @@ async function train(decapitatedMobilenet,
     batchSize,
     epochs,
     callbacks: {
-      onBatchEnd: async (batch, logs) => {
-        console.log(`Loss: ${logs.loss.toFixed(5)}`);
+      // onBatchEnd: async (batch, logs) => {
+      //   batchCallback(batch, logs);
+      // },
+      onEpochEnd: async (epoch, logs) => {
+        epochCallback(epoch, logs);
       },
     },
   });

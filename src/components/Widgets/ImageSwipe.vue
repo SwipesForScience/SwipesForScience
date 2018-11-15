@@ -33,7 +33,14 @@
                <span v-else>ave vote: N/A</span>
              </span>
 
-             <b-button @click="learn">Learn</b-button>
+             <b-button v-if="DLstatus !== 'initialized'" @click="initializeDL" variant="secondary">Init</b-button>
+             <span v-else>
+               <span v-if="controllerDataset.xs">
+                 <span v-if="controllerDataset.xs.shape[0] >= 10">
+                   <b-button @click="learn" variant="warning">Learn {{controllerDataset.xs.shape[0]}} </b-button>
+                 </span>
+               </span>
+            </span>
 
              <b-button v-if="playMode"
               :to="'/review/'+widgetPointer"
@@ -60,6 +67,11 @@
             </div>
           </div>
       </transition>
+      <b-modal id="deepLearn" ref="deepLearn" size="lg" title="Learning from your responses">
+        <div>
+          <ScatterChart :chartdata="chartData"/>
+        </div>
+      </b-modal>
   </div>
 </template>
 
@@ -76,6 +88,7 @@
   import GridLoader from 'vue-spinner/src/PulseLoader';
   import VueProgressiveImage from '../../../node_modules/vue-progressive-image/dist/vue-progressive-image';
   import * as dl from './Tools/transferLearn';
+  import ScatterChart from './Tools/scatterChart';
 
   Vue.use(VueProgressiveImage);
   Vue.use(VueHammer);
@@ -123,7 +136,7 @@
         required: false,
       },
     },
-    components: { VueHammer, GridLoader },
+    components: { VueHammer, GridLoader, ScatterChart },
     directives: {
       imagesLoaded,
     },
@@ -149,6 +162,14 @@
         * the trained model.
         */
         model: null,
+        /**
+        * Deep learning model status flag.
+        */
+        DLstatus: null,
+        /**
+        *
+        */
+        loss: [],
       };
     },
     computed: {
@@ -162,6 +183,13 @@
         return this.widgetProperties.baseUrlTemplate && this.widgetPointer ?
           this.fillPropertyPattern(this.widgetProperties.baseUrlTemplate,
           this.widgetProperties.delimiter) : null;
+      },
+      /**
+      * returns the chart data to plot in the modal.
+      */
+      chartData() {
+        // console.log(_.map(this.loss, l => l.logs.loss));
+        return _.map(this.loss, l => l.logs.loss);
       },
     },
     /**
@@ -329,7 +357,9 @@
         this.setSwipe('swipe-left');
         // grab the image and add to dataset;
         const imgElem = document.getElementById('img');
-        this.controllerDataset.addExample(dl.capture(imgElem), 0);
+        if (this.DLstatus === 'initialized') {
+          this.controllerDataset.addExample(this.decapNet.predict(dl.capture(imgElem)), 0);
+        }
         // send the vote.
         this.vote(0);
       },
@@ -342,7 +372,9 @@
 
         // grab the image and add to dataset;
         const imgElem = document.getElementById('img');
-        this.controllerDataset.addExample(dl.capture(imgElem), 1);
+        if (this.DLstatus === 'initialized') {
+          this.controllerDataset.addExample(this.decapNet.predict(dl.capture(imgElem)), 1);
+        }
         // send the vote.
         this.vote(1);
       },
@@ -362,31 +394,35 @@
       setSwipe(sw) {
         this.swipe = sw;
       },
+      async initializeDL() {
+        const imgElem = document.getElementById('img');
+        this.controllerDataset = dl.controllerDataset;
+        await dl.init(dl.capture(imgElem)).then((resp) => {
+          this.decapNet = resp;
+          this.DLstatus = 'initialized';
+        });
+      },
       /**
       * transfer learning
       */
       learn() {
-        const imgElem = document.getElementById('img');
-
-        if (this.decapNet == null) {
-          console.log('initializing');
-          // eslint-disable-next-line
-          this.decapNet = dl.init(dl.capture(imgElem));
-          this.controllerDataset = dl.controllerDataset;
-        } else {
-          console.log('training', this.controllerDataset.shape);
-          const denseUnits = 100;
-          const learningRate = 0.0001;
-          const batchSizeFraction = 0.4;
-          const epochs = 10;
-          this.model = dl.train(this.decapNet,
-            this.controllerDataset,
-            denseUnits,
-            learningRate,
-            batchSizeFraction,
-            epochs,
-          );
-        }
+        // console.log('training', this.controllerDataset.shape);
+        this.$refs.deepLearn.show();
+        const denseUnits = 100;
+        const learningRate = 0.0001;
+        const batchSizeFraction = 0.4;
+        const epochs = 10;
+        this.dlStatus = 'training';
+        this.model = dl.train(this.decapNet,
+          this.controllerDataset,
+          denseUnits,
+          learningRate,
+          batchSizeFraction,
+          epochs,
+          (epoch, logs) => {
+            this.loss.push({ epoch, logs });
+          },
+        );
       },
       /*
       * Test all the lines of this widget.
@@ -399,9 +435,6 @@
         this.getSummary(1);
         this.getSummary(0);
         this.vote(1);
-        // this.showTutorialStep(0);
-        // this.showTutorialStep(1);
-        // this.showTutorialStep(2);
         this.swipeLeft();
         this.swipeRight();
         this.onSwipe({ direction: 1 });
