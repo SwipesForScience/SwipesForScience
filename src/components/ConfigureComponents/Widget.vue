@@ -62,7 +62,7 @@ export default {
     */
     widgetSchema() {
       const schema = this.getWidgetSchema(this.config.widgetType);
-      console.log(schema);
+      // console.log(schema);
       return schema;
     },
   },

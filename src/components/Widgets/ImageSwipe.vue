@@ -181,7 +181,7 @@
       fillPropertyPattern(pattern, delimiter) {
         // fill the pattern by splitting the widgetPointer by delimiter
         let output = pattern;
-        const parts = this.widgetPointer.split(delimiter);
+        const parts = String(this.widgetPointer).split(delimiter);
         _.map(parts, (p, i) => {
           output = output.replace(`{${i}}`, p);
         });
@@ -333,6 +333,28 @@
        */
       setSwipe(sw) {
         this.swipe = sw;
+      },
+      /**
+      * Test all the lines of this widget.
+      */
+      test() {
+        this.getScore(1);
+        this.getScore(0);
+        this.getFeedback(1);
+        this.getFeedback(0);
+        this.getSummary(1);
+        this.getSummary(0);
+        this.vote(1);
+        // this.showTutorialStep(0);
+        // this.showTutorialStep(1);
+        // this.showTutorialStep(2);
+        this.swipeLeft();
+        this.swipeRight();
+        this.onSwipe({ direction: 1 });
+        this.onSwipe({ direction: 2 });
+        this.setSwipe('swipe-left');
+        this.getPropertiesSchema();
+        return 1;
       },
     },
   };

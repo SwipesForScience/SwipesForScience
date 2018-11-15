@@ -236,7 +236,7 @@
       fillPropertyPattern(pattern, delimiter) {
         // fill the pattern by splitting the widgetPointer by delimiter
         let output = pattern;
-        const parts = this.widgetPointer.split(delimiter);
+        const parts = String(this.widgetPointer.split(delimiter));
         _.map(parts, (p, i) => {
           output = output.replace(`{${i}}`, p);
         });
@@ -366,6 +366,23 @@
             description: 'how to split the sample ID to fill in the template',
           },
         };
+      },
+      /**
+      * Test all the lines of this widget.
+      */
+      test() {
+        const response0 = [];
+        const response1 = [{ x: 0, y: 0 }];
+        this.getScore(response0);
+        this.getScore(response1);
+        this.getFeedback(response1);
+        this.getFeedback(response0);
+        this.getSummary(response1);
+        this.getSummary(response0);
+        this.vote(response1);
+        this.vote(response0);
+        this.getPropertiesSchema();
+        return 1;
       },
     },
   };
