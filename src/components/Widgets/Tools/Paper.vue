@@ -2,7 +2,9 @@
   <div class="paper" oncontextmenu="return false;">
       <resize-observer @notify="onresize" />
       <!-- <button @click="takeScreenshot"></button> -->
-      <canvas ref="canvas" :id="id" resize v-on:click="activate"></canvas>
+      <canvas ref="canvas" :id="id" resize v-on:click="activate"
+      style="width:100%;height:100%"
+      ></canvas>
       <!-- resize -->
   </div>
 

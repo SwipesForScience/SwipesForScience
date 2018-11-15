@@ -22,7 +22,7 @@
           </tr>
           <tr>
             <td class="align-middle text-center text-white">
-            icons on this site were <a href='https://www.freepik.com/free-vector/cute-woodland-animals_1585897.htm'>Designed by Freepik</a>
+            icons on this site are from <a :href="config.iconAttribute.url">{{config.iconAttribute.name}}</a>
             and illustrations are from <a href="https://undraw.co">undraw.co</a>
             </td>
           </tr>
@@ -38,6 +38,18 @@
   */
   export default {
     name: 'Footer',
+    props: {
+      /**
+       * The config object that is loaded from src/config.js.
+       * It defines how the app is configured, including
+       * any content that needs to be displayed (app title, images, etc)
+       * and also the type of widget and where to update pointers to data
+       */
+      config: {
+        type: Object,
+        required: true,
+      },
+    },
     data() {
       return {
 

@@ -215,6 +215,33 @@
       vote(val) {
         this.$emit('widgetRating', val);
       },
+      /**
+       * This method should tell users how their widgetProperties configuration should be defined.
+       */
+      getPropertiesSchema() {
+        return {
+          template: {
+            type: String,
+            required: true,
+            description: 'pubmed query template',
+            default: 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id={0}&tool=appstract&email=keshavan@berkeley.edu&retmode=xml',
+          },
+        };
+      },
+      /**
+      * Test all the lines of this widget.
+      */
+      test() {
+        this.getScore(1);
+        this.getScore(0);
+        this.getFeedback(1);
+        this.getFeedback(0);
+        this.getSummary(1);
+        this.getSummary(0);
+        this.vote(1);
+        this.getPropertiesSchema();
+        return 1;
+      },
     },
   };
 </script>

@@ -3,60 +3,34 @@
       <transition :key="swipe" :name="swipe" >
         <div class="user-card" :key="baseUrl">
             <div class="image_area">
-              <!-- <progressive-img class="user-card__picture mx-auto" :src="baseUrl"
-                v-hammer:swipe.horizontal="onSwipe"
-                ref="img"
+              <!-- <div v-if="status == 'loading'">
+                <grid-loader class="loader" color="#ffc107"></grid-loader>
+              </div> -->
+              <progressive-img class="user-card__picture mx-auto" :src="baseUrl"
                 placeholder="https://unsplash.it/500"
                 :aspect-ratio="1"
                 >
-              </progressive-img> -->
-              <img class="user-card__picture mx-auto"
-               id="img" ref="img"
-               :src="baseUrl" crossorigin="anonymous"/>
+              </progressive-img>
             </div>
 
             <div class="user-card__name">
-              <b-button variant="danger"
+             <b-button v-for="(choice, key) in widgetProperties.choices"
+                :key="key"
+                :variant="choice.variant"
                 v-if="playMode"
-                style="float:left"
-                @click="swipeLeft"
-                v-shortkey="['arrowleft']"
-                @shortkey="swipeLeft"
-                v-hammer:swipe.left="swipeLeft"
-                ref="leftSwipe"
-              > <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
-              {{widgetProperties.leftSwipeLabel}}
+                @click="vote(key)"
+                ref="choice.id">
+                {{choice.name}}
              </b-button>
 
-             <span style="float:left" v-else>
-               <span v-if="widgetSummary"> ave vote: {{widgetSummary.aveVote || 0}} </span>
-               <span v-else>ave vote: N/A</span>
-             </span>
+            </div>
 
-             <b-button @click="learn">Learn</b-button>
-
-             <b-button v-if="playMode"
+            <div class="user-card__name">
+              <b-button v-if="playMode"
               :to="'/review/'+widgetPointer"
               ref="helpButton"
               class="helpbtn"
               >Help</b-button>
-
-              <b-button variant="success"
-                v-if="playMode"
-                style="float:right"
-                @click="swipeRight"
-                v-shortkey="['arrowright']"
-                @shortkey="swipeRight"
-                ref="rightSwipe"
-              > {{widgetProperties.rightSwipeLabel}}
-                <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-              </b-button>
-
-              <span style="float:right" v-else>
-                <span v-if="widgetSummary"> num votes: {{widgetSummary.count || 0}} </span>
-                <span v-else>num votes: 0</span>
-              </span>
-
             </div>
           </div>
       </transition>
@@ -64,139 +38,49 @@
 </template>
 
 <script>
-/**
- * The ImageSwipe widget is the original, https://braindr.us Tinder-like widget
- * where you swipe left to "fail" an image, and swipe right to  "pass" it.
- * it is for binary classification only.
- */
   import _ from 'lodash';
   import Vue from 'vue';
   import { VueHammer } from 'vue2-hammer';
   import imagesLoaded from 'vue-images-loaded';
   import GridLoader from 'vue-spinner/src/PulseLoader';
   import VueProgressiveImage from '../../../node_modules/vue-progressive-image/dist/vue-progressive-image';
-  import * as dl from './Tools/transferLearn';
 
   Vue.use(VueProgressiveImage);
   Vue.use(VueHammer);
   Vue.use(require('vue-shortkey'));
 
   export default {
-    props: {
-      /**
-       * The sample ID to tell the widget to display.
-       */
-      widgetPointer: {
-        type: String,
-        required: true,
-      },
-     /**
-      * The widget-specific properties. The schema is widget specific.
-      */
-      widgetProperties: {
-        type: Object,
-        required: true,
-      },
-     /**
-     * The summary data for the widget.
-     * This one keeps track of the running average.
-    */
-      widgetSummary: {
-        type: Object,
-        required: false,
-      },
-     /**
-      * Tells the widget if it should be in a "play mode" or maybe a "review mode".
-      */
-      playMode: {
-        type: String,
-        required: false,
-      },
-     /**
-     * Tells the widget to display a tutorial step.
-     * tutorialStep = 1 highlights/glows the pass button.
-     * tutorialStep = 2 highlights/glows the fail button.
-     * tutorialStep = 3 highlights/glows the help button.
-     */
-      tutorialStep: {
-        type: Number,
-        required: false,
-      },
-    },
+    props: ['widgetPointer', 'widgetProperties', 'widgetSummary', 'playMode', 'tutorialStep'],
     components: { VueHammer, GridLoader },
     directives: {
       imagesLoaded,
     },
     data() {
       return {
-        /**
-         * the status of the image to load
-         */
         status: 'loading',
-        /**
-         * save the swipe direction.
-         */
         swipe: null,
-        /**
-        * Decapitated pretrained Mobilenet
-        */
-        decapNet: null,
-        /**
-        * the dataset of x's and y's
-        */
-        controllerDataset: null,
-        /**
-        * the trained model.
-        */
-        model: null,
       };
     },
     computed: {
-      /**
-       * Compute the baseURL based on baseUrlTemplate and delimiter of the widgetProperties,
-       * and the widgetPointer. For example a widgetPointer="contrast1__image1" could be
-       * mapped to https://base_url/contrast1/image1.jpg if
-       * baseUrlTemplate = 'https://base_url/{0}/{1}.jpg' and delimiter === '__'.
-       */
       baseUrl() {
         return this.widgetProperties.baseUrlTemplate && this.widgetPointer ?
           this.fillPropertyPattern(this.widgetProperties.baseUrlTemplate,
           this.widgetProperties.delimiter) : null;
       },
     },
-    /**
-     * If the playMode === 'tutorial', show a tutorial step.
-     */
     mounted() {
       if (this.playMode === 'tutorial') {
         this.showTutorialStep(this.tutorialStep);
       }
     },
     methods: {
-      /**
-       * Show a tutorial step
-       */
       showTutorialStep(stepNumber) {
-        switch (stepNumber) {
-          case 0:
-            // highlight the pass button
-            this.$refs.rightSwipe.classList.add('focus');
-            break;
-          case 1:
-            // highlight the fail button
-            this.$refs.leftSwipe.classList.add('focus');
-            break;
-          case 2:
-            // highlight the help button
-            this.$refs.helpButton.$el.classList.add('focus');
-            break;
-          default:
-            break;
+        if (stepNumber < this.widgetProperties.length) {
+          // eslint-disable-next-line
+          const element = this.widgetProperties.choices[stepNumber].id;
+          this.$refs.element.$el.classList.add('focus');
         }
       },
-      /**
-       * Fill a pattern by `this.widgetPointer` based on a delimiter.
-       */
       fillPropertyPattern(pattern, delimiter) {
         // fill the pattern by splitting the widgetPointer by delimiter
         let output = pattern;
@@ -206,9 +90,6 @@
         });
         return output;
       },
-      /**
-       * Get the score based on a user's response.
-       */
       getScore(response) {
         const fb = this.getFeedback(response);
         if (fb.variant === 'danger') {
@@ -216,9 +97,6 @@
         }
         return 1;
       },
-      /**
-       * Get the feedback based on a user's response.
-       */
       getFeedback(response) {
         let widgetSummary;
         if (!this.widgetSummary) {
@@ -262,10 +140,6 @@
           message: '+1 thanks',
         };
       },
-      /**
-       * get the widget's new summary based on a user's response.
-       * in this case its a running average.
-       */
       getSummary(response) {
         // this widget will keep track of
         // the number of votes and the average vote
@@ -285,9 +159,6 @@
           count: this.widgetSummary.count + 1,
         };
       },
-      /**
-       * emit an annotation to the parent.
-       */
       vote(val) {
         this.$emit('widgetRating', val);
       },
@@ -307,88 +178,52 @@
             default: '__',
             description: 'how to split the sample ID to fill in the template',
           },
-          leftSwipeLabel: {
-            type: String,
-            required: false,
-            default: 'Fail',
-            description: 'label for the left swipe button',
-          },
-          rightSwipeLabel: {
-            type: String,
-            required: false,
-            default: 'True',
-            description: 'label for the right swipe button',
+          choices: {
+            type: Array,
+            required: true,
+            description: 'the different tags for the image',
+            max_length: 4,
+            default: [
+              {
+                id: 'artifact',
+                name: 'Artifact',
+                variant: 'danger',
+              },
+              {
+                id: 'unknown',
+                name: 'Don\'t know',
+                variant: 'info',
+              },
+              {
+                id: 'brain',
+                name: 'Brain',
+                variant: 'success',
+              },
+            ],
+            schema: {
+              type: Object,
+              schema: {
+                id: {
+                  type: String,
+                  required: true,
+                  description: 'id of the button',
+                },
+                name: {
+                  type: String,
+                  required: true,
+                  description: 'name of the button',
+                },
+                variant: {
+                  type: String,
+                  required: true,
+                  description: 'color variant of the button',
+                },
+              },
+            },
           },
         };
       },
       /**
-       * set the swipe-left animation and vote 0
-       */
-      swipeLeft() {
-        // set the transition style
-        this.setSwipe('swipe-left');
-        // grab the image and add to dataset;
-        const imgElem = document.getElementById('img');
-        this.controllerDataset.addExample(dl.capture(imgElem), 0);
-        // send the vote.
-        this.vote(0);
-      },
-      /**
-       * set the swipe-right animation and vote 1
-       */
-      swipeRight() {
-        // set the transition style
-        this.setSwipe('swipe-right');
-
-        // grab the image and add to dataset;
-        const imgElem = document.getElementById('img');
-        this.controllerDataset.addExample(dl.capture(imgElem), 1);
-        // send the vote.
-        this.vote(1);
-      },
-      /**
-       * set the swipe direction based on the mouse/touch event.
-       */
-      onSwipe(evt) {
-        if (evt.direction === 2) {
-          this.swipeLeft();
-        } else {
-          this.swipeRight();
-        }
-      },
-      /**
-       * save the swipe direction variable.
-       */
-      setSwipe(sw) {
-        this.swipe = sw;
-      },
-      /**
-      * transfer learning
-      */
-      learn() {
-        const imgElem = document.getElementById('img');
-
-        if (this.decapNet == null) {
-          console.log('initializing');
-          // eslint-disable-next-line
-          this.decapNet = dl.init(dl.capture(imgElem));
-          this.controllerDataset = dl.controllerDataset;
-        } else {
-          console.log('training', this.controllerDataset.shape);
-          const denseUnits = 100;
-          const learningRate = 0.0001;
-          const batchSizeFraction = 0.4;
-          const epochs = 10;
-          this.model = dl.train(this.decapNet,
-            this.controllerDataset,
-            denseUnits,
-            learningRate,
-            batchSizeFraction,
-            epochs,
-          );
-        }
-      },
-      /*
       * Test all the lines of this widget.
       */
       test() {
@@ -399,14 +234,9 @@
         this.getSummary(1);
         this.getSummary(0);
         this.vote(1);
-        // this.showTutorialStep(0);
-        // this.showTutorialStep(1);
-        // this.showTutorialStep(2);
-        this.swipeLeft();
-        this.swipeRight();
-        this.onSwipe({ direction: 1 });
-        this.onSwipe({ direction: 2 });
-        this.setSwipe('swipe-left');
+        this.showTutorialStep(0);
+        this.showTutorialStep(1);
+        this.showTutorialStep(2);
         this.getPropertiesSchema();
         return 1;
       },
@@ -415,6 +245,13 @@
 </script>
 
 <style scoped>
+
+  .btn {
+    text-align: center;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
   .imageSwipe {
     min-height: 100vh;
     height: 532px;
@@ -525,11 +362,6 @@
   @keyframes pulse {
     from { box-shadow:0px 0px 10px 0px #ffffff;}
     to { box-shadow:0px 0px 20px 5px #17a2b8;}
-  }
-
-  #img {
-    width: 224px !important;
-    height: 224px !important;
   }
 
 </style>
