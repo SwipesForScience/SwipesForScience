@@ -43,6 +43,13 @@ describe('widgets/ImageSplat.vue', () => {
 
     expect(vm.test()).to.equal(1);
   });
+  it('should fillPropertyPattern correctly', () => {
+    const vm = new Constructor({
+      propsData,
+    }).$mount();
+
+    expect(vm.fillPropertyPattern('https://{0}.{1}', '000')).to.equal('https://1.288');
+  });
   it('should run all its tests in tutorial mode and return 1', () => {
     const vm = new Constructor({
       propsData: propsData1,
