@@ -27,6 +27,7 @@
     "bootstrap-vue": "^1.0.2",
     "d3": "^5.7.0",
     "d3-array": "^1.2.1",
+    "d3-dsv": "^1.0.10",
     "docsify-cli": "^4.2.1",
     "firebase": "^4.9.0",
     "firebase-server": "^1.0.0",
