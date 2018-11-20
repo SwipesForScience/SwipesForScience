@@ -1,5 +1,8 @@
 import Vue from 'vue';
+import BootstrapVue from 'bootstrap-vue';
 import TemplateWidget from '@/components/Widgets/TemplateWidget';
+
+Vue.use(BootstrapVue);
 
 // eslint-enable
 const Constructor = Vue.extend(TemplateWidget);

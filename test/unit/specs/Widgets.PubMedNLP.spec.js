@@ -1,5 +1,8 @@
 import Vue from 'vue';
+import BootstrapVue from 'bootstrap-vue';
 import PubMedNLP from '@/components/Widgets/PubMedNLP';
+
+Vue.use(BootstrapVue);
 
 // eslint-enable
 const Constructor = Vue.extend(PubMedNLP);
