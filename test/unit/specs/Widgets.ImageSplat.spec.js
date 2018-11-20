@@ -1,5 +1,8 @@
 import Vue from 'vue';
+import BootstrapVue from 'bootstrap-vue';
 import ImageSplat from '@/components/Widgets/ImageSplat';
+
+Vue.use(BootstrapVue);
 
 // eslint-enable
 const Constructor = Vue.extend(ImageSplat);
@@ -11,7 +14,9 @@ const propsData = {
     contourUrlTemplate: 'https://s3.amazonaws.com/hotdognothotdog/{0}.jpg',
     delimiter: '__',
   },
-  widgetSummary: {},
+  widgetSummary: {
+    points: [],
+  },
   playMode: 'play',
   tutorialStep: 0,
 };
@@ -23,7 +28,9 @@ const propsData1 = {
     contourUrlTemplate: 'https://s3.amazonaws.com/hotdognothotdog/{0}.jpg',
     delimiter: '__',
   },
-  widgetSummary: {},
+  widgetSummary: {
+    points: [],
+  },
   playMode: '',
   tutorialStep: 0,
 };

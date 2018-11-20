@@ -382,7 +382,7 @@ export default {
      * remove the resize and mousewheel events.
      */
     removeEvents() {
-      const el = document.getElementById(this.id);
+      const el = this.$refs.canvas;
       if (el) {
         // console.log('removing events');
         el.removeEventListener('resize', this.onresize);
@@ -591,67 +591,69 @@ export default {
    * when mounted, setup the paper scope, and all touch events.
    */
   mounted() {
-    // console.log('mounting canvas', this.id);
-    const scope = new paper.PaperScope();
-    scope.setup(document.getElementById(this.id));
-    // console.log("scope is", scope, "id is", this.id)
-    this.scope = scope;
-    this.initImg();
+    this.$nextTick(() => {
+      // console.log('mounting canvas', this.id);
+      const scope = new paper.PaperScope();
+      scope.setup(this.$refs.canvas);
+      // console.log("scope is", scope, "id is", this.id)
+      this.scope = scope;
+      this.initImg();
 
-    // this.viewHeight = document.body.scrollHeight;
+      // this.viewHeight = document.body.scrollHeight;
 
-    const el = document.getElementById(this.id);
-    // console.log(el);
-    el.addEventListener('resize', this.onresize);
-    el.addEventListener('mousewheel', this.doZoom);
+      const el = this.$refs.canvas;
+      // console.log(el);
+      el.addEventListener('resize', this.onresize);
+      el.addEventListener('mousewheel', this.doZoom);
 
-    const self = this;
+      const self = this;
 
-    const mc = new Hammer.Manager(el, {
-      stopPropagation: true,
-      preventDefault: true,
-    });
-    const Pinch = new Hammer.Pinch();
+      const mc = new Hammer.Manager(el, {
+        stopPropagation: true,
+        preventDefault: true,
+      });
+      const Pinch = new Hammer.Pinch();
 
-    // add the recognizer
-    mc.add(Pinch);
+      // add the recognizer
+      mc.add(Pinch);
 
-    let tmpzoom = 1;
+      let tmpzoom = 1;
 
-    // subscribe to events
-    mc.on('pinch', (e) => {
+      // subscribe to events
+      mc.on('pinch', (e) => {
+          // do something cool
+
+        if (e) {
+          e.preventDefault();
+          tmpzoom = xfm.clamp((e.scale / self.touch.startScale) * self.zoomFactor, 1, 5);
+          self.view.setZoom(tmpzoom);
+        }
+      });
+
+      mc.on('pinchend', (e) => {
+          // do something cool
+          // console.log("pinchend", window.mode)
+        // console.log('ending pinch');
+        self.touch.mode = false;
+        if (e) {
+          e.preventDefault();
+
+          self.zoomFactor = tmpzoom;
+          self.panMouseDown = null;
+          self.drawOrPan = 'pan';
+        }
+      });
+
+      mc.on('pinchstart', (e) => {
         // do something cool
-
-      if (e) {
-        e.preventDefault();
-        tmpzoom = xfm.clamp((e.scale / self.touch.startScale) * self.zoomFactor, 1, 5);
-        self.view.setZoom(tmpzoom);
-      }
-    });
-
-    mc.on('pinchend', (e) => {
-        // do something cool
-        // console.log("pinchend", window.mode)
-      // console.log('ending pinch');
-      self.touch.mode = false;
-      if (e) {
-        e.preventDefault();
-
-        self.zoomFactor = tmpzoom;
-        self.panMouseDown = null;
-        self.drawOrPan = 'pan';
-      }
-    });
-
-    mc.on('pinchstart', (e) => {
-      // do something cool
-      // console.log('starting pinch');
-      if (e) {
-        self.touch.mode = true;
-        e.preventDefault();
-        self.touch.startScale = e.scale;
-        self.drawOrPan = 'pan';
-      }
+        // console.log('starting pinch');
+        if (e) {
+          self.touch.mode = true;
+          e.preventDefault();
+          self.touch.startScale = e.scale;
+          self.drawOrPan = 'pan';
+        }
+      });
     });
   },
 };

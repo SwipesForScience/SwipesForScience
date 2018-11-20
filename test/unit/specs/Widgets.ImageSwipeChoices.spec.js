@@ -1,5 +1,8 @@
 import Vue from 'vue';
+import BootstrapVue from 'bootstrap-vue';
 import ImageSwipeChoices from '@/components/Widgets/ImageSwipeChoices';
+
+Vue.use(BootstrapVue);
 
 // eslint-enable
 const Constructor = Vue.extend(ImageSwipeChoices);
