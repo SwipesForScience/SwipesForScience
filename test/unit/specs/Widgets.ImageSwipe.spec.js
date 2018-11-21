@@ -27,7 +27,7 @@ const propsData1 = {
     rightSwipeLabel: 'pass',
   },
   widgetSummary: {},
-  playMode: '',
+  playMode: 'play',
   tutorialStep: 0,
 };
 
@@ -50,8 +50,9 @@ describe('widgets/ImageSwipe.vue', () => {
   });
   it('should run all its tests in tutorial mode and return 1', () => {
     const vm = new Constructor({
-      propsData1,
+      propsData: propsData1,
     }).$mount();
+
     expect(vm.test()).to.equal(1);
   });
 });
