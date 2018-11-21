@@ -1,7 +1,11 @@
 import Vue from 'vue';
+import BootstrapVue from 'bootstrap-vue';
 import Admin from '@/components/Admin';
-import MockFirebase from './MockFirebase';
+import Util from '../../util';
+import MockFirebase from '../../MockFirebase';
 import testData from '../../testDB.json';
+
+Vue.use(BootstrapVue);
 
 // eslint-enable
 const manifestUrl = 'https://mydatasource.com';
@@ -24,7 +28,7 @@ describe('Admin.vue', () => {
     expect(vm.$el.querySelector('h1').textContent).to.equal(' Admin ');
   });
 
-  it('should have correct content in paragraphs', () => {
+  it('should have correct content in paragraphs', async () => {
     const vm = new Constructor({
       propsData,
     }).$mount();
@@ -39,11 +43,11 @@ describe('Admin.vue', () => {
     vm.status = 'complete';
     await vm.$nextTick(); */
 
-    setTimeout(() => {
-      const paragraphs = vm.$el.getElementsByTagName('p');
-      expect(paragraphs[0].textContent).to.equal(`You have ${Object.keys(testData.sampleCounts).length} items currently`);
-      expect(paragraphs[1].textContent).to.equal(`Data Source: ${manifestUrl}`);
-      expect(paragraphs[2].textContent).to.equal('Click the button below to sync your firebase database with your manifest.');
-    }, 1800);
+    await Util.timeout(1800);
+
+    const paragraphs = vm.$el.getElementsByTagName('p');
+    expect(paragraphs[0].textContent).to.equal(`You have ${Object.keys(testData.sampleCounts).length} items currently`);
+    expect(paragraphs[1].textContent).to.equal(`Data Source: ${manifestUrl}`);
+    expect(paragraphs[2].textContent).to.equal('Click the button below to sync your firebase database with your manifest.');
   });
 });

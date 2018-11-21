@@ -3,7 +3,7 @@ import BootstrapVue from 'bootstrap-vue';
 import Login from '@/components/Login';
 import router from '@/router';
 /* eslint-disable no-unused-vars */
-import MockFirebase from './MockFirebase';
+import MockFirebase from '../../MockFirebase';
 
 Vue.use(BootstrapVue);
 
