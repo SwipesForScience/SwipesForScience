@@ -16,6 +16,7 @@ module.exports = function (config) {
     reporters: ['spec', 'coverage'],
     files: [
       './index.js',
+      '../polyfill.js',
       '../../node_modules/phantomjs-polyfill-find/find-polyfill.js',
       '../../node_modules/es6-promise/dist/es6-promise.auto.js'
     ],
