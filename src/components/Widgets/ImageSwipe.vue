@@ -149,9 +149,11 @@
      * If the playMode === 'tutorial', show a tutorial step.
      */
     mounted() {
-      if (this.playMode === 'tutorial') {
-        this.showTutorialStep(this.tutorialStep);
-      }
+      this.$nextTick(() => {
+        if (this.playMode === 'tutorial') {
+          this.showTutorialStep(this.tutorialStep);
+        }
+      });
     },
     methods: {
       /**
@@ -169,7 +171,7 @@
             break;
           case 2:
             // highlight the help button
-            this.$refs.helpButton.$el.classList.add('focus');
+            this.$refs.helpButton.classList.add('focus');
             break;
           default:
             break;
