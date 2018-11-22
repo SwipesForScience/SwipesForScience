@@ -27,7 +27,7 @@ const propsData1 = {
     rightSwipeLabel: 'pass',
   },
   widgetSummary: {},
-  playMode: 'play',
+  playMode: '',
   tutorialStep: 0,
 };
 

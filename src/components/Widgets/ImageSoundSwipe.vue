@@ -154,11 +154,13 @@
      * show a tutorial step.
      */
     mounted() {
-      if (this.playMode !== 'tutorial') {
-        this.playSound();
-      } else {
-        this.showTutorialStep(this.tutorialStep);
-      }
+      this.$nextTick(() => {
+        if (this.playMode !== 'tutorial') {
+          this.playSound();
+        } else {
+          this.showTutorialStep(this.tutorialStep);
+        }
+      });
     },
     computed: {
       /**
@@ -200,7 +202,7 @@
             break;
           case 2:
             // highlight the help button
-            this.$refs.helpButton.$el.classList.add('focus');
+            this.$refs.helpButton.classList.add('focus');
             break;
           default:
             break;
@@ -399,9 +401,11 @@
         this.getSummary(1);
         this.getSummary(0);
         this.vote(1);
-        // this.showTutorialStep(0);
-        // this.showTutorialStep(1);
-        // this.showTutorialStep(2);
+        if (this.playMode === 'play') {
+          this.showTutorialStep(0);
+          this.showTutorialStep(1);
+          this.showTutorialStep(2);
+        }
         this.swipeLeft();
         this.swipeRight();
         this.onSwipe({ direction: 1 });
