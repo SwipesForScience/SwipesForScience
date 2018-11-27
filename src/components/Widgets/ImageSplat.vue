@@ -103,6 +103,13 @@
         type: Object,
         required: false,
       },
+      /**
+       * The user's settings on the widget. The schema is widget specific.
+       */
+      userSettings: {
+        type: Object,
+        required: true,
+      },
      /**
       * Tells the widget if it should be in a "play mode" or maybe a "review mode".
       */
@@ -182,7 +189,13 @@
       };
     },
     mounted() {
-
+      // if (this.userSettings.brightness) {
+      //   this.brightness = this.userSettings.brightness;
+      // }
+      // if (this.userSettings.contrast) {
+      //   this.contrast = this.userSettings.contrast;
+      // }
+      // this.mounted = true;
     },
     components: {
       Paper,
@@ -222,6 +235,19 @@
           this.fillPropertyPattern(this.widgetProperties.contourUrlTemplate,
           this.widgetProperties.delimiter) : null;
       },
+    },
+    watch: {
+      // userSettings: {
+      //   handler() {
+      //     if (this.userSettings.brightness) {
+      //       this.brightness = this.userSettings.brightness;
+      //     }
+      //     if (this.userSettings.contrast) {
+      //       this.contrast = this.userSettings.contrast;
+      //     }
+      //   },
+      //   deep: true,
+      // },
     },
     methods: {
       /**
@@ -337,6 +363,10 @@
        * emit to the parent component the user's response.
        */
       vote() {
+        this.$emit('updateUserSettings', {
+          brightness: this.brightness,
+          contrast: this.contrast,
+        });
         this.$emit('widgetRating', this.getSplatPoints());
       },
       /**

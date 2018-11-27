@@ -44,6 +44,13 @@
         required: false,
       },
       /**
+       * The user's settings on the widget. The schema is widget specific.
+       */
+      userSettings: {
+        type: Object,
+        required: true,
+      },
+      /**
        * variable to note wheter the widget should be in "play mode"
        * or "review mode" or "tutorial mode"
        */

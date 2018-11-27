@@ -108,6 +108,13 @@
         type: String,
         required: false,
       },
+      /**
+       * The user's settings on the widget. The schema is widget specific.
+       */
+      userSettings: {
+        type: Object,
+        required: true,
+      },
      /**
      * Tells the widget to display a tutorial step.
      * tutorialStep = 1 highlights/glows the pass button.
