@@ -7,17 +7,10 @@ export default {
     // if new entries are there, they will be added, and entries that aren't in the manifest
     // but are in the firebase database will be *removed*
   manifestUrl: 'https://raw.githubusercontent.com/SwipesForScience/exampleConfig/master/bsHbnManifest.json',
-    // 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/bsHbnManifest.json',
-    // 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/textWidgetManifest.json',
 
-    // set the type of widget and its properties here.
-    // widgetType: 'ImageSplat',
-    // widgetProperties: {
-    //   baseUrlTemplate: 'https://s3-us-west-2.amazonaws.com/akeshavan-mindcontrol/hbnSplat/{0}/tiles/base_{1}.png',
-    //   maskUrlTemplate: 'https://s3-us-west-2.amazonaws.com/akeshavan-mindcontrol/hbnSplat/{0}/tiles/mask_{1}.png',
-    //   contourUrlTemplate: 'https://s3-us-west-2.amazonaws.com/akeshavan-mindcontrol/hbnSplat/{0}/tiles/contour_{1}.png',
-    //   delimiter: '__',
-    // },
+    // if manifestType = 'pubmed' then you should also include a manifestQuery key.
+  manifestType: 'pubmed',
+  manifestQuery: 'neuroimaging AND autism AND DTI',
 
   widgetType: 'ImageSwipe',
   widgetProperties: {

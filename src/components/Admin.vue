@@ -5,7 +5,16 @@
     <b-container>
 
       <p class="lead" v-if="status=='complete'">You have {{sampleCounts.length}} items currently</p>
-      <p> <b>Data Source:</b> <a :href="config.manifestUrl">{{config.manifestUrl}}</a></p>
+      <p v-if="manifestType === 'json'">
+        <b>Data Source:</b>
+        <a :href="config.manifestUrl">{{config.manifestUrl}}</a>
+      </p>
+
+      <p v-else>
+        <b>Pubmed Query:</b>
+        {{config.manifestQuery}}
+      </p>
+
       <b-button variant="warning" @click="previewManifest">
         <span> Preview </span>
       </b-button>
@@ -73,6 +82,10 @@ export default {
        * the /sampleCounts document from Firebase.
        */
       sampleCounts: [],
+      /**
+      * A place to hold variables for pubmed query manifests.
+      */
+      pubmedQueryStore: {},
     };
   },
   props: {
@@ -108,6 +121,20 @@ export default {
   mounted() {
     this.addFirebaseListener();
   },
+  computed: {
+    /**
+     * The manifest type can be either 'json' (default) or 'pubmed'
+     */
+    manifestType() {
+      let manifestType = null;
+      if (!this.config.manifestType) {
+        manifestType = 'json';
+      } else {
+        manifestType = this.config.manifestType;
+      }
+      return manifestType;
+    },
+  },
   methods: {
     /**
      * This method keeps track of sampleCounts, but only loads it once.
@@ -123,14 +150,50 @@ export default {
       });
     },
     /**
+    * XML parser for pubmed query returns.
+    */
+    xmlParser(input) {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(input, 'text/xml');
+      return xmlDoc;
+    },
+    /**
+    * if the manifest type is pubmed, then we need to query pubmed's API
+    * to store our search on the server, and preview the first 100 pmids.
+    */
+    getPubmedQueryPreview() {
+      const baseUrl = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi';
+      const url = `${baseUrl}?db=pubmed&term=${encodeURI(this.config.manifestQuery)}&usehistory=y&retmax=100`;
+      return axios.get(url).then((resp) => {
+        const xml = this.xmlParser(resp.data);
+        const webEnv = xml.getElementsByTagName('WebEnv')[0];
+        const count = xml.getElementsByTagName('Count')[0];
+        const ids = xml.getElementsByTagName('IdList');
+        console.log(xml, ids);
+        this.pubmedQueryStore.webEnv = webEnv;
+        this.pubmedQueryStore.count = count;
+      });
+    },
+    /**
+    * after the pubmed query preview, we need to get the full list of IDs
+    * and save them to the database.
+    */
+    getPubmedQueryFull() {
+
+    },
+    /**
      * A method that fetches the manifest so the user can see what's in it.
      * TODO: add a .catch event and display an error if something goes wrong
      * with this request.
      */
     previewManifest() {
-      axios.get(this.config.manifestUrl).then((resp) => {
-        this.manifestEntries = resp.data;
-      });
+      if (this.manifestType === 'json') {
+        axios.get(this.config.manifestUrl).then((resp) => {
+          this.manifestEntries = resp.data;
+        });
+      } else if (this.manifestType === 'pubmed') {
+        this.getPubmedQueryPreview();
+      }
     },
     /**
      * this method runs in a worker, to check each item in /sampleCounts and each
