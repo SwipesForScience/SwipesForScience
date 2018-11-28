@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import ImageSoundSwipe from '@/components/Widgets/ImageSoundSwipe';
+import Util from '../../util';
 
 Vue.use(BootstrapVue);
 
@@ -43,7 +44,7 @@ describe('widgets/ImageSoundSwipe.vue', () => {
   let audioOriginal;
   let audioMock;
 
-  beforeEach(() => {
+  before(() => {
     audioOriginal = window.Audio;
     audioMock = {
       play() {
@@ -53,12 +54,17 @@ describe('widgets/ImageSoundSwipe.vue', () => {
 
       },
     };
-    window.Audio = function audio() { return audioMock; };
+    window.Audio = function Audio(url) {
+      this.url = url;
+
+      return audioMock;
+    };
   });
 
-  afterEach(() => {
+  after(() => {
     window.Audio = audioOriginal;
   });
+
   it('should run all its tests and return 1', () => {
     createEvent('arrowleft');
     createEvent('arrowright');
@@ -69,7 +75,8 @@ describe('widgets/ImageSoundSwipe.vue', () => {
     // expect(vm.widgetPointer).to.equal(propsData.widgetPointer);
     expect(vm.test()).to.equal(1);
   });
-  it('should run all its tests and return 1', () => {
+
+  it('should run all its tests and return 1', async () => {
     createEvent('arrowleft');
     createEvent('arrowright');
     const vm = new Constructor({
@@ -78,5 +85,6 @@ describe('widgets/ImageSoundSwipe.vue', () => {
     vm.swipe = 'swipe-left';
     // expect(vm.widgetPointer).to.equal(propsData.widgetPointer);
     expect(vm.test()).to.equal(1);
+    await Util.timeout(1800);
   });
 });
