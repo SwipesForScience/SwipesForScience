@@ -17,7 +17,10 @@ const propsData = {
       type: 'Widget Property',
     },
   },
-  userInfo: {},
+  userSettings: {},
+  userInfo: {
+    displayName: 'username',
+  },
   userData: {
     '.key': 'key1',
   },

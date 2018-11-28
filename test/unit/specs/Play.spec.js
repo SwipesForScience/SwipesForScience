@@ -20,6 +20,7 @@ const propsData = {
   userInfo: {
     displayName: 'john',
   },
+  userSettings: {},
   userData: {
     score: 5,
   },

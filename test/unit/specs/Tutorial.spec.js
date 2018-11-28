@@ -12,6 +12,7 @@ const propsData = {
     widgetProperties: {
       type: 'Widget Property',
     },
+    userSettings: {},
     tutorial: {
       steps: {
         intro: [{

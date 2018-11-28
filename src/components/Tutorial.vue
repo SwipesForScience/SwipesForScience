@@ -32,6 +32,7 @@
            :widgetProperties="widgetProperties"
            :widgetSummary="widgetSummary"
            :playMode="'tutorial'"
+           :userSettings="userSettings"
            :tutorialStep="step.tutorialStep"
            ref="widget"
           />
@@ -130,6 +131,10 @@
         * The sample IDs summary (not implemented yet)
         */
         widgetSummary: {}, // TODO: fill this properly
+        /**
+        * User settings from firebase (not implemented yet)
+        */
+        userSettings: {}, // TODO: fill this properly
       };
     },
     props: {

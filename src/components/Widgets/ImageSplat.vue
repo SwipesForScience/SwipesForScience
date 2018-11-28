@@ -11,6 +11,7 @@
              :brightness="brightness"
              :contrast="contrast"
              ref="paper"
+             v-on:loaded_image="setUserSettings"
              id="baseImage"/>
 
       <div class="user-card__name mb-3 pb-3 mt-2 pt-3" v-if="playMode">
@@ -250,6 +251,13 @@
       // },
     },
     methods: {
+      /**
+      *
+      */
+      setUserSettings() {
+        this.contrast = this.userSettings.contrast || 50;
+        this.brightness = this.userSettings.brightness || 50;
+      },
       /**
        * undo the last annotation
        */
