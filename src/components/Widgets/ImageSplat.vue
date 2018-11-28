@@ -11,6 +11,7 @@
              :brightness="brightness"
              :contrast="contrast"
              ref="paper"
+             v-on:loaded_image="setUserSettings"
              id="baseImage"/>
 
       <div class="user-card__name mb-3 pb-3 mt-2 pt-3" v-if="playMode">
@@ -103,6 +104,13 @@
         type: Object,
         required: false,
       },
+      /**
+       * The user's settings on the widget. The schema is widget specific.
+       */
+      userSettings: {
+        type: Object,
+        required: true,
+      },
      /**
       * Tells the widget if it should be in a "play mode" or maybe a "review mode".
       */
@@ -182,7 +190,13 @@
       };
     },
     mounted() {
-
+      // if (this.userSettings.brightness) {
+      //   this.brightness = this.userSettings.brightness;
+      // }
+      // if (this.userSettings.contrast) {
+      //   this.contrast = this.userSettings.contrast;
+      // }
+      // this.mounted = true;
     },
     components: {
       Paper,
@@ -223,7 +237,27 @@
           this.widgetProperties.delimiter) : null;
       },
     },
+    watch: {
+      // userSettings: {
+      //   handler() {
+      //     if (this.userSettings.brightness) {
+      //       this.brightness = this.userSettings.brightness;
+      //     }
+      //     if (this.userSettings.contrast) {
+      //       this.contrast = this.userSettings.contrast;
+      //     }
+      //   },
+      //   deep: true,
+      // },
+    },
     methods: {
+      /**
+      *
+      */
+      setUserSettings() {
+        this.contrast = this.userSettings.contrast || 50;
+        this.brightness = this.userSettings.brightness || 50;
+      },
       /**
        * undo the last annotation
        */
@@ -337,6 +371,10 @@
        * emit to the parent component the user's response.
        */
       vote() {
+        this.$emit('updateUserSettings', {
+          brightness: this.brightness,
+          contrast: this.contrast,
+        });
         this.$emit('widgetRating', this.getSplatPoints());
       },
       /**

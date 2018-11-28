@@ -11,6 +11,7 @@ const propsData = {
   widgetProperties: {
     template: 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id={0}&tool=appstract&email=keshavan@berkeley.edu&retmode=xml',
   },
+  userSettings: {},
   widgetSummary: {},
   playMode: 'play',
   tutorialStep: 0,
@@ -20,6 +21,7 @@ const propsData1 = {
   widgetProperties: {
     template: 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id={0}&tool=appstract&email=keshavan@berkeley.edu&retmode=xml',
   },
+  userSettings: {},
   widgetSummary: {},
   playMode: '',
   tutorialStep: 0,

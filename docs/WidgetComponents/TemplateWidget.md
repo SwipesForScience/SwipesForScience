@@ -17,6 +17,10 @@ developing a new annotation widget.
 
   annotaion summary for the widget, the schema is up to you. 
 
+- `user-settings` ***Object*** (*required*) 
+
+  The user's settings on the widget. The schema is widget specific. 
+
 - `play-mode` ***String*** (*optional*) 
 
   variable to note wheter the widget should be in "play mode"
@@ -53,4 +57,12 @@ developing a new annotation widget.
 - `vote(val)` 
 
   all widgets should have a vote method, that emits a response to the parent component. 
+
+- `getPropertiesSchema()` 
+
+  This method should tell users how their widgetProperties configuration should be defined. 
+
+- `test()` 
+
+  Test all the lines of this widget. 
 

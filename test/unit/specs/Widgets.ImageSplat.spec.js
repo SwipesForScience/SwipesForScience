@@ -14,6 +14,7 @@ const propsData = {
     contourUrlTemplate: 'https://s3.amazonaws.com/hotdognothotdog/{0}.jpg',
     delimiter: '__',
   },
+  userSettings: {},
   widgetSummary: {
     points: [],
   },
@@ -28,6 +29,7 @@ const propsData1 = {
     contourUrlTemplate: 'https://s3.amazonaws.com/hotdognothotdog/{0}.jpg',
     delimiter: '__',
   },
+  userSettings: {},
   widgetSummary: {
     points: [],
   },

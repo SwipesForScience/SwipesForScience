@@ -19,6 +19,10 @@ it is for binary classification only.
   The summary data for the widget.
   This one keeps track of the running average. 
 
+- `user-settings` ***Object*** (*required*) 
+
+  The user's settings on the widget. The schema is widget specific. 
+
 - `play-mode` ***String*** (*optional*) 
 
   Tells the widget if it should be in a "play mode" or maybe a "review mode". 
@@ -87,6 +91,10 @@ it is for binary classification only.
 
   emit an annotation to the parent. 
 
+- `getPropertiesSchema()` 
+
+  This method should tell users how their widgetProperties configuration should be defined. 
+
 - `swipeLeft()` 
 
   set the swipe-left animation and vote 0 
@@ -102,4 +110,8 @@ it is for binary classification only.
 - `setSwipe(sw)` 
 
   save the swipe direction variable. 
+
+- `test()` 
+
+  Test all the lines of this widget. 
 

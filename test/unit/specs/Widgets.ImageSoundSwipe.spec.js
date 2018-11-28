@@ -16,6 +16,7 @@ const propsData = {
     leftSwipeLabel: 'fail',
     rightSwipeLabel: 'pass',
   },
+  userSettings: {},
   widgetSummary: {},
   playMode: 'play',
   tutorialStep: 0,
@@ -30,6 +31,7 @@ const propsData1 = {
     rightSwipeLabel: 'pass',
   },
   widgetSummary: {},
+  userSettings: {},
   playMode: '',
   tutorialStep: 0,
 };

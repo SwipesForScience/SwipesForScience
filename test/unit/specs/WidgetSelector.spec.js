@@ -11,6 +11,7 @@ const propsData = {
   widgetProperties: {
     type: 'Widget Property',
   },
+  userSettings: {},
   widgetSummary: {},
   playMode: 'play',
   tutorialStep: 1,

@@ -19,6 +19,10 @@ a **work in progress** and not ready to be used yet.
   This one keeps track of the number of users who annotated points,
   and the number of points they annotated 
 
+- `user-settings` ***Object*** (*required*) 
+
+  The user's settings on the widget. The schema is widget specific. 
+
 - `play-mode` ***String*** (*optional*) 
 
   Tells the widget if it should be in a "play mode" or maybe a "review mode". 
@@ -92,9 +96,13 @@ a **work in progress** and not ready to be used yet.
 
 ## events 
 
+- `updateUserSettings` 
+
 - `widgetRating` 
 
 ## methods 
+
+- `setUserSettings()` 
 
 - `undo()` 
 
@@ -124,4 +132,12 @@ a **work in progress** and not ready to be used yet.
 - `vote()` 
 
   emit to the parent component the user's response. 
+
+- `getPropertiesSchema()` 
+
+  This method should tell users how their widgetProperties configuration should be defined. 
+
+- `test()` 
+
+  Test all the lines of this widget. 
 

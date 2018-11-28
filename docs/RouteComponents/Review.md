@@ -47,6 +47,12 @@ and lets the user discuss the sample in a chat-room type UI.
 
 **initial value:** `[object Object]` 
 
+- `userSettings` 
+
+  The user's settings from firebase 
+
+**initial value:** `[object Object]` 
+
 - `chatMessage` 
 
   The chat message that the user types. 

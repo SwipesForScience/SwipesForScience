@@ -30,6 +30,12 @@ You can also pass in the default options
 
 **initial value:** `[object Object]` 
 
+- `userSettings` 
+
+  User settings from firebase (not implemented yet) 
+
+**initial value:** `[object Object]` 
+
 ## computed properties 
 
 - `widgetType` 

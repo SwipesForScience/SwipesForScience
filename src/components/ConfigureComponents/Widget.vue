@@ -93,6 +93,7 @@ export default {
         propsData: {
           widgetPointer: '',
           widgetProperties: {},
+          userSettings: {},
         },
       });
       return vm.getPropertiesSchema();

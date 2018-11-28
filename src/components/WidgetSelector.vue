@@ -7,8 +7,10 @@
      :widgetPointer="widgetPointer"
      :widgetProperties="widgetProperties"
      :widgetSummary="widgetSummary"
+     :userSettings="userSettings"
      :tutorialStep="tutorialStep"
      v-on:widgetRating="widgetRating"
+     v-on:updateUserSettings="updateUserSettings"
      :playMode="playMode"
      />
 
@@ -17,9 +19,11 @@
      v-else-if="widgetType=='ImageSoundSwipe'"
      :widgetPointer="widgetPointer"
      :widgetProperties="widgetProperties"
+     :userSettings="userSettings"
      :widgetSummary="widgetSummary"
      :tutorialStep="tutorialStep"
      v-on:widgetRating="widgetRating"
+     v-on:updateUserSettings="updateUserSettings"
      :playMode="playMode"
      />
 
@@ -27,9 +31,11 @@
      ref="PubMedNLP"
      :widgetPointer="widgetPointer"
      :widgetProperties="widgetProperties"
+     :userSettings="userSettings"
      :widgetSummary="widgetSummary"
      :tutorialStep="tutorialStep"
      v-on:widgetRating="widgetRating"
+     v-on:updateUserSettings="updateUserSettings"
      :playMode="playMode"
     />
 
@@ -37,9 +43,11 @@
      ref="ImageSplat"
      :widgetPointer="widgetPointer"
      :widgetProperties="widgetProperties"
+     :userSettings="userSettings"
      :widgetSummary="widgetSummary"
      :tutorialStep="tutorialStep"
      v-on:widgetRating="widgetRating"
+     v-on:updateUserSettings="updateUserSettings"
      :playMode="playMode"
     />
 
@@ -47,9 +55,11 @@
      ref="ImageSwipeChoices"
      :widgetPointer="widgetPointer"
      :widgetProperties="widgetProperties"
+     :userSettings="userSettings"
      :widgetSummary="widgetSummary"
      :tutorialStep="tutorialStep"
      v-on:widgetRating="widgetRating"
+     v-on:updateUserSettings="updateUserSettings"
      :playMode="playMode"
     />
 
@@ -57,9 +67,11 @@
     ref="TemplateWidget"
     :widgetPointer="widgetPointer"
     :widgetProperties="widgetProperties"
+    :userSettings="userSettings"
     :widgetSummary="widgetSummary"
     :tutorialStep="tutorialStep"
     v-on:widgetRating="widgetRating"
+    v-on:updateUserSettings="updateUserSettings"
     :playMode="playMode"
     />
 
@@ -100,6 +112,13 @@
        * The widget-specific properties. The schema is widget specific.
        */
       widgetProperties: {
+        type: Object,
+        required: true,
+      },
+      /**
+       * The user's settings on the widget. The schema is widget specific.
+       */
+      userSettings: {
         type: Object,
         required: true,
       },
@@ -159,6 +178,12 @@
        */
       widgetRating(response) {
         this.$emit('widgetRating', response);
+      },
+      /**
+      * emit the widget's user settings to the parent
+      */
+      updateUserSettings(settings) {
+        this.$emit('updateUserSettings', settings);
       },
     },
   };

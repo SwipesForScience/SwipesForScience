@@ -226,6 +226,14 @@ export default {
               }
             }
           },
+          "userSettings": {
+            ".read": false,
+            ".write": "auth !== null && data.exists()",
+            "$displayName": {
+              ".read": "$displayName === auth.token.name",
+              ".write": "$displayName === auth.token.name",
+            },
+          },
           "chats": {
             ".read": true,
             ".write": "auth !== null && data.exists()",
