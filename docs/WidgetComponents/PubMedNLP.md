@@ -19,6 +19,10 @@ abstract based on a pubmed ID
 
   the summary data of the widget. 
 
+- `user-settings` ***Object*** (*required*) 
+
+  The user's settings on the widget. The schema is widget specific. 
+
 - `play-mode` ***String*** (*optional*) 
 
   whether the widget should render in play mode, or review mode, or tutorial mode. 
@@ -96,4 +100,12 @@ abstract based on a pubmed ID
 - `vote(val)` 
 
   tell the parent component the user's annotation, so it can be saved. 
+
+- `getPropertiesSchema()` 
+
+  This method should tell users how their widgetProperties configuration should be defined. 
+
+- `test()` 
+
+  Test all the lines of this widget. 
 

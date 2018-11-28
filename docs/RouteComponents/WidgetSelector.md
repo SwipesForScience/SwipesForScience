@@ -18,6 +18,10 @@ the specific widget to the parent.
 
   The widget-specific properties. The schema is widget specific. 
 
+- `user-settings` ***Object*** (*required*) 
+
+  The user's settings on the widget. The schema is widget specific. 
+
 - `widget-summary` ***Object*** (*optional*) 
 
   The summary data for the widget.
@@ -36,6 +40,8 @@ the specific widget to the parent.
 
 - `widgetRating` 
 
+- `updateUserSettings` 
+
 ## methods 
 
 - `getFeedback(response)` 
@@ -53,4 +59,8 @@ the specific widget to the parent.
 - `widgetRating(response)` 
 
   emit the widget's response to the parent. 
+
+- `updateUserSettings(settings)` 
+
+  emit the widget's user settings to the parent 
 

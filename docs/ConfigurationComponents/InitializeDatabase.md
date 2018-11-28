@@ -53,6 +53,12 @@ e.g (`{".read": true, ".write": true}`)
 
 **initial value:** `false` 
 
+- `userSettings` 
+
+  whether or not the /userSettings is initialized on firebase 
+
+**initial value:** `false` 
+
 - `votes` 
 
   whether or not the /votes is initialized on firebase 
@@ -71,7 +77,7 @@ e.g (`{".read": true, ".write": true}`)
 
   returns whether or not everything is inialized correctly. 
 
-   **dependencies:** `admin`, `sampleCounts`, `sampleSummary`, `chats`, `userSeenSamples`, `votes` 
+   **dependencies:** `admin`, `sampleCounts`, `sampleSummary`, `chats`, `userSeenSamples`, `votes`, `userSettings` 
 
 
 ## events 
@@ -103,6 +109,10 @@ e.g (`{".read": true, ".write": true}`)
 - `initVotes()` 
 
   initialize /votes 
+
+- `initUserSettings()` 
+
+  initialize userSettings 
 
 - `initAll()` 
 

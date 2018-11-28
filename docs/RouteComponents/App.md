@@ -40,14 +40,6 @@ This is the main entrypoint to the app.
 
 **initial value:** `[object Object]` 
 
-- `levels` 
-
-  The levels are defined based on score bins. Each level also defines
-  a character image that a user can "unlock" when the annotate enough samples.
-  eventually, this should be abstracted out into the config variable. 
-
-**initial value:** `[object Object]` 
-
 ## computed properties 
 
 - `firebaseKeys` 
@@ -86,6 +78,14 @@ This is the main entrypoint to the app.
   this matches the info in allUsers (/users) to the firebase.auth user info. 
 
    **dependencies:** `userInfo`, `userInfo`, `allUsers`, `userInfo` 
+
+- `levels` 
+
+  The levels are defined based on score bins. Each level also defines
+  a character image that a user can "unlock" when the annotate enough samples.
+  eventually, this should be abstracted out into the config variable. 
+
+   **dependencies:** `config` 
 
 - `currentLevel` 
 
