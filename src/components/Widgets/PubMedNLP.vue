@@ -1,9 +1,9 @@
 <template>
   <div class="widgetTemplate">
     <div v-if="status === 'ready'">
-      <h4 class="lead mb-3 pb-3 mt-3 pt-3">{{title}}</h4>
-      <p class="text-muted">{{authors}} ({{year}})</p>
-      <p class="text-justify mb-3 pb-3 mt-3 pt-3">{{abstract}}</p>
+      <h5 class="lead mt-3 pt-3 pb-0 mb-0">{{title}}</h5>
+      <!-- <p class="text-muted">{{authors}} ({{year}})</p> -->
+      <p class="text-justify mb-3 pb-3 mt-1 pt-1">{{abstract}}</p>
     </div>
     <div v-else>
       <Bookshelf />
@@ -161,7 +161,9 @@
        */
       getPubmedData() {
         this.status = 'loading';
-        axios.get(this.widgetProperties.template.replace('{0}', this.widgetPointer))
+        const template = this.widgetProperties.template ||
+          this.getPropertiesSchema().template.default;
+        axios.get(template.replace('{0}', this.widgetPointer))
           .then((resp) => {
             this.xmlString = resp.data;
             this.status = 'ready';

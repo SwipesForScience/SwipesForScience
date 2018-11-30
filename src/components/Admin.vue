@@ -19,7 +19,12 @@
         <span> Preview </span>
       </b-button>
       <div v-if="manifestEntries.length" class="mt-3 pt-3">
-        <small>Here are a few items in your manifest file. There are {{manifestEntries.length}} items in total</small>
+        <small v-if="manifestType === 'json'">
+          Here are a few items in your manifest file. There are {{manifestEntries.length}} items in total
+        </small>
+        <small v-else>
+          Here are a few pubmed IDs from your search. There are {{pubmedQueryStore.count}} items in total.
+        </small>
         <textarea class="mt-3 mb-3 ml-3 mr-3 w-100"
          :value="manifestEntries.slice(0,100) + '...'"
          disabled rows="5">
@@ -168,10 +173,10 @@ export default {
         const xml = this.xmlParser(resp.data);
         const webEnv = xml.getElementsByTagName('WebEnv')[0];
         const count = xml.getElementsByTagName('Count')[0];
-        const ids = xml.getElementsByTagName('IdList');
-        console.log(xml, ids);
-        this.pubmedQueryStore.webEnv = webEnv;
-        this.pubmedQueryStore.count = count;
+        const ids = xml.getElementsByTagName('IdList')[0].children;
+        this.pubmedQueryStore.webEnv = webEnv.innerHTML;
+        this.pubmedQueryStore.count = count.innerHTML;
+        this.manifestEntries = _.map(ids, i => i.innerHTML);
       });
     },
     /**
@@ -179,7 +184,21 @@ export default {
     * and save them to the database.
     */
     getPubmedQueryFull() {
-
+      const baseUrl = 'https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi';
+      if (!this.pubmedQueryStore.webEnv) {
+        this.getPubmedQueryPreview().then(() => {
+          this.getPubmedQueryFull();
+        });
+      } else {
+        const url = `${baseUrl}?db=pubmed&term=${encodeURI(this.config.manifestQuery)}&usehistory=y&retmax=${this.pubmedQueryStore.count}&WebEnv=${this.pubmedQueryStore.webEnv}`;
+        axios.get(url).then((resp) => {
+          const xml = this.xmlParser(resp.data);
+          const ids = xml.getElementsByTagName('IdList')[0].children;
+          this.manifestEntries = _.map(ids, i => i.innerHTML);
+          // console.log(this.manifestEntries);
+          this.syncEntries();
+        });
+      }
     },
     /**
      * A method that fetches the manifest so the user can see what's in it.
@@ -202,36 +221,48 @@ export default {
      */
     refreshSamples() {
       this.status = 'refreshing';
-      // grab all the data from the json file defined in the config
-      axios.get(this.config.manifestUrl).then((resp) => {
-        // resp.data has a list of firebase-friendly strings
-        const manifestEntries = resp.data;
-        this.manifestEntries = manifestEntries;
-        const firebaseEntries = _.map(this.sampleCounts, v => v['.key']);
-        // first check all of the items in firebase db
-        // and remove any that aren't in manifestEntries
-        _.map(firebaseEntries, (key) => {
-          // check to see if the key is in the manifest.
-          if (manifestEntries.indexOf(key) < 0) {
-            // since the key isn't there, remove it from firebase.
-            this.db.ref('sampleCounts').child(key).remove();
-          }
+      if (this.manifestType === 'json') {
+        // grab all the data from the json file defined in the config
+        axios.get(this.config.manifestUrl).then((resp) => {
+          // resp.data has a list of firebase-friendly strings
+          const manifestEntries = resp.data;
+          this.manifestEntries = manifestEntries;
+          this.syncEntries();
         });
-        // then, for anything in manifest entries that isn't in firebase db
-        // add them.
+      } else if (this.manifestType === 'pubmed') {
+        this.getPubmedQueryFull();
+      }
+    },
+    /**
+    * sync manifest entries and firebase entries
+    */
+    syncEntries() {
+      const firebaseEntries = _.map(this.sampleCounts, v => v['.key']);
 
-        const element = this;
-        const worker = new LoadManifestWorker();
-        // eslint-disable-next-line
-        worker.postMessage([manifestEntries, firebaseEntries, element.config.firebaseKeys]);
-        worker.onmessage = function onmessage(e) {
-          element.status = 'complete';
-          if (e.data === 'done') {
-            element.addFirebaseListener();
-          } else {
-            element.progress += 1;
-          }
-        };
+      // first, for anything in manifest entries that isn't in firebase db
+      // add them.
+      const element = this;
+      const worker = new LoadManifestWorker();
+
+      // eslint-disable-next-line
+      worker.postMessage([this.manifestEntries, firebaseEntries, element.config.firebaseKeys]);
+      worker.onmessage = function onmessage(e) {
+        element.status = 'complete';
+        if (e.data === 'done') {
+          element.addFirebaseListener();
+        } else {
+          element.progress += 1;
+        }
+      };
+
+      // next check all of the items in firebase db
+      // and remove any that aren't in manifestEntries
+      _.map(firebaseEntries, (key) => {
+        // check to see if the key is in the manifest.
+        if (this.manifestEntries.indexOf(key) < 0) {
+          // since the key isn't there, remove it from firebase.
+          this.db.ref('sampleCounts').child(key).remove();
+        }
       });
     },
   },
