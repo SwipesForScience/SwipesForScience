@@ -2,7 +2,7 @@
   <!-- This is a dummy Widget Template -->
   <div class="widgetTemplate pb-3">
 
-    <div class="bg-light pt-3 pb-3 mb-3 pl-3 pr-3" v-if="playMode" style="left: 0; width: 100%; position: sticky; top: 0">
+    <div class="bg-light pt-3 pb-3 mb-3 pl-3 pr-3" v-if="playMode" style="left: 0; width: 100%; position: sticky; position: -webkit-sticky; top: 0">
       <div class="container">
         <div class="pb-2">Tags:</div>
         <div class="row pb-2">
@@ -23,7 +23,7 @@
 
     <h3>{{title}}</h3>
 
-    <p v-html="text" class="text-justify mb-3" style="white-space: pre-line;"></p>
+    <p v-html="text" class="text-left mb-3" style="white-space: pre-line;"></p>
 
   </div>
 </template>
