@@ -27,6 +27,8 @@ import ImageSoundSwipe from '../Widgets/ImageSoundSwipe';
 import PubMedNLP from '../Widgets/PubMedNLP';
 import ImageSwipeChoices from '../Widgets/ImageSwipeChoices';
 import TemplateWidget from '../Widgets/TemplateWidget';
+import TextTagger from '../Widgets/TextTagger';
+
 /**
  * This is the UI to set up a widget during configuration.
  */
@@ -53,7 +55,8 @@ export default {
         'ImageSwipeChoices',
         'ImageSplat',
         'PubMedNLP',
-        'TemplateWidget'],
+        'TemplateWidget',
+        'TextTagger'],
     };
   },
   computed: {
@@ -84,6 +87,9 @@ export default {
           break;
         case 'ImageSplat':
           Constructor = Vue.extend(ImageSplat);
+          break;
+        case 'TextTagger':
+          Constructor = Vue.extend(TextTagger);
           break;
         default:
           Constructor = Vue.extend(TemplateWidget);

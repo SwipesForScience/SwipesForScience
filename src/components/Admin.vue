@@ -10,9 +10,21 @@
         <a :href="config.manifestUrl">{{config.manifestUrl}}</a>
       </p>
 
-      <p v-else>
+      <p v-else-if="manifestType === 'pubmed'">
         <b>Pubmed Query:</b>
         {{config.manifestQuery}}
+      </p>
+
+      <p v-else-if="manifestType === 'github'">
+        <b>Github User:</b>
+        {{config.manifestGitHub.user}}
+        <br>
+        <b>Github Repo:</b>
+        {{config.manifestGitHub.repo}}
+        <br>
+        <b>Github Path:</b>
+        {{config.manifestGitHub.path}}
+        <br>
       </p>
 
       <b-button variant="warning" @click="previewManifest">
@@ -201,6 +213,17 @@ export default {
       }
     },
     /**
+    * get a list of files from a github pointer
+    * TODO: make sure the filenames are firebase compatible, and if they aren't convert them.
+    */
+    getGithubManifest() {
+      let url = `https://api.github.com/repos/${this.config.manifestGitHub.user}/`;
+      url += `${this.config.manifestGitHub.repo}/contents/${this.config.manifestGitHub.path}`;
+      return axios.get(url).then((resp) => {
+        this.manifestEntries = _.map(resp.data, v => v.name.split('.')[0]);
+      });
+    },
+    /**
      * A method that fetches the manifest so the user can see what's in it.
      * TODO: add a .catch event and display an error if something goes wrong
      * with this request.
@@ -212,6 +235,8 @@ export default {
         });
       } else if (this.manifestType === 'pubmed') {
         this.getPubmedQueryPreview();
+      } else if (this.manifestType === 'github') {
+        this.getGithubManifest();
       }
     },
     /**
@@ -231,6 +256,10 @@ export default {
         });
       } else if (this.manifestType === 'pubmed') {
         this.getPubmedQueryFull();
+      } else if (this.manifestType === 'github') {
+        this.getGithubManifest().then(() => {
+          this.syncEntries();
+        });
       }
     },
     /**

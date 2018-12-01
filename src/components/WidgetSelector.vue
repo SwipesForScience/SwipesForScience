@@ -51,6 +51,18 @@
      :playMode="playMode"
     />
 
+    <TextTagger v-else-if="widgetType=='TextTagger'"
+     ref="TextTagger"
+     :widgetPointer="widgetPointer"
+     :widgetProperties="widgetProperties"
+     :userSettings="userSettings"
+     :widgetSummary="widgetSummary"
+     :tutorialStep="tutorialStep"
+     v-on:widgetRating="widgetRating"
+     v-on:updateUserSettings="updateUserSettings"
+     :playMode="playMode"
+    />
+
     <ImageSwipeChoices  v-else-if="widgetType=='ImageSwipeChoices'"
      ref="ImageSwipeChoices"
      :widgetPointer="widgetPointer"
@@ -90,6 +102,7 @@
   import PubMedNLP from './Widgets/PubMedNLP';
   import TemplateWidget from './Widgets/TemplateWidget';
   import ImageSplat from './Widgets/ImageSplat';
+  import TextTagger from './Widgets/TextTagger';
 
   export default {
     name: 'WidgetSelector',
@@ -153,6 +166,7 @@
       TemplateWidget,
       ImageSplat,
       ImageSwipeChoices,
+      TextTagger,
     },
     methods: {
       /**

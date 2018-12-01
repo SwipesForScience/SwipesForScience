@@ -213,8 +213,8 @@ export default {
       return `
       {
         "rules": {
-          ".read": false,
-          ".write": false,
+          ".read": "auth.uid === '${this.userInfo.uid}'", // replace w/ your UID
+          ".write": "auth.uid === '${this.userInfo.uid}'",// replace w/ your UID
           "users": {
             ".read": true,
             ".write": "auth !== null && data.exists()",
