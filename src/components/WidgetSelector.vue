@@ -53,6 +53,16 @@
      :playMode="playMode"
     />
 
+    <AddressWidget  v-else-if="widgetType=='AddressWidget'"
+     ref="AddressWidget"
+     :widgetPointer="widgetPointer"
+     :widgetProperties="widgetProperties"
+     :widgetSummary="widgetSummary"
+     :tutorialStep="tutorialStep"
+     v-on:widgetRating="widgetRating"
+     :playMode="playMode"
+    />
+
     <TemplateWidget v-else
     ref="TemplateWidget"
     :widgetPointer="widgetPointer"
@@ -78,6 +88,7 @@
   import PubMedNLP from './Widgets/PubMedNLP';
   import TemplateWidget from './Widgets/TemplateWidget';
   import ImageSplat from './Widgets/ImageSplat';
+  import AddressWidget from './Widgets/AddressWidget';
 
   export default {
     name: 'WidgetSelector',
@@ -134,6 +145,7 @@
       TemplateWidget,
       ImageSplat,
       ImageSwipeChoices,
+      AddressWidget,
     },
     methods: {
       /**

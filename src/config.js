@@ -19,7 +19,7 @@ export default {
     //   delimiter: '__',
     // },
 
-  widgetType: 'ImageSwipe',
+  widgetType: 'AddressWidget',
   widgetProperties: {
     baseUrlTemplate: 'https://s3-us-west-2.amazonaws.com/akeshavan-mindcontrol/hbnSplat/{0}/tiles/base_{1}.png',
     delimiter: '__',
@@ -97,12 +97,12 @@ export default {
 
     // this comes from your firebase console
   firebaseKeys: {
-    apiKey: 'AIzaSyBLr1HyCf7tXGwnppkfjlIb6I0XSkJgybY',
-    authDomain: 'swipesforsciencedev1.firebaseapp.com',
-    databaseURL: 'https://swipesforsciencedev1.firebaseio.com',
-    projectId: 'swipesforsciencedev1',
-    storageBucket: 'swipesforsciencedev1.appspot.com',
-    messagingSenderId: '380364880642',
+    apiKey: 'AIzaSyBiFIL0301bc07wTaazCLC1x7Wb-1gWpoA',
+    authDomain: 'washingtonevictiondata.firebaseapp.com',
+    databaseURL: 'https://washingtonevictiondata.firebaseio.com',
+    projectId: 'washingtonevictiondata',
+    storageBucket: 'washingtonevictiondata.appspot.com',
+    messagingSenderId: '2772019880',
   },
 
   app: {
@@ -112,7 +112,7 @@ export default {
     // Homepage configuration
     // your app's title and tagline
   home: {
-    title: 'Swipes for Science',
+    title: 'Get the Address',
     tagline: 'A citizen science game template',
       // background image on Homepage
     backgroundUrl: 'https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/SwipesForScience.svg?sanitize=true',
