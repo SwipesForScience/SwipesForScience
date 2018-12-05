@@ -80,6 +80,7 @@
 
 
   export default {
+    name: 'ImageSplat',
     props: {
       /**
        * The sample ID to tell the widget to display.

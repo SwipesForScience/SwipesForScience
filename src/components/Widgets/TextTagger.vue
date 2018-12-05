@@ -38,6 +38,7 @@ import VueTagsInput from '@johmun/vue-tags-input';
  * developing a new annotation widget.
  */
 export default {
+  name: 'TextTagger',
   props: {
      /**
       * a sample ID to display

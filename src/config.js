@@ -38,10 +38,23 @@ export default {
       {
         id: 'relevant',
         showCriteria: {},
-        question: 'Is this a study about a group of human participants with Autism and MRI brain scans?',
+        question: 'Is this app about mental health?',
         responseProperties: {
           widgetType: 'TemplateWidget',
-          widgetProperties: {},
+          widgetProperties: {
+            titleKey: 'trackName',
+            textKey: 'description',
+            delimiter: '%',
+            baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
+            autoComplete: [
+              'active data entry',
+              'passive data entry',
+              'gamified',
+              'social media',
+              'educational',
+              'sensors',
+            ],
+          },
         },
       },
       {

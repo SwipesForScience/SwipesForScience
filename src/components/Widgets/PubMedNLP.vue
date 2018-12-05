@@ -32,6 +32,7 @@
   import Bookshelf from '../Animations/Bookshelf';
 
   export default {
+    name: 'PubMedNLP',
     props: {
       /**
        * the sample ID to display. In this case it should be a pubmed id.

@@ -50,6 +50,7 @@
   Vue.use(require('vue-shortkey'));
 
   export default {
+    name: 'ImageSwipeChoices',
     props: {
       /**
       * the sample ID to display. In this case it should be a pubmed id.

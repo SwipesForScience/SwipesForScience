@@ -21,6 +21,7 @@
  * developing a new annotation widget.
  */
   export default {
+    name: 'TemplateWidget',
     props: {
        /**
         * a sample ID to display

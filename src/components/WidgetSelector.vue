@@ -37,7 +37,7 @@
      v-on:widgetRating="widgetRating"
      v-on:updateUserSettings="updateUserSettings"
      :playMode="playMode"
-    />
+     />
 
     <ImageSplat  v-else-if="widgetType=='ImageSplat'"
      ref="ImageSplat"
@@ -49,7 +49,7 @@
      v-on:widgetRating="widgetRating"
      v-on:updateUserSettings="updateUserSettings"
      :playMode="playMode"
-    />
+     />
 
     <TextTagger v-else-if="widgetType=='TextTagger'"
      ref="TextTagger"
@@ -61,7 +61,7 @@
      v-on:widgetRating="widgetRating"
      v-on:updateUserSettings="updateUserSettings"
      :playMode="playMode"
-    />
+     />
 
     <ImageSwipeChoices  v-else-if="widgetType=='ImageSwipeChoices'"
      ref="ImageSwipeChoices"
@@ -73,31 +73,31 @@
      v-on:widgetRating="widgetRating"
      v-on:updateUserSettings="updateUserSettings"
      :playMode="playMode"
-    />
+     />
 
     <BranchingTemplateWidget v-else-if="widgetType=='BranchingTemplateWidget'"
-    ref="BranchingTemplateWidget"
-    :widgetPointer="widgetPointer"
-    :widgetProperties="widgetProperties"
-    :userSettings="userSettings"
-    :widgetSummary="widgetSummary"
-    :tutorialStep="tutorialStep"
-    v-on:widgetRating="widgetRating"
-    v-on:updateUserSettings="updateUserSettings"
-    :playMode="playMode"
-    />
+      ref="BranchingTemplateWidget"
+      :widgetPointer="widgetPointer"
+      :widgetProperties="widgetProperties"
+      :userSettings="userSettings"
+      :widgetSummary="widgetSummary"
+      :tutorialStep="tutorialStep"
+      v-on:widgetRating="widgetRating"
+      v-on:updateUserSettings="updateUserSettings"
+      :playMode="playMode"
+      />
 
     <TemplateWidget v-else
-    ref="TemplateWidget"
-    :widgetPointer="widgetPointer"
-    :widgetProperties="widgetProperties"
-    :userSettings="userSettings"
-    :widgetSummary="widgetSummary"
-    :tutorialStep="tutorialStep"
-    v-on:widgetRating="widgetRating"
-    v-on:updateUserSettings="updateUserSettings"
-    :playMode="playMode"
-    />
+      ref="TemplateWidget"
+      :widgetPointer="widgetPointer"
+      :widgetProperties="widgetProperties"
+      :userSettings="userSettings"
+      :widgetSummary="widgetSummary"
+      :tutorialStep="tutorialStep"
+      v-on:widgetRating="widgetRating"
+      v-on:updateUserSettings="updateUserSettings"
+      :playMode="playMode"
+      />
 
   </div>
 </template>

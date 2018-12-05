@@ -99,8 +99,11 @@
        7. And then loading the next sample to view.
    */
   import _ from 'lodash';
+  import Vue from 'vue';
   import WidgetSelector from './WidgetSelector';
   import Flask from './Animations/Flask';
+
+  Vue.component('WidgetSelector', WidgetSelector);
 
   export default {
     name: 'play',
@@ -243,7 +246,7 @@
       this.initUserSettings();
     },
     components: {
-      WidgetSelector,
+      // WidgetSelector,
       Flask,
     },
     computed: {

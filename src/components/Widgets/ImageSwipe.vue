@@ -75,6 +75,7 @@
   Vue.use(require('vue-shortkey'));
 
   export default {
+    name: 'ImageSwipe',
     props: {
       /**
        * The sample ID to tell the widget to display.
