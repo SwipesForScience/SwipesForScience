@@ -19,125 +19,67 @@ export default {
     path: 'ios',
   },
 
-  widgetType: 'TextTagger',
+  widgetType: 'BranchingTemplateWidget',
   /* eslint-disable */
   widgetProperties: {
-    titleKey: 'trackName',
-    textKey: 'description',
+    // titleKey: 'trackName',
+    // textKey: 'description',
     baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
-    delimiter: '%',
-    autoComplete: [
-      'active data entry',
-      'passive data entry',
-      'gamified',
-      'social media',
-      'educational',
-      'sensors',
-    ],
-    // stages: [
-    //   {
-    //     id: 'relevant',
-    //     dependOn: null,
-    //     dependCriteria: {},
-    //     question: 'Is this a study about a group of human participants with Autism and MRI brain scans?',
-    //     bagOfWords: {},
-    //     questionType: 'MultiChoice',
-    //     questionConfig: {
-    //       reponses: [
-    //         {
-    //           text: 'No',
-    //           code: 0,
-    //           variant: 'danger',
-    //         },
-    //         {
-    //           text: 'Yes',
-    //           code: 1,
-    //           variant: 'success',
-    //         },
-    //       ],
-    //     },
-    //   },
-    //   {
-    //     id: 'numAutism',
-    //     dependOn: 'relevant',
-    //     dependCriteria: {
-    //       statment: '==',
-    //       value: 1,
-    //     },
-    //     question: 'How many participants with autism?',
-    //     questionType: 'nlpNumber',
-    //   },
-    //   {
-    //     id: 'numControl',
-    //     dependOn: 'relevant',
-    //     dependCriteria: {
-    //       statment: '==',
-    //       value: 1,
-    //     },
-    //     question: 'How many control participants?',
-    //     questionType: 'nlpNumber',
-    //   },
-    //   {
-    //     id: 'studyType',
-    //     dependOn: 'relevant',
-    //     dependCriteria: {
-    //       statment: '==',
-    //       value: 1,
-    //     },
-    //     question: 'Is this a cross sectional or longitudinal study?',
-    //     questionType: 'MultiChoice',
-    //     questionConfig: [
-    //       {
-    //         responses: [
-    //           {
-    //             text: 'cross sectional',
-    //             code: 'cs',
-    //             variant: 'warning',
-    //           },
-    //           {
-    //             text: 'longitudinal',
-    //             code: 'l',
-    //             variant: 'info',
-    //           },
-    //         ],
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     id: 'modality',
-    //     dependOn: 'relevant',
-    //     dependCriteria: {
-    //       statment: '==',
-    //       value: 1,
-    //     },
-    //     question: 'What modalities are being analyzed?',
-    //     questionType: 'MultiSelect',
-    //     questionConfig: {
-    //       reponses: [
-    //         {
-    //           text: 'T1w',
-    //           code: 't1w',
-    //         },
-    //         {
-    //           text: 'DWI',
-    //           code: 'dwi',
-    //         },
-    //         {
-    //           text: 'fMRI',
-    //           code: 'fmri',
-    //         },
-    //         {
-    //           text: 'Spectroscopy',
-    //           code: 'nmr',
-    //         },
-    //         {
-    //           text: 'Arterial Spin Labelling',
-    //           code: 'asl',
-    //         },
-    //       ],
-    //     },
-    //   },
+    // delimiter: '%',
+    // autoComplete: [
+    //   'active data entry',
+    //   'passive data entry',
+    //   'gamified',
+    //   'social media',
+    //   'educational',
+    //   'sensors',
     // ],
+    stages: [
+      {
+        id: 'relevant',
+        showCriteria: {},
+        question: 'Is this a study about a group of human participants with Autism and MRI brain scans?',
+        responseProperties: {
+          widgetType: 'TemplateWidget',
+          widgetProperties: {},
+        },
+      },
+      {
+        id: 'numAutism',
+        showCriteria: {
+          node: 'relevant',
+          statement: '==',
+          value: 1,
+        },
+        question: 'How many participants with autism?',
+        responseProperties: {
+          widgetType: 'TemplateWidget',
+          widgetProperties: {},
+        },
+      },
+      {
+        id: 'numControls',
+        showCriteria: {},
+        question: 'A third question that always shows',
+        responseProperties: {
+          widgetType: 'TemplateWidget',
+          widgetProperties: {},
+        },
+      },
+      {
+        id: 'foobar',
+        showCriteria: {
+          node: 'numAutism',
+          statement: '==',
+          value: 1,
+        },
+        question: 'A fourth question that shows if the second question is true',
+        responseProperties: {
+          widgetType: 'TemplateWidget',
+          widgetProperties: {},
+        },
+      },
+    ],
   },
   /* eslint-enable */
   iconAttribute: {

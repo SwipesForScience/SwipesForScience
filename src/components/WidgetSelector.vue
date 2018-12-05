@@ -75,6 +75,18 @@
      :playMode="playMode"
     />
 
+    <BranchingTemplateWidget v-else-if="widgetType=='BranchingTemplateWidget'"
+    ref="BranchingTemplateWidget"
+    :widgetPointer="widgetPointer"
+    :widgetProperties="widgetProperties"
+    :userSettings="userSettings"
+    :widgetSummary="widgetSummary"
+    :tutorialStep="tutorialStep"
+    v-on:widgetRating="widgetRating"
+    v-on:updateUserSettings="updateUserSettings"
+    :playMode="playMode"
+    />
+
     <TemplateWidget v-else
     ref="TemplateWidget"
     :widgetPointer="widgetPointer"
@@ -103,6 +115,7 @@
   import TemplateWidget from './Widgets/TemplateWidget';
   import ImageSplat from './Widgets/ImageSplat';
   import TextTagger from './Widgets/TextTagger';
+  import BranchingTemplateWidget from './Widgets/BranchingTemplateWidget';
 
   export default {
     name: 'WidgetSelector',
@@ -167,6 +180,7 @@
       ImageSplat,
       ImageSwipeChoices,
       TextTagger,
+      BranchingTemplateWidget,
     },
     methods: {
       /**
