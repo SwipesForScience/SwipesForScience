@@ -87,6 +87,18 @@
       :playMode="playMode"
       />
 
+      <TextBinarySwipe v-else-if="widgetType=='TextBinarySwipe'"
+        ref="TextBinarySwipe"
+        :widgetPointer="widgetPointer"
+        :widgetProperties="widgetProperties"
+        :userSettings="userSettings"
+        :widgetSummary="widgetSummary"
+        :tutorialStep="tutorialStep"
+        v-on:widgetRating="widgetRating"
+        v-on:updateUserSettings="updateUserSettings"
+        :playMode="playMode"
+        />
+
     <TemplateWidget v-else
       ref="TemplateWidget"
       :widgetPointer="widgetPointer"
@@ -116,6 +128,7 @@
   import ImageSplat from './Widgets/ImageSplat';
   import TextTagger from './Widgets/TextTagger';
   import BranchingTemplateWidget from './Widgets/BranchingTemplateWidget';
+  import TextBinarySwipe from './Widgets/TextBinarySwipe';
 
   export default {
     name: 'WidgetSelector',
@@ -181,6 +194,7 @@
       ImageSwipeChoices,
       TextTagger,
       BranchingTemplateWidget,
+      TextBinarySwipe,
     },
     methods: {
       /**
