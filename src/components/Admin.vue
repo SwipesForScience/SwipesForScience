@@ -27,6 +27,19 @@
         <br>
       </p>
 
+      <p v-else-if="manifestType === 'S3'">
+        <b>S3 bucket:</b>
+        {{config.manifestS3.bucket}}
+        <br>
+        <b>prefix:</b>
+        {{config.manifestS3.prefix}}
+        <br>
+        <b>delimiter:</b>
+        {{config.manifestS3.delimiter}}
+        <br>
+      </p>
+
+
       <b-button variant="warning" @click="previewManifest">
         <span> Preview </span>
       </b-button>
@@ -224,6 +237,24 @@ export default {
       });
     },
     /**
+    * get a list of files that are in a bucket of an S3
+    * with a prefix and a delimiter (usually, a .)
+    * TODO: make the keys firebase safe!!
+    */
+    getS3Manifest() {
+      let url = `https://s3-us-west-2.amazonaws.com/${this.config.manifestS3.bucket}/?list-type=2&`;
+      url += `prefix=${this.config.manifestS3.prefix}/&max-keys=${this.config.manifestS3.max_keys}`;
+      url += `&delimiter=${this.config.manifestS3.delimiter}`;
+      return axios.get(url).then((resp) => {
+        const xml = this.xmlParser(resp.data);
+        const keys = xml.getElementsByTagName('Key');
+        const allKeys = _.map(keys, k => k.innerHTML);
+        const keysFiltered = _.filter(allKeys, k => k.replace(`${this.config.manifestS3.prefix}/`, ''));
+        const keysFixed = _.map(keysFiltered, k => k.replace(`${this.config.manifestS3.prefix}/`, '').split('.')[0]);
+        this.manifestEntries = _.uniq(keysFixed);
+      });
+    },
+    /**
      * A method that fetches the manifest so the user can see what's in it.
      * TODO: add a .catch event and display an error if something goes wrong
      * with this request.
@@ -237,6 +268,8 @@ export default {
         this.getPubmedQueryPreview();
       } else if (this.manifestType === 'github') {
         this.getGithubManifest();
+      } else if (this.manifestType === 'S3') {
+        this.getS3Manifest();
       }
     },
     /**
@@ -258,6 +291,10 @@ export default {
         this.getPubmedQueryFull();
       } else if (this.manifestType === 'github') {
         this.getGithubManifest().then(() => {
+          this.syncEntries();
+        });
+      } else if (this.manifestType === 'S3') {
+        this.getS3Manifest().then(() => {
           this.syncEntries();
         });
       }

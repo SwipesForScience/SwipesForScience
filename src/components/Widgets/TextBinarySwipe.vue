@@ -1,7 +1,6 @@
 <template>
   <!-- This is a dummy Widget Template -->
   <div class="widgetTemplate pb-3">
-    <hr>
     <div class="bg-light pt-3 pb-3 pl-3 pr-3 choicemenu" v-if="playMode">
       <div class="container">
         <div class="row" v-if="playMode">

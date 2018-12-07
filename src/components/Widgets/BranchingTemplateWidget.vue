@@ -1,11 +1,13 @@
 <template>
   <!-- This is a dummy Widget Template -->
   <div class="widgetTemplate">
-    <transition name="fadeOne" mode="out-in">
-      <h1 class="smalltitle mb-3 pb-3 mt-3 pt-3" :key="widgetProperties.stages[currentStage].question">
-        {{widgetProperties.stages[currentStage].question}}
-      </h1>
-    </transition>
+    <b-card class="mb-3 stuck">
+      <transition name="fadeOne" mode="out-in">
+        <h3 class="smalltitle mb-3 pb-3 mt-3 pt-3" :key="widgetProperties.stages[currentStage].question">
+          {{widgetProperties.stages[currentStage].question}}
+        </h3>
+      </transition>
+    </b-card>
 
       <WidgetSelector
        :widgetType="widgetProperties.stages[currentStage].responseProperties.widgetType"
@@ -230,6 +232,7 @@
        */
       vote(val) {
         this.$emit('widgetRating', val);
+        window.scrollTo(0, 0);
       },
       /**
        * This method should tell users how their widgetProperties configuration should be defined.
@@ -257,12 +260,18 @@
 
 <style scoped>
   .smalltitle {
-    font-size: 2em;
+    /* font-size: 2em; */
     position: sticky;
     position: -webkit-sticky;
     background-color: white;
     top: 0
     /* font-variant-caps: all-petite-caps; */
+  }
+
+  .stuck {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0px;
   }
 
   .fadeOne-enter-active, .fadeOne-leave-active {

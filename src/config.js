@@ -12,12 +12,21 @@ export default {
     // if manifestType = 'json' then you're fine
     // if manifestType = 'github' then you need to provide a github user, repo,
     // and path under manifestGitHub
+
   manifestType: 'github',
   manifestQuery: '(neuroimaging OR "Magnetic Resonance Imaging" OR "MRI") AND brain AND autism',
   manifestGitHub: { user: 'akeshavan',
     repo: 'mHealthLandscape',
     path: 'ios',
   },
+
+  // manifestType: 'S3',
+  // manifestS3: {
+  //   bucket: 'himatdata',
+  //   prefix: 'BeringStrait',
+  //   delimiter: '.wav',
+  //   max_keys: 10000,
+  // },
 
   widgetType: 'BranchingTemplateWidget',
   /* eslint-disable */
