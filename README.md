@@ -97,8 +97,7 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 
-# run unit tests (we don't have these yet)
-
+# run unit tests
 ./node_modules/.bin/firebase-server -p 5000 -f test/testDB.json &
 npm run unit
 
