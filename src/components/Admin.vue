@@ -47,8 +47,14 @@
         <small v-if="manifestType === 'json'">
           Here are a few items in your manifest file. There are {{manifestEntries.length}} items in total
         </small>
-        <small v-else>
+        <small v-else-if="manifestType === 'pubmed'">
           Here are a few pubmed IDs from your search. There are {{pubmedQueryStore.count}} items in total.
+        </small>
+        <small v-if="manifestType === 'github'">
+          Here are a few items in your manifest file. There are {{manifestEntries.length}} items in total
+        </small>
+        <small v-if="manifestType === 'S3'">
+          Here are a few items in your manifest file. There are {{manifestEntries.length}} items in total
         </small>
         <textarea class="mt-3 mb-3 ml-3 mr-3 w-100"
          :value="manifestEntries.slice(0,100) + '...'"
@@ -116,6 +122,10 @@ export default {
       * A place to hold variables for pubmed query manifests.
       */
       pubmedQueryStore: {},
+      /**
+      * a place to hold a continuation token for s3.
+      */
+      continuation: null,
     };
   },
   props: {
@@ -237,6 +247,34 @@ export default {
       });
     },
     /**
+    *
+    */
+    parseS3(data) {
+      const xml = this.xmlParser(data);
+      const keys = xml.getElementsByTagName('Key');
+      const continuation = xml.getElementsByTagName('NextContinuationToken');
+      const isTruncated = xml.getElementsByTagName('IsTruncated')[0].innerHTML;
+      if (isTruncated === 'true') {
+        this.continuation = encodeURIComponent(continuation[0].innerHTML);
+      } else {
+        this.continuation = null;
+      }
+      const allKeys = _.map(keys, k => k.innerHTML);
+      const keysFiltered = _.filter(allKeys, k => k.replace(`${this.config.manifestS3.prefix}/`, ''));
+      const keysFixed = _.map(keysFiltered, k => k.replace(`${this.config.manifestS3.prefix}/`, '').split('.')[0]);
+      return keysFixed;
+    },
+    /**
+    *
+    */
+    S3Continuation(token) {
+      let url = `https://s3-us-west-2.amazonaws.com/${this.config.manifestS3.bucket}/?list-type=2&`;
+      url += `prefix=${this.config.manifestS3.prefix}/&max-keys=${this.config.manifestS3.max_keys}`;
+      url += `&delimiter=${this.config.manifestS3.delimiter}`;
+      url += `&continuation-token=${token}`;
+      return axios.get(url);
+    },
+    /**
     * get a list of files that are in a bucket of an S3
     * with a prefix and a delimiter (usually, a .)
     * TODO: make the keys firebase safe!!
@@ -245,13 +283,17 @@ export default {
       let url = `https://s3-us-west-2.amazonaws.com/${this.config.manifestS3.bucket}/?list-type=2&`;
       url += `prefix=${this.config.manifestS3.prefix}/&max-keys=${this.config.manifestS3.max_keys}`;
       url += `&delimiter=${this.config.manifestS3.delimiter}`;
+      // console.log(url);
       return axios.get(url).then((resp) => {
-        const xml = this.xmlParser(resp.data);
-        const keys = xml.getElementsByTagName('Key');
-        const allKeys = _.map(keys, k => k.innerHTML);
-        const keysFiltered = _.filter(allKeys, k => k.replace(`${this.config.manifestS3.prefix}/`, ''));
-        const keysFixed = _.map(keysFiltered, k => k.replace(`${this.config.manifestS3.prefix}/`, '').split('.')[0]);
-        this.manifestEntries = _.uniq(keysFixed);
+        const keysFixed = this.parseS3(resp.data);
+        this.manifestEntries = _.uniq(this.manifestEntries.concat(keysFixed));
+        if (this.continuation) {
+          return this.S3Continuation(this.continuation).then((resp1) => {
+            const keysFixed2 = this.parseS3(resp1.data);
+            this.manifestEntries = _.uniq(this.manifestEntries.concat(keysFixed2));
+          });
+        }
+        return 0;
       });
     },
     /**
