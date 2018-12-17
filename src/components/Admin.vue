@@ -265,14 +265,23 @@ export default {
       return keysFixed;
     },
     /**
-    *
+    * if there is a continuation token..
     */
     S3Continuation(token) {
       let url = `https://s3-us-west-2.amazonaws.com/${this.config.manifestS3.bucket}/?list-type=2&`;
       url += `prefix=${this.config.manifestS3.prefix}/&max-keys=${this.config.manifestS3.max_keys}`;
       url += `&delimiter=${this.config.manifestS3.delimiter}`;
       url += `&continuation-token=${token}`;
-      return axios.get(url);
+      if (!token) {
+        return 0;
+      }
+      return axios.get(url).then((resp) => {
+        const keysFixed2 = this.parseS3(resp.data);
+        this.manifestEntries = _.uniq(this.manifestEntries.concat(keysFixed2));
+        if (this.continuation) {
+          this.S3Continuation(this.continuation);
+        }
+      });
     },
     /**
     * get a list of files that are in a bucket of an S3
@@ -288,12 +297,8 @@ export default {
         const keysFixed = this.parseS3(resp.data);
         this.manifestEntries = _.uniq(this.manifestEntries.concat(keysFixed));
         if (this.continuation) {
-          return this.S3Continuation(this.continuation).then((resp1) => {
-            const keysFixed2 = this.parseS3(resp1.data);
-            this.manifestEntries = _.uniq(this.manifestEntries.concat(keysFixed2));
-          });
+          this.S3Continuation(this.continuation);
         }
-        return 0;
       });
     },
     /**
@@ -336,9 +341,16 @@ export default {
           this.syncEntries();
         });
       } else if (this.manifestType === 'S3') {
-        this.getS3Manifest().then(() => {
+        // this.getS3Manifest().then(() => {
+        if (this.manifestEntries.length) {
           this.syncEntries();
-        });
+        } else {
+          // eslint-disable-next-line
+          alert('please press the preview button first,' +
+          ' and wait to get the final count');
+          this.status = 'complete';
+        }
+        // });
       }
     },
     /**
