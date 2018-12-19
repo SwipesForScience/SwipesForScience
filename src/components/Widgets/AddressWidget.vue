@@ -28,10 +28,10 @@
               <p style="width:200px;">Year:</p>
               <input v-model="year" placeholder="type year here">
             </div>
-            <!-- <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;"> 
+            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;"> 
               <p style="width:200px;">Filename:</p>
-              <input v-model="pdf" placeholder="type county here">
-            </div> -->
+              <p>pdf name</p>
+            </div>
         <div class="row" v-if="playMode">
           <!-- <b-btn variant="danger" @click="vote(0)" class="mx-auto ml-3 mr-3">Vote No</b-btn> -->
           <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3" >Discuss</b-btn>
@@ -101,11 +101,23 @@ import axios from 'axios'
         county: null,
         year: null,
         filename: null,
-        pdf: null,
       };
     },
     mounted() {
-      this.getpdf()
+      // this.getpdf()
+
+    },
+    computed : {
+      pdf() {
+        var path = this.widgetPointer.split("_");
+        console.log(path);
+        return `http://localhost:7886/`
+         + path[0] +'/'
+         + path[2] +'/'
+         + path[4] +'/'
+         + path[6] + '-'+ path[7] + '-' + path[8] + '-' +path[9] + '/'
+         + `file?name=summons.pdf`;
+      }
     },
     // getPdf() {
     //     console.log("testtest")
@@ -117,7 +129,9 @@ import axios from 'axios'
     methods: {
 
       getpdf() {
-        axios.get('localhost:7886/washington/King/2017/2017-01-3-123/file?name=summons.pdf')
+        console.log(this.widgetPointer);
+
+        axios.get('http://localhost:7886/washington/King/2017/2017-01-3-123/file?name=summons.pdf')
         .then((response) => {
           this.pdf = response.data;
         })
