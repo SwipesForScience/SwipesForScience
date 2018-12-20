@@ -109,14 +109,34 @@ import axios from 'axios'
     },
     computed : {
       pdf() {
-        var path = this.widgetPointer.split("_");
+        var path = this.widgetPointer.split("__");
         console.log(path);
+        var casenumber = path[3];
+        var newCasenumber = "";
+        for(var x = 0; x < casenumber.length; x++) {
+          if(casenumber.charAt(x) == '_') {
+            newCasenumber += '-';
+          } else {
+            newCasenumber += casenumber.charAt(x);
+          }
+        }
+        var filename = path[4];
+        var newFilename = "";
+        for(var y = 0; y < filename.length; y++) {
+          if(filename.charAt(y) == '_') {
+            newFilename += '-';
+          } else {
+            newFilename += filename.charAt(y);
+          }
+        }
         return `http://localhost:7886/`
          + path[0] +'/'
+         + path[1] +'/'
          + path[2] +'/'
-         + path[4] +'/'
-         + path[6] + '-'+ path[7] + '-' + path[8] + '-' +path[9] + '/'
-         + `file?name=summons.pdf`;
+         + newCasenumber + '/'
+         + `file?name=`
+         + newFilename
+         + '.pdf';
       }
     },
     // getPdf() {
