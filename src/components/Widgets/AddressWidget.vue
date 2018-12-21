@@ -17,8 +17,20 @@
               <input v-model="name" placeholder="type name here">
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">Address:</p>
-              <input v-model="address" placeholder="type address here">
+              <p style="width:200px;">House Number:</p>
+              <input v-model="houseNumber" placeholder="type address here">
+            </div>
+            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+              <p style="width:200px;">Street Name:</p>
+              <input v-model="streetName" placeholder="type address here">
+            </div>
+            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+              <p style="width:200px;">Street Direction:</p>
+              <input v-model="streetDirection" placeholder="type address here">
+            </div>
+                        <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+              <p style="width:200px;">City:</p>
+              <input v-model="city" placeholder="type address here">
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">County:</p>
@@ -97,7 +109,10 @@ import axios from 'axios'
         msg: 'hello',
         casenumber: null,
         name: null,
-        address: null,
+        houseNumber: null,
+        streetName: null,
+        streetDirection: null,
+        city: null,
         county: null,
         year: null,
         filename: null,
@@ -221,14 +236,20 @@ import axios from 'axios'
         this.$emit('widgetRating', 
                     {name: this.name,
                      casenumber: this.casenumber,
-                     address: this.address,
+                     houseNumber: this.houseNumber,
+                     streetName: this.streetName,
+                     streetDirection: this.streetDirection,
+                     city: this.city,
                      county: this.county,
                      year: this.year,
                      filename: this.filename
                      });
         this.casenumber = null;
         this.name = null;
-        this.address = null;
+        this.houseNumber = null;
+        this.streetName = null;
+        this.streetDirection = null;
+        this.city = null;
         this.county = null;
         this.year = null;
         this.filename = null;
