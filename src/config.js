@@ -112,8 +112,8 @@ export default {
     // Homepage configuration
     // your app's title and tagline
   home: {
-    title: 'Get the Address',
-    tagline: 'A citizen science game template',
+    title: 'WA Eviction Address Identifier',
+    tagline: 'WAEV Project',
       // background image on Homepage
     backgroundUrl: 'https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/SwipesForScience.svg?sanitize=true',
   },

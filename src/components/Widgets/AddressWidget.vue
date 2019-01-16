@@ -18,31 +18,33 @@
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">House Number:</p>
-              <input v-model="houseNumber" placeholder="type address here">
+              <input v-model="houseNumber" placeholder="type house number here">
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">Street Name:</p>
-              <input v-model="streetName" placeholder="type address here">
+              <input v-model="streetName" placeholder="type street name here">
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">Street Direction:</p>
-              <input v-model="streetDirection" placeholder="type address here">
+              <input v-model="streetDirection" placeholder="type street direction here">
             </div>
-                        <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">City:</p>
-              <input v-model="city" placeholder="type address here">
+              <input v-model="city" placeholder="type city here">
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">County:</p>
-              <input v-model="county" placeholder="type county here">
+              <!-- <input v-model="county" placeholder="type county here"> -->
+              <p>{{ this.county }}</p>
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">Year:</p>
-              <input v-model="year" placeholder="type year here">
+              <!-- <input v-model="year" placeholder="type year here"> -->
+              <p>{{ this.year }}</p>
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;"> 
               <p style="width:200px;">Filename:</p>
-              <p>pdf name</p>
+              <p>{{ this.filename }}</p>
             </div>
         <div class="row" v-if="playMode">
           <!-- <b-btn variant="danger" @click="vote(0)" class="mx-auto ml-3 mr-3">Vote No</b-btn> -->
@@ -144,14 +146,60 @@ import axios from 'axios'
             newFilename += filename.charAt(y);
           }
         }
-        return `http://localhost:7886/`
-         + path[0] +'/'
-         + path[1] +'/'
-         + path[2] +'/'
-         + newCasenumber + '/'
-         + `file?name=`
-         + newFilename
-         + '.pdf';
+        this.filename = newFilename;
+        this.county = path[1];
+        this.state = path[0];
+        this.year = path[2];
+        var fileList = [];
+        var filePath = "";
+        var loading = true;
+
+        getaddress: () => {
+          axios.get(`http://localhost:7886/`
+          + path[0] +'/'
+          + path[1] +'/'
+          + path[2] +'/'
+          + newCasenumber + '/'
+          + 'files')
+          .then((response) => {
+            fileList = response.data.files;
+            for(var i = 0; i < fileList.length; i++) {
+              console.log(fileList[i]+"test");
+              if(fileList[i].toUpperCase().includes('SUMMONS')) {
+                console.log(`http://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `file?name=`+ fileList[i])
+                filePath = `http://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `file?name=`+ fileList[i];
+                loading = false;
+              }
+            }
+          })
+        console.log(filePath);
+        return filePath;
+        // return req.then( () => {
+        //     for(var i = 0; i < fileList.length; i++) {
+        //     console.log(fileList[i]+"test");
+        //     if(fileList[i].toUpperCase().includes('SUMMONS')) {
+        //       console.log(fileList[i]);
+        //         return `http://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `file?name=`+ fileList[i];
+        //     }
+        //   }
+        // });
+        
+        // console.log(`http://localhost:7886/`
+        //  + path[0] +'/'
+        //  + path[1] +'/'
+        //  + path[2] +'/'
+        //  + newCasenumber + '/'
+        //  + `file?name=`
+        //  + newFilename
+        //  + '.pdf')
+        // return `http://localhost:7886/`
+        //  + path[0] +'/'
+        //  + path[1] +'/'
+        //  + path[2] +'/'
+        //  + newCasenumber + '/'
+        //  + `file?name=`
+        //  + newFilename
+        //  + '.pdf';
       }
     },
     // getPdf() {
