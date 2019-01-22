@@ -153,8 +153,7 @@ import axios from 'axios'
         var fileList = [];
         var filePath = "";
         var loading = true;
-
-        getaddress: () => {
+        console.log("before axios")
           axios.get(`http://localhost:7886/`
           + path[0] +'/'
           + path[1] +'/'
@@ -162,6 +161,8 @@ import axios from 'axios'
           + newCasenumber + '/'
           + 'files')
           .then((response) => {
+            console.log("in axios")
+            console.log(loading)
             fileList = response.data.files;
             for(var i = 0; i < fileList.length; i++) {
               console.log(fileList[i]+"test");
@@ -172,6 +173,8 @@ import axios from 'axios'
               }
             }
           })
+          
+        console.log(loading)
         console.log(filePath);
         return filePath;
         // return req.then( () => {
