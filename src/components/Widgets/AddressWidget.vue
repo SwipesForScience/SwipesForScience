@@ -3,7 +3,7 @@
   <div class="widgetTemplate">
     <!-- {{msg}} -->
     <div class="row">
-    <pdf class="col" :src="pdf" style="width:100%; margin:auto;"></pdf>
+    <pdf class="col" :src=getSource() style="width:100%; margin:auto;"></pdf>
     <!-- <p class="lead mb-3 pb-3 mt-3 pt-3">{{widgetPointer}}</p> -->
     <div class="col" style="margin-top: 100px;">
         <p v-if="!playMode" class="mb-3 pb-3 mt-3 pt-3">{{widgetSummary}}</p>
@@ -42,7 +42,7 @@
               <!-- <input v-model="year" placeholder="type year here"> -->
               <p>{{ this.year }}</p>
             </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;"> 
+            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">Filename:</p>
               <p>{{ this.filename }}</p>
             </div>
@@ -59,7 +59,6 @@
 <script>
 import pdf from 'vue-pdf'
 import axios from 'axios'
-
 /**
  * This is a dummy widget template, for widget developers to use as a base to start
  * developing a new annotation widget.
@@ -118,11 +117,8 @@ import axios from 'axios'
         county: null,
         year: null,
         filename: null,
+        filePath: null,
       };
-    },
-    mounted() {
-      // this.getpdf()
-
     },
     computed : {
       pdf() {
@@ -161,6 +157,7 @@ import axios from 'axios'
           + newCasenumber + '/'
           + 'files')
           .then((response) => {
+<<<<<<< Updated upstream
             console.log("in axios")
             console.log(loading)
             fileList = response.data.files;
@@ -203,25 +200,23 @@ import axios from 'axios'
         //  + `file?name=`
         //  + newFilename
         //  + '.pdf';
+=======
+            fileList = response.data.files;
+            for(var i = 0; i < fileList.length; i++) {
+              if(fileList[i].toUpperCase().includes('SUMMONS')) {
+                this.filePath = `http://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `file?name=`+ fileList[i];
+                console.log(this.filePath);
+              }
+            }
+          });
+>>>>>>> Stashed changes
       }
     },
-    // getPdf() {
-    //     console.log("testtest")
-    //     var pdfFile = "";
-    //     Axios.get('localhost:7886/washington/King/2017/2017-01-3-123/file?name=summons.pdf')
-    //     .then((response) => pdfFile = respose)
-    //     return pdfFile;
-    //   },
     methods: {
-
-      getpdf() {
-        console.log(this.widgetPointer);
-
-        axios.get('http://localhost:7886/washington/King/2017/2017-01-3-123/file?name=summons.pdf')
-        .then((response) => {
-          this.pdf = response.data;
-        })
-      }, 
+      getSource() {
+        this.pdf;
+        return this.filePath;
+      },
       /**
        * all widgets should have a getScore method, based on the user's response
        */
@@ -231,7 +226,6 @@ import axios from 'axios'
         // }
         // return 0;
       },
-
       /**
        * all widgets should have a getFeedback method, based on the user's response.
        * this is what the user will see once they respond.
@@ -244,7 +238,6 @@ import axios from 'axios'
             message: 'good job',
           };
         // }
-
         // return {
         //   show: true,
         //   variant: 'danger',
@@ -269,10 +262,8 @@ import axios from 'axios'
         //     count: 1,
         //   };
         // }
-
         // let newVote = ((this.widgetSummary.aveVote * this.widgetSummary.count) + response);
         // newVote /= (this.widgetSummary.count + 1);
-
         // return {
         //   aveVote: newVote,
         //   count: this.widgetSummary.count + 1,
@@ -284,7 +275,7 @@ import axios from 'axios'
        */
       vote() {
         console.log(this.name);
-        this.$emit('widgetRating', 
+        this.$emit('widgetRating',
                     {name: this.name,
                      casenumber: this.casenumber,
                      houseNumber: this.houseNumber,
@@ -336,5 +327,4 @@ import axios from 'axios'
 </script>
 
 <style>
-
 </style>
