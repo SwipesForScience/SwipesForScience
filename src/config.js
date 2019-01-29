@@ -6,7 +6,7 @@ export default {
     // each time the app is run, it will check this manifest and update the firebase database
     // if new entries are there, they will be added, and entries that aren't in the manifest
     // but are in the firebase database will be *removed*
-  manifestUrl: 'https://raw.githubusercontent.com/SwipesForScience/exampleConfig/master/bsHbnManifest.json',
+  manifestUrl: 'https://raw.githubusercontent.com/timathomas/eviction_records/master/app/cases.json?token=AZfnBoJWqqJX0sW57-1GaNeXSkz8b7sEks5cUgzZwA%3D%3D',
     // 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/bsHbnManifest.json',
     // 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/textWidgetManifest.json',
 

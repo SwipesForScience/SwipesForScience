@@ -133,16 +133,17 @@ import axios from 'axios'
             newCasenumber += casenumber.charAt(x);
           }
         }
-        var filename = path[4];
-        var newFilename = "";
-        for(var y = 0; y < filename.length; y++) {
-          if(filename.charAt(y) == '_') {
-            newFilename += '-';
-          } else {
-            newFilename += filename.charAt(y);
-          }
-        }
-        this.filename = newFilename;
+        // var filename = path[4];
+        // var newFilename = "";
+        // console.log('filename is', filename)
+        // for(var y = 0; y < filename.length; y++) {
+        //   if(filename.charAt(y) == '_') {
+        //     newFilename += '-';
+        //   } else {
+        //     newFilename += filename.charAt(y);
+        //   }
+        // }
+        // this.filename = newFilename;
         this.county = path[1];
         this.state = path[0];
         this.year = path[2];
@@ -157,59 +158,15 @@ import axios from 'axios'
           + newCasenumber + '/'
           + 'files')
           .then((response) => {
-<<<<<<< Updated upstream
-            console.log("in axios")
-            console.log(loading)
-            fileList = response.data.files;
-            for(var i = 0; i < fileList.length; i++) {
-              console.log(fileList[i]+"test");
-              if(fileList[i].toUpperCase().includes('SUMMONS')) {
-                console.log(`http://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `file?name=`+ fileList[i])
-                filePath = `http://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `file?name=`+ fileList[i];
-                loading = false;
-              }
-            }
-          })
-          
-        console.log(loading)
-        console.log(filePath);
-        return filePath;
-        // return req.then( () => {
-        //     for(var i = 0; i < fileList.length; i++) {
-        //     console.log(fileList[i]+"test");
-        //     if(fileList[i].toUpperCase().includes('SUMMONS')) {
-        //       console.log(fileList[i]);
-        //         return `http://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `file?name=`+ fileList[i];
-        //     }
-        //   }
-        // });
-        
-        // console.log(`http://localhost:7886/`
-        //  + path[0] +'/'
-        //  + path[1] +'/'
-        //  + path[2] +'/'
-        //  + newCasenumber + '/'
-        //  + `file?name=`
-        //  + newFilename
-        //  + '.pdf')
-        // return `http://localhost:7886/`
-        //  + path[0] +'/'
-        //  + path[1] +'/'
-        //  + path[2] +'/'
-        //  + newCasenumber + '/'
-        //  + `file?name=`
-        //  + newFilename
-        //  + '.pdf';
-=======
             fileList = response.data.files;
             for(var i = 0; i < fileList.length; i++) {
               if(fileList[i].toUpperCase().includes('SUMMONS')) {
                 this.filePath = `http://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `file?name=`+ fileList[i];
+                this.filename = fileList[i]
                 console.log(this.filePath);
               }
             }
           });
->>>>>>> Stashed changes
       }
     },
     methods: {
