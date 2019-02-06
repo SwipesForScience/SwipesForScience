@@ -35,6 +35,34 @@ export default {
   //   delimiter: '.wav',
   //   max_keys: 10000,
   // },
+  
+
+
+  // widgetType: 'ImageSwipeChoices',
+  /* eslint-disable */
+  // widgetProperties: {
+  //  baseUrlTemplate:
+  //    'https://raw.githubusercontent.com/Okamille/ICA/master/{0}.png',
+  //  delimiter: '%',
+  //  choices: [
+  //    {
+  //       id: 'artifact',
+  //       name: 'Artifact',
+  //       variant: 'danger',
+  //     },
+  //     {
+  //       id: 'unknown',
+  //       name: 'Maybe brain',
+  //       variant: 'secondary',
+  //     },
+  //     {
+  //       id: 'brain',
+  //       name: 'Brain',
+  //       variant: 'success',
+  //     },
+  //   ],
+  // },
+  /* eslint-enable */
 
   // widgetType: 'ImageSwipe', //'BranchingTemplateWidget',
   /* eslint-disable */
