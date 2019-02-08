@@ -23,12 +23,12 @@
 
         <!--  Here are links to different routes  -->
         <b-navbar-nav id="navLinks">
-          <b-nav-item to="/" exact>Home</b-nav-item>
-          <b-nav-item to="/leaderboard">Leaderboard</b-nav-item>
-          <b-nav-item to="/play">Play</b-nav-item>
-          <b-nav-item to="/chats">Chats</b-nav-item>
-          <b-nav-item v-if="needsTutorial" to="/tutorial">Tutorial</b-nav-item>
-          <b-nav-item v-if="userData.admin" to="/admin">Admin</b-nav-item>
+          <b-nav-item :to="{ name: 'Home', query: routerQuery}" exact>Home</b-nav-item>
+          <b-nav-item :to="{ name: 'Leaderboard', query: routerQuery}">Leaderboard</b-nav-item>
+          <b-nav-item :to="{ name: 'Play', query: routerQuery}">Play</b-nav-item>
+          <b-nav-item :to="{ name: 'Chats', query: routerQuery}">Chats</b-nav-item>
+          <b-nav-item v-if="needsTutorial" :to="{ name: 'Tutorial', query: routerQuery}">Tutorial</b-nav-item>
+          <b-nav-item v-if="userData.admin" :to="{ name: 'Admin', query: routerQuery}">Admin</b-nav-item>
         </b-navbar-nav>
 
         <!-- Right aligned nav items -->
@@ -38,13 +38,13 @@
             <template slot="button-content">
               <em>{{userInfo.displayName}}</em>
             </template>
-            <b-dropdown-item to="/profile">Profile</b-dropdown-item>
+            <b-dropdown-item :to="{ name: 'Profile', query: routerQuery }">Profile</b-dropdown-item>
             <b-dropdown-item @click="logout">Signout</b-dropdown-item>
           </b-nav-item-dropdown>
 
           <!-- The login option shows if the user is not authenticated -->
 
-          <b-nav-item v-else to="login">Login</b-nav-item>
+          <b-nav-item v-else :to="{ name: 'Login', query: routerQuery}">Login</b-nav-item>
 
           <b-nav-text v-if="userIsDefined">
             <b-img v-if="currentLevel.img"
@@ -71,6 +71,7 @@
                    :config="config"
                    :db="db"
                    v-on:taken_tutorial="setTutorial"
+                   :routerQuery="routerQuery"
                    />
     </div>
       <!-- Configuration Drawer -->
@@ -163,16 +164,12 @@ export default {
    * load the config file from the query and set it to the components config variable.
    */
   mounted() {
-    if (this.$route.query.config) {
-      // the URL has a config file that overrides the default one for this app!
-      axios.get(this.$route.query.config).then((resp) => {
-        // remove the firebase project
-        this.config = resp.data;
-      }).catch(() => {
-        // TODO: set a warning if the config url wasn't valid
-        // console.log(e.message);
-      });
-    }
+    AOS.init();
+    this.userInfo = firebase.auth().currentUser;
+    const self = this;
+    firebase.auth().onAuthStateChanged((user) => {
+      self.userInfo = user || {};
+    });
   },
 
   components: {
@@ -296,6 +293,12 @@ export default {
       }
       return Object.keys(this.userInfo).length;
     },
+    /**
+     * router query
+     */
+    routerQuery() {
+      return this.$route.query;
+    },
   },
   methods: {
     /**
@@ -337,12 +340,16 @@ export default {
    * intialize the animate on scroll library (for tutorial) and listen to authentication state
    */
   created() {
-    AOS.init();
-    this.userInfo = firebase.auth().currentUser;
-    const self = this;
-    firebase.auth().onAuthStateChanged((user) => {
-      self.userInfo = user || {};
-    });
+    if (this.$route.query.config) {
+      // the URL has a config file that overrides the default one for this app!
+      axios.get(this.$route.query.config).then((resp) => {
+        // remove the firebase project
+        this.config = resp.data;
+      }).catch(() => {
+        // TODO: set a warning if the config url wasn't valid
+        // console.log(e.message);
+      });
+    }
   },
 };
 </script>

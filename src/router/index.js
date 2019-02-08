@@ -116,7 +116,7 @@ router.beforeEach((to, from, next) => {
   const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin);
 
   if (requiresAuth && !currentUser) {
-    next('login');
+    next({ path: '/login', query: from.query });
   }
   // make sure the user has take the tutorial
   if (to.name === 'Play') {
@@ -125,11 +125,11 @@ router.beforeEach((to, from, next) => {
         .then((snap) => {
           const data = snap.val();
           if (!data.taken_tutorial && config.needsTutorial) {
-            next('tutorial');
+            next({ path: '/tutorial', query: from.query });
           }
         });
     } else {
-      next('login');
+      next({ path: '/login', query: from.query });
     }
   }
 

@@ -35,7 +35,7 @@
       </b-form>
 
       <p class="mt-3">
-        Don't have an account? <router-link to="/signup">Create one</router-link>
+        Don't have an account? <router-link :to="{ name: 'SignUp', query: routerQuery}">Create one</router-link>
       </p>
     </div>
 
@@ -54,6 +54,11 @@
 
   export default {
     name: 'login',
+    props: {
+      routerQuery: {
+        type: Object,
+      },
+    },
     data() {
       return {
         /**
@@ -84,7 +89,7 @@
                   (user) => {
                     // console.log('user', user);
                     this.$emit('login', user);
-                    this.$router.replace('play');
+                    this.$router.push({ name: 'Play', query: this.routerQuery });
                   },
                   (err) => {
                     this.errors.show = true;
