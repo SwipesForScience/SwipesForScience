@@ -3,7 +3,8 @@
   <div class="widgetTemplate">
     <!-- {{msg}} -->
     <div class="row">
-    <pdf class="col" :src=getSource() style="width:100%; margin:auto;"></pdf>
+    <!-- <pdf class="col" :src=getSource() style="width:100%; margin:auto;"></pdf> -->
+    <vue-friendly-iframe class="col" :src=getSource()></vue-friendly-iframe>
     <!-- <p class="lead mb-3 pb-3 mt-3 pt-3">{{widgetPointer}}</p> -->
     <div class="col" style="margin-top: 100px;">
         <p v-if="!playMode" class="mb-3 pb-3 mt-3 pt-3">{{widgetSummary}}</p>
@@ -11,22 +12,30 @@
             <!-- <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">Case Number: </p>
               <input v-model="pdf" placeholder="edit me">
-            </div> -->
+            </div> -->  
             <div class="row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">Person Name:</p>
               <input v-model="name" placeholder="type name here">
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">House Number:</p>
-              <input v-model="houseNumber" placeholder="type house number here">
+              <input v-model="house" placeholder="type house number here">
+            </div>
+            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+              <p style="width:200px;">Pre Direction:</p>
+              <input v-model="preDirection" placeholder="type street pre direction here">
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">Street Name:</p>
               <input v-model="streetName" placeholder="type street name here">
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">Street Direction:</p>
-              <input v-model="streetDirection" placeholder="type street direction here">
+              <p style="width:200px;">Street:</p>
+              <input v-model="street" placeholder="type street name here">
+            </div>
+            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+              <p style="width:200px;">Post Direction:</p>
+              <input v-model="postDirection" placeholder="type street post direction here">
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">City:</p>
@@ -36,6 +45,15 @@
               <p style="width:200px;">County:</p>
               <!-- <input v-model="county" placeholder="type county here"> -->
               <p>{{ this.county }}</p>
+            </div>
+            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+              <p style="width:200px;">State:</p>
+              <!-- <input v-model="county" placeholder="type county here"> -->
+              <p>{{ this.state }}</p>
+            </div>
+            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+              <p style="width:200px;">zip:</p>
+              <input v-model="zip" placeholder="type zip here">
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">Year:</p>
@@ -59,13 +77,18 @@
 <script>
 import pdf from 'vue-pdf'
 import axios from 'axios'
+import Vue from 'vue';
+import VueFriendlyIframe from 'vue-friendly-iframe';
+
+Vue.component('vue-friendly-iframe', VueFriendlyIframe);
 /**
  * This is a dummy widget template, for widget developers to use as a base to start
  * developing a new annotation widget.
  */
   export default {
     components: {
-      pdf
+      pdf,
+      VueFriendlyIframe
     },
     props: {
        /**
@@ -110,12 +133,13 @@ import axios from 'axios'
         msg: 'hello',
         casenumber: null,
         name: null,
-        houseNumber: null,
+        house: null,
+        preDirection: null,
         streetName: null,
-        streetDirection: null,
+        street: null,
+        postDirection: null,
         city: null,
-        county: null,
-        year: null,
+        zip: null,
         filename: null,
         filePath: null,
       };
@@ -161,11 +185,35 @@ import axios from 'axios'
             fileList = response.data.files;
             for(var i = 0; i < fileList.length; i++) {
               if(fileList[i].toUpperCase().includes('SUMMONS')) {
-                this.filePath = `http://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `file?name=`+ fileList[i];
+                this.filePath = `http://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile?name=`+ fileList[i];
                 this.filename = fileList[i]
                 console.log(this.filePath);
               }
             }
+          });
+          axios.get(`http://localhost:7886/`
+          + path[0] +'/'
+          + path[1] +'/'
+          + path[2] +'/'
+          + newCasenumber + '/'
+          + 'address')
+          .then((response) => {
+            // fileList = response.data.files;
+            // for(var i = 0; i < fileList.length; i++) {
+            //   if(fileList[i].toUpperCase().includes('SUMMONS')) {
+            //     this.filePath = `http://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile?name=`+ fileList[i];
+            //     this.filename = fileList[i]
+            //     console.log(this.filePath);
+            //   }
+            // }
+            var address = response.data
+            this.house = address.house,
+            this.preDirection = address.preDirection,
+            this.streetName = address.streetName,
+            this.street = address.street,
+            this.postDirection = address.postDirection,
+            this.city = address.city,
+            this.zip = address.zip
           });
       }
     },
@@ -231,27 +279,30 @@ import axios from 'axios'
        * all widgets should have a vote method, that emits a response to the parent component.
        */
       vote() {
-        console.log(this.name);
         this.$emit('widgetRating',
                     {name: this.name,
                      casenumber: this.casenumber,
-                     houseNumber: this.houseNumber,
                      streetName: this.streetName,
-                     streetDirection: this.streetDirection,
                      city: this.city,
-                     county: this.county,
                      year: this.year,
-                     filename: this.filename
+                     filename: this.filename,
+                     house: this.house,
+                     preDirection: this.preDirection,
+                     street: this.street,
+                     postDirection: this.postDirection,
+                     zip: this.zip
                      });
         this.casenumber = null;
         this.name = null;
-        this.houseNumber = null;
+        this.house = null;
         this.streetName = null;
-        this.streetDirection = null;
         this.city = null;
-        this.county = null;
         this.year = null;
         this.filename = null;
+        this.preDirection = null;
+        this.street = null;
+        this.postDirection = null;
+        this.zip = null;
       },
       /**
        * This method should tell users how their widgetProperties configuration should be defined.
