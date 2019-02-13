@@ -4,7 +4,10 @@
     <!-- {{msg}} -->
     <div class="row">
     <!-- <pdf class="col" :src=getSource() style="width:100%; margin:auto;"></pdf> -->
-    <vue-friendly-iframe class="col" :src=getSource()></vue-friendly-iframe>
+    <!-- <vue-friendly-iframe class="col" :src=getSource()></vue-friendly-iframe> -->
+    <div class="col" style="width:600px;padding-right:100px;">
+      <iframe :src=getSource() frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+    </div>
     <!-- <p class="lead mb-3 pb-3 mt-3 pt-3">{{widgetPointer}}</p> -->
     <div class="col" style="margin-top: 100px;">
         <p v-if="!playMode" class="mb-3 pb-3 mt-3 pt-3">{{widgetSummary}}</p>
