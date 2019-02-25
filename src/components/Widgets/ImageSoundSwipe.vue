@@ -222,9 +222,13 @@
       fillPropertyPattern(pattern, delimiter) {
         // fill the pattern by splitting the widgetPointer by delimiter
         let output = pattern;
+        console.log(delimiter, this.widgetPointer, this.widgetPointer.split(delimiter));
         const parts = String(this.widgetPointer).split(delimiter);
+        // console.log('parts', parts);
         _.map(parts, (p, i) => {
+          // console.log('p,i', p, i);
           output = output.replace(`{${i}}`, p);
+          // console.log(output);
         });
         return output;
       },

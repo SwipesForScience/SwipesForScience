@@ -15,7 +15,7 @@
           </tr>
           <tr>
             <td class="align-middle text-center text-white">
-              <router-link to="/about" class="text-white">About</router-link>
+              <router-link :to="{name: 'About', query: routerQuery}" class="text-white">About</router-link>
               <br>
             </td>
 

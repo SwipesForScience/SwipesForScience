@@ -83,7 +83,7 @@
       />
 
   </div>
-    <Footer v-on:openConfig="openConfig" :config="config"></Footer>
+    <Footer v-on:openConfig="openConfig" :config="config" :routerQuery="routerQuery"></Footer>
   </div>
 </template>
 
