@@ -1,82 +1,26 @@
 <template>
   <div class="WidgetSelector">
-
-    <ImageSwipe
-     v-if="widgetType=='ImageSwipe'"
-     ref="ImageSwipe"
-     :widgetPointer="widgetPointer"
-     :widgetProperties="widgetProperties"
-     :widgetSummary="widgetSummary"
+    <Secret
      :userSettings="userSettings"
-     :tutorialStep="tutorialStep"
-     v-on:widgetRating="widgetRating"
-     v-on:updateUserSettings="updateUserSettings"
-     :playMode="playMode"
-     />
+     :needsSecret="needsSecret"
+     :serverSecret="serverSecret"
+     v-on:updateUserSettings="updateUserSettings">
+      <ImageSwipe
+      v-if="widgetType=='ImageSwipe'"
+      ref="ImageSwipe"
+      :widgetPointer="widgetPointer"
+      :widgetProperties="widgetProperties"
+      :widgetSummary="widgetSummary"
+      :userSettings="userSettings"
+      :tutorialStep="tutorialStep"
+      v-on:widgetRating="widgetRating"
+      v-on:updateUserSettings="updateUserSettings"
+      :playMode="playMode"
+      />
 
-    <ImageSoundSwipe
-     ref="ImageSoundSwipe"
-     v-else-if="widgetType=='ImageSoundSwipe'"
-     :widgetPointer="widgetPointer"
-     :widgetProperties="widgetProperties"
-     :userSettings="userSettings"
-     :widgetSummary="widgetSummary"
-     :tutorialStep="tutorialStep"
-     v-on:widgetRating="widgetRating"
-     v-on:updateUserSettings="updateUserSettings"
-     :playMode="playMode"
-     />
-
-    <PubMedNLP  v-else-if="widgetType=='PubMedNLP'"
-     ref="PubMedNLP"
-     :widgetPointer="widgetPointer"
-     :widgetProperties="widgetProperties"
-     :userSettings="userSettings"
-     :widgetSummary="widgetSummary"
-     :tutorialStep="tutorialStep"
-     v-on:widgetRating="widgetRating"
-     v-on:updateUserSettings="updateUserSettings"
-     :playMode="playMode"
-     />
-
-    <ImageSplat  v-else-if="widgetType=='ImageSplat'"
-     ref="ImageSplat"
-     :widgetPointer="widgetPointer"
-     :widgetProperties="widgetProperties"
-     :userSettings="userSettings"
-     :widgetSummary="widgetSummary"
-     :tutorialStep="tutorialStep"
-     v-on:widgetRating="widgetRating"
-     v-on:updateUserSettings="updateUserSettings"
-     :playMode="playMode"
-     />
-
-    <TextTagger v-else-if="widgetType=='TextTagger'"
-     ref="TextTagger"
-     :widgetPointer="widgetPointer"
-     :widgetProperties="widgetProperties"
-     :userSettings="userSettings"
-     :widgetSummary="widgetSummary"
-     :tutorialStep="tutorialStep"
-     v-on:widgetRating="widgetRating"
-     v-on:updateUserSettings="updateUserSettings"
-     :playMode="playMode"
-     />
-
-    <ImageSwipeChoices  v-else-if="widgetType=='ImageSwipeChoices'"
-     ref="ImageSwipeChoices"
-     :widgetPointer="widgetPointer"
-     :widgetProperties="widgetProperties"
-     :userSettings="userSettings"
-     :widgetSummary="widgetSummary"
-     :tutorialStep="tutorialStep"
-     v-on:widgetRating="widgetRating"
-     v-on:updateUserSettings="updateUserSettings"
-     :playMode="playMode"
-     />
-
-    <BranchingTemplateWidget v-else-if="widgetType=='BranchingTemplateWidget'"
-      ref="BranchingTemplateWidget"
+      <ImageSoundSwipe
+      ref="ImageSoundSwipe"
+      v-else-if="widgetType=='ImageSoundSwipe'"
       :widgetPointer="widgetPointer"
       :widgetProperties="widgetProperties"
       :userSettings="userSettings"
@@ -87,8 +31,56 @@
       :playMode="playMode"
       />
 
-      <TextBinarySwipe v-else-if="widgetType=='TextBinarySwipe'"
-        ref="TextBinarySwipe"
+      <PubMedNLP  v-else-if="widgetType=='PubMedNLP'"
+      ref="PubMedNLP"
+      :widgetPointer="widgetPointer"
+      :widgetProperties="widgetProperties"
+      :userSettings="userSettings"
+      :widgetSummary="widgetSummary"
+      :tutorialStep="tutorialStep"
+      v-on:widgetRating="widgetRating"
+      v-on:updateUserSettings="updateUserSettings"
+      :playMode="playMode"
+      />
+
+      <ImageSplat  v-else-if="widgetType=='ImageSplat'"
+      ref="ImageSplat"
+      :widgetPointer="widgetPointer"
+      :widgetProperties="widgetProperties"
+      :userSettings="userSettings"
+      :widgetSummary="widgetSummary"
+      :tutorialStep="tutorialStep"
+      v-on:widgetRating="widgetRating"
+      v-on:updateUserSettings="updateUserSettings"
+      :playMode="playMode"
+      />
+
+      <TextTagger v-else-if="widgetType=='TextTagger'"
+      ref="TextTagger"
+      :widgetPointer="widgetPointer"
+      :widgetProperties="widgetProperties"
+      :userSettings="userSettings"
+      :widgetSummary="widgetSummary"
+      :tutorialStep="tutorialStep"
+      v-on:widgetRating="widgetRating"
+      v-on:updateUserSettings="updateUserSettings"
+      :playMode="playMode"
+      />
+
+      <ImageSwipeChoices  v-else-if="widgetType=='ImageSwipeChoices'"
+      ref="ImageSwipeChoices"
+      :widgetPointer="widgetPointer"
+      :widgetProperties="widgetProperties"
+      :userSettings="userSettings"
+      :widgetSummary="widgetSummary"
+      :tutorialStep="tutorialStep"
+      v-on:widgetRating="widgetRating"
+      v-on:updateUserSettings="updateUserSettings"
+      :playMode="playMode"
+      />
+
+      <BranchingTemplateWidget v-else-if="widgetType=='BranchingTemplateWidget'"
+        ref="BranchingTemplateWidget"
         :widgetPointer="widgetPointer"
         :widgetProperties="widgetProperties"
         :userSettings="userSettings"
@@ -99,18 +91,42 @@
         :playMode="playMode"
         />
 
-    <TemplateWidget v-else
-      ref="TemplateWidget"
-      :widgetPointer="widgetPointer"
-      :widgetProperties="widgetProperties"
-      :userSettings="userSettings"
-      :widgetSummary="widgetSummary"
-      :tutorialStep="tutorialStep"
-      v-on:widgetRating="widgetRating"
-      v-on:updateUserSettings="updateUserSettings"
-      :playMode="playMode"
-      />
+        <TextBinarySwipe v-else-if="widgetType=='TextBinarySwipe'"
+          ref="TextBinarySwipe"
+          :widgetPointer="widgetPointer"
+          :widgetProperties="widgetProperties"
+          :userSettings="userSettings"
+          :widgetSummary="widgetSummary"
+          :tutorialStep="tutorialStep"
+          v-on:widgetRating="widgetRating"
+          v-on:updateUserSettings="updateUserSettings"
+          :playMode="playMode"
+          />
 
+      <EvalNHA v-else-if="widgetType=='EvalNHA'"
+        ref="EvalNHAWidget"
+        :widgetPointer="widgetPointer"
+        :widgetProperties="widgetProperties"
+        :userSettings="userSettings"
+        :widgetSummary="widgetSummary"
+        :tutorialStep="tutorialStep"
+        v-on:widgetRating="widgetRating"
+        v-on:updateUserSettings="updateUserSettings"
+        :playMode="playMode"
+        />
+
+      <TemplateWidget v-else
+        ref="TemplateWidget"
+        :widgetPointer="widgetPointer"
+        :widgetProperties="widgetProperties"
+        :userSettings="userSettings"
+        :widgetSummary="widgetSummary"
+        :tutorialStep="tutorialStep"
+        v-on:widgetRating="widgetRating"
+        v-on:updateUserSettings="updateUserSettings"
+        :playMode="playMode"
+        />
+    </Secret>
   </div>
 </template>
 
@@ -129,6 +145,8 @@
   import TextTagger from './Widgets/TextTagger';
   import BranchingTemplateWidget from './Widgets/BranchingTemplateWidget';
   import TextBinarySwipe from './Widgets/TextBinarySwipe';
+  import EvalNHA from './Widgets/EvalNha';
+  import Secret from './Widgets/Secret';
 
   export default {
     name: 'WidgetSelector',
@@ -184,6 +202,20 @@
         type: Number,
         required: false,
       },
+      /**
+       * whether or not the data needs a secret
+       */
+      needsSecret: {
+        type: Boolean,
+        required: false,
+      },
+      /**
+       * the secret, only used if needed.
+       */
+      serverSecret: {
+        type: String,
+        required: false,
+      },
     },
     components: {
       ImageSwipe,
@@ -195,6 +227,8 @@
       TextTagger,
       BranchingTemplateWidget,
       TextBinarySwipe,
+      EvalNHA,
+      Secret,
     },
     methods: {
       /**

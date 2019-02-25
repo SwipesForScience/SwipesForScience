@@ -49,6 +49,10 @@
         type: Object,
         required: true,
       },
+      routerQuery: {
+        type: Object,
+        required: true,
+      },
     },
     data() {
       return {
