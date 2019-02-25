@@ -39,6 +39,9 @@
         <br>
       </p>
 
+      <p v-else-if="manifestType === 'storage'">
+        todo:
+      </p>
 
       <b-button variant="warning" @click="previewManifest">
         <span> Preview </span>
@@ -89,6 +92,7 @@
 <script>
 import axios from 'axios';
 import _ from 'lodash';
+import firebase from 'firebase';
 // eslint-disable-next-line
 import LoadManifestWorker from 'worker-loader!../workers/LoadManifestWorker';
 
@@ -315,6 +319,19 @@ export default {
         this.getPubmedQueryPreview();
       } else if (this.manifestType === 'github') {
         this.getGithubManifest();
+      } else if (this.manifestType === 'storage') {
+        // Create a root reference
+        const storageRef = firebase.storage().ref();
+        // Create a reference to 'mountains.jpg'
+        const manifestRef = storageRef.child('manifest.json');
+        manifestRef.getDownloadURL().then((url) => {
+          axios.get(`https://cors-anywhere.herokuapp.com/${url}`).then((resp) => {
+            this.manifestEntries = Object.keys(resp.data);
+          });
+        });
+        // manifestRef.getDownloadURL().then((url) => {
+        //   console.log(url);
+        // });
       } else if (this.manifestType === 'S3') {
         this.getS3Manifest();
       }
@@ -339,6 +356,17 @@ export default {
       } else if (this.manifestType === 'github') {
         this.getGithubManifest().then(() => {
           this.syncEntries();
+        });
+      } else if (this.manifestType === 'storage') {
+        // Create a root reference
+        const storageRef = firebase.storage().ref();
+        // Create a reference to 'mountains.jpg'
+        const manifestRef = storageRef.child('manifest.json');
+        manifestRef.getDownloadURL().then((url) => {
+          axios.get(`https://cors-anywhere.herokuapp.com/${url}`).then((resp) => {
+            this.manifestEntries = Object.keys(resp.data);
+            this.syncEntries();
+          });
         });
       } else if (this.manifestType === 'S3') {
         // this.getS3Manifest().then(() => {

@@ -104,7 +104,7 @@
           />
 
       <EvalNHA v-else-if="widgetType=='EvalNHA'"
-        ref="EvalNHAWidget"
+        ref="EvalNHA"
         :widgetPointer="widgetPointer"
         :widgetProperties="widgetProperties"
         :userSettings="userSettings"
@@ -112,6 +112,7 @@
         :tutorialStep="tutorialStep"
         v-on:widgetRating="widgetRating"
         v-on:updateUserSettings="updateUserSettings"
+        v-on:skip="skip"
         :playMode="playMode"
         />
 
@@ -254,6 +255,12 @@
        */
       widgetRating(response) {
         this.$emit('widgetRating', response);
+      },
+      /**
+       * skip the widget's response to the parent.
+       */
+      skip(response) {
+        this.$emit('skip', response);
       },
       /**
       * emit the widget's user settings to the parent

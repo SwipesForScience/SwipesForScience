@@ -42,6 +42,7 @@
          :serverSecret="serverSecret"
          v-on:widgetRating="sendWidgetResponse"
          v-on:updateUserSettings="updateUserSettings"
+         v-on:skip="skip"
          :playMode="'play'"
          ref="widget"
         />
@@ -442,6 +443,12 @@
         this.updateCount();
         this.updateSeen();
 
+        // 3. set the next Sample
+        this.setNextSampleId();
+      },
+      skip() {
+        // the user has seen this, but skipped.
+        this.updateSeen();
         // 3. set the next Sample
         this.setNextSampleId();
       },
