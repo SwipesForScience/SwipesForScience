@@ -147,11 +147,12 @@ export default {
       status: 'loading',
       cvdata: '',
       evalCriteria: {
-        neuroscience: 0,
-        statement: 0,
-        computational: 0,
+        neuroscience: 5,
+        statement: 5,
+        computational: 5,
       },
       sliderOptions: {
+        value: 5,
         tooltip: 'always',
         disabled: false,
         piecewise: true,
@@ -233,6 +234,17 @@ export default {
       });
     },
     /**
+     * reset the sliders; scroll to top.
+     */
+    reset() {
+      window.scrollTo(0, 0);
+      this.evalCriteria = {
+        neuroscience: 0,
+        statement: 0,
+        computational: 0,
+      };
+    },
+    /**
      * all widgets should have a getScore method, based on the user's response
      */
     getScore() {
@@ -265,12 +277,14 @@ export default {
      */
     vote() {
       this.$emit('widgetRating', this.evalCriteria);
+      this.reset();
     },
     /**
      * skip because of COI
      */
     skip() {
       this.$emit('skip');
+      this.reset();
     },
     /**
      * This method should tell users how their widgetProperties configuration should be defined.
