@@ -4,7 +4,9 @@
     <!-- {{msg}} -->
     <div class="row">
     <!-- <pdf class="col" :src=getSource() style="width:100%; margin:auto;"></pdf> -->
-    <vue-friendly-iframe class="col" :src=getSource()></vue-friendly-iframe>
+    <div class="col" style="width:500px;padding-right:100px;">
+      <iframe :src=getSource() frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+    </div>
     <!-- <p class="lead mb-3 pb-3 mt-3 pt-3">{{widgetPointer}}</p> -->
     <div class="col" style="margin-top: 100px;">
         <p v-if="!playMode" class="mb-3 pb-3 mt-3 pt-3">{{widgetSummary}}</p>
@@ -12,7 +14,7 @@
             <!-- <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">Case Number: </p>
               <input v-model="pdf" placeholder="edit me">
-            </div> -->  
+            </div> -->
             <div class="row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">Person Name:</p>
               <input v-model="name" placeholder="type name here">
@@ -61,8 +63,7 @@
               <p>{{ this.year }}</p>
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">Filename:</p>
-              <p>{{ this.filename }}</p>
+              <p style="width:200px;">Filename:        {{ this.filename }}</p>
             </div>
         <div class="row" v-if="playMode">
           <!-- <b-btn variant="danger" @click="vote(0)" class="mx-auto ml-3 mr-3">Vote No</b-btn> -->
@@ -173,19 +174,17 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
         this.year = path[2];
         var fileList = [];
         var filePath = "";
-        var loading = true;
-        console.log("before axios")
-          axios.get(`http://localhost:7886/`
+        axios.get(`https://localhost:7886/`
           + path[0] +'/'
           + path[1] +'/'
           + path[2] +'/'
           + newCasenumber + '/'
-          + 'files')
+          + 'files', {headers: {'Authorization' : "secret"}})
           .then((response) => {
             fileList = response.data.files;
             for(var i = 0; i < fileList.length; i++) {
               if(fileList[i].toUpperCase().includes('SUMMONS')) {
-                this.filePath = `http://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile?name=`+ fileList[i];
+                this.filePath = `https://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile?name=`+ fileList[i];
                 this.filename = fileList[i]
                 console.log(this.filePath);
               }
