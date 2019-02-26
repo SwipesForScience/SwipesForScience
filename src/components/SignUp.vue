@@ -3,6 +3,9 @@
     <h1> Sign Up </h1>
     <!-- Modal Component -->
     <b-modal id="consentform" title="Consent Form"
+      no-close-on-backdrop
+      no-close-on-esc
+      hide-header-close
       ref="consentform" size="lg">
       <terms></terms>
       <div slot="modal-footer" class="w-100">
