@@ -137,6 +137,9 @@
       },
     },
     components: { terms: Terms },
+    mounted() {
+      this.openConsentModal();
+    },
     computed: {
       /**
        * The form is validated if the user types the same password twice.
