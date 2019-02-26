@@ -88,6 +88,7 @@
         const currentUserSettings = { ...this.userSettings };
         currentUserSettings.secret = this.form.secret;
         this.$emit('updateUserSettings', currentUserSettings);
+        // console.log(this.userSettings)
       },
     },
   };

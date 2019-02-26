@@ -300,6 +300,7 @@
           .child(this.userInfo.displayName)
           .on('value', (snap) => {
             const val = snap.val();
+            // console.log('got updated user settings');
             if (val == null) {
               this.userSettings = {};
             } else {
@@ -312,10 +313,12 @@
       * this method is called when the widget emits the "udpateUserSettings" event.
       */
       updateUserSettings(settings) {
+        // console.log('updating here');
         if (settings) {
           this.db.ref('userSettings')
             .child(this.userInfo.displayName)
             .set(settings);
+          this.initUserSettings();
         }
       },
       /**
