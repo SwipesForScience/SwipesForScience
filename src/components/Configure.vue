@@ -213,8 +213,8 @@ export default {
       return `
       {
         "rules": {
-          ".read": false,
-          ".write": false,
+          ".read": "auth.uid === '${this.userInfo.uid}'", // replace w/ your UID
+          ".write": "auth.uid === '${this.userInfo.uid}'",// replace w/ your UID
           "users": {
             ".read": true,
             ".write": "auth !== null && data.exists()",
@@ -225,6 +225,14 @@ export default {
                 ".write": "auth.uid === '${this.userInfo.uid}'", // replace w/ your UID
               }
             }
+          },
+          "userSettings": {
+            ".read": false,
+            ".write": "auth !== null && data.exists()",
+            "$displayName": {
+              ".read": "$displayName === auth.token.name",
+              ".write": "$displayName === auth.token.name",
+            },
           },
           "chats": {
             ".read": true,

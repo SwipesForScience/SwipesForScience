@@ -15,16 +15,18 @@
     <!-- Introduction steps -->
     <div v-for="(step, index) in steps.intro" class="fullpage">
       <div class="" :id="'intro'+index">
-        <vue-typer v-if="currentBin.bin === index" :text='step.text' :repeat='0' class="message" :type-delay='50'></vue-typer>
+        <!-- <vue-typer v-if="currentBin.bin === index" :text='step.text' :repeat='0' class="message" :type-delay='50'></vue-typer> -->
+        <p v-html="step.text"></p>
         <span class="invisible">{{step.text}}</span>
       </div>
-      <img data-aos="fade-up" data-aos-delay="400" :src="step.image" class="mt-3 pt-3 img"/>
+      <img :src="step.image" class="mt-3 pt-3 img"/>
     </div>
 
     <!-- Example Steps -->
     <div v-for="(step, index) in steps.examples" class="fullpage">
       <div class="text-center message w-100" :id="'example'+index">
-        <vue-typer v-if="currentBin.bin === index+steps.intro.length" :text='step.text' :repeat='0' class="message" :type-delay='50'></vue-typer>
+        <!-- <vue-typer v-if="currentBin.bin === index+steps.intro.length" :text='step.text' :repeat='0' class="message" :type-delay='50'></vue-typer> -->
+        <p v-html="step.text"></p>
         <span class="invisible">{{step.text}}</span>
         <div v-if="step.pointer" class="mt-3">
           <WidgetSelector :widgetType="widgetType"
@@ -32,6 +34,7 @@
            :widgetProperties="widgetProperties"
            :widgetSummary="widgetSummary"
            :playMode="'tutorial'"
+           :userSettings="userSettings"
            :tutorialStep="step.tutorialStep"
            ref="widget"
           />
@@ -130,6 +133,10 @@
         * The sample IDs summary (not implemented yet)
         */
         widgetSummary: {}, // TODO: fill this properly
+        /**
+        * User settings from firebase (not implemented yet)
+        */
+        userSettings: {}, // TODO: fill this properly
       };
     },
     props: {

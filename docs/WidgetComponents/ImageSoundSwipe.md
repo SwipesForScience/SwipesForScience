@@ -25,6 +25,10 @@ this is for binary classification only.
 
   Tells the widget if it should be in a "play mode" or maybe a "review mode". 
 
+- `user-settings` ***Object*** (*required*) 
+
+  The user's settings on the widget. The schema is widget specific. 
+
 - `tutorial-step` ***Number*** (*optional*) 
 
   Tells the widget to display a tutorial step.
@@ -109,6 +113,10 @@ this is for binary classification only.
 
   emit an annotation to the parent. 
 
+- `getPropertiesSchema()` 
+
+  This method should tell users how their widgetProperties configuration should be defined. 
+
 - `swipeLeft()` 
 
   Set the swipe-left animation and vote 0 
@@ -124,4 +132,8 @@ this is for binary classification only.
 - `setSwipe(sw)` 
 
   save the swipe direction variable. 
+
+- `test()` 
+
+  Test all the lines of this widget. 
 

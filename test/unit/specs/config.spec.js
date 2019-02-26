@@ -25,7 +25,10 @@ describe('config.js', () => {
   });
 
   it('widgetType should be a valid widget', () => {
-    const widgetKeys = ['ImageSplat', 'ImageSwipe', 'ImageSoundSwipe', 'PubMedNLP', 'TemplateWidget', 'ImageSwipeChoices'];
+    const widgetKeys = ['ImageSplat', 'ImageSwipe',
+      'ImageSoundSwipe', 'PubMedNLP', 'TemplateWidget',
+      'ImageSwipeChoices', 'TextTagger',
+      'BranchingTemplateWidget'];
     const inList = widgetKeys.indexOf(config.widgetType) > -1;
     expect(inList).to.equal(true);
   });

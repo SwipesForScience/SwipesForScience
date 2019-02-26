@@ -30,6 +30,7 @@
   * Widget Components
 
     * [ImageSwipe](WidgetComponents/ImageSwipe)
+    * [ImageSwipeChoices](WidgetComponents/ImageSwipeChoices)
     * [ImageSoundSwipe](WidgetComponents/ImageSoundSwipe)
     * [ImageSplat](WidgetComponents/ImageSplat)
     * [PubMedNLP](WidgetComponents/PubMedNLP)

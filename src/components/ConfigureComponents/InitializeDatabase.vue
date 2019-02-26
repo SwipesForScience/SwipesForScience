@@ -70,6 +70,10 @@
         */
         userSeenSamples: false,
         /**
+        * whether or not the /userSettings is initialized on firebase
+        */
+        userSettings: false,
+        /**
         * whether or not the /votes is initialized on firebase
         */
         votes: false,
@@ -88,7 +92,7 @@
       ready() {
         return this.admin && this.sampleCounts &&
         this.sampleSummary && this.chats &&
-        this.userSeenSamples && this.votes;
+        this.userSeenSamples && this.votes && this.userSettings;
       },
     },
     watch: {
@@ -202,6 +206,19 @@
         });
       },
       /**
+      * initialize userSettings
+      */
+      initUserSettings() {
+        this.db.ref('userSettings').once('value').then((snap) => {
+          const val = snap.val();
+          if (val === null) {
+            this.db.ref('userSettings').set(0);
+          }
+        }).then(() => {
+          this.userSettings = true;
+        });
+      },
+      /**
        * initialize all
        */
       initAll() {
@@ -210,6 +227,7 @@
         this.initSampleSummary();
         this.initChats();
         this.initUserSeenSamples();
+        this.initUserSettings();
         this.initVotes();
       },
       /**

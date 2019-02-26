@@ -6,7 +6,7 @@
         {{tagline}}
       </p>
       <p class="buttons mt-3">
-        <router-link class="btn btn-primary white" to="/play"> Play Now </router-link>
+        <router-link class="btn btn-primary white" :to="{name: 'Play', query: routerQuery}"> Play Now </router-link>
       </p>
     </div>
   </div>
@@ -32,6 +32,9 @@ export default {
     config: {
       type: Object,
       required: true,
+    },
+    routerQuery: {
+      type: Object,
     },
   },
   data() {

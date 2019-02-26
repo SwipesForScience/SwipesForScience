@@ -12,6 +12,30 @@
 		"sampleChats": [[{
 			"message": "Hi!",
 			"username": "John"
-		}]]
+		}]],
+		"userChat": {
+			"key1": ["Hi!"]
+		}
+	},
+	"users": {
+		"john": {
+			"score": 5,
+			"level": 1
+		},
+		"userChat": {
+			"key1": {
+				"msg1": "Hi!",
+				"msg2": "Thanks"
+			}
+		}
+	},
+	"sampleSummary": {
+
+	},
+	"userSettings": {
+
+	},
+	"userSeenSamples": {
+		"john": {}
 	}
 }

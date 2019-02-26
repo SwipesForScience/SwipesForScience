@@ -19,3 +19,16 @@ This is the UI to set up a widget during configuration.
 
 **initial value:** `[object Object]` 
 
+## computed properties 
+
+- `widgetSchema` 
+
+  get the config widget's schema. 
+
+   **dependencies:** `getWidgetSchema`, `config` 
+
+
+## methods 
+
+- `getWidgetSchema(widgetType)` 
+

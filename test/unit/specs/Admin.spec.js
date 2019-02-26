@@ -1,7 +1,11 @@
 import Vue from 'vue';
+import BootstrapVue from 'bootstrap-vue';
 import Admin from '@/components/Admin';
-import MockFirebase from './MockFirebase';
+import Util from '../../util';
+import MockFirebase from '../../MockFirebase';
 import testData from '../../testDB.json';
+
+Vue.use(BootstrapVue);
 
 // eslint-enable
 const manifestUrl = 'https://mydatasource.com';
@@ -39,9 +43,7 @@ describe('Admin.vue', () => {
     vm.status = 'complete';
     await vm.$nextTick(); */
 
-    await MockFirebase.ref('sampleCounts').once('value').then((snap) => {
-      snap.val();
-    });
+    await Util.timeout(1800);
 
     const paragraphs = vm.$el.getElementsByTagName('p');
     expect(paragraphs[0].textContent).to.equal(`You have ${Object.keys(testData.sampleCounts).length} items currently`);

@@ -112,6 +112,12 @@ hasn't seen that sample yet (by reading from `/userSeenSamples/<username>`).
 
 **initial value:** `[object Object]` 
 
+- `userSettings` 
+
+  user settings comes from firebase. it can be set by the widget to save state for the user. 
+
+**initial value:** `[object Object]` 
+
 ## computed properties 
 
 - `samplePriority` 
@@ -140,6 +146,16 @@ hasn't seen that sample yet (by reading from `/userSeenSamples/<username>`).
 
 
 ## methods 
+
+- `initUserSettings()` 
+
+  the /userSettings/<username> from firebase is always in sync.
+  this property saves the state of the widget, if it needs it. 
+
+- `updateUserSettings(settings)` 
+
+  update the /userSettings/<username> in firebase.
+  this method is called when the widget emits the "udpateUserSettings" event. 
 
 - `initSampleCounts()` 
 

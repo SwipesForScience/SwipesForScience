@@ -1,9 +1,4 @@
-# pub-med-n-l-p 
-
-This widget is still a **work in progress**, but is based off the
-https://appstract.pub prototype to annotate sample size from text.
-Right now, this is just a pass/fail annotation that displays the pubmed
-abstract based on a pubmed ID 
+# image-swipe-choices 
 
 ## props 
 
@@ -34,45 +29,19 @@ abstract based on a pubmed ID
 
 ## data 
 
-- `xmlString` 
-
-**initial value:** `''` 
-
 - `status` 
 
 **initial value:** `'loading'` 
 
+- `swipe` 
+
+**initial value:** `null` 
+
 ## computed properties 
 
-- `xml` 
+- `baseUrl` 
 
-  the parsed XML from pubmed 
-
-   **dependencies:** `xmlString` 
-
-- `abstract` 
-
-  the pubmed abstract, extracted from the xml 
-
-   **dependencies:** `xml`, `xml` 
-
-- `title` 
-
-  the pubmed title, extracted from the xml 
-
-   **dependencies:** `xml`, `xml` 
-
-- `authors` 
-
-  the pubmed author, extracted from the xml 
-
-   **dependencies:** `xml`, `xml` 
-
-- `year` 
-
-  the publication year, extracted from the XML 
-
-   **dependencies:** `xml`, `xml`, `xml` 
+   **dependencies:** `widgetProperties`, `widgetPointer`, `fillPropertyPattern`, `widgetProperties`, `widgetProperties` 
 
 
 ## events 
@@ -81,25 +50,17 @@ abstract based on a pubmed ID
 
 ## methods 
 
-- `getPubmedData()` 
+- `showTutorialStep(stepNumber)` 
 
-  fetch the data from pubmed 
+- `fillPropertyPattern(pattern, delimiter)` 
 
 - `getScore(response)` 
 
-  get the score based on the user's response 
-
 - `getFeedback(response)` 
-
-  get feedback based on the user's response. **work in progress** 
 
 - `getSummary(response)` 
 
-  get the new summary based on the user's response. This is a running average. 
-
 - `vote(val)` 
-
-  tell the parent component the user's annotation, so it can be saved. 
 
 - `getPropertiesSchema()` 
 

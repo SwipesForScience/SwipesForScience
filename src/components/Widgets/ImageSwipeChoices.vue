@@ -50,30 +50,90 @@
   Vue.use(require('vue-shortkey'));
 
   export default {
-    props: ['widgetPointer', 'widgetProperties', 'widgetSummary', 'playMode', 'tutorialStep'],
+    name: 'ImageSwipeChoices',
+    props: {
+      /**
+      * the sample ID to display. In this case it should be a pubmed id.
+      */
+      widgetPointer: {
+        type: String,
+        required: true,
+      },
+     /**
+      * the properties of the widget, that are widget specific.
+      */
+      widgetProperties: {
+        type: Object,
+        required: true,
+      },
+     /**
+      * the summary data of the widget.
+      */
+      widgetSummary: {
+        type: Object,
+        required: false,
+      },
+      /**
+       * The user's settings on the widget. The schema is widget specific.
+       */
+      userSettings: {
+        type: Object,
+        required: true,
+      },
+     /**
+      * whether the widget should render in play mode, or review mode, or tutorial mode.
+      */
+      playMode: {
+        type: String,
+        required: false,
+      },
+     /**
+      * this is not implemented yet, but will be used to keep track of and show off
+      * the annotation features of this widget.
+      */
+      tutorialStep: {
+        type: Number,
+        required: false,
+      },
+    },
     components: { VueHammer, GridLoader },
     directives: {
       imagesLoaded,
     },
     data() {
       return {
+        /**
+        *
+        */
         status: 'loading',
+        /**
+        *
+        */
         swipe: null,
       };
     },
     computed: {
+      /**
+      *
+      */
       baseUrl() {
         return this.widgetProperties.baseUrlTemplate && this.widgetPointer ?
           this.fillPropertyPattern(this.widgetProperties.baseUrlTemplate,
           this.widgetProperties.delimiter) : null;
       },
     },
+    /**
+    *
+    */
     mounted() {
       if (this.playMode === 'tutorial') {
         this.showTutorialStep(this.tutorialStep);
       }
     },
     methods: {
+      /**
+      *
+      */
       showTutorialStep(stepNumber) {
         if (stepNumber < this.widgetProperties.length) {
           // eslint-disable-next-line
@@ -81,6 +141,9 @@
           this.$refs.element.$el.classList.add('focus');
         }
       },
+      /**
+      *
+      */
       fillPropertyPattern(pattern, delimiter) {
         // fill the pattern by splitting the widgetPointer by delimiter
         let output = pattern;
@@ -90,6 +153,9 @@
         });
         return output;
       },
+      /**
+      *
+      */
       getScore(response) {
         const fb = this.getFeedback(response);
         if (fb.variant === 'danger') {
@@ -97,6 +163,9 @@
         }
         return 1;
       },
+      /**
+      *
+      */
       getFeedback(response) {
         let widgetSummary;
         if (!this.widgetSummary) {
@@ -140,6 +209,9 @@
           message: '+1 thanks',
         };
       },
+      /**
+      *
+      */
       getSummary(response) {
         // this widget will keep track of
         // the number of votes and the average vote

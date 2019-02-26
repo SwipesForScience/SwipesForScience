@@ -1,5 +1,8 @@
 import Vue from 'vue';
+import BootstrapVue from 'bootstrap-vue';
 import ImageSwipeChoices from '@/components/Widgets/ImageSwipeChoices';
+
+Vue.use(BootstrapVue);
 
 // eslint-enable
 const Constructor = Vue.extend(ImageSwipeChoices);
@@ -11,6 +14,7 @@ const propsData = {
     leftSwipeLabel: 'fail',
     rightSwipeLabel: 'pass',
   },
+  userSettings: {},
   widgetSummary: {},
   playMode: 'play',
   tutorialStep: 0,
@@ -23,6 +27,7 @@ const propsData1 = {
     leftSwipeLabel: 'fail',
     rightSwipeLabel: 'pass',
   },
+  userSettings: {},
   widgetSummary: {},
   playMode: '',
   tutorialStep: 0,
@@ -34,7 +39,7 @@ function createEvent(name = 'arrowleft') {
   return event;
 }
 
-describe('widgets/ImageSwipe.vue', () => {
+describe('widgets/ImageSwipeChoices.vue', () => {
   it('should run all its tests and return 1', () => {
     createEvent('arrowleft');
     createEvent('arrowright');

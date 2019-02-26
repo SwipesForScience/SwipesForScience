@@ -75,6 +75,7 @@
   Vue.use(require('vue-shortkey'));
 
   export default {
+    name: 'ImageSwipe',
     props: {
       /**
        * The sample ID to tell the widget to display.
@@ -97,6 +98,13 @@
       widgetSummary: {
         type: Object,
         required: false,
+      },
+      /**
+       * The user's settings on the widget. The schema is widget specific.
+       */
+      userSettings: {
+        type: Object,
+        required: true,
       },
      /**
       * Tells the widget if it should be in a "play mode" or maybe a "review mode".
@@ -149,9 +157,11 @@
      * If the playMode === 'tutorial', show a tutorial step.
      */
     mounted() {
-      if (this.playMode === 'tutorial') {
-        this.showTutorialStep(this.tutorialStep);
-      }
+      this.$nextTick(() => {
+        if (this.playMode === 'tutorial') {
+          this.showTutorialStep(this.tutorialStep);
+        }
+      });
     },
     methods: {
       /**
@@ -169,7 +179,7 @@
             break;
           case 2:
             // highlight the help button
-            this.$refs.helpButton.$el.classList.add('focus');
+            this.$refs.helpButton.classList.add('focus');
             break;
           default:
             break;
@@ -345,9 +355,11 @@
         this.getSummary(1);
         this.getSummary(0);
         this.vote(1);
-        // this.showTutorialStep(0);
-        // this.showTutorialStep(1);
-        // this.showTutorialStep(2);
+        if (this.playMode === 'play') {
+          this.showTutorialStep(0);
+          this.showTutorialStep(1);
+          this.showTutorialStep(2);
+        }
         this.swipeLeft();
         this.swipeRight();
         this.onSwipe({ direction: 1 });

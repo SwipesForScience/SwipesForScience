@@ -37,7 +37,9 @@
          :widgetPointer="widgetPointer"
          :widgetProperties="widgetProperties"
          :widgetSummary="widgetSummary"
+         :userSettings="userSettings"
          v-on:widgetRating="sendWidgetResponse"
+         v-on:updateUserSettings="updateUserSettings"
          :playMode="'play'"
          ref="widget"
         />
@@ -97,8 +99,11 @@
        7. And then loading the next sample to view.
    */
   import _ from 'lodash';
+  import Vue from 'vue';
   import WidgetSelector from './WidgetSelector';
   import Flask from './Animations/Flask';
+
+  Vue.component('WidgetSelector', WidgetSelector);
 
   export default {
     name: 'play',
@@ -200,6 +205,11 @@
          * widget summary comes from firebase when the widget Pointer is set.
          */
         widgetSummary: {},
+
+        /**
+         * user settings comes from firebase. it can be set by the widget to save state for the user.
+         */
+        userSettings: {},
       };
     },
     watch: {
@@ -233,9 +243,10 @@
     mounted() {
       this.initSampleCounts();
       this.initSeenSamples();
+      this.initUserSettings();
     },
     components: {
-      WidgetSelector,
+      // WidgetSelector,
       Flask,
     },
     computed: {
@@ -265,6 +276,37 @@
       },
     },
     methods: {
+      /**
+      * the /userSettings/<username> from firebase is always in sync.
+      * this property saves the state of the widget, if it needs it.
+      */
+      initUserSettings() {
+        console.log('starting user settings', this.userInfo.displayName);
+        window.db = this.db;
+        this.db.ref('userSettings')
+          .child(this.userInfo.displayName)
+          .on('value', (snap) => {
+            const val = snap.val();
+            console.log('value is', val);
+            if (val == null) {
+              this.userSettings = {};
+            } else {
+              this.userSettings = val;
+            }
+          });
+      },
+      /**
+      * update the /userSettings/<username> in firebase.
+      * this method is called when the widget emits the "udpateUserSettings" event.
+      */
+      updateUserSettings(settings) {
+        if (settings) {
+          console.log('updating user settings', settings);
+          this.db.ref('userSettings')
+            .child(this.userInfo.displayName)
+            .set(settings);
+        }
+      },
       /**
        * Ask Firebase for the sampleCounts document,
        * but don't watch it in real time, just fetch the data once.

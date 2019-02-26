@@ -2,12 +2,21 @@
   <!-- This is a dummy Widget Template -->
   <div class="widgetTemplate">
     <!-- {{msg}} -->
-    <div class="row">
+    <div v-if="!userSettings">
+      you are not allowed
+      TODO: add some sort of text input for the password
+      <input v-model="password" placeholder="type name here">
+      <b-button @click="savePasswordToUserSettings">submit password</b-button>
+
+    </div>
+
+    <div class="row" v-else>
     <!-- <pdf class="col" :src=getSource() style="width:100%; margin:auto;"></pdf> -->
     <!-- <vue-friendly-iframe class="col" :src=getSource()></vue-friendly-iframe> -->
     <div class="col" style="width:600px;padding-right:100px;">
-      <iframe :src=getSource() frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+      <iframe :src="pdfData" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
     </div>
+    <div>userSettings: {{ userSettings }}</div>
     <!-- <p class="lead mb-3 pb-3 mt-3 pt-3">{{widgetPointer}}</p> -->
     <div class="col" style="margin-top: 100px;">
         <p v-if="!playMode" class="mb-3 pb-3 mt-3 pt-3">{{widgetSummary}}</p>
@@ -82,6 +91,7 @@ import pdf from 'vue-pdf'
 import axios from 'axios'
 import Vue from 'vue';
 import VueFriendlyIframe from 'vue-friendly-iframe';
+window.axios = axios;
 
 Vue.component('vue-friendly-iframe', VueFriendlyIframe);
 /**
@@ -130,6 +140,10 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
         type: Number,
         required: false,
       },
+      userSettings: {
+        type: Object,
+        required: true,
+      }
     },
     data() {
       return {
@@ -145,7 +159,14 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
         zip: null,
         filename: null,
         filePath: null,
+        password: '',
+        pdfData: '',
       };
+    },
+    watch: {
+      userSettings() {
+        this.getSource()
+      }
     },
     computed : {
       pdf() {
@@ -178,12 +199,21 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
         var filePath = "";
         var loading = true;
         console.log("before axios")
-          axios.get(`http://localhost:7886/`
-          + path[0] +'/'
-          + path[1] +'/'
-          + path[2] +'/'
-          + newCasenumber + '/'
-          + 'files')
+        var config = {
+          headers: {'Authorization':"secret"}
+        };
+        var bodyParameters = {
+          key: ""
+        };
+        // axios.defaults.headers.common['Authorization'] = 'secret';
+        axios({
+          method: 'get',
+          url: `http://localhost:7886/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/files`,
+          headers: {
+            'Authorization': 'secret'
+            
+            }
+          })
           .then((response) => {
             fileList = response.data.files;
             for(var i = 0; i < fileList.length; i++) {
@@ -194,12 +224,13 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
               }
             }
           });
-          axios.get(`http://localhost:7886/`
-          + path[0] +'/'
-          + path[1] +'/'
-          + path[2] +'/'
-          + newCasenumber + '/'
-          + 'address')
+          axios({
+            method: 'get',
+            url: `http://localhost:7886/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/address`,
+            headers: {
+            'Authorization': 'secret'
+            }
+          })
           .then((response) => {
             // fileList = response.data.files;
             // for(var i = 0; i < fileList.length; i++) {
@@ -221,9 +252,22 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
       }
     },
     methods: {
+      savePasswordToUserSettings() {
+        console.log('we are here');
+        const password = this.password;
+        this.$emit('updateUserSettings', { password });
+      },
       getSource() {
-        this.pdf;
-        return this.filePath;
+        console.log(this.password)
+        axios({
+          method: 'get',
+          url: `http://localhost:7886/`,
+          headers: {
+          'Authorization': 'secret'
+          }
+        }).then((resp) => {
+          this.pdfData = `data:text/html;charset=utf-8,${escape(resp.data)}`;
+        })
       },
       /**
        * all widgets should have a getScore method, based on the user's response

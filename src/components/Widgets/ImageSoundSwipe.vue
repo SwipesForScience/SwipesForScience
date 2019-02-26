@@ -78,6 +78,7 @@
   Vue.use(require('vue-shortkey'));
 
   export default {
+    name: 'ImageSoundSwipe',
     props: {
       /**
        * The sample ID to tell the widget to display.
@@ -107,6 +108,13 @@
       playMode: {
         type: String,
         required: false,
+      },
+      /**
+       * The user's settings on the widget. The schema is widget specific.
+       */
+      userSettings: {
+        type: Object,
+        required: true,
       },
      /**
      * Tells the widget to display a tutorial step.
@@ -154,11 +162,13 @@
      * show a tutorial step.
      */
     mounted() {
-      if (this.playMode !== 'tutorial') {
-        this.playSound();
-      } else {
-        this.showTutorialStep(this.tutorialStep);
-      }
+      this.$nextTick(() => {
+        if (this.playMode !== 'tutorial') {
+          this.playSound();
+        } else {
+          this.showTutorialStep(this.tutorialStep);
+        }
+      });
     },
     computed: {
       /**
@@ -200,7 +210,7 @@
             break;
           case 2:
             // highlight the help button
-            this.$refs.helpButton.$el.classList.add('focus');
+            this.$refs.helpButton.classList.add('focus');
             break;
           default:
             break;
@@ -212,7 +222,7 @@
       fillPropertyPattern(pattern, delimiter) {
         // fill the pattern by splitting the widgetPointer by delimiter
         let output = pattern;
-        const parts = String(this.widgetPointer.split(delimiter));
+        const parts = String(this.widgetPointer).split(delimiter);
         _.map(parts, (p, i) => {
           output = output.replace(`{${i}}`, p);
         });
@@ -399,9 +409,11 @@
         this.getSummary(1);
         this.getSummary(0);
         this.vote(1);
-        // this.showTutorialStep(0);
-        // this.showTutorialStep(1);
-        // this.showTutorialStep(2);
+        if (this.playMode === 'play') {
+          this.showTutorialStep(0);
+          this.showTutorialStep(1);
+          this.showTutorialStep(2);
+        }
         this.swipeLeft();
         this.swipeRight();
         this.onSwipe({ direction: 1 });

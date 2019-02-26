@@ -21,6 +21,7 @@
  * developing a new annotation widget.
  */
   export default {
+    name: 'TemplateWidget',
     props: {
        /**
         * a sample ID to display
@@ -42,6 +43,13 @@
       widgetSummary: {
         type: Object,
         required: false,
+      },
+      /**
+       * The user's settings on the widget. The schema is widget specific.
+       */
+      userSettings: {
+        type: Object,
+        required: true,
       },
       /**
        * variable to note wheter the widget should be in "play mode"
