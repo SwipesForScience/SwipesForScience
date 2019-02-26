@@ -2,6 +2,7 @@
   <!-- This is a dummy Widget Template -->
   <div class="widgetTemplate">
     <!-- {{msg}} -->
+    
     <div v-if="!userSettings">
       you are not allowed
       TODO: add some sort of text input for the password
@@ -192,6 +193,8 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
         //   }
         // }
         // this.filename = newFilename;
+        console.log("we are here");
+
         this.county = path[1];
         this.state = path[0];
         this.year = path[2];
@@ -211,7 +214,6 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
           url: `http://localhost:7886/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/files`,
           headers: {
             'Authorization': 'secret'
-            
             }
           })
           .then((response) => {
@@ -258,7 +260,7 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
         this.$emit('updateUserSettings', { password });
       },
       getSource() {
-        console.log(this.password)
+        console.log('hihihi')
         axios({
           method: 'get',
           url: `http://localhost:7886/`,
