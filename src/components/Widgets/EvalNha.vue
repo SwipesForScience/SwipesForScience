@@ -25,8 +25,13 @@
 
           <b-row>
             <b-col class="text-justify">
-              <p><b>Programming:</b> {{programmingExp}}</p>
-              <p><b>Statement:</b> {{statement}}</p>
+              <p><b>Programming:</b>
+                <span v-linkified:options="{target: {url: '_blank'}}">{{programmingExp}}</span>
+              </p>
+              <p>
+                <b>Statement:</b>
+                <span v-linkified:options="{target: {url: '_blank'}}">{{statement}}</span>
+              </p>
               <p><b>CV:</b> <a :href="cv">{{cv}}</a></p>
             </b-col>
           </b-row>
@@ -78,10 +83,16 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import linkify from 'vue-linkify';
+
 import firebase from 'firebase';
 import axios from 'axios';
 import vueSlider from 'vue-slider-component';
 import Bookshelf from '../Animations/Bookshelf';
+
+
+Vue.directive('linkified', linkify);
 
 window.axios = axios;
 
