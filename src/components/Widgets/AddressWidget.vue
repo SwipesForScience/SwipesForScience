@@ -11,7 +11,7 @@
 
     </div>
 
-    <div class="row" v-else>
+    <div class="row" v-else style="margin-bottom:20px;">
     <!-- <pdf class="col" :src=getSource() style="width:100%; margin:auto;"></pdf> -->
     <!-- <vue-friendly-iframe class="col" :src=getSource()></vue-friendly-iframe> -->
     <div class="col" style="width:600px;padding-right:100px;">
@@ -26,56 +26,78 @@
               <p style="width:200px;">Case Number: </p>
               <input v-model="pdf" placeholder="edit me">
             </div> -->  
-            <div class="row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">Person Name:</p>
-              <input v-model="name" placeholder="type name here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">House Number:</p>
-              <input v-model="house" placeholder="type house number here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">Pre Direction:</p>
-              <input v-model="preDirection" placeholder="type street pre direction here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">Street Name:</p>
-              <input v-model="streetName" placeholder="type street name here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">Street:</p>
-              <input v-model="street" placeholder="type street name here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">Post Direction:</p>
-              <input v-model="postDirection" placeholder="type street post direction here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">City:</p>
-              <input v-model="city" placeholder="type city here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">County:</p>
-              <!-- <input v-model="county" placeholder="type county here"> -->
-              <p>{{ this.county }}</p>
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">State:</p>
-              <!-- <input v-model="county" placeholder="type county here"> -->
-              <p>{{ this.state }}</p>
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">zip:</p>
-              <input v-model="zip" placeholder="type zip here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">Year:</p>
-              <!-- <input v-model="year" placeholder="type year here"> -->
-              <p>{{ this.year }}</p>
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">Filename:</p>
-              <p>{{ this.filename }}</p>
+            <div class="row">
+              <div class="col">
+                <div class="row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p v-b-tooltip.hover title="ex) John Smith" style="width:200px;">Person Name:</p>
+                  <input v-model="name" placeholder="type name here">
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p v-b-tooltip.hover title="house number ex) 1222" style="width:200px;">House Number:</p>
+                  <input v-model="house" placeholder="type house number here">
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p v-b-tooltip.hover title="direction that precedes the street name ex) N, north east" style="width:200px;">Pre Direction:</p>
+                  <input v-model="preDirection" placeholder="type street pre direction here">
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p v-b-tooltip.hover title="name of the street ex) 123rd" style="width:200px;">Street Name:</p>
+                  <input v-model="streetName" placeholder="type street name here">
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p v-b-tooltip.hover title="type of street ex) PKWY, AVE, RD" style="width:200px;">Street:</p>
+                  <input v-model="street" placeholder="type street name here">
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p v-b-tooltip.hover title="direction that follows the street name ex) north, N" style="width:200px;">Post Direction:</p>
+                  <input v-model="postDirection" placeholder="type street post direction here">
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p v-b-tooltip.hover title="eventual court name in address ex) south" style="width:200px;">CourtName:</p>
+                  <input v-model="courtName" placeholder="type court Name here">
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p v-b-tooltip.hover title="type of court ex) court, building" style="width:200px;">Court:</p>
+                  <input v-model="court" placeholder="type court here">
+                </div>
+              </div>
+              <div class="col">
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p v-b-tooltip.hover title="name of apartment of unit ex) A, 1" style="width:200px;">Unit Name:</p>
+                  <input v-model="unitName" placeholder="type unit name here">
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p v-b-tooltip.hover title="type of unit ex) APT, UNIT, #" style="width:200px;">Unit:</p>
+                  <input v-model="unit" placeholder="type unit here">
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p v-b-tooltip.hover title="name of the city ex) Seattle" style="width:200px;">City:</p>
+                  <input v-model="city" placeholder="type city here">
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p style="width:200px;">County:</p>
+                  <!-- <input v-model="county" placeholder="type county here"> -->
+                  <p>{{ this.county }}</p>
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p style="width:200px;">State:</p>
+                  <!-- <input v-model="county" placeholder="type county here"> -->
+                  <p>{{ this.state }}</p>
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p v-b-tooltip.hover title="zip code ex) 98005" style="width:200px;">zip:</p>
+                  <input v-model="zip" placeholder="type zip here">
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p style="width:200px;">Year:</p>
+                  <!-- <input v-model="year" placeholder="type year here"> -->
+                  <p>{{ this.year }}</p>
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p style="width:200px;">Filename:</p>
+                  <p>{{ this.filename }}</p>
+                </div>
+               </div> 
             </div>
         <div class="row" v-if="playMode">
           <!-- <b-btn variant="danger" @click="vote(0)" class="mx-auto ml-3 mr-3">Vote No</b-btn> -->
@@ -156,6 +178,10 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
         streetName: null,
         street: null,
         postDirection: null,
+        courtName: null,
+        court: null,
+        unitName: null,
+        unit: null,
         city: null,
         zip: null,
         filename: null,
@@ -248,6 +274,10 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
             this.streetName = address.streetName,
             this.street = address.street,
             this.postDirection = address.postDirection,
+            this.courtName = address.courtName,
+            this.court = address.court,
+            this.unitName = address.unitName,
+            this.unit = address.unit,
             this.city = address.city,
             this.zip = address.zip
           });
@@ -263,7 +293,7 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
         console.log('hihihi')
         axios({
           method: 'get',
-          url: `http://localhost:7886/`,
+          url: this.filePath,
           headers: {
           'Authorization': 'secret'
           }
@@ -339,6 +369,10 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
                      preDirection: this.preDirection,
                      street: this.street,
                      postDirection: this.postDirection,
+                     courtName: this.courtName,
+                     court: this.court,
+                     unitName: this.unitName,
+                     unit: this.unit,
                      zip: this.zip
                      });
         this.casenumber = null;
@@ -351,6 +385,10 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
         this.preDirection = null;
         this.street = null;
         this.postDirection = null;
+        this.courtName = null;
+        this.court = null;
+        this.unitName = null;
+        this.unit = null;
         this.zip = null;
       },
       /**

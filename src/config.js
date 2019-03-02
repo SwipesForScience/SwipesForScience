@@ -1,12 +1,13 @@
 export default {
 
-    // if set to true, the user will be routed to /tutorial instead of /play if
-    // they haven't taken a tutorial
+  // if set to true, the user will be routed to /tutorial instead of /play if
+  // they haven't taken a tutorial
   needsTutorial: false,
     // each time the app is run, it will check this manifest and update the firebase database
     // if new entries are there, they will be added, and entries that aren't in the manifest
     // but are in the firebase database will be *removed*
   manifestUrl: 'https://raw.githubusercontent.com/timathomas/eviction_records/master/app/cases.json?token=AZfnBoJWqqJX0sW57-1GaNeXSkz8b7sEks5cUgzZwA%3D%3D',
+  widgetUsesSecret: true,
     // 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/bsHbnManifest.json',
     // 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/textWidgetManifest.json',
 
@@ -27,179 +28,179 @@ export default {
     rightSwipeLabel: 'Pass',
   },
 
-    // if manifestType = 'pubmed' then you should also include a manifestQuery key.
-    // if manifestType = 'json' then you're fine
-    // if manifestType = 'github' then you need to provide a github user, repo,
-    // and path under manifestGitHub
+  // if manifestType = 'pubmed' then you should also include a manifestQuery key.
+  // if manifestType = 'json' then you're fine
+  // if manifestType = 'github' then you need to provide a github user, repo,
+  // and path under manifestGitHub
 
-  // manifestType: 'github',
-  // manifestQuery: '(neuroimaging OR "Magnetic Resonance Imaging" OR "MRI") AND brain AND autism',
-  // manifestGitHub: { user: 'akeshavan',
-  //   repo: 'mHealthLandscape',
-  //   path: 'ios',
-  // },
+// manifestType: 'github',
+// manifestQuery: '(neuroimaging OR "Magnetic Resonance Imaging" OR "MRI") AND brain AND autism',
+// manifestGitHub: { user: 'akeshavan',
+//   repo: 'mHealthLandscape',
+//   path: 'ios',
+// },
 
-  // manifestType: 'S3',
-  // manifestS3: {
-  //   bucket: 'himatdata',
-  //   prefix: 'BeringStrait',
-  //   delimiter: '.wav',
-  //   max_keys: 10000,
-  // },
+// manifestType: 'S3',
+// manifestS3: {
+//   bucket: 'himatdata',
+//   prefix: 'BeringStrait',
+//   delimiter: '.wav',
+//   max_keys: 10000,
+// },
 
-  // widgetType: 'ImageSwipe', //'BranchingTemplateWidget',
-  /* eslint-disable */
-  // widgetProperties: {
-    // titleKey: 'trackName',
-    // textKey: 'description',
-    // baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
-    // delimiter: '%',
-    // autoComplete: [
-    //   'active data entry',
-    //   'passive data entry',
-    //   'gamified',
-    //   'social media',
-    //   'educational',
-    //   'sensors',
-    // ],
-    // stages: [
-    //   {
-    //     id: 'relevant',
-    //     showCriteria: {},
-    //     question: 'Is this app about mental health?',
-    //     responseProperties: {
-    //       widgetType: 'TextBinarySwipe',
-    //       widgetProperties: {
-    //         titleKey: 'trackName',
-    //         textKey: 'description',
-    //         delimiter: '%',
-    //         baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
-    //         leftSwipeLabel: 'No',
-    //         rightSwipeLabel: 'Yes',
-    //       },
-    //     },
-    //   },
-    //   {
-    //     id: 'datacollection',
-    //     showCriteria: {
-    //       node: 'relevant',
-    //       statement: '==',
-    //       value: 1,
-    //     },
-    //     question: 'Does this app collect user data?',
-    //     responseProperties: {
-    //       widgetType: 'TextBinarySwipe',
-    //       widgetProperties: {
-    //         titleKey: 'trackName',
-    //         textKey: 'description',
-    //         delimiter: '%',
-    //         baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
-    //         leftSwipeLabel: 'No',
-    //         rightSwipeLabel: 'Yes',
-    //       },
-    //     },
-    //   },
-    //   {
-    //     id: 'sensors',
-    //     showCriteria: {
-    //       node: 'datacollection',
-    //       statement: '==',
-    //       value: 1,
-    //     },
-    //     question: 'Interoperable with sensors/wearables?',
-    //     responseProperties: {
-    //       widgetType: 'TextBinarySwipe',
-    //       widgetProperties: {
-    //         titleKey: 'trackName',
-    //         textKey: 'description',
-    //         delimiter: '%',
-    //         baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
-    //         leftSwipeLabel: 'No',
-    //         rightSwipeLabel: 'Yes, sensors',
-    //       },
-    //     },
-    //   },
-    //   {
-    //     id: 'social',
-    //     showCriteria: {
-    //       node: 'datacollection',
-    //       statement: '==',
-    //       value: 1,
-    //     },
-    //     question: 'Is there a social component?',
-    //     responseProperties: {
-    //       widgetType: 'TextBinarySwipe',
-    //       widgetProperties: {
-    //         titleKey: 'trackName',
-    //         textKey: 'description',
-    //         delimiter: '%',
-    //         baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
-    //         leftSwipeLabel: 'Not social',
-    //         rightSwipeLabel: 'Yes, social',
-    //       },
-    //     },
-    //   },
-    //   {
-    //     id: 'game',
-    //     showCriteria: {
-    //       node: 'datacollection',
-    //       statement: '==',
-    //       value: 1,
-    //     },
-    //     question: 'Are there game elements?',
-    //     responseProperties: {
-    //       widgetType: 'TextBinarySwipe',
-    //       widgetProperties: {
-    //         titleKey: 'trackName',
-    //         textKey: 'description',
-    //         delimiter: '%',
-    //         baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
-    //         leftSwipeLabel: 'No',
-    //         rightSwipeLabel: 'Yes',
-    //       },
-    //     },
-    //   },
-    //   {
-    //     id: 'disorder',
-    //     showCriteria: {
-    //       node: 'datacollection',
-    //       statement: '==',
-    //       value: 1,
-    //     },
-    //     question: 'What disorders does it target?',
-    //     responseProperties: {
-    //       widgetType: 'TextTagger',
-    //       widgetProperties: {
-    //         titleKey: 'trackName',
-    //         textKey: 'description',
-    //         delimiter: '%',
-    //         baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
-    //         autoComplete: ['depression', 'anxiety', 'sleep'],
-    //       },
-    //     },
-    //   },
-    //   {
-    //     id: 'treatment',
-    //     showCriteria: {
-    //       node: 'datacollection',
-    //       statement: '==',
-    //       value: 1,
-    //     },
-    //     question: 'What is the treatment strategy?',
-    //     responseProperties: {
-    //       widgetType: 'TextTagger',
-    //       widgetProperties: {
-    //         titleKey: 'trackName',
-    //         textKey: 'description',
-    //         delimiter: '%',
-    //         baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
-    //         autoComplete: ['CBT', 'journal'],
-    //       },
-    //     },
-    //   },
-    // ],
-  // },
-  /* eslint-enable */
+// widgetType: 'ImageSwipe', //'BranchingTemplateWidget',
+/* eslint-disable */
+// widgetProperties: {
+  // titleKey: 'trackName',
+  // textKey: 'description',
+  // baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
+  // delimiter: '%',
+  // autoComplete: [
+  //   'active data entry',
+  //   'passive data entry',
+  //   'gamified',
+  //   'social media',
+  //   'educational',
+  //   'sensors',
+  // ],
+  // stages: [
+  //   {
+  //     id: 'relevant',
+  //     showCriteria: {},
+  //     question: 'Is this app about mental health?',
+  //     responseProperties: {
+  //       widgetType: 'TextBinarySwipe',
+  //       widgetProperties: {
+  //         titleKey: 'trackName',
+  //         textKey: 'description',
+  //         delimiter: '%',
+  //         baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
+  //         leftSwipeLabel: 'No',
+  //         rightSwipeLabel: 'Yes',
+  //       },
+  //     },
+  //   },
+  //   {
+  //     id: 'datacollection',
+  //     showCriteria: {
+  //       node: 'relevant',
+  //       statement: '==',
+  //       value: 1,
+  //     },
+  //     question: 'Does this app collect user data?',
+  //     responseProperties: {
+  //       widgetType: 'TextBinarySwipe',
+  //       widgetProperties: {
+  //         titleKey: 'trackName',
+  //         textKey: 'description',
+  //         delimiter: '%',
+  //         baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
+  //         leftSwipeLabel: 'No',
+  //         rightSwipeLabel: 'Yes',
+  //       },
+  //     },
+  //   },
+  //   {
+  //     id: 'sensors',
+  //     showCriteria: {
+  //       node: 'datacollection',
+  //       statement: '==',
+  //       value: 1,
+  //     },
+  //     question: 'Interoperable with sensors/wearables?',
+  //     responseProperties: {
+  //       widgetType: 'TextBinarySwipe',
+  //       widgetProperties: {
+  //         titleKey: 'trackName',
+  //         textKey: 'description',
+  //         delimiter: '%',
+  //         baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
+  //         leftSwipeLabel: 'No',
+  //         rightSwipeLabel: 'Yes, sensors',
+  //       },
+  //     },
+  //   },
+  //   {
+  //     id: 'social',
+  //     showCriteria: {
+  //       node: 'datacollection',
+  //       statement: '==',
+  //       value: 1,
+  //     },
+  //     question: 'Is there a social component?',
+  //     responseProperties: {
+  //       widgetType: 'TextBinarySwipe',
+  //       widgetProperties: {
+  //         titleKey: 'trackName',
+  //         textKey: 'description',
+  //         delimiter: '%',
+  //         baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
+  //         leftSwipeLabel: 'Not social',
+  //         rightSwipeLabel: 'Yes, social',
+  //       },
+  //     },
+  //   },
+  //   {
+  //     id: 'game',
+  //     showCriteria: {
+  //       node: 'datacollection',
+  //       statement: '==',
+  //       value: 1,
+  //     },
+  //     question: 'Are there game elements?',
+  //     responseProperties: {
+  //       widgetType: 'TextBinarySwipe',
+  //       widgetProperties: {
+  //         titleKey: 'trackName',
+  //         textKey: 'description',
+  //         delimiter: '%',
+  //         baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
+  //         leftSwipeLabel: 'No',
+  //         rightSwipeLabel: 'Yes',
+  //       },
+  //     },
+  //   },
+  //   {
+  //     id: 'disorder',
+  //     showCriteria: {
+  //       node: 'datacollection',
+  //       statement: '==',
+  //       value: 1,
+  //     },
+  //     question: 'What disorders does it target?',
+  //     responseProperties: {
+  //       widgetType: 'TextTagger',
+  //       widgetProperties: {
+  //         titleKey: 'trackName',
+  //         textKey: 'description',
+  //         delimiter: '%',
+  //         baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
+  //         autoComplete: ['depression', 'anxiety', 'sleep'],
+  //       },
+  //     },
+  //   },
+  //   {
+  //     id: 'treatment',
+  //     showCriteria: {
+  //       node: 'datacollection',
+  //       statement: '==',
+  //       value: 1,
+  //     },
+  //     question: 'What is the treatment strategy?',
+  //     responseProperties: {
+  //       widgetType: 'TextTagger',
+  //       widgetProperties: {
+  //         titleKey: 'trackName',
+  //         textKey: 'description',
+  //         delimiter: '%',
+  //         baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
+  //         autoComplete: ['CBT', 'journal'],
+  //       },
+  //     },
+  //   },
+  // ],
+// },
+/* eslint-enable */
   iconAttribute: {
     name: 'openmoji',
     url: 'http://openmoji.org',
@@ -355,5 +356,4 @@ export default {
       ],
     },
   },
-
 };

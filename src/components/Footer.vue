@@ -15,7 +15,7 @@
           </tr>
           <tr>
             <td class="align-middle text-center text-white">
-              <router-link to="/about" class="text-white">About</router-link>
+              <router-link :to="{name: 'About', query: routerQuery}" class="text-white">About</router-link>
               <br>
             </td>
 
@@ -46,6 +46,10 @@
        * and also the type of widget and where to update pointers to data
        */
       config: {
+        type: Object,
+        required: true,
+      },
+      routerQuery: {
         type: Object,
         required: true,
       },
