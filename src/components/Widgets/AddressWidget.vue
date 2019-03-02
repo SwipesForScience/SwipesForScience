@@ -261,7 +261,7 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
             fileList = response.data.files;
             for(var i = 0; i < fileList.length; i++) {
               if(fileList[i].toUpperCase().includes('SUMMONS')) {
-                this.filePath = `http://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile?name=`+ fileList[i];
+                this.filePath = `http://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile64?name=`+ fileList[i];
                 this.filename = fileList[i]
                 console.log(this.filePath);
               }
@@ -305,11 +305,33 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
           method: 'get',
           url: this.filePath,
           headers: {
-          'Authorization': 'secret'
+          'Authorization': 'secret',
+          'responseType' : 'blob'
           }
         }).then((resp) => {
+          console.log(resp.data)
+          console.log(typeof(resp.data))
           console.log("successful get")
-          this.pdfData = `data:text/html;charset=utf-8,${escape(resp.data)}`;
+
+          var binary = atob(resp.data.replace(/\s/g, ''));
+          var len = binary.length;
+          var buffer = new ArrayBuffer(len);
+          var view = new Uint8Array(buffer);
+
+          for (var i = 0; i < len; i++) {
+            view[i] = binary.charCodeAt(i);
+          }
+          
+          const blob = new Blob([view], {type: "application/pdf"});
+          const data = window.URL.createObjectURL(blob);
+          // string to binary
+
+        this.pdfData = data;
+
+          // console.log(blob)
+          // console.log(data)
+          // this.pdfData = data;
+          // this.pdfData = `data:application/pdf;base64,${encodeURIComponent(resp.data)}`;
         })
       },
       /**
