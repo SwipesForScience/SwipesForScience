@@ -188,15 +188,30 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
         filePath: null,
         password: '',
         pdfData: '',
+        year: null,
+        state: null,
+        county: null
       };
     },
     watch: {
       userSettings() {
+        console.log('entering getsource')
         this.getSource()
       }
     },
+    mounted() {
+      this.getPdf()
+    },
     computed : {
-      pdf() {
+     
+    },
+    methods: {
+      savePasswordToUserSettings() {
+        console.log('we are here');
+        const password = this.password;
+        this.$emit('updateUserSettings', { password });
+      },
+      getPdf() {
         var path = this.widgetPointer.split("__");
         console.log(path);
         var casenumber = path[3];
@@ -280,16 +295,11 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
             this.unit = address.unit,
             this.city = address.city,
             this.zip = address.zip
+            this.getSource()
           });
-      }
-    },
-    methods: {
-      savePasswordToUserSettings() {
-        console.log('we are here');
-        const password = this.password;
-        this.$emit('updateUserSettings', { password });
       },
       getSource() {
+        console.log(this.filePath)
         console.log('hihihi')
         axios({
           method: 'get',
@@ -298,6 +308,7 @@ Vue.component('vue-friendly-iframe', VueFriendlyIframe);
           'Authorization': 'secret'
           }
         }).then((resp) => {
+          console.log("successful get")
           this.pdfData = `data:text/html;charset=utf-8,${escape(resp.data)}`;
         })
       },
