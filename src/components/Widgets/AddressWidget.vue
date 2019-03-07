@@ -14,16 +14,16 @@
     <div class="row" v-else style="margin-bottom:20px;">
 
       <!-- PDF Display -->
-      <div class="col" style="width:600px;padding-right:100px;">
-        <iframe :src="pdfData" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+      <div class="col" style="width:800px;margin-left:0;padding-right:100px;">
+        <iframe :src="pdfData" frameborder="0" style="position:relative;width:100%;height:100%;"></iframe>
       </div>
 
       <!-- Content Display -->
       <div class="col" style="margin-top: 100px;">
 
-        <p v-if="!playMode" class="mb-3 pb-3 mt-3 pt-3">{{widgetSummary}}</p>
+        <p v-if="!playMode" class="mb-3 pb-3 mt-3 pt-3">{{ widgetSummary }}</p>
 
-        Data pointer: {{widgetPointer}}
+        Data pointer: {{ widgetPointer }}
 
         <!-- Response Display -->
         <div class="row">
@@ -53,6 +53,14 @@
               <input v-model="postDirection" placeholder="type street post direction here">
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+              <p style="width:200px;">County: {{ this.county }}</p>
+            </div>
+            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+              <p style="width:200px;">State: {{ this.state }}</p>
+            </div>
+          </div>
+          <div class="col">
+            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p v-b-tooltip.hover title="eventual court name in address ex) south" style="width:200px;">Court Name:</p>
               <input v-model="courtName" placeholder="type court name here">
             </div>
@@ -77,13 +85,7 @@
               <input v-model="zip" placeholder="type zip here">
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">County: {{ this.county }}</p>
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">State: {{ this.state }}</p>
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">Year: {{ this.year}}</p>
+              <p style="width:200px;">Year: {{ this.year }}</p>
             </div>
             <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
               <p style="width:200px;">File: {{ this.fileName }}</p>
@@ -194,7 +196,7 @@
         // Identify path to Summons.pdf
         axios({
           method: 'get',
-          url: `http://localhost:7886/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/files`,
+          url: `http://localhost:7887/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/files`,
           headers: {
             'Authorization': 'secret'
           }
@@ -203,7 +205,7 @@
           var fileList = response.data.files;
           for(var i = 0; i < fileList.length; i++) {
             if(fileList[i].toUpperCase().includes('SUMMONS')) {
-              this.filePath = `http://localhost:7886/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile64?name=`+ fileList[i];
+              this.filePath = `http://localhost:7887/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile64?name=`+ fileList[i];
               this.fileName = fileList[i]
             }
           }
@@ -212,7 +214,7 @@
         // API Call to fetch pre-filled information
         axios({
           method: 'get',
-          url: `http://localhost:7886/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/address`,
+          url: `http://localhost:7887/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/address`,
           headers: {
             'Authorization': 'secret'
           }
