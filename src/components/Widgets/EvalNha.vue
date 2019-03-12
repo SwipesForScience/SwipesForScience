@@ -238,10 +238,11 @@ export default {
       // Create a reference to 'mountains.jpg'
       const applicantRef = storageRef.child(`${this.widgetPointer}.json`);
       applicantRef.getDownloadURL().then((url) => {
-        axios.get(`https://cors-anywhere.herokuapp.com/${url}`).then((resp) => {
+        axios.get(`${url}`).then((resp) => {
           this.applicantData = resp.data;
           this.status = 'ready';
         });
+      }).catch(() => {
       });
     },
     /**
