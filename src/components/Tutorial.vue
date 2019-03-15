@@ -4,7 +4,7 @@
     <!-- Title -->
     <div>
       <h1>Tutorial</h1>
-      <p class="lead">Scroll down to learn how to play</p>
+      <!-- <p class="lead">Scroll down to learn how to play</p> -->
     </div>
 
     <!-- Progress Bar -->
@@ -13,21 +13,19 @@
     </div>
 
     <!-- Introduction steps -->
-    <div v-for="(step, index) in steps.intro" class="fullpage">
+    <div v-for="(step, index) in steps.intro" class="fullpage container" :key="'i'+index">
       <div class="" :id="'intro'+index">
         <!-- <vue-typer v-if="currentBin.bin === index" :text='step.text' :repeat='0' class="message" :type-delay='50'></vue-typer> -->
-        <p v-html="step.text"></p>
-        <span class="invisible">{{step.text}}</span>
+        <p v-html="step.text" class="lead"></p>
       </div>
       <img :src="step.image" class="mt-3 pt-3 img"/>
     </div>
 
     <!-- Example Steps -->
-    <div v-for="(step, index) in steps.examples" class="fullpage">
+    <div v-for="(step, index) in steps.examples" class="fullpage" :key="'j'+index">
       <div class="text-center message w-100" :id="'example'+index">
         <!-- <vue-typer v-if="currentBin.bin === index+steps.intro.length" :text='step.text' :repeat='0' class="message" :type-delay='50'></vue-typer> -->
-        <p v-html="step.text"></p>
-        <span class="invisible">{{step.text}}</span>
+        <p class="lead" v-html="step.text"></p>
         <div v-if="step.pointer" class="mt-3">
           <WidgetSelector :widgetType="widgetType"
            :widgetPointer="step.pointer"
@@ -67,6 +65,7 @@
 
   .fullpage {
     height: 100vh;
+    /* margin-top: 30px; */
   }
 
   .message {

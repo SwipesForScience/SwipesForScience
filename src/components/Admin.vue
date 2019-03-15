@@ -268,10 +268,7 @@ export default {
     * if there is a continuation token..
     */
     S3Continuation(token) {
-      let url = `https://s3-us-west-2.amazonaws.com/${this.config.manifestS3.bucket}/?list-type=2&`;
-      url += `prefix=${this.config.manifestS3.prefix}/&max-keys=${this.config.manifestS3.max_keys}`;
-      url += `&delimiter=${this.config.manifestS3.delimiter}`;
-      url += `&continuation-token=${token}`;
+      const url = this.getS3URL();
       if (!token) {
         return 0;
       }
@@ -283,15 +280,27 @@ export default {
         }
       });
     },
+    getS3URL(token) {
+      let url = '';
+      if (this.config.manifestS3.bucketURL) {
+        url = this.config.manifestS3.bucketURL;
+      } else {
+        url = `https://s3-us-west-2.amazonaws.com/${this.config.manifestS3.bucket}/?list-type=2&`;
+        url += `prefix=${this.config.manifestS3.prefix}/&max-keys=${this.config.manifestS3.max_keys}`;
+        url += `&delimiter=${this.config.manifestS3.delimiter}`;
+      }
+      if (token) {
+        url += `&continuation-token=${token}`;
+      }
+      return url;
+    },
     /**
     * get a list of files that are in a bucket of an S3
     * with a prefix and a delimiter (usually, a .)
     * TODO: make the keys firebase safe!!
     */
     getS3Manifest() {
-      let url = `https://s3-us-west-2.amazonaws.com/${this.config.manifestS3.bucket}/?list-type=2&`;
-      url += `prefix=${this.config.manifestS3.prefix}/&max-keys=${this.config.manifestS3.max_keys}`;
-      url += `&delimiter=${this.config.manifestS3.delimiter}`;
+      const url = this.getS3URL();
       // console.log(url);
       return axios.get(url).then((resp) => {
         const keysFixed = this.parseS3(resp.data);

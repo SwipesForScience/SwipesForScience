@@ -2,7 +2,7 @@
   <div class="">
     <div class="footer bg-dark pr-3 pl-3">
       <div class="container">
-        <div class="align-middle text-right text-white configureButton">
+        <div class="align-middle text-right text-white configureButton" v-if="config.showConfigure">
           <b-button variant="info" @click="openConfig">
             <i class="fa fa-wrench" aria-hidden="true"></i> Configure
           </b-button>
