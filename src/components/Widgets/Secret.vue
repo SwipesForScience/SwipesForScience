@@ -1,7 +1,12 @@
 <template>
   <!-- This is a dummy Widget Template -->
   <div class="widgetSecret">
-    <div v-if="!passesSecret && needsSecret" id="signupForm" class="mx-auto">
+    <p class="text-right">
+      <small>
+        <b-button size="sm" variant="default" @click="resetSecret">reset secret</b-button>
+      </small>
+    </p>
+    <div v-if="(!passesSecret && needsSecret) || reset" id="signupForm" class="mx-auto">
       <div v-if="userSettings.secret">
         <b-alert variant="danger" show>
           Oh no! You didn't enter the right secret! Try again.
@@ -25,7 +30,7 @@
         </b-form>
       </p>
     </div>
-    <div v-else-if="passesSecret || !needsSecret">
+    <div v-else>
       <slot></slot>
     </div>
 
@@ -65,12 +70,19 @@
         form: {
           secret: null,
         },
+        reset: false,
       };
     },
     computed: {
       passesSecret() {
         if (this.needsSecret && this.userSettings.secret) {
-          if (btoa(this.userSettings.secret) === this.serverSecret) {
+          // if there isn't a server secret, at least make sure the user has some
+          // sort of non-null secret.
+          if (!this.serverSecret) {
+            if (this.userSettings.secret) {
+              return true;
+            }
+          } else if (btoa(this.userSettings.secret) === this.serverSecret) {
             return true;
           }
           return false;
@@ -85,9 +97,13 @@
       onSubmit(e) {
         // console.log('submitting secret');
         e.preventDefault();
+        this.reset = false;
         const currentUserSettings = { ...this.userSettings };
         currentUserSettings.secret = this.form.secret;
         this.$emit('updateUserSettings', currentUserSettings);
+      },
+      resetSecret() {
+        this.reset = true;
       },
     },
   };

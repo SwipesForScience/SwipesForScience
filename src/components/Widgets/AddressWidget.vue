@@ -103,6 +103,7 @@
 </template>
 
 <script>
+/* eslint-disable */
   import pdf from 'vue-pdf';
   import axios from 'axios';
 
@@ -162,11 +163,11 @@
     },
     watch: {
       userSettings() {
-        this.getSource()
-      }
+        this.getSource();
+      },
     },
     mounted() {
-      this.getPdf()
+      this.getPdf();
     },
     methods: {
       savePasswordToUserSettings() {
@@ -174,10 +175,11 @@
         this.$emit('updateUserSettings', { password });
       },
       getPdf() {
-        var path = this.widgetPointer.split("__");
-        var casenumber = path[3];
-        var newCasenumber = "";
-        for(var x = 0; x < casenumber.length; x++) {
+        console.log('hello')
+        const path = this.widgetPointer.split("__");
+        const casenumber = path[3];
+        let newCasenumber = "";
+        for(let x = 0; x < casenumber.length; x += 1) {
           if(casenumber.charAt(x) == '_') {
             newCasenumber += '-';
           } else {
@@ -189,23 +191,24 @@
         this.year = path[2];
         var filePath = "";
 
-        var bodyParameters = {
+        const bodyParameters = {
           key: ""
         };
-
+        const token = this.userSettings.secret;
+        console.log(`Bearer ${token}`);
         // Identify path to Summons.pdf
         axios({
           method: 'get',
-          url: `http://localhost:7887/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/files`,
+          url: `https://tesseract.csde.washington.edu:8080/swipes/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/files`,
           headers: {
-            'Authorization': 'secret'
+            'Authorization': `Bearer ${token}`
           }
         })
         .then((response) => {
           var fileList = response.data.files;
           for(var i = 0; i < fileList.length; i++) {
             if(fileList[i].toUpperCase().includes('SUMMONS')) {
-              this.filePath = `http://localhost:7887/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile64?name=`+ fileList[i];
+              this.filePath = `https://tesseract.csde.washington.edu:8080/swipes/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile64?name=`+ fileList[i];
               this.fileName = fileList[i]
             }
           }
@@ -214,9 +217,9 @@
         // API Call to fetch pre-filled information
         axios({
           method: 'get',
-          url: `http://localhost:7887/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/address`,
+          url: `https://tesseract.csde.washington.edu:8080/swipes/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/address`,
           headers: {
-            'Authorization': 'secret'
+            'Authorization': `Bearer ${token}`
           }
         })
         .then((response) => {
@@ -237,11 +240,12 @@
       },
       getSource() {
         // API Call to fetch PDF
+        const token = this.userSettings.secret;
         axios({
           method: 'get',
           url: this.filePath,
           headers: {
-            'Authorization': 'secret',
+            'Authorization': `Bearer ${token}`,
             'responseType' : 'blob'
           }
         })
