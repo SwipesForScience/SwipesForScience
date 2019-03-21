@@ -101,7 +101,7 @@
     </div>
 
     <div v-else>
-      <h2>Loading...</h2>
+      <Bookshelf />
     </div>
   </div>
 </template>
@@ -110,10 +110,12 @@
 /* eslint-disable */
   import pdf from 'vue-pdf';
   import axios from 'axios';
+  import Bookshelf from '../Animations/Bookshelf';
 
   export default {
     components: {
       pdf,
+      Bookshelf,
     },
     props: {
       widgetPointer: {
