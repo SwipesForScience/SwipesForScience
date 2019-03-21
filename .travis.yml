@@ -13,5 +13,8 @@ notifications:
 before_script:
   - npm install
 script:
-  - ./node_modules/.bin/firebase-server -p 5000 -f test/testDB.json &
-  - npm run unit
+  # - ./node_modules/.bin/firebase-server -p 5000 -f test/testDB.json &
+  # - npm run unit
+  - npm run build
+after_script:
+  - bash ./deploy.sh
