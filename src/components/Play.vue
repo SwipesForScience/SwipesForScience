@@ -231,6 +231,17 @@
         }
       },
       /**
+       * if there is a display name, then initialize all the watchers.
+       */
+      userInfo() {
+        if (this.userInfo.displayName) {
+          this.initSampleCounts();
+          this.initSeenSamples();
+          this.initUserSettings();
+          this.fetchServerSecret();
+        }
+      },
+      /**
        * Watch the widget pointer, which is from `/sampleCounts` document in firebase.
        * When it changes, also update the `widgetSummary` to be from the new `widgetPointer`.
        */
@@ -247,10 +258,12 @@
      * and also the samples the user has seen.
      */
     mounted() {
-      this.initSampleCounts();
-      this.initSeenSamples();
-      this.initUserSettings();
-      this.fetchServerSecret();
+      if (this.userInfo.displayName) {
+        this.initSampleCounts();
+        this.initSeenSamples();
+        this.initUserSettings();
+        this.fetchServerSecret();
+      }
     },
     components: {
       // WidgetSelector,
@@ -294,7 +307,6 @@
       * this property saves the state of the widget, if it needs it.
       */
       initUserSettings() {
-        // console.log('updating user settings');
         this.db.ref('userSettings')
           .child(this.userInfo.displayName)
           .on('value', (snap) => {
@@ -343,7 +355,6 @@
        * `/userSeenSamples/<username>` document from firebase, once.
        */
       initSeenSamples() {
-        // console.log('userSeenSamples', this.userInfo.displayName);
         this.db.ref('userSeenSamples')
           .child(this.userInfo.displayName)
           .once('value', (snap) => {

@@ -11,102 +11,127 @@
     </div>
 
     <!-- If user is verified, display information -->
-    <div class="row" v-else style="margin-bottom:20px;">
+    <div class="row" v-else-if="status==='ready'" style="margin-bottom:20px;">
 
-      <!-- PDF Display -->
-      <div class="col" style="width:600px;padding-right:100px;">
-        <iframe :src="pdfData" frameborder="0" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-      </div>
+        <!-- PDF Display -->
+        <div class="col" style="width:800px;margin-left:0;padding-right:100px;">
+          <iframe :src="pdfData" frameborder="0" style="position:relative;width:100%;height:100%;"></iframe>
+        </div>
 
-      <!-- Content Display -->
-      <div class="col" style="margin-top: 100px;">
+        <!-- Content Display -->
+        <div class="col" style="margin-top: 100px;">
 
-        <p v-if="!playMode" class="mb-3 pb-3 mt-3 pt-3">{{widgetSummary}}</p>
+          <p v-if="!playMode" class="mb-3 pb-3 mt-3 pt-3">{{ widgetSummary }}</p>
 
-        Data pointer: {{widgetPointer}}
+          <!-- Data pointer: {{ widgetPointer }} -->
+          <div class="lead">
+            <span>{{house}}</span>
+            <span>{{preDirection}}</span>
+            <span>{{streetName}}</span>
+            <span>{{street}}</span>
+            <span>{{postDirection}}</span>
+            <span>{{unit}}</span>
+            <span>{{unitName}}</span>
+            <br>
+            <span>{{city}}</span>,
+            <span>{{state}}</span>,
+            <span>{{zip}}</span>
+          </div>
 
-        <!-- Response Display -->
-        <div class="row">
-          <div class="col">
-            <div class="row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p v-b-tooltip.hover title="ex) John Smith" style="width:200px;">Person Name:</p>
-              <input v-model="name" placeholder="type name here">
+          <!-- Response Display -->
+          <div class="row">
+            <div class="col">
+              <!-- <div class="row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p v-b-tooltip.hover title="ex) John Smith" style="width:200px;">Person Name:</p>
+                <input v-model="name" placeholder="type name here">
+              </div> -->
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p v-b-tooltip.hover title="house number ex) 1222" style="width:200px;">House Number:</p>
+                <input v-model="house" placeholder="type house number here">
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p v-b-tooltip.hover title="direction that precedes the street name ex) N, north east" style="width:200px;">Pre Direction:</p>
+                <input v-model="preDirection" placeholder="type street pre direction here">
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p v-b-tooltip.hover title="name of the street ex) 123rd" style="width:200px;">Street Name:</p>
+                <input v-model="streetName" placeholder="type street name here">
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p v-b-tooltip.hover title="type of street ex) PKWY, AVE, RD" style="width:200px;">Street Type:</p>
+                <input v-model="street" placeholder="type street name here">
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p v-b-tooltip.hover title="direction that follows the street name ex) north, N" style="width:200px;">Post Direction:</p>
+                <input v-model="postDirection" placeholder="type street post direction here">
+              </div>
+              <!-- <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p style="width:200px;">County: {{ this.county }}</p>
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p style="width:200px;">State: {{ this.state }}</p>
+              </div> -->
             </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p v-b-tooltip.hover title="house number ex) 1222" style="width:200px;">House Number:</p>
-              <input v-model="house" placeholder="type house number here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p v-b-tooltip.hover title="direction that precedes the street name ex) N, north east" style="width:200px;">Pre Direction:</p>
-              <input v-model="preDirection" placeholder="type street pre direction here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p v-b-tooltip.hover title="name of the street ex) 123rd" style="width:200px;">Street Name:</p>
-              <input v-model="streetName" placeholder="type street name here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p v-b-tooltip.hover title="type of street ex) PKWY, AVE, RD" style="width:200px;">Street:</p>
-              <input v-model="street" placeholder="type street name here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p v-b-tooltip.hover title="direction that follows the street name ex) north, N" style="width:200px;">Post Direction:</p>
-              <input v-model="postDirection" placeholder="type street post direction here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p v-b-tooltip.hover title="eventual court name in address ex) south" style="width:200px;">Court Name:</p>
-              <input v-model="courtName" placeholder="type court name here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p v-b-tooltip.hover title="type of court ex) court, building" style="width:200px;">Court:</p>
-              <input v-model="court" placeholder="type court here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p v-b-tooltip.hover title="name of apartment of unit ex) A, 1" style="width:200px;">Unit Name:</p>
-              <input v-model="unitName" placeholder="type unit name here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p v-b-tooltip.hover title="type of unit ex) APT, UNIT, #" style="width:200px;">Unit:</p>
-              <input v-model="unit" placeholder="type unit here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p v-b-tooltip.hover title="name of the city ex) Seattle" style="width:200px;">City:</p>
-              <input v-model="city" placeholder="type city here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p v-b-tooltip.hover title="zip code ex) 98005" style="width:200px;">zip:</p>
-              <input v-model="zip" placeholder="type zip here">
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">County: {{ this.county }}</p>
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">State: {{ this.state }}</p>
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">Year: {{ this.year}}</p>
-            </div>
-            <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-              <p style="width:200px;">File: {{ this.fileName }}</p>
+            <div class="col">
+              <!-- <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p v-b-tooltip.hover title="eventual court name in address ex) south" style="width:200px;">Court Name:</p>
+                <input v-model="courtName" placeholder="type court name here">
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p v-b-tooltip.hover title="type of court ex) court, building" style="width:200px;">Court:</p>
+                <input v-model="court" placeholder="type court here">
+              </div> -->
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p v-b-tooltip.hover title="type of unit ex) APT, UNIT, #" style="width:200px;">Unit Type:</p>
+                <input v-model="unit" placeholder="type unit here">
+              </div>
+
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p v-b-tooltip.hover title="name of apartment of unit ex) A, 1" style="width:200px;">Unit Name/Number:</p>
+                <input v-model="unitName" placeholder="type unit name here">
+              </div>
+
+
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p v-b-tooltip.hover title="name of the city ex) Seattle" style="width:200px;">City:</p>
+                <input v-model="city" placeholder="type city here">
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p v-b-tooltip.hover title="zip code ex) 98005" style="width:200px;">zip:</p>
+                <input v-model="zip" placeholder="type zip here">
+              </div>
+              <!-- <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p style="width:200px;">Year: {{ this.year }}</p>
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p style="width:200px;">File: {{ this.fileName }}</p>
+              </div> -->
             </div>
           </div>
-        </div>
 
-        <div class="row" v-if="playMode">
-          <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3" >Discuss</b-btn>
-          <b-btn variant="success" @click="vote" class="mx-auto ml-3 mr-3">Submit</b-btn>
+          <div class="row" v-if="playMode">
+            <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3" >Discuss</b-btn>
+            <b-btn variant="success" @click="vote" class="mx-auto ml-3 mr-3">Submit</b-btn>
+          </div>
         </div>
-      </div>
+    </div>
+
+    <div v-else>
+      <Bookshelf />
     </div>
   </div>
 </template>
 
 <script>
+/* eslint-disable */
   import pdf from 'vue-pdf';
   import axios from 'axios';
+  import Bookshelf from '../Animations/Bookshelf';
 
   export default {
     components: {
       pdf,
+      Bookshelf,
     },
     props: {
       widgetPointer: {
@@ -136,6 +161,7 @@
     },
     data() {
       return {
+        status: 'loading',
         casenumber: null,
         city: null,
         county: null,
@@ -160,11 +186,15 @@
     },
     watch: {
       userSettings() {
-        this.getSource()
+        this.getSource();
+      },
+      widgetPointer() {
+        console.log('widget pointer changed');
+        this.getPdf();
       }
     },
     mounted() {
-      this.getPdf()
+      this.getPdf();
     },
     methods: {
       savePasswordToUserSettings() {
@@ -172,10 +202,11 @@
         this.$emit('updateUserSettings', { password });
       },
       getPdf() {
-        var path = this.widgetPointer.split("__");
-        var casenumber = path[3];
-        var newCasenumber = "";
-        for(var x = 0; x < casenumber.length; x++) {
+        this.status = 'loading';
+        const path = this.widgetPointer.split("__");
+        const casenumber = path[3];
+        let newCasenumber = "";
+        for(let x = 0; x < casenumber.length; x += 1) {
           if(casenumber.charAt(x) == '_') {
             newCasenumber += '-';
           } else {
@@ -187,59 +218,65 @@
         this.year = path[2];
         var filePath = "";
 
-        var bodyParameters = {
+        const bodyParameters = {
           key: ""
         };
+        const token = this.userSettings.secret;
 
         // Identify path to Summons.pdf
         axios({
           method: 'get',
-          url: `http://localhost:7887/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/files`,
+          url: `https://tesseract.csde.washington.edu:8080/swipes/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/files`,
           headers: {
-            'Authorization': 'secret'
+            'Authorization': `Bearer ${token}`
           }
         })
         .then((response) => {
           var fileList = response.data.files;
           for(var i = 0; i < fileList.length; i++) {
             if(fileList[i].toUpperCase().includes('SUMMONS')) {
-              this.filePath = `http://localhost:7887/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile64?name=`+ fileList[i];
+              this.filePath = `https://tesseract.csde.washington.edu:8080/swipes/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile64?name=`+ fileList[i];
               this.fileName = fileList[i]
             }
           }
-        });
-
-        // API Call to fetch pre-filled information
-        axios({
-          method: 'get',
-          url: `http://localhost:7887/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/address`,
-          headers: {
-            'Authorization': 'secret'
-          }
         })
-        .then((response) => {
-            var address = response.data
-            this.house = address.house,
-            this.preDirection = address.preDirection,
-            this.streetName = address.streetName,
-            this.street = address.street,
-            this.postDirection = address.postDirection,
-            this.courtName = address.courtName,
-            this.court = address.court,
-            this.unitName = address.unitName,
-            this.unit = address.unit,
-            this.city = address.city,
-            this.zip = address.zip
-            this.getSource()
+        .then(() => {
+          // API Call to fetch pre-filled information
+          axios({
+            method: 'get',
+            url: `https://tesseract.csde.washington.edu:8080/swipes/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/address`,
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          })
+          .then((response) => {
+              const listFixed = item => _.isArray(item) ? item[0] : item;
+              const address = response.data
+              console.log('address', address)
+              this.house = listFixed(address.house);
+              this.preDirection = listFixed(address.preDirection);
+              this.streetName = listFixed(address.streetName);
+              this.street = listFixed(address.street);
+              this.postDirection = listFixed(address.postDirection);
+              this.courtName = listFixed(address.courtName);
+              this.court = listFixed(address.court);
+              this.unitName = listFixed(address.unitName);
+              this.unit = listFixed(address.unit);
+              this.city = listFixed(address.city);
+              this.zip = listFixed(address.zip);
+              this.getSource();
+          });
         });
       },
       getSource() {
         // API Call to fetch PDF
+
+        const token = this.userSettings.secret;
         axios({
           method: 'get',
           url: this.filePath,
           headers: {
-            'Authorization': 'secret',
+            'Authorization': `Bearer ${token}`,
             'responseType' : 'blob'
           }
         })
@@ -255,6 +292,7 @@
 
           const blob = new Blob([view], {type: "application/pdf"});
           this.pdfData = window.URL.createObjectURL(blob);
+          this.status = 'ready';
         });
       },
       getScore(response) {
