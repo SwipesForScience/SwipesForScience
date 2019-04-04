@@ -311,7 +311,6 @@
           .child(this.userInfo.displayName)
           .on('value', (snap) => {
             const val = snap.val();
-            console.log('value is', val);
             if (val == null) {
               this.userSettings = {};
             } else {
@@ -325,7 +324,6 @@
       */
       updateUserSettings(settings) {
         if (settings) {
-          console.log('updating user settings', settings);
           this.db.ref('userSettings')
             .child(this.userInfo.displayName)
             .set(settings);
