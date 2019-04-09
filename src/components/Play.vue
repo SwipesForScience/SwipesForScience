@@ -1,5 +1,5 @@
 <template name="play">
-  <div id="play" class="container">
+  <div id="play" class="container" style="max-width:99%">
     <!-- Modal Component -->
     <b-modal id="levelUp" ref="levelUp" title="You've Levelled Up!" ok-only>
       <div class="my-4">

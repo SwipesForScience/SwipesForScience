@@ -19,8 +19,8 @@
         </div>
 
         <!-- Content Display -->
-        <div class="col" style="margin-top: 100px;">
-
+        <!-- <div class="col" style="margin-top: 100px;"> -->
+        <div class="col">
           <p v-if="!playMode" class="mb-3 pb-3 mt-3 pt-3">{{ widgetSummary }}</p>
 
           <!-- Data pointer: {{ widgetPointer }} -->
@@ -39,6 +39,7 @@
           </div>
 
           <!-- Response Display -->
+          <div style="overflow-y:scroll; overflow-x:hidden; height:450px; margin-bottom:50px;" >
           <div class="row">
             <div class="col">
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
@@ -92,6 +93,19 @@
                 </p>
                 <input v-model="unit" placeholder="type unit here">
               </div>
+              <div class="col">
+                <!-- <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p v-b-tooltip.hover title="eventual court name in address ex) south" style="width:200px;">Court Name:</p>
+                  <input v-model="courtName" placeholder="type court name here">
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p v-b-tooltip.hover title="type of court ex) court, building" style="width:200px;">Court:</p>
+                  <input v-model="court" placeholder="type court here">
+                </div> -->
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <p v-b-tooltip.hover title="type of unit ex) APT, UNIT, #" style="width:200px;">Unit Type:</p>
+                  <input v-model="unit" placeholder="type unit here">
+                </div>
 
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
                 <p style="margin:0;">
@@ -115,7 +129,7 @@
               </div>
             </div>
           </div>
-
+          </div>
           <div class="row" v-if="playMode">
             <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3" >Discuss</b-btn>
             <b-btn variant="success" @click="vote" class="mx-auto ml-3 mr-3">Submit</b-btn>
