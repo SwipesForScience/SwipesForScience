@@ -134,7 +134,8 @@
             <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3" >Discuss</b-btn>
             <b-btn variant="success" @click="vote" class="mx-auto ml-3 mr-3">Submit</b-btn>
           </div>
-        </div>
+      </div>
+      </div>
     </div>
 
     <div v-else>
