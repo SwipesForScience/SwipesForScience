@@ -41,36 +41,41 @@
           <!-- Response Display -->
           <div class="row">
             <div class="col">
-              <!-- <div class="row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p v-b-tooltip.hover title="ex) John Smith" style="width:200px;">Person Name:</p>
-                <input v-model="name" placeholder="type name here">
-              </div> -->
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p v-b-tooltip.hover title="house number ex) 1222" style="width:200px;">House Number:</p>
+                <p style="margin:0;">
+                  House Number: <br>
+                  <p class="description"> house number ex) 1222 </p>
+                </p>
                 <input v-model="house" placeholder="type house number here">
               </div>
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p v-b-tooltip.hover title="direction that precedes the street name ex) N, north east" style="width:200px;">Pre Direction:</p>
+                <p style="margin:0;">
+                  Pre Direction: <br>
+                  <p class="description"> direction that precedes the street name <br> ex) N, north east </p>
+                </p>
                 <input v-model="preDirection" placeholder="type street pre direction here">
               </div>
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p v-b-tooltip.hover title="name of the street ex) 123rd" style="width:200px;">Street Name:</p>
+                <p style="margin:0;">
+                  Street Name: <br>
+                  <p class="description"> name of the street ex) 123rd </p>
+                </p>
                 <input v-model="streetName" placeholder="type street name here">
               </div>
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p v-b-tooltip.hover title="type of street ex) PKWY, AVE, RD" style="width:200px;">Street Type:</p>
+                <p style="margin:0;">
+                  Street Type: <br>
+                  <p class="description"> type of street ex) PKWY, AVE, RD </p>
+                </p>
                 <input v-model="street" placeholder="type street name here">
               </div>
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p v-b-tooltip.hover title="direction that follows the street name ex) north, N" style="width:200px;">Post Direction:</p>
+                <p style="margin:0;">
+                  Post Direction: <br>
+                  <p class="description"> direction that follows the street name <br> ex) north, N </p>
+                </p>
                 <input v-model="postDirection" placeholder="type street post direction here">
               </div>
-              <!-- <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p style="width:200px;">County: {{ this.county }}</p>
-              </div>
-              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p style="width:200px;">State: {{ this.state }}</p>
-              </div> -->
             </div>
             <div class="col">
               <!-- <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
@@ -82,30 +87,32 @@
                 <input v-model="court" placeholder="type court here">
               </div> -->
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p v-b-tooltip.hover title="type of unit ex) APT, UNIT, #" style="width:200px;">Unit Type:</p>
+                <p style="margin:0;">
+                  Unit Type: <br> <p class="description"> type of unit ex) APT, UNIT, # </p>
+                </p>
                 <input v-model="unit" placeholder="type unit here">
               </div>
 
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p v-b-tooltip.hover title="name of apartment of unit ex) A, 1" style="width:200px;">Unit Name/Number:</p>
+                <p style="margin:0;">
+                  Unit Name/Number: <br> <p class="description"> name of apartment of unit ex) A, 1 </p>
+                </p>
                 <input v-model="unitName" placeholder="type unit name here">
               </div>
 
 
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p v-b-tooltip.hover title="name of the city ex) Seattle" style="width:200px;">City:</p>
+                <p style="margin:0;">
+                  City: <br> <p class="description"> name of the city ex) Seattle </p>
+                </p>
                 <input v-model="city" placeholder="type city here">
               </div>
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p v-b-tooltip.hover title="zip code ex) 98005" style="width:200px;">zip:</p>
+                <p style="margin:0;">
+                  Zip: <br> <p class="description"> zip code ex) 98005 </p>
+                </p>
                 <input v-model="zip" placeholder="type zip here">
               </div>
-              <!-- <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p style="width:200px;">Year: {{ this.year }}</p>
-              </div>
-              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p style="width:200px;">File: {{ this.fileName }}</p>
-              </div> -->
             </div>
           </div>
 
@@ -398,4 +405,11 @@
 </script>
 
 <style>
+
+.description {
+  font-size:9pt;
+  margin-top:0;
+  margin-bottom:10;
+  color:gray;
+}
 </style>
