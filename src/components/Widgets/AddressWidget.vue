@@ -43,11 +43,11 @@
           <div class="row">
             <div class="col">
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p style="margin:0;">
-                  House Number: <br>
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> House Number: </p> 
                   <p class="description"> house number ex) 1222 </p>
-                </p>
-                <input v-model="house" placeholder="type house number here">
+                  <input v-model="house" placeholder="type house number here">
+                </div>
               </div>
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
                 <p style="margin:0;">
@@ -225,20 +225,21 @@
       },
       getPdf() {
         this.status = 'loading';
-        const path = this.widgetPointer.split("__");
-        const casenumber = path[3];
-        let newCasenumber = "";
-        for(let x = 0; x < casenumber.length; x += 1) {
-          if(casenumber.charAt(x) == '_') {
-            newCasenumber += '-';
-          } else {
-            newCasenumber += casenumber.charAt(x);
-          }
-        }
-        this.state = path[0];
-        this.county = path[1];
-        this.year = path[2];
-        var filePath = "";
+        console.log(this.widgetPointer)
+        // const path = this.widgetPointer.split("__");
+        // const casenumber = path[3];
+        // let newCasenumber = "";
+        // for(let x = 0; x < casenumber.length; x += 1) {
+        //   if(casenumber.charAt(x) == '_') {
+        //     newCasenumber += '-';
+        //   } else {
+        //     newCasenumber += casenumber.charAt(x);
+        //   }
+        // }
+        // this.state = path[0];
+        // this.county = path[1];
+        // this.year = path[2];
+        // var filePath = "";
 
         const bodyParameters = {
           key: ""
@@ -248,7 +249,8 @@
         // Identify path to Summons.pdf
         axios({
           method: 'get',
-          url: `https://tesseract.csde.washington.edu:8080/swipes/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/files`,
+          // url: `https://tesseract.csde.washington.edu:8080/swipes/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/files`,
+          url: `https://tesseract.csde.washington.edu:8080/swipes/${this.widgetPointer}/files`,
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -257,7 +259,8 @@
           var fileList = response.data.files;
           for(var i = 0; i < fileList.length; i++) {
             if(fileList[i].toUpperCase().includes('SUMMONS')) {
-              this.filePath = `https://tesseract.csde.washington.edu:8080/swipes/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile64?name=`+ fileList[i];
+              // this.filePath = `https://tesseract.csde.washington.edu:8080/swipes/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile64?name=`+ fileList[i];
+              this.filePath = `https://tesseract.csde.washington.edu:8080/swipes/${this.widgetPointer}/` + `pdffile64?name=`+ fileList[i];
               this.fileName = fileList[i]
             }
           }
@@ -266,7 +269,8 @@
           // API Call to fetch pre-filled information
           axios({
             method: 'get',
-            url: `https://tesseract.csde.washington.edu:8080/swipes/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/address`,
+            // url: `https://tesseract.csde.washington.edu:8080/swipes/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/address`,
+            url: `https://tesseract.csde.washington.edu:8080/swipes/${this.widgetPointer}/address`,
             headers: {
               'Authorization': `Bearer ${token}`
             }
@@ -424,7 +428,12 @@
 .description {
   font-size:9pt;
   margin-top:0;
-  margin-bottom:10;
+  margin-bottom:0;
   color:gray;
+}
+
+.address {
+  float:left;
+  margin-bottom: 0;
 }
 </style>
