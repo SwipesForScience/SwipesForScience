@@ -22,8 +22,8 @@
               </li>
             </ul>
           </div>
-          <div style="width:100%;height:100%;display:block;">
-          <iframe :src="pdfData" frameborder="0" ></iframe>
+          <div style="width:100%;height:100%;">
+          <iframe :src="pdfData" frameborder="0" style="width:100%;height:100%;" ></iframe>
           </div>
       </div>
         <!-- Content Display -->
