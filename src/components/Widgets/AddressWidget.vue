@@ -130,12 +130,19 @@
             </div>
           </div>
           </div>
-          <div class="row" v-if="playMode">
-            <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3" >Discuss</b-btn>
-            <b-btn variant="success" @click="vote" class="mx-auto ml-3 mr-3">Submit</b-btn>
-          </div>
+      </div>
+      <div class="row" v-if="playMode">
+        <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3" >Discuss</b-btn>
+        <b-btn variant="success" @click="vote" class="mx-auto ml-3 mr-3">Submit</b-btn>
       </div>
       </div>
+      <div id="fileOption">
+        <ul>
+          <li v-for="file in fileOption" @click="getSource(file)" :key="file">
+            {{file}}
+          </li>
+        </ul>
+        <p>jkl</p></div>
     </div>
 
     <div v-else>
@@ -204,6 +211,7 @@
         unitName: null,
         year: null,
         zip: null,
+        fileOption: [],
       };
     },
     watch: {
@@ -257,6 +265,7 @@
         })
         .then((response) => {
           var fileList = response.data.files;
+          this.fileOption = fileList;
           for(var i = 0; i < fileList.length; i++) {
             if(fileList[i].toUpperCase().includes('SUMMONS')) {
               // this.filePath = `https://tesseract.csde.washington.edu:8080/swipes/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile64?name=`+ fileList[i];
@@ -290,17 +299,19 @@
               this.unit = listFixed(address.unit);
               this.city = listFixed(address.city);
               this.zip = listFixed(address.zip);
-              this.getSource();
+              this.getSource(this.fileName);
           });
         });
+        console.log('testest');
       },
-      getSource() {
+      getSource(file) {
         // API Call to fetch PDF
 
         const token = this.userSettings.secret;
+        var fileUrl = `https://tesseract.csde.washington.edu:8080/swipes/${this.widgetPointer}/` + `pdffile64?name=`+ file;
         axios({
           method: 'get',
-          url: this.filePath,
+          url: fileUrl,
           headers: {
             'Authorization': `Bearer ${token}`,
             'responseType' : 'blob'
@@ -320,6 +331,19 @@
           this.pdfData = window.URL.createObjectURL(blob);
           this.status = 'ready';
         });
+      },
+      getFileList(file) {
+        // var fDiv = document.getElementById("fileOption");
+        // var fList = document.createElement("ul");
+        // console.log(fDiv);
+        // console.log(this.fileOption);
+        // for (var i = 0; i < this.fileOption.length; i++) {
+        //   var fElement = document.createElement("li");
+        //   fElement.innerHTML = this.fileOption[i];
+        //   fList.appendChild(fElement);
+        // }
+        // fDiv.appendChild(fList);
+        console.log(file)
       },
       getScore(response) {
         // if (response) {
