@@ -17,14 +17,14 @@
           <div style="display:block;width:100%;height:95%;">
             <iframe :src="pdfData" frameborder="0" style="width:100%;height:100%;" ></iframe>
           </div>
-          <b-button id="tooltip-button-1" variant="primary">I have a tooltip</b-button>
-            <b-tooltip :show.sync="show" target="tooltip-button-1" container="body" placement="righttop" trigger="click" style="max-width: 400px;">
-              <ul>
-                <li v-for="file in fileOption" @click="getSource(file)" :key="file" style="width:400px;">
-                  {{file}}
-                </li>
-              </ul>
-            </b-tooltip>  
+          <b-button id="tooltip-button-1" variant="primary" style="margin-top: 10px">More Files</b-button>
+          <b-tooltip class="tool" :show.sync="show" data-container="body" target="tooltip-button-1" placement="righttop" trigger="click">
+            <ul>
+              <li v-for="file in fileOption" @click="getSource(file)" :key="file" style="list-style-type: none; text-align: left;">
+                {{file}}
+              </li>
+            </ul>
+          </b-tooltip>
       </div>
         <!-- Content Display -->
         <!-- <div class="col" style="margin-top: 100px;"> -->
@@ -432,4 +432,11 @@
   float:left;
   margin-bottom: 0;
 }
+
+.tooltip-inner {
+  max-width: 100% !important;
+  padding-top: 20px;
+  padding-right: 40px;
+}
+
 </style>
