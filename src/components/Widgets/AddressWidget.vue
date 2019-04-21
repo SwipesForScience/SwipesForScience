@@ -116,7 +116,6 @@
               </div>
             </div>
           </div>
-          </div>
       </div>
       <div class="row" v-if="playMode">
         <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3" >Discuss</b-btn>
