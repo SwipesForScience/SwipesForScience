@@ -13,18 +13,20 @@
     <!-- If user is verified, display information -->
     <div class="row" v-else-if="status==='ready'" style="margin-bottom:20px;">
       <!-- PDF Display -->
-      <div class="col" style="width:800px;margin-left:0;padding-right:100px;">
-          <div class="tooltip" id="fileOption" style="display:block;margin:100px;">
-            Hover over me
-            <ul class="tooltiptext">
-              <li v-for="file in fileOption" @click="getSource(file)" :key="file">
-                {{file}}
-              </li>
-            </ul>
-          </div>
-          <div style="width:100%;height:100%;">
+      <div class="col address" style="width:800px;margin-left:0;padding-right:100px;">
+        <div style="width:100%;height:50%;">
           <iframe :src="pdfData" frameborder="0" style="width:100%;height:100%;" ></iframe>
+        </div>
+        <div id="app">
+          <div class="parent" v-for="i in 1" @mouseover="showByIndex = i" @mouseout="showByIndex = null">
+            <div class="child-one">
+              Some dummy text
+             </div>
+            <div class="child-two" v-show="showByIndex === i">
+              Show me only on hover on "div.parent" element
+            </div>
           </div>
+        </div>
       </div>
         <!-- Content Display -->
         <!-- <div class="col" style="margin-top: 100px;"> -->
