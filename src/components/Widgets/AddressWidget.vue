@@ -13,20 +13,18 @@
     <!-- If user is verified, display information -->
     <div class="row" v-else-if="status==='ready'" style="margin-bottom:20px;">
       <!-- PDF Display -->
-      <div class="col address" style="width:800px;margin-left:0;padding-right:100px;">
-        <div style="width:100%;height:50%;">
-          <iframe :src="pdfData" frameborder="0" style="width:100%;height:100%;" ></iframe>
-        </div>
-        <div id="app">
-          <div class="parent" v-for="i in 1" @mouseover="showByIndex = i" @mouseout="showByIndex = null">
-            <div class="child-one">
-              Some dummy text
-             </div>
-            <div class="child-two" v-show="showByIndex === i">
-              Show me only on hover on "div.parent" element
-            </div>
+      <div class="col" style="width:800px;margin-left:0;padding-right:100px;">
+          <div style="display:block;width:100%;height:95%;">
+            <iframe :src="pdfData" frameborder="0" style="width:100%;height:100%;" ></iframe>
           </div>
-        </div>
+          <b-button id="tooltip-button-1" variant="primary" style="margin-top: 10px">More Files</b-button>
+          <b-tooltip class="tool" :show.sync="show" data-container="body" target="tooltip-button-1" placement="righttop" trigger="click">
+            <ul>
+              <li v-for="file in fileOption" @click="getSource(file)" :key="file" style="list-style-type: none; text-align: left;">
+                {{file}}
+              </li>
+            </ul>
+          </b-tooltip>
       </div>
         <!-- Content Display -->
         <!-- <div class="col" style="margin-top: 100px;"> -->
@@ -48,7 +46,7 @@
           </div>
 
           <!-- Response Display -->
-          <div style="overflow-y:scroll; overflow-x:hidden; height:450px; margin-bottom:50px;" >
+          <div style="overflow-y:scroll; overflow-x:hidden; height:500px; margin-bottom:30px;" >
           <div class="row">
             <div class="col">
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
@@ -418,26 +416,29 @@
 </script>
 
 <style>
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
 
-.tooltip .tooltiptext{
+.tooltip .tooltiptext {
   visibility: hidden;
   width: 120px;
   background-color: black;
   color: #fff;
   text-align: center;
-  padding: 5px 0;
   border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
 
   /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
 }
 
-.tooltip:hover .tooltiptext{
-  visibility: visible;
-}
-
-.tooltip {
+.tooltip:hover .tooltiptext {
   visibility: visible;
 }
 
@@ -452,4 +453,11 @@
   float:left;
   margin-bottom: 0;
 }
+
+.tooltip-inner {
+  max-width: 100% !important;
+  padding-top: 20px;
+  padding-right: 40px;
+}
+
 </style>
