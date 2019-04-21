@@ -114,6 +114,9 @@
                   <input v-model="zip" placeholder="Enter zip here">
                 </div>
               </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p style="margin:0;"> State: {{state}} </p>
+              </div>
             </div>
           </div>
       </div>
@@ -212,21 +215,6 @@
       },
       getPdf() {
         this.status = 'loading';
-        console.log(this.widgetPointer)
-        // const path = this.widgetPointer.split("__");
-        // const casenumber = path[3];
-        // let newCasenumber = "";
-        // for(let x = 0; x < casenumber.length; x += 1) {
-        //   if(casenumber.charAt(x) == '_') {
-        //     newCasenumber += '-';
-        //   } else {
-        //     newCasenumber += casenumber.charAt(x);
-        //   }
-        // }
-        // this.state = path[0];
-        // this.county = path[1];
-        // this.year = path[2];
-        // var filePath = "";
 
         const bodyParameters = {
           key: ""
@@ -236,7 +224,6 @@
         // Identify path to Summons.pdf
         axios({
           method: 'get',
-          // url: `https://tesseract.csde.washington.edu:8080/swipes/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/files`,
           url: `https://tesseract.csde.washington.edu:8080/swipes/${this.widgetPointer}/files`,
           headers: {
             'Authorization': `Bearer ${token}`
@@ -257,7 +244,6 @@
           // API Call to fetch pre-filled information
           axios({
             method: 'get',
-            // url: `https://tesseract.csde.washington.edu:8080/swipes/${path[0]}/${path[1]}/${path[2]}/${newCasenumber}/address`,
             url: `https://tesseract.csde.washington.edu:8080/swipes/${this.widgetPointer}/address`,
             headers: {
               'Authorization': `Bearer ${token}`
@@ -278,6 +264,7 @@
               this.unit = listFixed(address.unit);
               this.city = listFixed(address.city);
               this.zip = listFixed(address.zip);
+              this.state = listFixed(address.stateName);
               this.getSource(this.fileName);
           });
         });
@@ -378,7 +365,8 @@
                      court: this.court,
                      unitName: this.unitName,
                      unit: this.unit,
-                     zip: this.zip
+                     zip: this.zip,
+                     state: this.state
                      });
         this.casenumber = null;
         this.name = null;
@@ -395,6 +383,7 @@
         this.unitName = null;
         this.unit = null;
         this.zip = null;
+        this.state = null;
       },
       /**
        * This method should tell users how their widgetProperties configuration should be defined.
@@ -443,6 +432,8 @@
   padding: 5px 0;
 
   /* Position the tooltip */
+
+  /* Position the tooltip text - see examples below! */
   position: absolute;
   z-index: 1;
 }
