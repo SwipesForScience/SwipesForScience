@@ -18,13 +18,13 @@
             <iframe :src="pdfData" frameborder="0" style="width:100%;height:100%;" ></iframe>
           </div>
           <b-button id="tooltip-button-1" variant="primary">I have a tooltip</b-button>
-          <b-tooltip :show.sync="show" target="tooltip-button-1" placement="righttop" trigger="click" style="width:100px;">
-            <ul class="tooltiptext" >
-              <li v-for="file in fileOption" @click="getSource(file)" :key="file">
-                {{file}}
-              </li>
-            </ul>
-          </b-tooltip>  
+            <b-tooltip :show.sync="show" target="tooltip-button-1" container="body" placement="righttop" trigger="click" style="max-width: 400px;">
+              <ul>
+                <li v-for="file in fileOption" @click="getSource(file)" :key="file" style="width:400px;">
+                  {{file}}
+                </li>
+              </ul>
+            </b-tooltip>  
       </div>
         <!-- Content Display -->
         <!-- <div class="col" style="margin-top: 100px;"> -->
@@ -416,30 +416,9 @@
 </script>
 
 <style>
-.tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
-}
 
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-
-  /* Position the tooltip */
-
-  /* Position the tooltip text - see examples below! */
-  position: absolute;
-  z-index: 1;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
+.tooltip-inner {
+  max-width: 100% !important;
 }
 
 .description {
