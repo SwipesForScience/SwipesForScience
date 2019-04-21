@@ -12,17 +12,24 @@
 
     <!-- If user is verified, display information -->
     <div class="row" v-else-if="status==='ready'" style="margin-bottom:20px;">
-
-        <!-- PDF Display -->
-        <div class="col" style="width:800px;margin-left:0;padding-right:100px;">
-          <iframe :src="pdfData" frameborder="0" style="position:relative;width:100%;height:100%;"></iframe>
-        </div>
-
+      <!-- PDF Display -->
+      <div class="col" style="width:800px;margin-left:0;padding-right:100px;">
+          <div class="tooltip" id="fileOption" style="display:block;margin:100px;">
+            Hover over me
+            <ul class="tooltiptext">
+              <li v-for="file in fileOption" @click="getSource(file)" :key="file">
+                {{file}}
+              </li>
+            </ul>
+          </div>
+          <div style="width:100%;height:100%;display:block;">
+          <iframe :src="pdfData" frameborder="0" ></iframe>
+          </div>
+      </div>
         <!-- Content Display -->
         <!-- <div class="col" style="margin-top: 100px;"> -->
         <div class="col">
           <p v-if="!playMode" class="mb-3 pb-3 mt-3 pt-3">{{ widgetSummary }}</p>
-
           <!-- Data pointer: {{ widgetPointer }} -->
           <div class="lead">
             <span>{{house}}</span>
@@ -136,13 +143,6 @@
         <b-btn variant="success" @click="vote" class="mx-auto ml-3 mr-3">Submit</b-btn>
       </div>
       </div>
-      <div id="fileOption">
-        <ul>
-          <li v-for="file in fileOption" @click="getSource(file)" :key="file">
-            {{file}}
-          </li>
-        </ul>
-        <p>jkl</p></div>
     </div>
 
     <div v-else>
@@ -448,6 +448,28 @@
 </script>
 
 <style>
+
+.tooltip .tooltiptext{
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+ 
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext{
+  visibility: visible;
+}
+
+.tooltip {
+  visibility: visible;
+}
 
 .description {
   font-size:9pt;
