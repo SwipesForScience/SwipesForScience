@@ -14,17 +14,17 @@
     <div class="row" v-else-if="status==='ready'" style="margin-bottom:20px;">
       <!-- PDF Display -->
       <div class="col" style="width:800px;margin-left:0;padding-right:100px;">
-          <div class="tooltip" id="fileOption" style="display:block;margin:100px;">
-            Hover over me
-            <ul class="tooltiptext">
+          <div style="display:block;width:100%;height:95%;">
+            <iframe :src="pdfData" frameborder="0" style="width:100%;height:100%;" ></iframe>
+          </div>
+          <b-button id="tooltip-button-1" variant="primary">I have a tooltip</b-button>
+          <b-tooltip :show.sync="show" target="tooltip-button-1" placement="righttop" trigger="click" style="width:100px;">
+            <ul class="tooltiptext" >
               <li v-for="file in fileOption" @click="getSource(file)" :key="file">
                 {{file}}
               </li>
             </ul>
-          </div>
-          <div style="width:100%;height:100%;">
-          <iframe :src="pdfData" frameborder="0" style="width:100%;height:100%;" ></iframe>
-          </div>
+          </b-tooltip>  
       </div>
         <!-- Content Display -->
         <!-- <div class="col" style="margin-top: 100px;"> -->
@@ -46,7 +46,7 @@
           </div>
 
           <!-- Response Display -->
-          <div style="overflow-y:scroll; overflow-x:hidden; height:450px; margin-bottom:50px;" >
+          <div style="overflow-y:scroll; overflow-x:hidden; height:500px; margin-bottom:30px;" >
           <div class="row">
             <div class="col">
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
@@ -427,26 +427,27 @@
 </script>
 
 <style>
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
 
-.tooltip .tooltiptext{
+.tooltip .tooltiptext {
   visibility: hidden;
   width: 120px;
   background-color: black;
   color: #fff;
   text-align: center;
-  padding: 5px 0;
   border-radius: 6px;
- 
-  /* Position the tooltip text - see examples below! */
+  padding: 5px 0;
+
+  /* Position the tooltip */
   position: absolute;
   z-index: 1;
 }
 
-.tooltip:hover .tooltiptext{
-  visibility: visible;
-}
-
-.tooltip {
+.tooltip:hover .tooltiptext {
   visibility: visible;
 }
 
