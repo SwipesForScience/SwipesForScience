@@ -51,88 +51,68 @@
             <div class="col">
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
                 <div class = "address" style="margin:0;">
-                  <p style="margin:0;"> House Number: </p> 
+                  <p style="margin:0;"> House Number: </p>
                   <p class="description"> house number ex) 1222 </p>
-                  <input v-model="house" placeholder="type house number here">
+                  <input v-model="house" placeholder="Enter house number here">
                 </div>
               </div>
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p style="margin:0;">
-                  Pre Direction: <br>
-                  <p class="description"> direction that precedes the street name <br> ex) N, north east </p>
-                </p>
-                <input v-model="preDirection" placeholder="type street pre direction here">
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> Pre Direction: </p>
+                  <p class="description"> direction that precedes the street name ex) N, north east </p>
+                  <input v-model="preDirection" placeholder="Enter street pre direction here">
+                </div>
               </div>
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p style="margin:0;">
-                  Street Name: <br>
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> Street Name: </p>
                   <p class="description"> name of the street ex) 123rd </p>
-                </p>
-                <input v-model="streetName" placeholder="type street name here">
+                  <input v-model="streetName" placeholder="Enter street name here">
+                </div>
               </div>
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p style="margin:0;">
-                  Street Type: <br>
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> Street Type: </p>
                   <p class="description"> type of street ex) PKWY, AVE, RD </p>
-                </p>
-                <input v-model="street" placeholder="type street name here">
+                  <input v-model="street" placeholder="Enter street type here">
+                </div>
               </div>
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p style="margin:0;">
-                  Post Direction: <br>
-                  <p class="description"> direction that follows the street name <br> ex) north, N </p>
-                </p>
-                <input v-model="postDirection" placeholder="type street post direction here">
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> Post Direction: </p>
+                  <p class="description"> direction that follows th street name ex) north, N </p>
+                  <input v-model="postDirection" placeholder="Enter street post direction here">
+                </div>
               </div>
             </div>
             <div class="col">
-              <!-- <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p v-b-tooltip.hover title="eventual court name in address ex) south" style="width:200px;">Court Name:</p>
-                <input v-model="courtName" placeholder="type court name here">
-              </div>
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p v-b-tooltip.hover title="type of court ex) court, building" style="width:200px;">Court:</p>
-                <input v-model="court" placeholder="type court here">
-              </div> -->
-              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p style="margin:0;">
-                  Unit Type: <br> <p class="description"> type of unit ex) APT, UNIT, # </p>
-                </p>
-                <input v-model="unit" placeholder="type unit here">
-              </div>
-              <div class="col">
-                <!-- <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                  <p v-b-tooltip.hover title="eventual court name in address ex) south" style="width:200px;">Court Name:</p>
-                  <input v-model="courtName" placeholder="type court name here">
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> Unit Type: </p>
+                  <p class="description"> type of unit ex) APT, UNIT, # </p>
+                  <input v-model="unit" placeholder="Enter unit here">
                 </div>
-                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                  <p v-b-tooltip.hover title="type of court ex) court, building" style="width:200px;">Court:</p>
-                  <input v-model="court" placeholder="type court here">
-                </div> -->
-                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                  <p v-b-tooltip.hover title="type of unit ex) APT, UNIT, #" style="width:200px;">Unit Type:</p>
-                  <input v-model="unit" placeholder="type unit here">
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> Unit Name: </p>
+                  <p class="description"> name of unit ex) A, 1 </p>
+                  <input v-model="unitName" placeholder="Enter unit name here">
                 </div>
-
-              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p style="margin:0;">
-                  Unit Name/Number: <br> <p class="description"> name of apartment of unit ex) A, 1 </p>
-                </p>
-                <input v-model="unitName" placeholder="type unit name here">
-              </div>
-
-
-              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p style="margin:0;">
-                  City: <br> <p class="description"> name of the city ex) Seattle </p>
-                </p>
-                <input v-model="city" placeholder="type city here">
               </div>
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                <p style="margin:0;">
-                  Zip: <br> <p class="description"> zip code ex) 98005 </p>
-                </p>
-                <input v-model="zip" placeholder="type zip here">
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> City: </p>
+                  <p class="description"> name of the city ex) Seattle </p>
+                  <input v-model="city" placeholder="Enter city here">
+                </div>
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> Zip: </p>
+                  <p class="description"> zip code ex) 98005 </p>
+                  <input v-model="zip" placeholder="Enter zip here">
+                </div>
               </div>
             </div>
           </div>
