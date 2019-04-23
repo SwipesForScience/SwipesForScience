@@ -27,7 +27,7 @@
       </b-form>
 
     </div>
-    <div>
+    <div v-if="widgetPointer">
       <WidgetSelector :widgetType="widgetType"
        :widgetPointer="widgetPointer"
        :widgetProperties="widgetProperties"
@@ -190,9 +190,26 @@
      */
     mounted() {
       this.widgetPointer = this.$route.params.key;
+      this.initUserSettings();
       this.setSampleInfo();
     },
     methods: {
+      /**
+      * the /userSettings/<username> from firebase is always in sync.
+      * this property saves the state of the widget, if it needs it.
+      */
+      initUserSettings() {
+        this.db.ref('userSettings')
+          .child(this.userInfo.displayName)
+          .on('value', (snap) => {
+            const val = snap.val();
+            if (val == null) {
+              this.userSettings = {};
+            } else {
+              this.userSettings = val;
+            }
+          });
+      },
       /**
        * Method to add a new chat message. Update
        * 1. push the username, message and timestamp to `chats/sampleChats`
