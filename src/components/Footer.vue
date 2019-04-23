@@ -2,12 +2,6 @@
   <div class="">
     <div class="footer bg-dark pr-3 pl-3">
       <div class="container">
-        <div class="align-middle text-right text-white configureButton">
-          <b-button variant="info" @click="openConfig">
-            <i class="fa fa-wrench" aria-hidden="true"></i> Configure
-          </b-button>
-        </div>
-
         <table style="height: 200px; width: 100%;">
         <tbody>
           <tr>
