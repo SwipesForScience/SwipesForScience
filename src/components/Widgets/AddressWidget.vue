@@ -274,6 +274,7 @@
         // API Call to fetch PDF
 
         const token = this.userSettings.secret;
+        file = file.replace('&', '%26')
         var fileUrl = `https://tesseract.csde.washington.edu:8080/swipes/${this.widgetPointer}/` + `pdffile64?name=`+ file;
         axios({
           method: 'get',
