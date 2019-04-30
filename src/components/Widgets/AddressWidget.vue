@@ -27,10 +27,8 @@
           </b-tooltip>
       </div>
         <!-- Content Display -->
-        <!-- <div class="col" style="margin-top: 100px;"> -->
         <div class="col">
           <p v-if="!playMode" class="mb-3 pb-3 mt-3 pt-3">{{ widgetSummary }}</p>
-          <!-- Data pointer: {{ widgetPointer }} -->
           <div class="lead">
             <span>{{house}}</span>
             <span>{{preDirection}}</span>
@@ -234,7 +232,6 @@
           this.fileOption = fileList;
           for(var i = 0; i < fileList.length; i++) {
             if(fileList[i].toUpperCase().includes('SUMMONS')) {
-              // this.filePath = `https://tesseract.csde.washington.edu:8080/swipes/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile64?name=`+ fileList[i];
               this.filePath = `https://tesseract.csde.washington.edu:8080/swipes/${this.widgetPointer}/` + `pdffile64?name=`+ fileList[i];
               this.fileName = fileList[i]
             }
@@ -268,7 +265,6 @@
               this.getSource(this.fileName);
           });
         });
-        console.log('testest');
       },
       getSource(file) {
         // API Call to fetch PDF
@@ -296,6 +292,8 @@
           const blob = new Blob([view], {type: "application/pdf"});
           this.pdfData = window.URL.createObjectURL(blob);
           this.status = 'ready';
+        }, (error) => {
+          console.log(error);
         });
       },
       getFileList(file) {
