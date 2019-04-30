@@ -283,9 +283,8 @@
       },
       getSource(file) {
         // API Call to fetch PDF
-
         const token = this.userSettings.secret;
-        file = file.replace('&', '%26')
+        file = encodeURIComponent(file)
         var fileUrl = `https://tesseract.csde.washington.edu:8080/swipes/${this.widgetPointer}/` + `pdffile64?name=`+ file;
         axios({
           method: 'get',
@@ -308,7 +307,12 @@
           const blob = new Blob([view], {type: "application/pdf"});
           this.pdfData = window.URL.createObjectURL(blob);
           this.status = 'ready';
-        });
+        })
+        .catch(error => {
+            alert("Failed to load the file");
+            window.location.reload();
+            console.log(error)
+      });
       },
       getFileList(file) {
         // var fDiv = document.getElementById("fileOption");
