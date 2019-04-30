@@ -268,8 +268,17 @@
               this.zip = listFixed(address.zip);
               this.state = listFixed(address.stateName);
               this.getSource(this.fileName);
+          }).catch(error => {
+              alert("Failed to load the file");
+              window.location.reload();
+              console.log(error)
           });
-        });
+        }).catch(error => {
+            alert("Failed to load the file");
+            window.location.reload();
+            console.log(error)
+      });
+        
         console.log('testest');
       },
       getSource(file) {
