@@ -271,15 +271,11 @@
           }).catch(error => {
               alert("Failed to load the file");
               window.location.reload();
-              console.log(error)
           });
         }).catch(error => {
             alert("Failed to load the file");
             window.location.reload();
-            console.log(error)
       });
-        
-        console.log('testest');
       },
       getSource(file) {
         // API Call to fetch PDF
@@ -311,9 +307,8 @@
         .catch(error => {
             alert("Failed to load the file");
             window.location.reload();
-            console.log(error)
       });
-      },
+      },  
       getFileList(file) {
         // var fDiv = document.getElementById("fileOption");
         // var fList = document.createElement("ul");
