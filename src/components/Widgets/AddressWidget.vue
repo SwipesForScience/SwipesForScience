@@ -14,7 +14,7 @@
     <div class="row" v-else-if="status==='ready'" style="margin-bottom:20px;height:90vh;">
       <!-- PDF Display -->
       <div class="col">
-          <div style="display:block;width:100%;height:85vh;margin-bottom:30px;">
+          <div style="display:block;width:100%;height:85vh;margin-bottom:10px;">
             <iframe :src="pdfData" frameborder="0" style="width:100%;height:100%;" ></iframe>
           </div>
           <b-button id="tooltip-button-1" variant="primary" style="margin-top: 10px">More Files</b-button>
@@ -33,6 +33,8 @@
           <!-- Data pointer: {{ widgetPointer }} -->
           <div style="height:95vh;">
           <div class="lead">
+            <span v-if="name!=null">{{name}}</span>
+            <br>
             <span>{{house}}</span>
             <span>{{preDirection}}</span>
             <span>{{streetName}}</span>
@@ -47,7 +49,7 @@
           </div>
 
           <!-- Response Display -->
-          <div style="overflow-y:scroll; overflow-x:hidden; height:80%;" >
+          <div style="overflow-y:scroll; overflow-x:hidden; height:80%; margin-bottom:30px;" >
           <div class="row">
             <div class="col">
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
@@ -118,6 +120,30 @@
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
                 <p style="margin:0;"> State: {{state}} </p>
               </div>
+              <div v-if="!hideInfo">
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <div class = "address" style="margin:0;">
+                    <p style="margin:0;"> Court: </p>
+                    <p class="description"> name of the court ex) Seattle </p>
+                    <input v-model="court" placeholder="Enter court here">
+                  </div>
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <div class = "address" style="margin:0;">
+                    <p style="margin:0;"> Court Name: </p>
+                    <p class="description"> name of the court name ex) Seattle </p>
+                    <input v-model="courtName" placeholder="Enter court name here">
+                  </div>
+                </div>
+                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                  <div class = "address" style="margin:0;">
+                    <p style="margin:0;"> Name: </p>
+                    <p class="description"> name ex) John Smith </p>
+                    <input v-model="name" placeholder="Enter name here">
+                  </div>
+                </div>
+              </div>
+             <b-btn @click="hideInfo = !hideInfo" class="mx-auto ml-3 mr-3" >More Info.</b-btn>
             </div>
           </div>
       </div>
@@ -196,6 +222,7 @@
         year: null,
         zip: null,
         fileOption: [],
+        hideInfo: true,
       };
     },
     watch: {
