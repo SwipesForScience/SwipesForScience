@@ -49,7 +49,7 @@
           </div>
 
           <!-- Response Display -->
-          <div style="overflow-y:scroll; overflow-x:hidden; height:80%; margin-bottom:30px;" >
+          <div style="overflow-y:scroll; overflow-x:hidden; height:80%;" >
           <div class="row">
             <div class="col">
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
