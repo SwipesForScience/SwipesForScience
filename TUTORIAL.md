@@ -87,6 +87,37 @@ following parts: _1600_ is **house number**, _Pennsylvania_ is
 Direction**, _Washington_ is **city**, _DC_ is **state** and _20500_
 is **zip**.
 
+More specifically:
+
+* **house number** is normally a number, identifying the house or a
+  more general location, such as the trailer park.
+* **pre-direction** is street direction (such as _north_ or _south-east_)
+  _preceding_ the street name.  We keep it separate from the rest of
+  the street name as this is often abbreviated (e.g. _n_ for _north_)
+  while the rest of the street name is normally not.  Pre-direction is
+  often missing.
+* **street name** is the name of the street.  It is often numerical
+  such as _44th_ or _1st_.  It is normally before the street type but
+  sometimes it may precede it, such as _highway 2_.  It may be
+  composed of several words like _Marthin Luther King JR_.  It is
+  rarely abbreviated, but sometimes you can see acronyms like _MLK Jr_
+  for the former.
+* **street type** is the description of the street like _street_,
+  _avenue_ or _boulevard_.  It is often abbreviated.  It may contain
+  obscure types and acronyms, such as _loop_, _square_, _terrace_,
+  _circle_ and _mall_.  It may contain multiple words like _avenue court_ or
+  _street court_.  These may be hard to get right automatically as
+  there are no easy way to tell whether _street_ is part of the name
+  or type, and _court_ is street type of genuine court.
+* **post direction** is the direction following the street, such as
+  _s_ or _south_.  It is often missing and usually abbreviated.
+* **unit type** is the type of unit, e.g. _apartment_, sometimes just
+  _#_.  As apartments we also code **other smallest units**, such as
+  store number in malls (for commercial evictions), lots for trailer
+  parks, etc.  It is often abbreviated (_a_ for _apartment_) and often
+  missing.  In the latter case the apartment name often starts with a _#_.
+*
+
 
 ## Usage
 
