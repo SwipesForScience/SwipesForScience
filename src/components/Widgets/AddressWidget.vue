@@ -233,7 +233,7 @@
         this.getSource();
       },
       widgetPointer() {
-        console.log('widget pointer changed');
+        // console.log('widget pointer changed');
         this.getPdf();
       }
     },
@@ -284,7 +284,7 @@
           .then((response) => {
               const listFixed = item => _.isArray(item) ? item[0] : item;
               const address = response.data
-              console.log('address', address)
+              // console.log('address', address)
               this.house = listFixed(address.house);
               this.preDirection = listFixed(address.preDirection);
               this.streetName = listFixed(address.streetName);
@@ -365,7 +365,7 @@
         //   fList.appendChild(fElement);
         // }
         // fDiv.appendChild(fList);
-        console.log(file)
+        // console.log(file)
       },
       getScore(response) {
         // if (response) {
