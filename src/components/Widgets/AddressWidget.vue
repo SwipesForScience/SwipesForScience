@@ -40,6 +40,8 @@
             <span>{{streetName}}</span>
             <span>{{street}}</span>
             <span>{{postDirection}}</span>
+            <span>{{court}}</span>
+            <span>{{courtName}}</span>
             <span>{{unit}}</span>
             <span>{{unitName}}</span>
             <br>
@@ -138,12 +140,13 @@
                 <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
                   <div class = "address" style="margin:0;">
                     <p style="margin:0;"> Name: </p>
-                    <p class="description"> name ex) John Smith </p>
+                    <p class="description"> name ex) John Doe </p>
                     <input v-model="name" placeholder="Enter name here">
                   </div>
                 </div>
               </div>
-             <b-btn @click="hideInfo = !hideInfo" class="mx-auto ml-3 mr-3" >More Info.</b-btn>
+             <b-btn v-if="hideInfo" @click="hideInfo = !hideInfo" class="mx-auto ml-3 mr-3" >More Info.</b-btn>
+             <b-btn v-if="!hideInfo" @click="hideInfo = !hideInfo" class="mx-auto ml-3 mr-3" >Hide Info.</b-btn>
             </div>
           </div>
       </div>
@@ -296,12 +299,22 @@
               this.state = listFixed(address.stateName);
               this.getSource(this.fileName);
           }).catch(error => {
+            if(error.response.status == 401) {
+              alert("You are not authorized");
+              window.location.href="/";
+            } else {
               alert("Failed to load the file");
               window.location.reload();
+            }
           });
         }).catch(error => {
+          if(error.response.status == 401) {
+            alert("You are not authorized");
+            window.location.href="/";
+          } else {
             alert("Failed to load the file");
             window.location.reload();
+          }
       });
       },
       getSource(file) {
@@ -332,8 +345,13 @@
           this.status = 'ready';
         })
         .catch(error => {
+          if(error.response.status == 401) {
+            alert("You are not authorized");
+            window.location.href="/";
+          } else {
             alert("Failed to load the file");
             window.location.reload();
+          }
       });
       },  
       getFileList(file) {
