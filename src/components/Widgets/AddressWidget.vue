@@ -42,6 +42,8 @@
             <span>{{streetName}}</span>
             <span>{{street}}</span>
             <span>{{postDirection}}</span>
+            <span>{{court}}</span>
+            <span>{{courtName}}</span>
             <span>{{unit}}</span>
             <span>{{unitName}}</span>
             <br>
@@ -141,12 +143,13 @@
                 <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
                   <div class = "address" style="margin:0;">
                     <p style="margin:0;"> Name: </p>
-                    <p class="description"> name ex) John Smith </p>
+                    <p class="description"> name ex) John Doe </p>
                     <input v-model="name" placeholder="Enter name here">
                   </div>
                 </div>
               </div>
-             <b-btn @click="hideInfo = !hideInfo" class="mx-auto ml-3 mr-3" >More Info.</b-btn>
+             <b-btn v-if="hideInfo" @click="hideInfo = !hideInfo" class="mx-auto ml-3 mr-3" >More Info.</b-btn>
+             <b-btn v-if="!hideInfo" @click="hideInfo = !hideInfo" class="mx-auto ml-3 mr-3" >Hide Info.</b-btn>
             </div>
           </div>
 
@@ -233,7 +236,7 @@
         this.getSource();
       },
       widgetPointer() {
-        console.log('widget pointer changed');
+        // console.log('widget pointer changed');
         this.getPdf();
       }
     },
@@ -283,7 +286,7 @@
           .then((response) => {
               const listFixed = item => _.isArray(item) ? item[0] : item;
               const address = response.data
-              console.log('address', address)
+              // console.log('address', address)
               this.house = listFixed(address.house);
               this.preDirection = listFixed(address.preDirection);
               this.streetName = listFixed(address.streetName);
@@ -298,10 +301,28 @@
               this.state = listFixed(address.stateName);
               this.getSource(this.fileName);
           }).catch(error => {
+<<<<<<< HEAD
+=======
+            if(error.response.status == 401) {
+              alert("You are not authorized");
+              window.location.href="/";
+            } else {
+              alert("Failed to load the file");
+>>>>>>> d550500d2367325cb98fd0d9e137cd08a06b4e4b
               window.location.reload();
+            }
           });
         }).catch(error => {
+<<<<<<< HEAD
+=======
+          if(error.response.status == 401) {
+            alert("You are not authorized");
+            window.location.href="/";
+          } else {
+            alert("Failed to load the file");
+>>>>>>> d550500d2367325cb98fd0d9e137cd08a06b4e4b
             window.location.reload();
+          }
       });
       },
       getSource(file) {
@@ -332,9 +353,21 @@
           this.status = 'ready';
         })
         .catch(error => {
+<<<<<<< HEAD
             window.location.reload();
         });
       },
+=======
+          if(error.response.status == 401) {
+            alert("You are not authorized");
+            window.location.href="/";
+          } else {
+            alert("Failed to load the file");
+            window.location.reload();
+          }
+      });
+      },  
+>>>>>>> d550500d2367325cb98fd0d9e137cd08a06b4e4b
       getFileList(file) {
         // var fDiv = document.getElementById("fileOption");
         // var fList = document.createElement("ul");
@@ -346,7 +379,7 @@
         //   fList.appendChild(fElement);
         // }
         // fDiv.appendChild(fList);
-        console.log(file)
+        // console.log(file)
       },
       getScore(response) {
         // if (response) {
