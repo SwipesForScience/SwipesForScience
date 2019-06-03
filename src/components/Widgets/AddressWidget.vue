@@ -332,8 +332,6 @@
           this.status = 'ready';
         })
         .catch(error => {
-            console.log("errrrrrrrrrrr");
-            console.log(document.getElementById("reload").style.display);
             window.location.reload();
         });
       },
