@@ -120,6 +120,9 @@
                 </div>
               </div>
               <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p style="margin:0;"> County: {{county}} </p>
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
                 <p style="margin:0;"> State: {{state}} </p>
               </div>
               <div v-if="!hideInfo">
@@ -224,6 +227,7 @@
         unitName: null,
         year: null,
         zip: null,
+        confidence: null,
         fileOption: [],
         hideInfo: true,
       };
@@ -297,6 +301,7 @@
               this.city = listFixed(address.city);
               this.zip = listFixed(address.zip);
               this.state = listFixed(address.stateName);
+              this.county = listFixed(address.countyName);
               this.getSource(this.fileName);
           }).catch(error => {
             if(error.response.status == 401) {
@@ -422,6 +427,7 @@
                      unitName: this.unitName,
                      unit: this.unit,
                      zip: this.zip,
+                     countyName: this.county,
                      state: this.state
                      });
         this.casenumber = null;
