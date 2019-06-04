@@ -301,26 +301,19 @@
               this.state = listFixed(address.stateName);
               this.getSource(this.fileName);
           }).catch(error => {
-<<<<<<< HEAD
-=======
             if(error.response.status == 401) {
               alert("You are not authorized");
               window.location.href="/";
             } else {
               alert("Failed to load the file");
->>>>>>> d550500d2367325cb98fd0d9e137cd08a06b4e4b
               window.location.reload();
             }
-          });
         }).catch(error => {
-<<<<<<< HEAD
-=======
           if(error.response.status == 401) {
             alert("You are not authorized");
             window.location.href="/";
           } else {
             alert("Failed to load the file");
->>>>>>> d550500d2367325cb98fd0d9e137cd08a06b4e4b
             window.location.reload();
           }
       });
@@ -353,11 +346,6 @@
           this.status = 'ready';
         })
         .catch(error => {
-<<<<<<< HEAD
-            window.location.reload();
-        });
-      },
-=======
           if(error.response.status == 401) {
             alert("You are not authorized");
             window.location.href="/";
@@ -366,8 +354,7 @@
             window.location.reload();
           }
       });
-      },  
->>>>>>> d550500d2367325cb98fd0d9e137cd08a06b4e4b
+      },
       getFileList(file) {
         // var fDiv = document.getElementById("fileOption");
         // var fList = document.createElement("ul");
