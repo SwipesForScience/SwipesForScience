@@ -289,7 +289,7 @@ export default {
     title: 'WA Eviction Address Identifier',
     tagline: 'WAEV Project',
       // background image on Homepage
-    backgroundUrl: 'https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/SwipesForScience.svg?sanitize=true',
+    backgroundUrl: './background.jpg',
   },
 
     // Play configuration

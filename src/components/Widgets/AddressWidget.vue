@@ -9,11 +9,9 @@
       <input v-model="password" placeholder="Type password here">
       <b-button @click="savePasswordToUserSettings">Submit</b-button>
     </div>
+
     <!-- If user is verified, display information -->
     <div class="row" v-else-if="status==='ready'" style="margin-bottom:20px;height:90vh;">
-      <div id="reload">
-        <b-alert show">Default Alert</b-alert>
-      </div>
       <!-- PDF Display -->
       <div class="col">
           <div style="display:block;width:100%;height:85vh;margin-bottom:10px;">
@@ -30,10 +28,10 @@
       </div>
         <!-- Content Display -->
         <!-- <div class="col" style="margin-top: 100px;"> -->
-      <div class="col" >
-        <p v-if="!playMode" class="mb-3 pb-3 mt-3 pt-3">{{ widgetSummary }}</p>
-        <!-- Data pointer: {{ widgetPointer }} -->
-        <div style="height:95vh;">
+        <div class="col" >
+          <p v-if="!playMode" class="mb-3 pb-3 mt-3 pt-3">{{ widgetSummary }}</p>
+          <!-- Data pointer: {{ widgetPointer }} -->
+          <div style="height:95vh;">
           <div class="lead">
             <span v-if="name!=null">{{name}}</span>
             <br>
@@ -52,78 +50,80 @@
             <span>{{zip}}</span>
           </div>
 
-        <!-- Response Display -->
+          <!-- Response Display -->
           <div style="overflow-y:scroll; overflow-x:hidden; height:80%;" >
-            <div class="row">
-              <div class="col">
-                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                  <div class = "address" style="margin:0;">
-                    <p style="margin:0;"> House Number: </p>
-                    <p class="description"> house number ex) 1222 </p>
-                    <input v-model="house" placeholder="Enter house number here">
-                  </div>
-                </div>
-                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                  <div class = "address" style="margin:0;">
-                    <p style="margin:0;"> Pre Direction: </p>
-                    <p class="description"> direction that precedes the street name ex) N, north east </p>
-                    <input v-model="preDirection" placeholder="Enter street pre direction here">
-                  </div>
-                </div>
-                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                  <div class = "address" style="margin:0;">
-                    <p style="margin:0;"> Street Name: </p>
-                    <p class="description"> name of the street ex) 123rd </p>
-                    <input v-model="streetName" placeholder="Enter street name here">
-                  </div>
-                </div>
-                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                  <div class = "address" style="margin:0;">
-                    <p style="margin:0;"> Street Type: </p>
-                    <p class="description"> type of street ex) PKWY, AVE, RD </p>
-                    <input v-model="street" placeholder="Enter street type here">
-                  </div>
-                </div>
-                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                  <div class = "address" style="margin:0;">
-                    <p style="margin:0;"> Post Direction: </p>
-                    <p class="description"> direction that follows th street name ex) north, N </p>
-                    <input v-model="postDirection" placeholder="Enter street post direction here">
-                  </div>
+          <div class="row">
+            <div class="col">
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> House Number: </p>
+                  <p class="description"> house number ex) 1222 </p>
+                  <input v-model="house" placeholder="Enter house number here">
                 </div>
               </div>
-              <div class="col">
-                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                  <div class = "address" style="margin:0;">
-                    <p style="margin:0;"> Unit Type: </p>
-                    <p class="description"> type of unit ex) APT, UNIT, # </p>
-                    <input v-model="unit" placeholder="Enter unit here">
-                  </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> Pre Direction: </p>
+                  <p class="description"> direction that precedes the street name ex) N, north east </p>
+                  <input v-model="preDirection" placeholder="Enter street pre direction here">
                 </div>
-                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                  <div class = "address" style="margin:0;">
-                    <p style="margin:0;"> Unit Name: </p>
-                    <p class="description"> name of unit ex) A, 1 </p>
-                    <input v-model="unitName" placeholder="Enter unit name here">
-                  </div>
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> Street Name: </p>
+                  <p class="description"> name of the street ex) 123rd </p>
+                  <input v-model="streetName" placeholder="Enter street name here">
                 </div>
-                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                  <div class = "address" style="margin:0;">
-                    <p style="margin:0;"> City: </p>
-                    <p class="description"> name of the city ex) Seattle </p>
-                    <input v-model="city" placeholder="Enter city here">
-                  </div>
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> Street Type: </p>
+                  <p class="description"> type of street ex) PKWY, AVE, RD </p>
+                  <input v-model="street" placeholder="Enter street type here">
                 </div>
-                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                  <div class = "address" style="margin:0;">
-                    <p style="margin:0;"> Zip: </p>
-                    <p class="description"> zip code ex) 98005 </p>
-                    <input v-model="zip" placeholder="Enter zip here">
-                  </div>
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> Post Direction: </p>
+                  <p class="description"> direction that follows th street name ex) north, N </p>
+                  <input v-model="postDirection" placeholder="Enter street post direction here">
                 </div>
-                <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
-                  <p style="margin:0;"> State: {{state}} </p>
+              </div>
+            </div>
+            <div class="col">
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> Unit Type: </p>
+                  <p class="description"> type of unit ex) APT, UNIT, # </p>
+                  <input v-model="unit" placeholder="Enter unit here">
                 </div>
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> Unit Name: </p>
+                  <p class="description"> name of unit ex) A, 1 </p>
+                  <input v-model="unitName" placeholder="Enter unit name here">
+                </div>
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> City: </p>
+                  <p class="description"> name of the city ex) Seattle </p>
+                  <input v-model="city" placeholder="Enter city here">
+                </div>
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <div class = "address" style="margin:0;">
+                  <p style="margin:0;"> Zip: </p>
+                  <p class="description"> zip code ex) 98005 </p>
+                  <input v-model="zip" placeholder="Enter zip here">
+                </div>
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p style="margin:0;"> County: {{county}} </p>
+              </div>
+              <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
+                <p style="margin:0;"> State: {{state}} </p>
               </div>
               <div v-if="!hideInfo">
                 <div class=" row mx-auto ml-4 mr-4" style="text-align:left; margin:20px;">
@@ -152,12 +152,12 @@
              <b-btn v-if="!hideInfo" @click="hideInfo = !hideInfo" class="mx-auto ml-3 mr-3" >Hide Info.</b-btn>
             </div>
           </div>
-
-          <div class="row" v-if="playMode">
-            <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3" >Discuss</b-btn>
-            <b-btn variant="success" @click="vote" class="mx-auto ml-3 mr-3">Submit</b-btn>
-          </div>
-        </div>
+      </div>
+      <div class="row" v-if="playMode">
+        <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3" >Discuss</b-btn>
+        <b-btn variant="success" @click="vote" class="mx-auto ml-3 mr-3">Submit</b-btn>
+      </div>
+      </div>
       </div>
     </div>
 
@@ -227,6 +227,7 @@
         unitName: null,
         year: null,
         zip: null,
+        confidence: null,
         fileOption: [],
         hideInfo: true,
       };
@@ -269,6 +270,7 @@
           this.fileOption = fileList;
           for(var i = 0; i < fileList.length; i++) {
             if(fileList[i].toUpperCase().includes('SUMMONS')) {
+              // this.filePath = `https://tesseract.csde.washington.edu:8080/swipes/`+ path[0] +'/'+ path[1] +'/'+ path[2] +'/'+ newCasenumber + '/' + `pdffile64?name=`+ fileList[i];
               this.filePath = `https://tesseract.csde.washington.edu:8080/swipes/${this.widgetPointer}/` + `pdffile64?name=`+ fileList[i];
               this.fileName = fileList[i]
             }
@@ -299,6 +301,7 @@
               this.city = listFixed(address.city);
               this.zip = listFixed(address.zip);
               this.state = listFixed(address.stateName);
+              this.county = listFixed(address.countyName);
               this.getSource(this.fileName);
           }).catch(error => {
             if(error.response.status == 401) {
@@ -308,6 +311,7 @@
               alert("Failed to load the file");
               window.location.reload();
             }
+          });
         }).catch(error => {
           if(error.response.status == 401) {
             alert("You are not authorized");
@@ -321,7 +325,7 @@
       getSource(file) {
         // API Call to fetch PDF
         const token = this.userSettings.secret;
-        //file = encodeURIComponent(file)
+        file = encodeURIComponent(file)
         var fileUrl = `https://tesseract.csde.washington.edu:8080/swipes/${this.widgetPointer}/` + `pdffile64?name=`+ file;
         axios({
           method: 'get',
@@ -423,6 +427,7 @@
                      unitName: this.unitName,
                      unit: this.unit,
                      zip: this.zip,
+                     countyName: this.county,
                      state: this.state
                      });
         this.casenumber = null;
@@ -483,10 +488,6 @@
   margin-top:0;
   margin-bottom:0;
   color:gray;
-}
-
-#reload {
-  display:none;
 }
 
 .address {
