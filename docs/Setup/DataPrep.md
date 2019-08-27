@@ -14,6 +14,20 @@
 
 * If you use Amazon S3, make sure your bucket allows **cross origin requests** and is **publically readable**
   * An example URL to your data would be: `https://s3.amazonaws.com/your_bucket_name/your_filename.extension`
+  * Your CORS settings should be: 
+  
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+<CORSRule>
+    <AllowedOrigin>*</AllowedOrigin>
+    <AllowedMethod>GET</AllowedMethod>
+    <AllowedMethod>HEAD</AllowedMethod>
+    <MaxAgeSeconds>3000</MaxAgeSeconds>
+    <AllowedHeader>Authorization</AllowedHeader>
+</CORSRule>
+</CORSConfiguration>
+```
 * If you use GitHub, make sure your repo is public.
   * An example URL to your data would be:
  `https://raw.githubusercontent.com/your_username/your_repo_name/master/your_filename.extension`
