@@ -10,13 +10,13 @@
       <!-- <b-btn variant="danger" @click="vote(0)" class="mx-auto ml-3 mr-3">Vote No</b-btn>
       <b-btn variant="info" :to="'/review/' + widgetPointer" class="mx-auto ml-3 mr-3" >Help</b-btn>
       <b-btn variant="success" @click="vote(1)" class="mx-auto ml-3 mr-3">Vote Yes</b-btn> -->
-    
+
       <div>Computational Slider</div>
       <div>Neuroscience Slider</div>
       <div>Statement Slider</div>
       <div>Submit Button</div>
       <div>Skip/Conflict of interest Button</div>
-    
+
     </div>
 
   </div>

@@ -10,7 +10,7 @@
     -->
     <div class="content">
       <div v-if="betaMode" class="corner-ribbon bottom-right sticky blue">Beta</div>
-    <b-navbar toggleable="md" type="dark" :variant="navbarVariant">
+    <b-navbar id="custom_navbar" toggleable="md" type="dark" :variant="navbarVariant">
 
       <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
@@ -414,6 +414,15 @@ export default {
   }
 
   /* Custom styles */
+
+  #custom_navbar {
+    background-color: purple !important;
+  }
+
+.landing > h1, p {
+    color: black !important;
+    background-color: white !important;
+  }
 
   .corner-ribbon.sticky{
     position: fixed;

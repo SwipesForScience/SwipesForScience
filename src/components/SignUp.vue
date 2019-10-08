@@ -57,6 +57,13 @@
                         required
                         placeholder="Password">
           </b-form-input>
+          <b-alert :show="!valid" variant="danger">
+            The password must include: <br>
+            At lease 4 characters <br>
+            At least one lowercase <br>
+            At least one upprcase <br>
+            At least one number <br>
+          </b-alert>
         </b-form-group>
 
         <b-form-group id="password2InputGroup"
@@ -75,7 +82,7 @@
 
 
         <b-button type="submit"
-         variant="primary" :disabled="!validated || !form.consented">Submit</b-button>
+         variant="primary" :disabled="!validated || !form.consented || !valid">Submit</b-button>
 
         <p class="mt-3">
           Already have an account? <router-link to="/login">Log In</router-link>
@@ -143,6 +150,15 @@
        */
       validated() {
         return this.form.password === this.form.password2;
+      },
+      valid() {
+        if (this.form.password.length < 4 ||
+          this.form.password.search(/[a-z]/) < 0 ||
+          this.form.password.search(/[A-Z]/) < 0 ||
+          this.form.password.search(/[0-9]/) < 0) {
+            return false
+          }
+          return true
       },
       /**
        * Return a message based on whether or not the user has consented.

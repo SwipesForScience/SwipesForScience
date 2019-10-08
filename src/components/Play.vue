@@ -1,5 +1,5 @@
 <template name="play">
-  <div id="play" class="container">
+  <div id="play" class="container" style="max-width:99%">
     <!-- Modal Component -->
     <b-modal id="levelUp" ref="levelUp" title="You've Levelled Up!" ok-only>
       <div class="my-4">
@@ -216,6 +216,9 @@
          * secret key (btoa'd) from the firebase server, in case the widget is locked.
          */
         serverSecret: '',
+
+        sessionSamples: [],
+        allSamples: [],
       };
     },
     watch: {
@@ -228,6 +231,17 @@
         if (this.userData.score === this.currentLevel.min && this.currentLevel.min) {
           this.$refs.levelUp.show();
           this.db.ref(`/users/${this.userInfo.displayName}`).child('level').set(this.currentLevel.level);
+        }
+      },
+      /**
+       * if there is a display name, then initialize all the watchers.
+       */
+      userInfo() {
+        if (this.userInfo.displayName) {
+          this.initSampleCounts();
+          this.initSeenSamples();
+          this.initUserSettings();
+          this.fetchServerSecret();
         }
       },
       /**
@@ -247,10 +261,12 @@
      * and also the samples the user has seen.
      */
     mounted() {
-      this.initSampleCounts();
-      this.initSeenSamples();
-      this.initUserSettings();
-      this.fetchServerSecret();
+      if (this.userInfo.displayName) {
+        this.initSampleCounts();
+        this.initSeenSamples();
+        this.initUserSettings();
+        this.fetchServerSecret();
+      }
     },
     components: {
       // WidgetSelector,
@@ -294,7 +310,6 @@
       * this property saves the state of the widget, if it needs it.
       */
       initUserSettings() {
-        // console.log('updating user settings');
         this.db.ref('userSettings')
           .child(this.userInfo.displayName)
           .on('value', (snap) => {
@@ -324,6 +339,9 @@
       initSampleCounts() {
         this.db.ref('sampleCounts').once('value', (snap) => {
           /* eslint-disable */
+          console.log(snap.val())
+          this.allSamples = Object.keys(snap.val());
+          console.log(this.allSamples)
           this.sampleCounts = _.map(snap.val(), (val, key) => {
             return { '.key': key, '.value': val };
           });
@@ -341,7 +359,6 @@
        * `/userSeenSamples/<username>` document from firebase, once.
        */
       initSeenSamples() {
-        // console.log('userSeenSamples', this.userInfo.displayName);
         this.db.ref('userSeenSamples')
           .child(this.userInfo.displayName)
           .once('value', (snap) => {
@@ -427,6 +444,7 @@
       sendWidgetResponse(response) {
         // 1. get feedback from the widget, and display if needed
         const feedback = this.$refs.widget.getFeedback(response);
+        console.log(feedback)
         if (feedback.show) {
           this.feedback = feedback;
           this.showAlert();
@@ -435,15 +453,45 @@
         // 2. send the widget data
         const timeDiff = new Date() - this.startTime;
         this.sendVote(response, timeDiff);
-
+        console.log(this.$refs.widget)
+        console.log(this.sessionSamples)
+        console.log(this.sampleCounts)
+        console.log(this.allSamples)
         // 3. update the score and count for the sample
         this.updateScore(this.$refs.widget.getScore(response));
         this.updateSummary(this.$refs.widget.getSummary(response));
         this.updateCount();
         this.updateSeen();
+        if(!this.sessionSamples.includes(this.$refs.widget.widgetPointer)) {
+          this.sessionSamples.push(this.$refs.widget.widgetPointer)
+        }
+        console.log(this.sessionSamples)
+        this.sessionSamples = this.sessionSamples.sort();
+        this.allSamples = this.allSamples.sort();
+        var isSame = true;
+        if (this.sessionSamples.length < this.allSamples.length ||
+            this.sessionSamples.length > this.allSamples.length) {
+          isSame = false;
+        }
+        else {
+          for (var i = 0; i < this.allSamples.length; i++) {
+            if (this.sessionSamples[i] !== this.allSamples[i]) {
+              return false;
+            }
+          }
+        }
+        
+        if (isSame) {
+          //grab new data
+          this.initSampleCounts();
+        } else {
+          // 3. set the next Sample
+          this.setNextSampleId();
+        }
 
-        // 3. set the next Sample
-        this.setNextSampleId();
+
+
+
       },
       /**
       * method to get the next sample id to show in the widget

@@ -91,29 +91,41 @@
         :playMode="playMode"
         />
 
-        <TextBinarySwipe v-else-if="widgetType=='TextBinarySwipe'"
-          ref="TextBinarySwipe"
-          :widgetPointer="widgetPointer"
-          :widgetProperties="widgetProperties"
-          :userSettings="userSettings"
-          :widgetSummary="widgetSummary"
-          :tutorialStep="tutorialStep"
+    <AddressWidget  v-else-if="widgetType=='AddressWidget'"
+     ref="AddressWidget"
+     :widgetPointer="widgetPointer"
+     :widgetProperties="widgetProperties"
+     :userSettings="userSettings"
+     :widgetSummary="widgetSummary"
+     :tutorialStep="tutorialStep"
+     v-on:widgetRating="widgetRating"
+     v-on:updateUserSettings="updateUserSettings"
+     :playMode="playMode"
+    />
+
+    <TextBinarySwipe v-else-if="widgetType=='TextBinarySwipe'"
+      ref="TextBinarySwipe"
+      :widgetPointer="widgetPointer"
+      :widgetProperties="widgetProperties"
+      :userSettings="userSettings"
+      :widgetSummary="widgetSummary"
+      :tutorialStep="tutorialStep"
+      v-on:widgetRating="widgetRating"
+      v-on:updateUserSettings="updateUserSettings"
+      :playMode="playMode"
+      />
+
+    <EvalNHA v-else-if="widgetType=='EvalNHA'"
+      ref="EvalNHAWidget"
+      :widgetPointer="widgetPointer"
+      :widgetProperties="widgetProperties"
+      :userSettings="userSettings"
+      :widgetSummary="widgetSummary"
+      :tutorialStep="tutorialStep"
           v-on:widgetRating="widgetRating"
           v-on:updateUserSettings="updateUserSettings"
           :playMode="playMode"
           />
-
-      <EvalNHA v-else-if="widgetType=='EvalNHA'"
-        ref="EvalNHAWidget"
-        :widgetPointer="widgetPointer"
-        :widgetProperties="widgetProperties"
-        :userSettings="userSettings"
-        :widgetSummary="widgetSummary"
-        :tutorialStep="tutorialStep"
-        v-on:widgetRating="widgetRating"
-        v-on:updateUserSettings="updateUserSettings"
-        :playMode="playMode"
-        />
 
       <TemplateWidget v-else
         ref="TemplateWidget"
@@ -142,6 +154,7 @@
   import PubMedNLP from './Widgets/PubMedNLP';
   import TemplateWidget from './Widgets/TemplateWidget';
   import ImageSplat from './Widgets/ImageSplat';
+  import AddressWidget from './Widgets/AddressWidget';
   import TextTagger from './Widgets/TextTagger';
   import BranchingTemplateWidget from './Widgets/BranchingTemplateWidget';
   import TextBinarySwipe from './Widgets/TextBinarySwipe';
@@ -224,6 +237,7 @@
       TemplateWidget,
       ImageSplat,
       ImageSwipeChoices,
+      AddressWidget,
       TextTagger,
       BranchingTemplateWidget,
       TextBinarySwipe,

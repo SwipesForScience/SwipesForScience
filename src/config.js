@@ -6,10 +6,21 @@ export default {
     // each time the app is run, it will check this manifest and update the firebase database
     // if new entries are there, they will be added, and entries that aren't in the manifest
     // but are in the firebase database will be *removed*
-  manifestUrl: 'https://raw.githubusercontent.com/SwipesForScience/exampleConfig/master/bsHbnManifest.json',
-  manifestType: 'json',
-  widgetType: 'ImageSwipe', // 'EvalNHA',
+  manifestUrl: 'https://raw.githubusercontent.com/timathomas/eviction_records/master/app/cases.json?token=AZfnBoJWqqJX0sW57-1GaNeXSkz8b7sEks5cUgzZwA%3D%3D',
   widgetUsesSecret: true,
+    // 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/bsHbnManifest.json',
+    // 'https://cdn.rawgit.com/SwipesForScience/testConfig/master/textWidgetManifest.json',
+
+    // set the type of widget and its properties here.
+    // widgetType: 'ImageSplat',
+    // widgetProperties: {
+    //   baseUrlTemplate: 'https://s3-us-west-2.amazonaws.com/akeshavan-mindcontrol/hbnSplat/{0}/tiles/base_{1}.png',
+    //   maskUrlTemplate: 'https://s3-us-west-2.amazonaws.com/akeshavan-mindcontrol/hbnSplat/{0}/tiles/mask_{1}.png',
+    //   contourUrlTemplate: 'https://s3-us-west-2.amazonaws.com/akeshavan-mindcontrol/hbnSplat/{0}/tiles/contour_{1}.png',
+    //   delimiter: '__',
+    // },
+
+  widgetType: 'AddressWidget',
   widgetProperties: {
     baseUrlTemplate: 'https://s3-us-west-2.amazonaws.com/akeshavan-mindcontrol/hbnSplat/{0}/tiles/base_{1}.png',
     delimiter: '__',
@@ -260,12 +271,12 @@ export default {
 
     // this comes from your firebase console
   firebaseKeys: {
-    apiKey: 'AIzaSyBLr1HyCf7tXGwnppkfjlIb6I0XSkJgybY',
-    authDomain: 'swipesforsciencedev1.firebaseapp.com',
-    databaseURL: 'https://swipesforsciencedev1.firebaseio.com',
-    projectId: 'swipesforsciencedev1',
-    storageBucket: 'swipesforsciencedev1.appspot.com',
-    messagingSenderId: '380364880642',
+    apiKey: 'AIzaSyBiFIL0301bc07wTaazCLC1x7Wb-1gWpoA',
+    authDomain: 'washingtonevictiondata.firebaseapp.com',
+    databaseURL: 'https://washingtonevictiondata.firebaseio.com',
+    projectId: 'washingtonevictiondata',
+    storageBucket: 'washingtonevictiondata.appspot.com',
+    messagingSenderId: '2772019880',
   },
 
   app: {
@@ -275,10 +286,10 @@ export default {
     // Homepage configuration
     // your app's title and tagline
   home: {
-    title: 'Swipes for Science',
-    tagline: 'A citizen science game template',
+    title: 'WA Eviction Address Identifier',
+    tagline: 'WAEV Project',
       // background image on Homepage
-    backgroundUrl: 'https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/SwipesForScience.svg?sanitize=true',
+    backgroundUrl: './background.jpg',
   },
 
     // Play configuration
