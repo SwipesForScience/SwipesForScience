@@ -377,6 +377,12 @@
     min-height: 100vh;
     height: 532px;
   }
+  
+  .progressive-image {
+    overflow: visible;
+    padding-bottom: 6%;
+  }
+  
   .user-card {
       max-width: 500px;
       height: fit-content;
