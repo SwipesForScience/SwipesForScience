@@ -1,36 +1,18 @@
 <template>
-  <div class="">
-    <div class="footer bg-dark pr-3 pl-3">
-      <div class="container">
-        <div class="align-middle text-right text-white configureButton">
+  <footer>
+    <div class="footer__container">
+       <img src="../assets/eLife-logo.svg" alt="eLife logo" class="logo"/>
+       <nav>  
+          <router-link v-for="menuItem in menuItems" :key="menuItem.name" :to="menuItem.path" class="nav__link">{{menuItem.name}}</router-link>
+        </nav>
+
+        <div class="configureButton">
           <b-button variant="info" @click="openConfig">
             <i class="fa fa-wrench" aria-hidden="true"></i> Configure
           </b-button>
         </div>
-
-        <table style="height: 200px; width: 100%;">
-        <tbody>
-          <tr>
-
-          </tr>
-          <tr>
-            <td class="align-middle text-center text-white">
-              <router-link :to="{name: 'About', query: routerQuery}" class="text-white">About</router-link>
-              <br>
-            </td>
-
-          </tr>
-          <tr>
-            <td class="align-middle text-center text-white">
-            icons on this site are from <a :href="config.iconAttribute.url">{{config.iconAttribute.name}}</a>
-            and illustrations are from <a href="https://undraw.co">undraw.co</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      </div>
     </div>
-  </div>
+  </footer>
 </template>
 <script>
   /**
@@ -56,7 +38,14 @@
     },
     data() {
       return {
-
+      menuItems: [
+        { path: "/", name: "Home" },
+        { path: "/play", name: "Game" },
+        { path: "/chats", name: "Chat" },
+        { path: "/leaderboard", name: "Leaderboard" },
+        { path: "/about", name: "About" },
+        { path: "/contact", name: "Contact us" }
+      ]
       };
     },
     methods: {
@@ -72,19 +61,55 @@
 </script>
 <style scoped>
 
+footer {
+  width: 100%;
+  position: relative;
+  padding: 1.25em;
+}
+.footer__container {
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer__container .logo {
+  width: 6em;
+}
+.footer__container nav {
+  display: flex;
+  flex-wrap: wrap;
+  width: 60%;
+}
+
+.footer__container nav a {
+  display: block;
+  width: 50%;
+  height: 2em;
+  text-align: left;
+}
+@media (min-width: 60em) {
+  .footer__container nav a {
+    width: auto;
+  }
+  .footer__container {
+    max-width: 65em;
+  }
+  .footer__container nav {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+}
+
+
 .configureButton {
     display: block;
     position: absolute;
     bottom: 5px;
     right: 5px;
 }
-.footer {
-  position: relative;
-  height: 200px;
-}
+
   /*footer*/
   .col_white_amrc { color:#FFF;}
-  footer { width:100%; background-color:#263238; min-height:250px; padding:10px 0px 25px 0px ;}
   .pt2 { padding-top:40px ; margin-bottom:20px ;}
   footer p { font-size:13px; color:#CCC; padding-bottom:0px; margin-bottom:8px;}
   .mb10 { padding-bottom:15px ;}

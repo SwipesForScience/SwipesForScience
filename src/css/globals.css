@@ -1,0 +1,173 @@
+/* body and html styles */
+body {
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+/* Page styles */
+.page__header {
+  min-height: 2.4em;
+  padding: 0 1.25em;
+  display: flex;
+}
+.page__content {
+  min-height: calc(100vh - 10em);
+  padding: 1.25em;
+}
+
+@media (min-width: 65em) {
+    .page__header {
+        width: 65em;
+        margin: 0 auto;
+        padding: 0;
+    }
+    .page__content {
+        padding: 2em 1.25em;
+    }
+    .page__content-container {
+            width: 65em;
+            margin: 0 auto;
+            padding: 0;
+    }
+}
+
+/* nav styles for both header and footer navigation */
+nav a.nav__link {
+    font-weight: 600;
+    font-size: 0.75em;
+    color: hsl(253, 45%, 46%);
+}
+nav a.nav__link:hover {
+    text-decoration: none;
+}
+@media (min-width: 65em) {
+    nav a.nav__link {
+        font-size: 1.125em;
+    }
+}
+
+
+/* Button styles */
+button.full-size-mobile, button.full-size-desktop {
+    outline: none;
+
+    color: white;
+    width: 100%;
+    height: 3em;
+    border: none;
+    border-radius: 7px;
+    background-image: linear-gradient(to bottom, hsl(265, 56%, 56%), hsl(257, 55%, 45%));
+ 
+}
+
+@media (min-width: 30em) {
+    button.full-size-mobile {
+        width: 33.6em;
+        margin: 0 auto;
+    }
+}
+
+/* Background gradients */
+.grey-gradient-bg {
+    background-image: linear-gradient(
+      to bottom,
+      hsl(0, 0%, 98%),
+      hsl(0, 0%, 95%)
+    );
+  }
+  
+/* The ribbons */
+.corner-ribbon {
+  width: 200px;
+  background: #e43;
+  position: absolute;
+  top: 25px;
+  left: -50px;
+  text-align: center;
+  line-height: 50px;
+  letter-spacing: 1px;
+  color: #f0f0f0;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+/* Custom styles */
+
+.corner-ribbon.sticky {
+  position: fixed;
+}
+
+.corner-ribbon.shadow {
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Different positions */
+
+.corner-ribbon.top-left {
+  top: 25px;
+  left: -50px;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.corner-ribbon.top-right {
+  top: 25px;
+  right: -50px;
+  left: auto;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.corner-ribbon.bottom-left {
+  top: auto;
+  bottom: 25px;
+  left: -50px;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.corner-ribbon.bottom-right {
+  top: auto;
+  right: -50px;
+  bottom: 25px;
+  left: auto;
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+/* Colors */
+
+.corner-ribbon.white {
+  background: #f0f0f0;
+  color: #555;
+}
+.corner-ribbon.black {
+  background: #333;
+}
+.corner-ribbon.grey {
+  background: #999;
+}
+.corner-ribbon.blue {
+  background: #007aff;
+  z-index: 99;
+}
+.corner-ribbon.green {
+  background: #2c7;
+}
+.corner-ribbon.turquoise {
+  background: #1b9;
+}
+.corner-ribbon.purple {
+  background: #95b;
+}
+.corner-ribbon.red {
+  background: #e43;
+}
+.corner-ribbon.orange {
+  background: #e82;
+}
+.corner-ribbon.yellow {
+  background: #ec0;
+}
+
