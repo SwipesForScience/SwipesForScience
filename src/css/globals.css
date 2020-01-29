@@ -35,7 +35,6 @@ body {
 /* nav styles for both header and footer navigation */
 nav a.nav__link {
     font-weight: 600;
-    font-size: 0.75em;
     color: hsl(253, 45%, 46%);
 }
 nav a.nav__link:hover {
@@ -43,7 +42,7 @@ nav a.nav__link:hover {
 }
 @media (min-width: 65em) {
     nav a.nav__link {
-        font-size: 1.125em;
+        font-size: 1.25em;
     }
 }
 
