@@ -69,22 +69,7 @@
             <SliderMenu :needsTutorial="false" :isAdmin="false" />
           </li>
           <li class="navSection account-details">
-              <div v-if="true">              
-                <img src="./assets/kesh-profile-icon.svg" alt="Profile Avatar" class="avatar" />
-                <div class="account-details__user-information">
-                  <span class="username">Akeshavan</span>
-                  <span class="user-score">99999 points</span>
-                </div>
-              </div>
-            <!-- The login option shows if the user is not authenticated -->
-            <ul v-else>
-              <li >
-                <router-link to="/login" class="nav__link">
-                  <i class="fa fa-user" aria-hidden="true"></i>
-                  Login
-                </router-link>
-              </li>
-            </ul>
+            <AccountMenu :userInfo="userInfo" :loggedIn="userIsDefined" @logout="logout" />
           </li>
           <li class="navSection desktop-menu"></li>
         </ul>
@@ -155,8 +140,8 @@ import Configure from "./components/Configure";
 
 // components
 import SliderMenu from "./components/Header/SliderMenu";
+import AccountMenu from "./components/Header/AccountMenu";
 import Footer from "./components/Footer";
-
 
 // explicit installation required in module environments
 Vue.use(VueFire);
@@ -220,7 +205,8 @@ export default {
   components: {
     Configure,
     Footer,
-    SliderMenu
+    SliderMenu,
+    AccountMenu
   },
 
   firebase() {
@@ -346,7 +332,7 @@ export default {
       if (this.userInfo == null) {
         return false;
       }
-      return Object.keys(this.userInfo).length;
+      return !!Object.keys(this.userInfo).length;
     },
     /**
      * router query
@@ -438,14 +424,12 @@ export default {
   text-align: center;
 }
 
-
 #signupForm {
   max-width: 400px;
   padding: 20px;
   margin-top: 20px;
   box-shadow: 0px 0 7px 0px #80808036;
 }
-
 
 /* Main Navigation: navRoot */
 
@@ -470,21 +454,6 @@ export default {
 .navRoot .navSection.desktop-menu {
   display: none;
 }
-.navRoot .navSection.account-details {
-  display: block;
-  user-select: none;
-  font-weight: 700;
-  color: hsl(253, 45%, 46%);
-}
-/* Account details */
-.account-details {
-  font-size: 0.75em;
-  font-weight: 600;
-}
-
-.account-details .avatar, .account-details .user-score {
-  display: none;
-}
 
 @media (min-width: 65em) {
   .navRoot {
@@ -495,41 +464,6 @@ export default {
   .navRoot .navSection.main-logo {
     position: static;
     transform: none;
-  }
-  .account-details > div {
-    display: flex;
-  }
-  .account-details .avatar {
-    display: block;
-    width: 4em;
-    margin-right: 1em;
-  }
-  .account-details__user-information {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    height: 5em;
-  }
-  .account-details__user-information .username {
-    position: relative;
-    font-weight: 700;
-    font-size: 1.375em;
-    color: hsl(273, 9%, 46%);
-  }
-  .account-details__user-information .username:after {
-    content: "NEW";
-    position: absolute;
-    top: 1.6em;
-    left: 0px;
-    padding: 0px 5px;
-    border-radius: 3px;
-    font-size: 0.8em;
-    line-height: 1.5em;
-    background-color:  hsl(252, 38%, 95%);
-  }
-  .account-details__user-information .user-score {
-    display: block;
   }
 }
 </style>
