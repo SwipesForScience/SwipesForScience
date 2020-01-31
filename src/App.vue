@@ -108,40 +108,41 @@
 /**
  * The main entrypoint to the app.
  */
-import Vue from "vue";
-import BootstrapVue from "bootstrap-vue";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
-import "../src/css/animations.css";
-import "../src/css/globals.css";
-import "../src/css/reset.css";
-import "../src/css/typography.css";
+import Vue from 'vue';
+import BootstrapVue from 'bootstrap-vue';
+import axios from 'axios';
 
-import axios from "axios";
-
-// useful library for objects and arrays
-import _ from "lodash";
-
-// Animate on scroll, for the tutorial
-import AOS from "aos";
-import "aos/dist/aos.css";
 
 // firebase-related libraries
-import VueFire from "vuefire";
-import firebase from "firebase";
+import VueFire from 'vuefire';
+import firebase from 'firebase';
 // import { db } from './firebaseConfig';
 
+
+// useful library for objects and arrays
+import _ from 'lodash';
+
+// Animate on scroll, for the tutorial
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 // font-awesome icons
-import "../node_modules/font-awesome/css/font-awesome.min.css";
+import '../node_modules/font-awesome/css/font-awesome.min.css';
+import '../src/css/animations.css';
+import '../src/css/globals.css';
+import '../src/css/reset.css';
+import '../src/css/typography.css';
+
 
 // config options
-import config from "./config";
-import Configure from "./components/Configure";
+import config from './config';
+import Configure from './components/Configure';
 
 // components
-import SliderMenu from "./components/Header/SliderMenu";
-import AccountMenu from "./components/Header/AccountMenu";
-import Footer from "./components/Footer";
+import SliderMenu from './components/Header/SliderMenu';
+import AccountMenu from './components/Header/AccountMenu';
+import Footer from './components/Footer';
 
 // explicit installation required in module environments
 Vue.use(VueFire);
@@ -154,7 +155,7 @@ window.firebase = firebase;
  * This is the main entrypoint to the app.
  */
 export default {
-  name: "app",
+  name: 'app',
   data() {
     return {
       /**
@@ -181,12 +182,12 @@ export default {
        * The configuration state, keeping track of the step number only.
        */
       configurationState: {
-        step: 0
+        step: 0,
       },
       /**
        * Whether or not to show Mobile menu, will be extracted into Header component later
        */
-      showHeader: false
+      showHeader: false,
     };
   },
   /**
@@ -197,7 +198,7 @@ export default {
     AOS.init();
     this.userInfo = firebase.auth().currentUser;
     const self = this;
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged((user) => {
       self.userInfo = user || {};
     });
   },
@@ -206,15 +207,15 @@ export default {
     Configure,
     Footer,
     SliderMenu,
-    AccountMenu
+    AccountMenu,
   },
 
   firebase() {
     return {
       allUsers: {
-        source: this.db.ref("/users/").orderByChild("score"),
-        asObject: true
-      }
+        source: this.db.ref('/users/').orderByChild('score'),
+        asObject: true,
+      },
     };
   },
   watch: {
@@ -238,19 +239,19 @@ export default {
               firebase.initializeApp(newKeys);
               this.db = firebase.database();
               this.db
-                .ref("/users/")
-                .orderByChild("score")
-                .on("value", snap => {
+                .ref('/users/')
+                .orderByChild('score')
+                .on('value', (snap) => {
                   this.allUsers = snap.val();
                 });
               this.userInfo = firebase.auth().currentUser || {};
               const self = this;
-              firebase.auth().onAuthStateChanged(user => {
+              firebase.auth().onAuthStateChanged((user) => {
                 self.userInfo = user || {};
               });
             });
         });
-    }
+    },
   },
 
   computed: {
@@ -267,7 +268,7 @@ export default {
       return this.config.home.title;
     },
     /**
-     * whether or not to show the "beta" ribbon, defined in the config.
+     * whether or not to show the 'beta' ribbon, defined in the config.
      */
     betaMode() {
       return this.config.betaMode;
@@ -282,7 +283,7 @@ export default {
      * color of the navbar, based on bootstrap4 color variants.
      */
     navbarVariant() {
-      return this.config.app ? this.config.app.navbarVariant || "info" : "info";
+      return this.config.app ? this.config.app.navbarVariant || 'info' : 'info';
     },
     /**
      * the current user's data, based on the userInfo from the firebase.auth.
@@ -299,7 +300,7 @@ export default {
       _.map(this.allUsers, (value, key) => {
         if (key === this.userInfo.displayName) {
           data = value;
-          data[".key"] = key;
+          data['.key'] = key;
         }
       });
       return data;
@@ -317,7 +318,7 @@ export default {
      */
     currentLevel() {
       let clev = {};
-      _.mapValues(this.levels, val => {
+      _.mapValues(this.levels, (val) => {
         if (this.userData.score >= val.min && this.userData.score <= val.max) {
           clev = val;
         }
@@ -339,7 +340,7 @@ export default {
      */
     routerQuery() {
       return this.$route.query;
-    }
+    },
   },
   methods: {
     /**
@@ -351,7 +352,7 @@ export default {
         .signOut()
         .then(() => {
           this.userInfo = {};
-          this.$router.replace("login");
+          this.$router.replace('login');
         });
     },
     /**
@@ -366,9 +367,9 @@ export default {
     setTutorial(val) {
       this.db
         .ref(`/users/${this.userInfo.displayName}`)
-        .child("taken_tutorial")
+        .child('taken_tutorial')
         .set(val);
-      this.$router.replace("play");
+      this.$router.replace('play');
     },
     /**
      * open the config panel
@@ -381,7 +382,7 @@ export default {
      */
     closeConfig() {
       this.showConfig = false;
-    }
+    },
   },
   /**
    * intialize the animate on scroll library (for tutorial) and listen to authentication state
@@ -391,7 +392,7 @@ export default {
       // the URL has a config file that overrides the default one for this app!
       axios
         .get(this.$route.query.config)
-        .then(resp => {
+        .then((resp) => {
           // remove the firebase project
           this.config = resp.data;
         })
@@ -400,7 +401,7 @@ export default {
           // console.log(e.message);
         });
     }
-  }
+  },
 };
 </script>
 
@@ -409,7 +410,7 @@ export default {
     You can style your component here. Since this is a top level component
     the styles follow into child components.
   */
-@import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap');
 
 .content {
   flex: 1 0 auto;

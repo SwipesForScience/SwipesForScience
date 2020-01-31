@@ -2,11 +2,10 @@
 Listens for click event on whole document and checks if element is not part of it
 https://tahazsh.com/detect-outside-click-in-vue
 */
-import Vue from 'vue';
 
 let handleOutsideClick;
 
-export const ClickOutside = {
+const ClickOutside = {
   bind(el, binding, vnode) {
     handleOutsideClick = (e) => {
       e.stopPropagation();
@@ -29,14 +28,16 @@ export const ClickOutside = {
         // from the same component this directive is used in
         vnode.context[handler]();
       }
-    }
+    };
     document.addEventListener('click', handleOutsideClick);
     document.addEventListener('touchstart', handleOutsideClick);
   },
-  unbind () {
+  unbind() {
     // If the element that has v-click-outside is removed, then
     // unbind click/touchstart listeners from the whole page
     document.removeEventListener('click', handleOutsideClick);
     document.removeEventListener('touchstart', handleOutsideClick);
-  }
-}
+  },
+};
+
+export default ClickOutside;

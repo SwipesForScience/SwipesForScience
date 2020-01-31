@@ -34,24 +34,25 @@
 </template>
 
 <script>
-import { ClickOutside } from "../../directives/ClickOutside.js";
+// eslint-disable-next-line
+import ClickOutside from '../../directives/ClickOutside.js';
 
 export default {
-  name: "AccountMenu",
+  name: 'AccountMenu',
   data() {
     return {
-      isActive: false
+      isActive: false,
     };
   },
   props: {
     loggedIn: {
       type: Boolean,
-      required: true
+      required: true,
     },
     userInfo: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     onClose() {
@@ -61,17 +62,17 @@ export default {
       this.isActive = !this.isActive;
     },
     onClickLogout() {
-      this.$emit("logout");
-    }
+      this.$emit('logout');
+    },
   },
   directives: {
-    ClickOutside
+    ClickOutside,
   },
   watch: {
-    $route(to, from) {
+    $route() {
       this.isActive = false;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -136,7 +137,7 @@ export default {
     color: hsl(273, 9%, 46%);
   }
   .account-menu__user-information .username:after {
-    content: "NEW";
+    content: 'NEW';
     position: absolute;
     top: 1.6em;
     left: 0px;

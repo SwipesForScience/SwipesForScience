@@ -158,10 +158,9 @@
  * The leaderboard component for the route `/leaderboard`. It displays the
  * rank, badge, player username, and score. You can sort based on the score.
  */
-import _ from "lodash";
 
 export default {
-  name: "leaderboard",
+  name: 'leaderboard',
   props: {
     /**
      * the various levels, the points need to reach the levels,
@@ -169,7 +168,7 @@ export default {
      */
     levels: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
        * This is an object that looks like:
@@ -188,46 +187,33 @@ export default {
        */
     allUsers: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
-    /**
-     * Convert the allUsers prop to a list from an Object.
-     */
-    allUsersList() {
-      // eslint-disable-next-line
-      return _.filter(
-        _.map(this.allUsers, (value, key) => {
-          return { ...value, ".key": key };
-        }),
-        v => v[".key"] !== ".key"
-      );
-    },
     sortedUsersList() {
       /* Removes '.key' property present on allUsers data */
       let allUsernames = Object.keys(this.allUsers).filter(
-        userName => userName !== ".key"
+        userName => userName !== '.key',
       );
-      allUsernames = allUsernames.map(userName => {
+      // eslint-disable-next-line
+      allUsernames = allUsernames.map((userName) => {
         return { name: userName, score: this.allUsers[userName].score };
       });
       /* Sort descending by score */
-      allUsernames.sort((a, b) => {
-        return b.score - a.score;
-      });
+      allUsernames.sort((a, b) => b.score - a.score);
       return allUsernames;
     },
     displayUsersList() {
       return this.sortedUsersList.slice(0, this.displayLimit);
-    }
+    },
   },
   data() {
     return {
       /**
        * Tell the table component to sort by the score.
        */
-      sortBy: "score",
+      sortBy: 'score',
       /**
        * Tell the table component to sort descending.
        */
@@ -238,29 +224,30 @@ export default {
        * sorted.
        */
       fields: [
-        "rank",
-        "badge",
+        'rank',
+        'badge',
         {
-          key: ".key",
-          label: "Player",
-          sortable: false
+          key: '.key',
+          label: 'Player',
+          sortable: false,
         },
         {
-          key: "score",
-          label: "Score",
-          sortable: true
-        }
+          key: 'score',
+          label: 'Score',
+          sortable: true,
+        },
       ],
-      displayLimit: 10
+      displayLimit: 10,
     };
   },
   methods: {
     showMore() {
+      // Show 10 more users at a time until maximum number of users reached
       this.displayLimit =
         this.displayLimit < this.sortedUsersList.length
           ? Math.min(this.displayLimit + 10, this.sortedUsersList.length)
           : this.displayLimit;
-    }
-  }
+    },
+  },
 };
 </script>

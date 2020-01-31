@@ -72,32 +72,33 @@
 </style>
 
 <script>
-import { ClickOutside } from "../../directives/ClickOutside.js";
+// eslint-disable-next-line
+import ClickOutside from '../../directives/ClickOutside.js';
 
 export default {
-  name: "SliderMenu",
+  name: 'SliderMenu',
   data() {
     return {
       isActive: false,
       menuItems: [
-        { path: "/", name: "Home" },
-        { path: "/leaderboard", name: "Leaderboard" },
-        { path: "/chats", name: "Chats" },
-        { path: "/play", name: "Play" },
-        { path: "/admin", name: "Admin" },
-        { path: "/tutorial", name: "Tutorial" }
-      ]
+        { path: '/', name: 'Home' },
+        { path: '/leaderboard', name: 'Leaderboard' },
+        { path: '/chats', name: 'Chats' },
+        { path: '/play', name: 'Play' },
+        { path: '/admin', name: 'Admin' },
+        { path: '/tutorial', name: 'Tutorial' },
+      ],
     };
   },
   props: {
     needsTutorial: {
       type: Boolean,
-      required: true
+      required: true,
     },
     isAdmin: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     onClose() {
@@ -105,15 +106,15 @@ export default {
     },
     toggleMenu() {
       this.isActive = !this.isActive;
-    }
+    },
   },
   directives: {
-    ClickOutside
+    ClickOutside,
   },
   watch: {
-    $route(to, from) {
+    $route() {
       this.isActive = false;
-    }
-  }
+    },
+  },
 };
 </script>
