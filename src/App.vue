@@ -129,9 +129,9 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 // font-awesome icons
 import '../node_modules/font-awesome/css/font-awesome.min.css';
+import '../node_modules/reset-css/reset.css';
 import '../src/css/animations.css';
 import '../src/css/globals.css';
-import '../src/css/reset.css';
 import '../src/css/typography.css';
 
 

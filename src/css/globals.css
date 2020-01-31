@@ -1,3 +1,16 @@
+/* Project specific resets */
+* {
+  box-sizing: border-box;
+}
+a,
+button, .toggle {
+  cursor: pointer;
+}
+/* removes blue highlight on Chrome 8 */
+*:focus {
+  outline: none;
+}
+
 /* body and html styles */
 body {
     display: flex;
