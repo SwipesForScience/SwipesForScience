@@ -18,7 +18,7 @@
     "@johmun/vue-tags-input": "^1.5.10",
     "@vuedoc/md": "^1.5.0",
     "aos": "^3.0.0-beta.5",
-    "axios": "^0.17.1",
+    "axios": "^0.18.1",
     "babel-preset-es2015": "^6.24.1",
     "bootstrap": "^4.0.0-beta.2",
     "bootstrap-vue": "^1.0.2",
