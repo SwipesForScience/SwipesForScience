@@ -10,79 +10,96 @@
     -->
     <div class="content">
       <div v-if="betaMode" class="corner-ribbon bottom-right sticky blue">Beta</div>
-    <b-navbar toggleable="md" type="dark" :variant="navbarVariant">
+      <b-navbar toggleable="md" type="dark" :variant="navbarVariant" v-show="false">
+        <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+        <b-navbar-brand to="/" id="brandName">{{brandName}}</b-navbar-brand>
 
-      <b-navbar-brand to="/" id="brandName">{{brandName}}</b-navbar-brand>
-
-      <!-- If the viewport is small, the navbar collapses.
+        <!-- If the viewport is small, the navbar collapses.
           Everything in b-collapse is what gets collapsed.
-      -->
-      <b-collapse is-nav id="nav_collapse">
+        -->
+        <b-collapse is-nav id="nav_collapse">
+          <!--  Here are links to different routes  -->
+          <b-navbar-nav id="navLinks">
+            <b-nav-item :to="{ name: 'Home', query: routerQuery}" exact>Home</b-nav-item>
+            <b-nav-item :to="{ name: 'Leaderboard', query: routerQuery}">Leaderboard</b-nav-item>
+            <b-nav-item :to="{ name: 'Play', query: routerQuery}">Play</b-nav-item>
+            <b-nav-item :to="{ name: 'Chats', query: routerQuery}">Chats</b-nav-item>
+            <b-nav-item v-if="needsTutorial" :to="{ name: 'Tutorial', query: routerQuery}">Tutorial</b-nav-item>
+            <b-nav-item v-if="userData.admin" :to="{ name: 'Admin', query: routerQuery}">Admin</b-nav-item>
+          </b-navbar-nav>
 
-        <!--  Here are links to different routes  -->
-        <b-navbar-nav id="navLinks">
-          <b-nav-item :to="{ name: 'Home', query: routerQuery}" exact>Home</b-nav-item>
-          <b-nav-item :to="{ name: 'Leaderboard', query: routerQuery}">Leaderboard</b-nav-item>
-          <b-nav-item :to="{ name: 'Play', query: routerQuery}">Play</b-nav-item>
-          <b-nav-item :to="{ name: 'Chats', query: routerQuery}">Chats</b-nav-item>
-          <b-nav-item v-if="needsTutorial" :to="{ name: 'Tutorial', query: routerQuery}">Tutorial</b-nav-item>
-          <b-nav-item v-if="userData.admin" :to="{ name: 'Admin', query: routerQuery}">Admin</b-nav-item>
-        </b-navbar-nav>
+          <!-- Right aligned nav items -->
+          <b-navbar-nav class="ml-auto">
+            <!-- This part only displays if the user is authenticated -->
+            <b-nav-item-dropdown right v-if="userIsDefined">
+              <template slot="button-content">
+                <em>{{userInfo.displayName}}</em>
+              </template>
+              <b-dropdown-item :to="{ name: 'Profile', query: routerQuery }">Profile</b-dropdown-item>
+              <b-dropdown-item @click="logout">Signout</b-dropdown-item>
+            </b-nav-item-dropdown>
 
-        <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
-          <!-- This part only displays if the user is authenticated -->
-          <b-nav-item-dropdown right v-if="userIsDefined">
-            <template slot="button-content">
-              <em>{{userInfo.displayName}}</em>
-            </template>
-            <b-dropdown-item :to="{ name: 'Profile', query: routerQuery }">Profile</b-dropdown-item>
-            <b-dropdown-item @click="logout">Signout</b-dropdown-item>
-          </b-nav-item-dropdown>
-
-          <!-- The login option shows if the user is not authenticated -->
-
-          <b-nav-item v-else :to="{ name: 'Login', query: routerQuery}">Login</b-nav-item>
-
-          <b-nav-text v-if="userIsDefined">
-            <b-img v-if="currentLevel.img"
-              rounded="circle" width="20"
-              height="20"
-              alt="img" class="m-1"
-              :src="currentLevel.img"
+            <!-- The login option shows if the user is not authenticated -->
+            <b-nav-item v-else :to="{ name: 'Login', query: routerQuery}">Login</b-nav-item>
+            <b-nav-text v-if="userIsDefined">
+              <b-img
+                v-if="currentLevel.img"
+                rounded="circle"
+                width="20"
+                height="20"
+                alt="img"
+                class="m-1"
+                :src="currentLevel.img"
               />
-            {{userData.score}}
-          </b-nav-text>
+              {{userData.score}}
+            </b-nav-text>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
 
-        </b-navbar-nav>
+      <nav>
+        <ul class="navRoot">
+          <li class="navSection main-logo">
+            <router-link to="/">
+              <img src="./assets/swipes-for-science-logo.svg" alt="Swipes for Science logo" />
+            </router-link>
+          </li>
+          <li class="navSection mobile-menu">
+            <SliderMenu :needsTutorial="false" :isAdmin="false" />
+          </li>
+          <li class="navSection account-details">
+            <AccountMenu :userInfo="userInfo" :loggedIn="userIsDefined" @logout="logout" />
+          </li>
+          <li class="navSection desktop-menu"></li>
+        </ul>
+      </nav>
 
-      </b-collapse>
-    </b-navbar>
-
-    <!-- The content is in the router view -->
-    <div class="router">
-      <router-view :userInfo="userInfo"
-                   :userData="userData"
-                   :allUsers="allUsers"
-                   :levels="levels"
-                   :currentLevel="currentLevel"
-                   :config="config"
-                   :db="db"
-                   v-on:taken_tutorial="setTutorial"
-                   :routerQuery="routerQuery"
-                   />
-    </div>
+      <!-- The content is in the router view -->
+      <div class="router">
+        <router-view
+          :userInfo="userInfo"
+          :userData="userData"
+          :allUsers="allUsers"
+          :levels="levels"
+          :currentLevel="currentLevel"
+          :config="config"
+          :db="db"
+          v-on:taken_tutorial="setTutorial"
+          :routerQuery="routerQuery"
+        />
+      </div>
       <!-- Configuration Drawer -->
-      <Configure ref="configurationPane" v-if="showConfig"
-       :config="config" v-on:closeConfig="closeConfig"
-       :userInfo="userInfo"
-       :db="db"
-       :configurationState="configurationState"
+      <Configure
+        ref="configurationPane"
+        v-if="showConfig"
+        :config="config"
+        v-on:closeConfig="closeConfig"
+        :userInfo="userInfo"
+        :db="db"
+        :configurationState="configurationState"
       />
-
-  </div>
+    </div>
     <Footer v-on:openConfig="openConfig" :config="config" :routerQuery="routerQuery"></Footer>
   </div>
 </template>
@@ -93,9 +110,14 @@
  */
 import Vue from 'vue';
 import BootstrapVue from 'bootstrap-vue';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
 import axios from 'axios';
+
+
+// firebase-related libraries
+import VueFire from 'vuefire';
+import firebase from 'firebase';
+// import { db } from './firebaseConfig';
+
 
 // useful library for objects and arrays
 import _ from 'lodash';
@@ -103,18 +125,23 @@ import _ from 'lodash';
 // Animate on scroll, for the tutorial
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
-// firebase-related libraries
-import VueFire from 'vuefire';
-import firebase from 'firebase';
-// import { db } from './firebaseConfig';
-
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 // font-awesome icons
 import '../node_modules/font-awesome/css/font-awesome.min.css';
+import '../node_modules/reset-css/reset.css';
+import '../src/css/animations.css';
+import '../src/css/globals.css';
+import '../src/css/typography.css';
+
 
 // config options
 import config from './config';
 import Configure from './components/Configure';
+
+// components
+import SliderMenu from './components/Header/SliderMenu';
+import AccountMenu from './components/Header/AccountMenu';
 import Footer from './components/Footer';
 
 // explicit installation required in module environments
@@ -125,8 +152,8 @@ Vue.use(BootstrapVue);
 window.firebase = firebase;
 
 /**
-* This is the main entrypoint to the app.
-*/
+ * This is the main entrypoint to the app.
+ */
 export default {
   name: 'app',
   data() {
@@ -157,6 +184,10 @@ export default {
       configurationState: {
         step: 0,
       },
+      /**
+       * Whether or not to show Mobile menu, will be extracted into Header component later
+       */
+      showHeader: false,
     };
   },
   /**
@@ -175,6 +206,8 @@ export default {
   components: {
     Configure,
     Footer,
+    SliderMenu,
+    AccountMenu,
   },
 
   firebase() {
@@ -194,21 +227,30 @@ export default {
      */
     firebaseKeys(newKeys) {
       // there has been a change in firebaseKeys
-      firebase.auth().signOut().then(() => {
-        this.userInfo = {};
-        firebase.app().delete().then(() => {
-          firebase.initializeApp(newKeys);
-          this.db = firebase.database();
-          this.db.ref('/users/').orderByChild('score').on('value', (snap) => {
-            this.allUsers = snap.val();
-          });
-          this.userInfo = firebase.auth().currentUser || {};
-          const self = this;
-          firebase.auth().onAuthStateChanged((user) => {
-            self.userInfo = user || {};
-          });
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.userInfo = {};
+          firebase
+            .app()
+            .delete()
+            .then(() => {
+              firebase.initializeApp(newKeys);
+              this.db = firebase.database();
+              this.db
+                .ref('/users/')
+                .orderByChild('score')
+                .on('value', (snap) => {
+                  this.allUsers = snap.val();
+                });
+              this.userInfo = firebase.auth().currentUser || {};
+              const self = this;
+              firebase.auth().onAuthStateChanged((user) => {
+                self.userInfo = user || {};
+              });
+            });
         });
-      });
     },
   },
 
@@ -226,7 +268,7 @@ export default {
       return this.config.home.title;
     },
     /**
-     * whether or not to show the "beta" ribbon, defined in the config.
+     * whether or not to show the 'beta' ribbon, defined in the config.
      */
     betaMode() {
       return this.config.betaMode;
@@ -291,7 +333,7 @@ export default {
       if (this.userInfo == null) {
         return false;
       }
-      return Object.keys(this.userInfo).length;
+      return !!Object.keys(this.userInfo).length;
     },
     /**
      * router query
@@ -305,10 +347,13 @@ export default {
      * log out of firebase
      */
     logout() {
-      firebase.auth().signOut().then(() => {
-        this.userInfo = {};
-        this.$router.replace('login');
-      });
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.userInfo = {};
+          this.$router.replace('login');
+        });
     },
     /**
      * set the userInfo attribute
@@ -320,7 +365,10 @@ export default {
      * set the tutorial status of the current user
      */
     setTutorial(val) {
-      this.db.ref(`/users/${this.userInfo.displayName}`).child('taken_tutorial').set(val);
+      this.db
+        .ref(`/users/${this.userInfo.displayName}`)
+        .child('taken_tutorial')
+        .set(val);
       this.$router.replace('play');
     },
     /**
@@ -342,132 +390,81 @@ export default {
   created() {
     if (this.$route.query.config) {
       // the URL has a config file that overrides the default one for this app!
-      axios.get(this.$route.query.config).then((resp) => {
-        // remove the firebase project
-        this.config = resp.data;
-      }).catch(() => {
-        // TODO: set a warning if the config url wasn't valid
-        // console.log(e.message);
-      });
+      axios
+        .get(this.$route.query.config)
+        .then((resp) => {
+          // remove the firebase project
+          this.config = resp.data;
+        })
+        .catch(() => {
+          // TODO: set a warning if the config url wasn't valid
+          // console.log(e.message);
+        });
     }
   },
 };
 </script>
 
 <style>
-  /*
-    You can style your component here. Since this is a top level componentm
+/*
+    You can style your component here. Since this is a top level component
     the styles follow into child components.
   */
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap');
 
-  html, body {
-    height: 100%;
+.content {
+  flex: 1 0 auto;
+  min-height: -webkit-fill-available;
+  height: fit-content;
+}
+
+#app {
+  font-family: Nunito, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+}
+
+#signupForm {
+  max-width: 400px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0px 0 7px 0px #80808036;
+}
+
+/* Main Navigation: navRoot */
+
+.navRoot {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  padding: 1em 1.25em;
+  height: 7.5em;
+}
+
+.navRoot .navSection.main-logo {
+  position: absolute;
+  width: 7.5em;
+  height: 3em;
+  left: 50%;
+  right: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.navRoot .navSection.desktop-menu {
+  display: none;
+}
+
+@media (min-width: 65em) {
+  .navRoot {
+    margin: 0 auto;
+    width: 65em;
+    padding: 2em 0;
   }
-  body {
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
+  .navRoot .navSection.main-logo {
+    position: static;
+    transform: none;
   }
-  .content {
-    flex: 1 0 auto;
-    min-height: -webkit-fill-available;
-    height: fit-content;
-  }
-
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    /*color: #2c3e50;*/
-  }
-
-  .router {
-    padding-top: 20px;
-  }
-
-  #signupForm {
-    max-width: 400px;
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 0px 0 7px 0px #80808036;
-  }
-
-  .inline {
-
-  }
-
-  /* The ribbons */
-
-  .corner-ribbon{
-    width: 200px;
-    background: #e43;
-    position: absolute;
-    top: 25px;
-    left: -50px;
-    text-align: center;
-    line-height: 50px;
-    letter-spacing: 1px;
-    color: #f0f0f0;
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-  }
-
-  /* Custom styles */
-
-  .corner-ribbon.sticky{
-    position: fixed;
-  }
-
-  .corner-ribbon.shadow{
-    box-shadow: 0 0 3px rgba(0,0,0,.3);
-  }
-
-  /* Different positions */
-
-  .corner-ribbon.top-left{
-    top: 25px;
-    left: -50px;
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-  }
-
-  .corner-ribbon.top-right{
-    top: 25px;
-    right: -50px;
-    left: auto;
-    transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-  }
-
-  .corner-ribbon.bottom-left{
-    top: auto;
-    bottom: 25px;
-    left: -50px;
-    transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-  }
-
-  .corner-ribbon.bottom-right{
-    top: auto;
-    right: -50px;
-    bottom: 25px;
-    left: auto;
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
-  }
-
-  /* Colors */
-
-  .corner-ribbon.white{background: #f0f0f0; color: #555;}
-  .corner-ribbon.black{background: #333;}
-  .corner-ribbon.grey{background: #999;}
-  .corner-ribbon.blue{background: #007aff;
-  z-index: 99}
-  .corner-ribbon.green{background: #2c7;}
-  .corner-ribbon.turquoise{background: #1b9;}
-  .corner-ribbon.purple{background: #95b;}
-  .corner-ribbon.red{background: #e43;}
-  .corner-ribbon.orange{background: #e82;}
-  .corner-ribbon.yellow{background: #ec0;}
+}
 </style>
