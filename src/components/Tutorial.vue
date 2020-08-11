@@ -15,7 +15,6 @@
     <!-- Introduction steps -->
     <div v-for="(step, index) in steps.intro" class="fullpage">
       <div class="" :id="'intro'+index">
-        <!-- <vue-typer v-if="currentBin.bin === index" :text='step.text' :repeat='0' class="message" :type-delay='50'></vue-typer> -->
         <p v-html="step.text"></p>
         <span class="invisible">{{step.text}}</span>
       </div>
@@ -25,7 +24,6 @@
     <!-- Example Steps -->
     <div v-for="(step, index) in steps.examples" class="fullpage">
       <div class="text-center message w-100" :id="'example'+index">
-        <!-- <vue-typer v-if="currentBin.bin === index+steps.intro.length" :text='step.text' :repeat='0' class="message" :type-delay='50'></vue-typer> -->
         <p v-html="step.text"></p>
         <span class="invisible">{{step.text}}</span>
         <div v-if="step.pointer" class="mt-3">
@@ -91,7 +89,6 @@
 /**
  * TODO: fill this in.
  */
-  import { VueTyper } from 'vue-typer';
   import _ from 'lodash';
   import Vue from 'vue';
   import Arrow from './Animations/ArrowDown';
@@ -118,7 +115,6 @@
   export default {
     name: 'tutorial',
     components: {
-      'vue-typer': VueTyper,
       Arrow,
       Bubbles,
       WidgetSelector,
