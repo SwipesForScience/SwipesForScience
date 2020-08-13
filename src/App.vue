@@ -123,8 +123,6 @@ import firebase from 'firebase';
 import _ from 'lodash';
 
 // Animate on scroll, for the tutorial
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 // font-awesome icons
@@ -195,7 +193,6 @@ export default {
    * load the config file from the query and set it to the components config variable.
    */
   mounted() {
-    AOS.init();
     this.userInfo = firebase.auth().currentUser;
     const self = this;
     firebase.auth().onAuthStateChanged((user) => {

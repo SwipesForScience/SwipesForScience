@@ -3,7 +3,7 @@
     <h5 class="mt3 pt-3">Widget</h5>
     <b-form-select id="navbarVariant" v-model="config.widgetType" :options="widgetOptions" class="mb-3" />
     <h5 class="mt3 pt-3">Widget Properties</h5>
-    <div v-for="(val, key) in widgetSchema" class="mt-2">
+    <div v-for="(val, key) in widgetSchema" :key="key" class="mt-2">
       <label :for="key">{{key}}</label>
       <div v-if="val.type() === ''">
         <b-form-input v-model="config.widgetProperties[key]"
@@ -21,13 +21,8 @@
 </template>
 <script>
 import Vue from 'vue';
-import ImageSplat from '../Widgets/ImageSplat';
 import ImageSwipe from '../Widgets/ImageSwipe';
-import ImageSoundSwipe from '../Widgets/ImageSoundSwipe';
-import PubMedNLP from '../Widgets/PubMedNLP';
-import ImageSwipeChoices from '../Widgets/ImageSwipeChoices';
 import TemplateWidget from '../Widgets/TemplateWidget';
-import TextTagger from '../Widgets/TextTagger';
 
 /**
  * This is the UI to set up a widget during configuration.
@@ -50,13 +45,7 @@ export default {
       /**
        * The options that are allowed for widgetType.
        */
-      widgetOptions: ['ImageSwipe',
-        'ImageSoundSwipe',
-        'ImageSwipeChoices',
-        'ImageSplat',
-        'PubMedNLP',
-        'TemplateWidget',
-        'TextTagger'],
+      widgetOptions: ['ImageSwipe']
     };
   },
   computed: {
@@ -75,21 +64,6 @@ export default {
       switch (widgetType) {
         case 'ImageSwipe':
           Constructor = Vue.extend(ImageSwipe);
-          break;
-        case 'ImageSoundSwipe':
-          Constructor = Vue.extend(ImageSoundSwipe);
-          break;
-        case 'ImageSwipeChoices':
-          Constructor = Vue.extend(ImageSwipeChoices);
-          break;
-        case 'PubMedNLP':
-          Constructor = Vue.extend(PubMedNLP);
-          break;
-        case 'ImageSplat':
-          Constructor = Vue.extend(ImageSplat);
-          break;
-        case 'TextTagger':
-          Constructor = Vue.extend(TextTagger);
           break;
         default:
           Constructor = Vue.extend(TemplateWidget);
