@@ -4,7 +4,7 @@
   "manifestType": "json",
   "widgetType": "ImageSwipe",
   "widgetProperties": {
-    "baseUrlTemplate": "https://s3-us-west-2.amazonaws.com/abcd-braindr/dcan-braindr/{0}.gif",
+    "baseUrlTemplate": "https://s3-us-west-2.amazonaws.com/abcd-braindr/dcan-braindr/{0}.png",
     "delimiter": "%",
     "leftSwipeLabel": "Fail",
     "rightSwipeLabel": "Pass"
