@@ -1,0 +1,139 @@
+{
+  "needsTutorial": true,
+  "manifestUrl": "https://fibr-gifs.s3-us-west-2.amazonaws.com/md_gif_manifest.json",
+  "manifestType": "json",
+  "widgetType": "ImageSwipe",
+  "widgetProperties": {
+    "baseUrlTemplate": "https://s3-us-west-2.amazonaws.com/fibr-gifs/{0}.gif",
+    "delimiter": "__",
+    "leftSwipeLabel": "Fail",
+    "rightSwipeLabel": "Pass"
+  },
+  "iconAttribute": {
+    "name": "openmoji",
+    "url": "http://openmoji.org"
+  },
+  "levels": {
+    "0": {
+      "level": 0,
+      "min": 0,
+      "max": 100,
+      "character": null,
+      "img": null,
+      "img_grey": null
+    },
+    "1": {
+      "level": 1,
+      "min": 101,
+      "max": 350,
+      "character": "fish",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F41F.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F41F.svg?sanitize=true"
+    },
+    "2": {
+      "level": 2,
+      "min": 351,
+      "max": 750,
+      "character": "frog",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F438.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F438.svg?sanitize=true"
+    },
+    "3": {
+      "level": 3,
+      "min": 751,
+      "max": 1000,
+      "character": "duck",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F986.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F986.svg?sanitize=true"
+    },
+    "4": {
+      "level": 4,
+      "min": 1001,
+      "max": 1500,
+      "character": "koala",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F428.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F428.svg?sanitize=true"
+    },
+    "5": {
+      "level": 5,
+      "min": 1501,
+      "max": 2000,
+      "character": "cat",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F408.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F408.svg?sanitize=true"
+    },
+    "6": {
+      "level": 6,
+      "min": 2001,
+      "max": 2500,
+      "character": "lion",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F981.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F981.svg?sanitize=true"
+    }
+  },
+  "betaMode": false,
+  "firebaseKeys": {
+    "apiKey": "AIzaSyD4M59C_77B8CStJXmRl66jApO3ATRCy7w",
+    "authDomain": "fibr-gifs.firebaseapp.com",
+    "databaseURL": "https://fibr-gifs.firebaseio.com",
+    "projectId": "fibr-gifs",
+    "storageBucket": "fibr-gifs.appspot.com",
+    "messagingSenderId": "175709005112"
+  },
+  "app": {
+    "navbarVariant": "info"
+  },
+  "home": {
+    "title": "fibr: swipe left on dirty minds",
+    "tagline": "A citizen science game to measure the quality of children's brain images",
+    "backgroundUrl": "https://raw.githubusercontent.com/arokem/2020-10-30-ODSC/master/img/pyafq_segmentation1.gif"
+  },
+  "play": {
+    "blankImage": "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_blank_canvas.svg?sanitize=true"
+  },
+  "chats": {
+    "blankImage": "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_no_data.svg?sanitize=true"
+  },
+  "profile": {
+    "blankImage": "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_chatting.svg?sanitize=true"
+  },
+  "tutorial": {
+    "customBackgroundAnimation": "Bubbles",
+    "steps": {
+      "intro": [
+        {
+          "text": "here is an example tutorial step",
+          "image": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Humpback_whales_in_singing_position.jpg"
+        },
+        {
+          "text": "here is another one.",
+          "image": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Hydrophone_being_lowered_into_the_Atlantic.jpg"
+        }
+      ],
+      "examples": [
+        {
+          "text": "swipe right when the image is good quality",
+          "pointer": "sub-NDARYX806FL1__cor_184",
+          "answer": 1,
+          "tutorialStep": 0
+        },
+        {
+          "text": "swipe left when its bad",
+          "pointer": "sub-NDAREG590BNY__sag_201",
+          "answer": 0,
+          "tutorialStep": 1
+        },
+        {
+          "text": "if you're not sure, click 'help' \n to discuss with scientists ",
+          "pointer": "sub-NDAREW671HZW__ax_86",
+          "answer": 0,
+          "tutorialStep": 2
+        },
+        {
+          "text": "Are you ready to play?",
+          "tutorialCompleted": true
+        }
+      ]
+    }
+  }
+}

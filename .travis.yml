@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
 node_js:
-- '8.6.0'
+- '6.0'
 cache:
   directories:
   - node_modules/
@@ -13,6 +13,6 @@ notifications:
 before_script:
   - npm install
 script:
-  # - ./node_modules/.bin/firebase-server -p 5000 -f test/testDB.json &
-  # - npm run unit
-  - echo "tests not enabled until dependencies are updated, stay tuned!"
+  - npm run build
+after_script:
+  - bash ./deploy.sh
