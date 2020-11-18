@@ -19,8 +19,8 @@
       "min": 0,
       "max": 100,
       "character": null,
-      "img": null,
-      "img_grey": null
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1FAB1.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1FAB1.svg?sanitize=true"
     },
     "1": {
       "level": 1,
@@ -102,12 +102,12 @@
     "steps": {
       "intro": [
         {
-          "text": "The Healthy Brain Network is collecting brain MRI scans of adolescents with mental health disorders.",
-          "image": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Humpback_whales_in_singing_position.jpg"
+          "text": "Most mental health disorders are diagnosed between the ages of 5-20.",
+          "image": "https://raw.githubusercontent.com/richford/SwipesForScience/master/src/assets/undraw_children_4rtb.svg?sanitize=true"
         },
         {
-          "text": "Most mental health disorders are diagnosed between the ages of 5-20.",
-          "image": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Hydrophone_being_lowered_into_the_Atlantic.jpg"
+          "text": "The Healthy Brain Network is collecting brain MRI scans of adolescents with mental health disorders.",
+          "image": "https://raw.githubusercontent.com/richford/SwipesForScience/master/src/assets/magnetic-resonance-imaging-5366912.svg?sanitize=true"
         },
         {
           "text": "Can brain images help us understand mental health?",
@@ -115,27 +115,51 @@
         },
         {
           "text": "To find out, scientists need your help to measure the brain and assess the quality of the collected data.",
-          "image": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Hydrophone_being_lowered_into_the_Atlantic.jpg"
+          "image": "https://raw.githubusercontent.com/richford/SwipesForScience/master/src/assets/undraw_medical_research_qg4d.svg?sanitize=true"
+        },
+        {
+          "text": "Here is an animated MRI image of the head (looking from the top down).",
+          "image": ""
+        },
+        {
+          "text": "A computer has colored in parts of the brain \n where it thinks it has found fibers \n connecting different parts of the brain.",
+          "image": ""
+        },
+        {
+          "text": "Scientists need your help to check whether the computer did a good job.",
+          "image": ""
         }
       ],
       "examples": [
         {
-          "text": "swipe right when the image is good quality",
+          "text": "Swipe right when the image is of good quality.",
           "pointer": "sub-NDARYX806FL1__cor_184",
           "answer": 1,
           "tutorialStep": 0
         },
         {
-          "text": "swipe left when its bad",
+          "text": "Swipe left when its bad.",
           "pointer": "sub-NDAREG590BNY__sag_201",
           "answer": 0,
           "tutorialStep": 1
         },
         {
-          "text": "if you're not sure, click 'help' \n to discuss with scientists ",
+          "text": "Here's another good example. Swipe right!",
+          "pointer": "sub-NDARYX806FL1__cor_184",
+          "answer": 1,
+          "tutorialStep": 2
+        },
+        {
+          "text": "Swipe left when there is little or no color in the image.",
+          "pointer": "sub-NDARYX806FL1__cor_184",
+          "answer": 0,
+          "tutorialStep": 3
+        },
+        {
+          "text": "If you're not sure, click 'help' \n to discuss with scientists ",
           "pointer": "sub-NDAREW671HZW__ax_86",
           "answer": 0,
-          "tutorialStep": 2
+          "tutorialStep": 4
         },
         {
           "text": "Are you ready to play?",

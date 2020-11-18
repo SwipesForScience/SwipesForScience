@@ -2,10 +2,7 @@
   <div>
     <h5>App</h5>
     <label for="manifestUrl">manifestUrl</label>
-    <b-form-input v-model="config.manifestUrl"
-              type="text"
-              id="manifestUrl"
-              >
+    <b-form-input v-model="config.manifestUrl" type="text" id="manifestUrl">
     </b-form-input>
   </div>
 </template>
@@ -27,24 +24,20 @@ export default {
      */
     config: {
       type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {
-
-    };
-  },
-  methods: {
-
-  },
-  /**
-  * if there is a router defined, then route to the /admin page.
-  */
-  mounted() {
-    if (this.$router) {
-      this.$router.replace('/admin');
+      required: true
     }
   },
+  data() {
+    return {};
+  },
+  methods: {},
+  /**
+   * if there is a router defined, then route to the /admin page.
+   */
+  mounted() {
+    if (this.$router) {
+      this.$router.replace("/admin");
+    }
+  }
 };
 </script>
