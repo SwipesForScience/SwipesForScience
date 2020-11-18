@@ -124,15 +124,11 @@
         {
           "text": "A computer has colored in parts of the brain \n where it thinks it has found fibers \n connecting different parts of the brain.",
           "image": "https://raw.githubusercontent.com/richford/SwipesForScience/master/src/assets/sub-NDARNH170TJU_desc-colorfa_optimized.gif"
-        },
-        {
-          "text": "Scientists need your help to check whether the computer did a good job.",
-          "image": ""
         }
       ],
       "examples": [
         {
-          "text": "Swipe right when the image is of good quality.",
+          "text": "But scientists need your help to check whether the computer did a good job.\nSwipe right when the image is of good quality, like this one.",
           "pointer": "sub-NDARNT113YX7_desc-colorfa_slice-1_medium",
           "answer": 1,
           "tutorialStep": 0
