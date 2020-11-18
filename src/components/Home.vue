@@ -7,13 +7,13 @@
       </p>
       <p class="buttons mt-3">
         <router-link
-          class="btn btn-primary white"
+          class="btn btn-primary white mx-1"
           :to="{ name: 'Play', query: routerQuery }"
         >
           Play Now
         </router-link>
         <router-link
-          class="btn btn-primary white"
+          class="btn btn-primary white mx-1"
           :to="{ name: 'Tutorial', query: routerQuery }"
         >
           Tutorial
