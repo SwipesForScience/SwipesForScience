@@ -98,15 +98,23 @@
     "blankImage": "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_chatting.svg?sanitize=true"
   },
   "tutorial": {
-    "customBackgroundAnimation": "Bubbles",
+    "customBackgroundAnimation": "",
     "steps": {
       "intro": [
         {
-          "text": "here is an example tutorial step",
+          "text": "The Healthy Brain Network is collecting brain MRI scans of adolescents with mental health disorders.",
           "image": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Humpback_whales_in_singing_position.jpg"
         },
         {
-          "text": "here is another one.",
+          "text": "Most mental health disorders are diagnosed between the ages of 5-20.",
+          "image": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Hydrophone_being_lowered_into_the_Atlantic.jpg"
+        },
+        {
+          "text": "Can brain images help us understand mental health?",
+          "image": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Hydrophone_being_lowered_into_the_Atlantic.jpg"
+        },
+        {
+          "text": "To find out, scientists need your help to measure the brain and assess the quality of the collected data.",
           "image": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Hydrophone_being_lowered_into_the_Atlantic.jpg"
         }
       ],
