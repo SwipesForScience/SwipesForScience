@@ -1,8 +1,8 @@
 <template>
   <div class="home container">
     <div class="jumbotron landing" :style="landingStyle">
-      <h1>{{ title }}</h1>
-      <p class="lead buttons mt-3">
+      <h1 class="p-1">{{ title }}</h1>
+      <p class="lead buttons p-1 mt-3">
         {{ tagline }}
       </p>
       <p class="buttons mt-3">
@@ -114,15 +114,21 @@ a {
 }
 
 .landing h1 {
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
+  border-style: solid;
+  border-color: black;
+  border-radius: 10px;
   max-width: 350px;
   margin: auto;
 }
 
 .landing .lead {
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
+  border-style: solid;
+  border-color: black;
+  border-radius: 10px;
   max-width: 250px;
   margin: auto;
 }

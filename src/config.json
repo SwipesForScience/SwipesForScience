@@ -119,11 +119,11 @@
         },
         {
           "text": "Here is an animated MRI image of the head (looking from the top down).",
-          "image": ""
+          "image": "https://raw.githubusercontent.com/richford/SwipesForScience/master/src/assets/sub-NDARNH170TJU_desc-t1w_optimized.gif"
         },
         {
           "text": "A computer has colored in parts of the brain \n where it thinks it has found fibers \n connecting different parts of the brain.",
-          "image": ""
+          "image": "https://raw.githubusercontent.com/richford/SwipesForScience/master/src/assets/sub-NDARNH170TJU_desc-colorfa_optimized.gif"
         },
         {
           "text": "Scientists need your help to check whether the computer did a good job.",
@@ -133,31 +133,61 @@
       "examples": [
         {
           "text": "Swipe right when the image is of good quality.",
-          "pointer": "sub-NDARYX806FL1__cor_184",
+          "pointer": "sub-NDARNT113YX7_desc-colorfa_slice-1_medium",
           "answer": 1,
           "tutorialStep": 0
         },
         {
           "text": "Swipe left when its bad.",
-          "pointer": "sub-NDAREG590BNY__sag_201",
+          "pointer": "sub-NDARYZ871DXQ_desc-colorfa_slice-0_medium",
           "answer": 0,
           "tutorialStep": 1
         },
         {
           "text": "Here's another good example. Swipe right!",
-          "pointer": "sub-NDARYX806FL1__cor_184",
+          "pointer": "sub-NDARNC287MK5_desc-colorfa_slice-2_medium",
           "answer": 1,
           "tutorialStep": 2
         },
         {
           "text": "Swipe left when there is little or no color in the image.",
-          "pointer": "sub-NDARYX806FL1__cor_184",
+          "pointer": "sub-NDARYF338WW1_desc-colorfa_slice-1_medium",
+          "answer": 0,
+          "tutorialStep": 3
+        },
+        {
+          "text": "Swipe left when there is little or no color in the image.",
+          "pointer": "sub-NDARHP924ZHW_desc-colorfa_slice-2_medium",
+          "answer": 0,
+          "tutorialStep": 3
+        },
+        {
+          "text": "Swipe left when there is little or no color in the image.",
+          "pointer": "sub-NDARBE912PB0_desc-colorfa_slice-2_medium",
+          "answer": 0,
+          "tutorialStep": 3
+        },
+        {
+          "text": "Swipe left when there is little or no color in the image.",
+          "pointer": "sub-NDARGC255BUN_desc-colorfa_slice-0_medium",
+          "answer": 0,
+          "tutorialStep": 3
+        },
+        {
+          "text": "Swipe left when there is little or no color in the image.",
+          "pointer": "sub-NDARYF699FW0_desc-colorfa_slice-3_medium",
+          "answer": 0,
+          "tutorialStep": 3
+        },
+        {
+          "text": "Swipe left when there is little or no color in the image.",
+          "pointer": "sub-NDARXV209WYA_desc-colorfa_slice-1_medium",
           "answer": 0,
           "tutorialStep": 3
         },
         {
           "text": "If you're not sure, click 'help' \n to discuss with scientists ",
-          "pointer": "sub-NDAREW671HZW__ax_86",
+          "pointer": "sub-NDARGD425PTN_desc-colorfa_slice-0_medium",
           "answer": 0,
           "tutorialStep": 4
         },
