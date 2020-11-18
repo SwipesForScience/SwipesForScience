@@ -116,6 +116,7 @@ a {
 .landing h1 {
   background-color: white;
   color: black;
+  border-width: thin;
   border-style: solid;
   border-color: black;
   border-radius: 10px;
@@ -126,6 +127,7 @@ a {
 .landing .lead {
   background-color: white;
   color: black;
+  border-width: thin;
   border-style: solid;
   border-color: black;
   border-radius: 10px;

@@ -103,38 +103,34 @@
       "intro": [
         {
           "text": "Most mental health disorders are diagnosed between the ages of 5-20.",
-          "image": "https://raw.githubusercontent.com/richford/SwipesForScience/master/src/assets/undraw_children_4rtb.svg?sanitize=true"
+          "image": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/undraw_children_4rtb.svg?sanitize=true"
         },
         {
           "text": "The Healthy Brain Network is collecting brain MRI scans of adolescents with mental health disorders.",
-          "image": "https://raw.githubusercontent.com/richford/SwipesForScience/master/src/assets/magnetic-resonance-imaging-5366912.svg?sanitize=true"
+          "image": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/magnetic-resonance-imaging-5366912.svg?sanitize=true"
         },
         {
-          "text": "Can brain images help us understand mental health?",
-          "image": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Hydrophone_being_lowered_into_the_Atlantic.jpg"
-        },
-        {
-          "text": "To find out, scientists need your help to measure the brain and assess the quality of the collected data.",
-          "image": "https://raw.githubusercontent.com/richford/SwipesForScience/master/src/assets/undraw_medical_research_qg4d.svg?sanitize=true"
+          "text": "Can brain images help us understand mental health?<br>To find out, scientists need your help to measure the brain and assess the quality of the collected data.",
+          "image": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/undraw_medical_research_qg4d.svg?sanitize=true"
         },
         {
           "text": "Here is an animated MRI image of the head (looking from the top down).",
-          "image": "https://raw.githubusercontent.com/richford/SwipesForScience/master/src/assets/sub-NDARNH170TJU_desc-t1w_optimized.gif"
+          "image": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/sub-NDARNH170TJU_desc-t1w_optimized.gif"
         },
         {
-          "text": "A computer has colored in parts of the brain \n where it thinks it has found fibers \n connecting different parts of the brain.",
-          "image": "https://raw.githubusercontent.com/richford/SwipesForScience/master/src/assets/sub-NDARNH170TJU_desc-colorfa_optimized.gif"
+          "text": "A computer has colored in parts of the brain<br>where it thinks it has found fibers<br>connecting different parts of the brain.",
+          "image": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/sub-NDARNH170TJU_desc-colorfa_optimized.gif"
         }
       ],
       "examples": [
         {
-          "text": "But scientists need your help to check whether the computer did a good job.\nSwipe right when the image is of good quality, like this one.",
+          "text": "But scientists need your help to check whether the computer did a good job.<br>You will see sections of the brain below.<br>Swipe right when the image is of good quality, like this one.",
           "pointer": "sub-NDARNT113YX7_desc-colorfa_slice-1_medium",
           "answer": 1,
           "tutorialStep": 0
         },
         {
-          "text": "Swipe left when its bad.",
+          "text": "Swipe left when its bad. In this example, there is little to no color in the image.",
           "pointer": "sub-NDARYZ871DXQ_desc-colorfa_slice-0_medium",
           "answer": 0,
           "tutorialStep": 1
@@ -143,49 +139,49 @@
           "text": "Here's another good example. Swipe right!",
           "pointer": "sub-NDARNC287MK5_desc-colorfa_slice-2_medium",
           "answer": 1,
-          "tutorialStep": 2
+          "tutorialStep": 0
         },
         {
-          "text": "Swipe left when there is little or no color in the image.",
+          "text": "Something went really wrong here.<br>Swipe left!",
           "pointer": "sub-NDARYF338WW1_desc-colorfa_slice-1_medium",
           "answer": 0,
-          "tutorialStep": 3
+          "tutorialStep": 1
         },
         {
-          "text": "Swipe left when there is little or no color in the image.",
+          "text": "This one is also bad.<br>The colors are sparse. They don't connect to form fiber bundles.<br>Also the underlying black and white image has a series of dark rings<br>near the top of the image (scientists call this Gibbs ringing).<br>Swipe left!",
           "pointer": "sub-NDARHP924ZHW_desc-colorfa_slice-2_medium",
           "answer": 0,
-          "tutorialStep": 3
+          "tutorialStep": 1
         },
         {
           "text": "Swipe left when there is little or no color in the image.",
-          "pointer": "sub-NDARBE912PB0_desc-colorfa_slice-2_medium",
+          "pointer": "sub-NDARAP782TVC_desc-colorfa_slice-2_medium",
           "answer": 0,
-          "tutorialStep": 3
+          "tutorialStep": 1
+        },
+        {
+          "text": "This one's no good either. The colors look fine but look at the image in the background. This participant apparently moved a lot in the scanner. Swipe left!",
+          "pointer": "sub-NDARBD341NEM_desc-colorfa_slice-2_medium",
+          "answer": 0,
+          "tutorialStep": 1
+        },
+        {
+          "text": "This one is bad as well.<br>The colored bundles stop abruptly<br>and the underlying grayscale image is of poor quality.<br>Swipe left!",
+          "pointer": "sub-NDARGC099LDZ_desc-colorfa_slice-3_medium",
+          "answer": 0,
+          "tutorialStep": 1
         },
         {
           "text": "Swipe left when there is little or no color in the image.",
-          "pointer": "sub-NDARGC255BUN_desc-colorfa_slice-0_medium",
+          "pointer": "sub-NDARBD341NEM_desc-colorfa_slice-0_medium",
           "answer": 0,
-          "tutorialStep": 3
+          "tutorialStep": 1
         },
         {
-          "text": "Swipe left when there is little or no color in the image.",
-          "pointer": "sub-NDARYF699FW0_desc-colorfa_slice-3_medium",
-          "answer": 0,
-          "tutorialStep": 3
-        },
-        {
-          "text": "Swipe left when there is little or no color in the image.",
-          "pointer": "sub-NDARXV209WYA_desc-colorfa_slice-1_medium",
-          "answer": 0,
-          "tutorialStep": 3
-        },
-        {
-          "text": "If you're not sure, click 'help' \n to discuss with scientists ",
+          "text": "If you're not sure, click 'help' \n to discuss with scientists.",
           "pointer": "sub-NDARGD425PTN_desc-colorfa_slice-0_medium",
-          "answer": 0,
-          "tutorialStep": 4
+          "answer": 2,
+          "tutorialStep": 2
         },
         {
           "text": "Are you ready to play?",

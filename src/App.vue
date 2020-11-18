@@ -96,7 +96,7 @@
             </router-link>
           </li>
           <li class="navSection mobile-menu">
-            <SliderMenu :needsTutorial="false" :isAdmin="false" />
+            <SliderMenu :needsTutorial="true" :isAdmin="false" />
           </li>
           <li class="navSection account-details">
             <AccountMenu
@@ -124,7 +124,7 @@
         />
       </div>
       <!-- Configuration Drawer -->
-      <Configure
+      <!-- <Configure
         ref="configurationPane"
         v-if="showConfig"
         :config="config"
@@ -132,7 +132,7 @@
         :userInfo="userInfo"
         :db="db"
         :configurationState="configurationState"
-      />
+      /> -->
     </div>
     <Footer
       v-on:openConfig="openConfig"
@@ -170,7 +170,7 @@ import "../src/css/typography.css";
 
 // config options
 import config from "./config";
-import Configure from "./components/Configure";
+// import Configure from "./components/Configure";
 
 // components
 import SliderMenu from "./components/Header/SliderMenu";
@@ -236,7 +236,7 @@ export default {
   },
 
   components: {
-    Configure,
+    // Configure,
     Footer,
     SliderMenu,
     AccountMenu

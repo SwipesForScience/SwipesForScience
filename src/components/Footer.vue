@@ -1,6 +1,11 @@
 <template>
   <footer>
     <div class="footer__container">
+      <img
+        src="../assets/swipes-for-science-logo.svg"
+        alt="Swipes for science logo"
+        class="logo"
+      />
       <img src="../assets/eLife-logo.svg" alt="eLife logo" class="logo" />
       <nav>
         <router-link
@@ -48,6 +53,7 @@ export default {
         { path: "/", name: "Home" },
         { path: "/play", name: "Game" },
         { path: "/chats", name: "Chat" },
+        { path: "/tutorial", name: "Tutorial" },
         { path: "/leaderboard", name: "Leaderboard" },
         { path: "/about", name: "About" },
         { path: "/contact", name: "Contact us" }
