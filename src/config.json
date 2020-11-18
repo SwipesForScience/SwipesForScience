@@ -136,13 +136,13 @@
           "tutorialStep": 1
         },
         {
-          "text": "Here's another good example. Swipe right!",
+          "text": "Here's another good example.<br>Notice how the colored bundles form continuous lines.<br>Swipe right!",
           "pointer": "sub-NDARNC287MK5_desc-colorfa_slice-2_medium",
           "answer": 1,
           "tutorialStep": 0
         },
         {
-          "text": "Something went really wrong here.<br>Swipe left!",
+          "text": "Whoa, something went really wrong here.<br>Swipe left!",
           "pointer": "sub-NDARYF338WW1_desc-colorfa_slice-1_medium",
           "answer": 0,
           "tutorialStep": 1
@@ -154,33 +154,15 @@
           "tutorialStep": 1
         },
         {
-          "text": "Swipe left when there is little or no color in the image.",
-          "pointer": "sub-NDARAP782TVC_desc-colorfa_slice-2_medium",
-          "answer": 0,
-          "tutorialStep": 1
-        },
-        {
-          "text": "This one's no good either. The colors look fine but look at the image in the background. This participant apparently moved a lot in the scanner. Swipe left!",
+          "text": "This one's no good either.<br>The colors look fine but look at the image in the background: more rings.<br>This participant apparently moved a lot in the scanner. Swipe left!",
           "pointer": "sub-NDARBD341NEM_desc-colorfa_slice-2_medium",
           "answer": 0,
           "tutorialStep": 1
         },
         {
-          "text": "This one is bad as well.<br>The colored bundles stop abruptly<br>and the underlying grayscale image is of poor quality.<br>Swipe left!",
+          "text": "This one is borderline and it's hard to tell whether to pass or fail.<br>There are two blue bundles but no other colored bundles.<br>Also the underlying grayscale image is of poor quality.<br>If you're not sure, click 'help' to discuss with the scientists and other users.",
           "pointer": "sub-NDARGC099LDZ_desc-colorfa_slice-3_medium",
           "answer": 0,
-          "tutorialStep": 1
-        },
-        {
-          "text": "Swipe left when there is little or no color in the image.",
-          "pointer": "sub-NDARBD341NEM_desc-colorfa_slice-0_medium",
-          "answer": 0,
-          "tutorialStep": 1
-        },
-        {
-          "text": "If you're not sure, click 'help' \n to discuss with scientists.",
-          "pointer": "sub-NDARGD425PTN_desc-colorfa_slice-0_medium",
-          "answer": 2,
           "tutorialStep": 2
         },
         {
