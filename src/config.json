@@ -17,58 +17,98 @@
     "0": {
       "level": 0,
       "min": 0,
-      "max": 100,
-      "character": null,
+      "max": 4,
+      "character": "worm",
       "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1FAB1.svg?sanitize=true",
       "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1FAB1.svg?sanitize=true"
     },
     "1": {
       "level": 1,
-      "min": 101,
-      "max": 350,
+      "min": 5,
+      "max": 9,
+      "character": "cricket",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F997.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F997.svg?sanitize=true"
+    },
+    "2": {
+      "level": 2,
+      "min": 10,
+      "max": 24,
       "character": "fish",
       "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F41F.svg?sanitize=true",
       "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F41F.svg?sanitize=true"
     },
-    "2": {
-      "level": 2,
-      "min": 351,
-      "max": 750,
+    "3": {
+      "level": 3,
+      "min": 25,
+      "max": 49,
       "character": "frog",
       "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F438.svg?sanitize=true",
       "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F438.svg?sanitize=true"
     },
-    "3": {
-      "level": 3,
-      "min": 751,
-      "max": 1000,
+    "4": {
+      "level": 4,
+      "min": 50,
+      "max": 99,
+      "character": "turtle",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F422.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F422.svg?sanitize=true"
+    },
+    "5": {
+      "level": 5,
+      "min": 100,
+      "max": 249,
+      "character": "hedgehog",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F994.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F994.svg?sanitize=true"
+    },
+    "6": {
+      "level": 6,
+      "min": 250,
+      "max": 499,
       "character": "duck",
       "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F986.svg?sanitize=true",
       "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F986.svg?sanitize=true"
     },
-    "4": {
-      "level": 4,
-      "min": 1001,
-      "max": 1500,
+    "7": {
+      "level": 7,
+      "min": 500,
+      "max": 999,
       "character": "koala",
       "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F428.svg?sanitize=true",
       "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F428.svg?sanitize=true"
     },
-    "5": {
-      "level": 5,
-      "min": 1501,
-      "max": 2000,
-      "character": "cat",
-      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F408.svg?sanitize=true",
-      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F408.svg?sanitize=true"
+    "8": {
+      "level": 8,
+      "min": 1000,
+      "max": 2499,
+      "character": "gorilla",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F98D.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F98D.svg?sanitize=true"
     },
-    "6": {
-      "level": 6,
-      "min": 2001,
-      "max": 2500,
-      "character": "lion",
-      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F981.svg?sanitize=true",
-      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F981.svg?sanitize=true"
+    "9": {
+      "level": 9,
+      "min": 2500,
+      "max": 4999,
+      "character": "mammoth",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F9A3.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F9A3.svg?sanitize=true"
+    },
+    "10": {
+      "level": 10,
+      "min": 5000,
+      "max": 7499,
+      "character": "dragon",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F409.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F409.svg?sanitize=true"
+    },
+    "11": {
+      "level": 11,
+      "min": 7500,
+      "max": 10000,
+      "character": "unicorn",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F984.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F984.svg?sanitize=true"
     }
   },
   "betaMode": false,

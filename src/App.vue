@@ -32,19 +32,22 @@
             <b-nav-item :to="{ name: 'Home', query: routerQuery }" exact
               >Home</b-nav-item
             >
-            <b-nav-item :to="{ name: 'Leaderboard', query: routerQuery }"
-              >Leaderboard</b-nav-item
-            >
             <b-nav-item :to="{ name: 'Play', query: routerQuery }"
               >Play</b-nav-item
             >
             <b-nav-item :to="{ name: 'Chats', query: routerQuery }"
-              >Chats</b-nav-item
+              >Chat</b-nav-item
             >
             <b-nav-item
               v-if="needsTutorial"
               :to="{ name: 'Tutorial', query: routerQuery }"
               >Tutorial</b-nav-item
+            >
+            <b-nav-item :to="{ name: 'Leaderboard', query: routerQuery }"
+              >Leaderboard</b-nav-item
+            >
+            <b-nav-item :to="{ name: 'About', query: routerQuery }"
+              >About</b-nav-item
             >
             <b-nav-item
               v-if="userData.admin"

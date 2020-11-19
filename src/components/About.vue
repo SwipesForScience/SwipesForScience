@@ -42,9 +42,9 @@
         </b-row>
       </b-container>
 
-      <h3>Acknowledgements</h3>
+      <h2>Acknowledgements</h2>
 
-      <p>
+      <p class="mt-3">
         Fibr development is supported through a grant from the
         <a href="https://www.moore.org/">Gordon and Betty Moore Foundation</a>
         and from the
