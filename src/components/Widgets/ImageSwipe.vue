@@ -193,7 +193,7 @@ export default {
           break;
         case 2:
           // highlight the help button
-          this.$refs.helpButton.classList.add("focus");
+          this.$refs.helpButton.$el.classList.add("focus");
           break;
         default:
           break;

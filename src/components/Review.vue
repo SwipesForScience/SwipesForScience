@@ -26,9 +26,15 @@
             placeholder="Enter your message"
           >
           </b-form-input>
-          <b-button class="mt-2" variant="primary" @click="sendChat"
+          <b-button class="mt-2 mx-1" variant="primary" @click="sendChat"
             >Send</b-button
           >
+          <router-link
+            class="btn btn-primary white mt-2 mx-1"
+            :to="{ name: 'Play', query: this.$route.query }"
+          >
+            Return to game
+          </router-link>
         </b-form-group>
       </b-form>
     </div>
