@@ -17,8 +17,8 @@
                 <div class="leaderboard__cell avatar">
                   <div class="avatar">
                     <img
-                      src="../assets/kesh-profile-icon.svg"
-                      alt="Swipes for Science logo"
+                      :src="levels[user.level].img"
+                      :alt="'Level avatar for' + user.name"
                     />
                   </div>
                 </div>
@@ -204,7 +204,11 @@ export default {
       const that = this;
       // eslint-disable-next-line
       allUsernames = allUsernames.map((userName) => {
-        return { name: userName, score: that.allUsers[userName].score };
+        return {
+          name: userName,
+          score: that.allUsers[userName].score,
+          level: that.allUsers[userName].level
+        };
       });
       /* Sort descending by score */
       allUsernames.sort((a, b) => b.score - a.score);
