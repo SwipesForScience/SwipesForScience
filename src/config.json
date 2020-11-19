@@ -165,7 +165,7 @@
       ],
       "examples": [
         {
-          "text": "But scientists need your help to check whether the computer did a good job.<br>You will see sections of the brain below.<br>Swipe right when the image is of good quality, like this one.",
+          "text": "But scientists need your help to check whether the computer did a good job.<br>You will see sections of the brain below.<br>Sometimes you'll see static images and sometimes you'll see animations.<br>Swipe right when the image is of good quality, like this one.",
           "pointer": "sub-NDARNT113YX7_desc-colorfa_slice-1_medium",
           "answer": 1,
           "tutorialStep": 0
