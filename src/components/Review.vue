@@ -3,7 +3,7 @@
     <div class="chat container">
       <h3 class="mb-2">Chat</h3>
       <div class="chatHistory pl-3 pr-3 pt-3 pb-3 mb-3" v-if="chatOrder.length">
-        <p v-for="msg in chatOrder" class="text-left" :key="msg.time">
+        <p v-for="msg in chatOrder" class="text-left mb-3" :key="msg.time">
           <b>{{ msg.username }}</b
           >: {{ msg.message }}
         </p>
@@ -167,7 +167,6 @@ export default {
       _.mapValues(this.chatHistory, v => {
         chats.push(v);
       });
-      chats.reverse();
       return chats;
     },
     /**
