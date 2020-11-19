@@ -18,7 +18,11 @@
     </div>
 
     <!-- Introduction steps -->
-    <div v-for="(step, index) in steps.intro" :key="index" class="fullpage">
+    <div
+      v-for="(step, index) in steps.intro"
+      :key="'intro' + index"
+      class="fullpage"
+    >
       <div class="" :id="'intro' + index">
         <p v-html="step.text"></p>
         <span class="invisible">{{ step.text }}</span>
@@ -27,7 +31,11 @@
     </div>
 
     <!-- Example Steps -->
-    <div v-for="(step, index) in steps.examples" :key="index" class="fullpage">
+    <div
+      v-for="(step, index) in steps.examples"
+      :key="'example' + index"
+      class="fullpage"
+    >
       <div class="text-center message w-100" :id="'example' + index">
         <p v-html="step.text"></p>
         <span class="invisible">{{ step.text }}</span>
@@ -202,9 +210,10 @@ export default {
      * The current bin based on scroll position.
      */
     currentBin() {
+      const that = this;
       const cBin = _.filter(
         this.bins,
-        b => this.scrollPosition <= b.to && this.scrollPosition > b.from
+        b => that.scrollPosition <= b.to && that.scrollPosition > b.from
       );
       if (cBin.length) {
         return cBin[0];

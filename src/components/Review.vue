@@ -237,17 +237,18 @@ export default {
 
       // add a flag to all other users following this chat.
       const usersToNotify = [];
+      const that = this;
       this.chatOrder.forEach(v => {
         if (
           usersToNotify.indexOf(v.username) < 0 &&
-          v.username !== this.userData[".key"]
+          v.username !== that.userData[".key"]
         ) {
           usersToNotify.push(v.username);
         }
       });
 
       usersToNotify.forEach(u => {
-        this.db
+        that.db
           .ref("chats")
           .child("userNotifications")
           .child(u)
@@ -270,13 +271,14 @@ export default {
      */
     setSampleInfo() {
       // get the chat for this sample
+      const that = this;
       this.db
         .ref("chats")
         .child("sampleChats")
         .child(this.widgetPointer)
         .on("value", snap2 => {
           const chatData = snap2.val();
-          this.chatHistory = chatData;
+          that.chatHistory = chatData;
         });
 
       // get the user's settings for the widget.
@@ -286,16 +288,16 @@ export default {
           .child(this.userInfo.displayName)
           .once("value")
           .then(snap => {
-            this.userSettings = snap.val() || {};
+            that.userSettings = snap.val() || {};
           });
       }
 
       // get the widget's summary info
-      this.db
+      that.db
         .ref("sampleSummary")
-        .child(this.widgetPointer)
+        .child(that.widgetPointer)
         .on("value", snap => {
-          this.widgetSummary = snap.val();
+          that.widgetSummary = snap.val();
         });
     }
   }

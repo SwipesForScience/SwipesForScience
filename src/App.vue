@@ -13,6 +13,7 @@
         Beta
       </div>
       <b-navbar
+        class="mb-2"
         toggleable="md"
         type="dark"
         :variant="navbarVariant"
@@ -257,26 +258,27 @@ export default {
      * new app.
      */
     firebaseKeys(newKeys) {
+      const that = this;
       // there has been a change in firebaseKeys
       firebase
         .auth()
         .signOut()
         .then(() => {
-          this.userInfo = {};
+          that.userInfo = {};
           firebase
             .app()
             .delete()
             .then(() => {
               firebase.initializeApp(newKeys);
-              this.db = firebase.database();
-              this.db
+              that.db = firebase.database();
+              that.db
                 .ref("/users/")
                 .orderByChild("score")
                 .on("value", snap => {
-                  this.allUsers = snap.val();
+                  that.allUsers = snap.val();
                 });
-              this.userInfo = firebase.auth().currentUser || {};
-              const self = this;
+              that.userInfo = firebase.auth().currentUser || {};
+              const self = that;
               firebase.auth().onAuthStateChanged(user => {
                 self.userInfo = user || {};
               });
@@ -328,8 +330,9 @@ export default {
         return data;
       }
 
+      const that = this;
       _.map(this.allUsers, (value, key) => {
-        if (key === this.userInfo.displayName) {
+        if (key === that.userInfo.displayName) {
           data = value;
           data[".key"] = key;
         }
@@ -349,8 +352,9 @@ export default {
      */
     currentLevel() {
       let clev = {};
+      const that = this;
       _.mapValues(this.levels, val => {
-        if (this.userData.score >= val.min && this.userData.score <= val.max) {
+        if (that.userData.score >= val.min && that.userData.score <= val.max) {
           clev = val;
         }
       });
@@ -378,12 +382,13 @@ export default {
      * log out of firebase
      */
     logout() {
+      const that = this;
       firebase
         .auth()
         .signOut()
         .then(() => {
-          this.userInfo = {};
-          this.$router.replace("login");
+          that.userInfo = {};
+          that.$router.replace("login");
         });
     },
     /**
@@ -419,13 +424,14 @@ export default {
    * intialize the animate on scroll library (for tutorial) and listen to authentication state
    */
   created() {
+    const that = this;
     if (this.$route.query.config) {
       // the URL has a config file that overrides the default one for this app!
       axios
         .get(this.$route.query.config)
         .then(resp => {
           // remove the firebase project
-          this.config = resp.data;
+          that.config = resp.data;
         })
         .catch(() => {
           // TODO: set a warning if the config url wasn't valid

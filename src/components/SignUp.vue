@@ -184,6 +184,7 @@ export default {
      * Make sure the username isn't already taken.
      */
     onSubmit(e) {
+      const that = this;
       e.preventDefault();
       // check for a unique username
       firebase
@@ -194,10 +195,10 @@ export default {
         .then(snapshot => {
           const val = snapshot.val();
           if (!val) {
-            this.createAccount();
+            that.createAccount();
           } else {
-            this.errors.show = true;
-            this.errors.message =
+            that.errors.show = true;
+            that.errors.message =
               "Username already exists! Please choose a unique username";
           }
         });
@@ -220,16 +221,18 @@ export default {
      * A method that creates the firebase account and shows an error if there is one.
      */
     createAccount() {
+      const that = this;
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.form.email, this.form.password)
         .then(
           user => {
-            this.updateProfile(user);
+            console.log(user);
+            that.updateProfile(user);
           },
           err => {
-            this.errors.show = true;
-            this.errors.message = err.message;
+            that.errors.show = true;
+            that.errors.message = err.message;
           }
         );
     },
@@ -260,24 +263,26 @@ export default {
      * (in the displayName field of an authenticated user.)
      */
     updateProfile(user) {
-      user
+      console.log(user);
+      const that = this;
+      user.user
         .updateProfile({
           displayName: this.form.username
         })
         .then(
           () => {
             // Profile updated successfully!
-            this.insertUser(user);
-            if (this.config.needsTutorial) {
-              this.$router.replace("tutorial");
+            that.insertUser(user.user);
+            if (that.config.needsTutorial) {
+              that.$router.replace("tutorial");
             } else {
-              this.$router.replace("play");
+              that.$router.replace("play");
             }
           },
           err => {
             // An error happened.
-            this.errors.show = true;
-            this.errors.message = err.message;
+            that.errors.show = true;
+            that.errors.message = err.message;
           }
         );
     }

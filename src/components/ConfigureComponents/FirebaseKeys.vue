@@ -65,8 +65,9 @@ export default {
         "messagingSenderId"
       ];
       const newFirebaseKeys = {};
+      const that = this;
       _.map(keys, k => {
-        newFirebaseKeys[k] = this.fkeys.split(`${k}: "`)[1].split('"')[0];
+        newFirebaseKeys[k] = that.fkeys.split(`${k}: "`)[1].split('"')[0];
       });
       this.$emit("newFirebaseKeys", newFirebaseKeys);
       return newFirebaseKeys;

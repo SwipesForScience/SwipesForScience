@@ -32,6 +32,7 @@
 
 export default {
   firebase() {
+    const that = this;
     return {
       /**
        * keep track of all the samples that have been discussed.
@@ -45,7 +46,7 @@ export default {
           // this.sampleChat.reverse();
           this.sampleChat.forEach(c => {
             // console.log('c is', c);
-            this.db
+            that.db
               .ref("chats")
               .child("sampleChats")
               .child(c[".key"])
@@ -53,8 +54,8 @@ export default {
               .limitToLast(1)
               .on("value", snap => {
                 const data = snap.val();
-                this.chatInfo[c[".key"]] = data[Object.keys(data)[0]];
-                this.$forceUpdate();
+                that.chatInfo[c[".key"]] = data[Object.keys(data)[0]];
+                that.$forceUpdate();
               });
           });
 

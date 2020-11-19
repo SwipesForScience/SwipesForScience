@@ -123,6 +123,7 @@ export default {
      */
     initAdmin() {
       const displayName = this.userInfo.displayName;
+      const that = this;
       this.db
         .ref("settings")
         .child("admins")
@@ -134,58 +135,61 @@ export default {
         .child("admin")
         .set(true)
         .then(() => {
-          this.admin = true;
+          that.admin = true;
         });
     },
     /**
      * initialize /sampleCounts
      */
     initSampleCounts() {
+      const that = this;
       this.db
         .ref("sampleCounts")
         .once("value")
         .then(snap => {
           const val = snap.val();
           if (val === null) {
-            this.db.ref("sampleCounts").set(0);
+            that.db.ref("sampleCounts").set(0);
           }
         })
         .then(() => {
-          this.sampleCounts = true;
+          that.sampleCounts = true;
         });
     },
     /**
      * initialize /sampleSummary
      */
     initSampleSummary() {
+      const that = this;
       this.db
         .ref("sampleSummary")
         .once("value")
         .then(snap => {
           const val = snap.val();
           if (val === null) {
-            this.db.ref("sampleSummary").set(0);
+            that.db.ref("sampleSummary").set(0);
           }
         })
         .then(() => {
-          this.sampleSummary = true;
+          that.sampleSummary = true;
         });
     },
     /**
      * initialize /chats
      */
     initChats() {
+      const that = this;
       this.db
         .ref("chats")
         .once("value")
         .then(snap => {
           const val = snap.val();
           if (val === null) {
-            this.db.ref("chats").set(0);
+            that.db.ref("chats").set(0);
           }
         })
         .then(() => {
-          this.chats = true;
+          that.chats = true;
         });
     },
     /**
@@ -193,6 +197,7 @@ export default {
      */
     initUserSeenSamples() {
       const displayName = this.userInfo.displayName;
+      const that = this;
       this.db
         .ref("userSeenSamples")
         .child(displayName)
@@ -200,48 +205,50 @@ export default {
         .then(snap => {
           const val = snap.val();
           if (val === null) {
-            this.db
+            that.db
               .ref("userSeenSamples")
               .child(displayName)
               .set(0);
           }
         })
         .then(() => {
-          this.userSeenSamples = true;
+          that.userSeenSamples = true;
         });
     },
     /**
      * initialize /votes
      */
     initVotes() {
+      const that = this;
       this.db
         .ref("votes")
         .once("value")
         .then(snap => {
           const val = snap.val();
           if (val === null) {
-            this.db.ref("votes").set(0);
+            that.db.ref("votes").set(0);
           }
         })
         .then(() => {
-          this.votes = true;
+          that.votes = true;
         });
     },
     /**
      * initialize userSettings
      */
     initUserSettings() {
+      const that = this;
       this.db
         .ref("userSettings")
         .once("value")
         .then(snap => {
           const val = snap.val();
           if (val === null) {
-            this.db.ref("userSettings").set(0);
+            that.db.ref("userSettings").set(0);
           }
         })
         .then(() => {
-          this.userSettings = true;
+          that.userSettings = true;
         });
     },
     /**

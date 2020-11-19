@@ -201,9 +201,10 @@ export default {
       let allUsernames = Object.keys(this.allUsers).filter(
         userName => userName !== ".key"
       );
+      const that = this;
       // eslint-disable-next-line
       allUsernames = allUsernames.map((userName) => {
-        return { name: userName, score: this.allUsers[userName].score };
+        return { name: userName, score: that.allUsers[userName].score };
       });
       /* Sort descending by score */
       allUsernames.sort((a, b) => b.score - a.score);

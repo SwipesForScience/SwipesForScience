@@ -93,18 +93,19 @@ export default {
      */
     onSubmit(e) {
       e.preventDefault();
+      const that = this;
       firebase
         .auth()
         .signInWithEmailAndPassword(this.form.email, this.form.password)
         .then(
           user => {
             // console.log('user', user);
-            this.$emit("login", user);
-            this.$router.push({ name: "Play", query: this.routerQuery });
+            that.$emit("login", user);
+            that.$router.push({ name: "Play", query: that.routerQuery });
           },
           err => {
-            this.errors.show = true;
-            this.errors.message = err.message;
+            that.errors.show = true;
+            that.errors.message = err.message;
           }
         );
     }

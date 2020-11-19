@@ -299,15 +299,16 @@ export default {
      */
     initUserSettings() {
       // console.log('updating user settings');
+      const that = this;
       this.db
         .ref("userSettings")
         .child(this.userInfo.displayName)
         .on("value", snap => {
           const val = snap.val();
           if (val == null) {
-            this.userSettings = {};
+            that.userSettings = {};
           } else {
-            this.userSettings = val;
+            that.userSettings = val;
           }
         });
     },
@@ -328,17 +329,18 @@ export default {
      * but don't watch it in real time, just fetch the data once.
      */
     initSampleCounts() {
+      const that = this;
       this.db.ref("sampleCounts").once("value", snap => {
         /* eslint-disable */
-          this.sampleCounts = _.map(snap.val(), (val, key) => {
+          that.sampleCounts = _.map(snap.val(), (val, key) => {
             return { '.key': key, '.value': val };
           });
           /* eslint-enable */
-        if (!this.sampleCounts.length) {
-          this.noData = true;
+        if (!that.sampleCounts.length) {
+          that.noData = true;
         } else {
-          this.startTime = new Date();
-          this.setNextSampleId();
+          that.startTime = new Date();
+          that.setNextSampleId();
         }
       });
     },
@@ -348,12 +350,13 @@ export default {
      */
     initSeenSamples() {
       // console.log('userSeenSamples', this.userInfo.displayName);
+      const that = this;
       this.db
         .ref("userSeenSamples")
         .child(this.userInfo.displayName)
         .once("value", snap => {
           /* eslint-disable */
-            this.userSeenSamples = _.map(snap.val(), (val, key) => {
+            that.userSeenSamples = _.map(snap.val(), (val, key) => {
               return { '.key': key, '.value': val };
             });
             /* eslint-enable */
@@ -515,8 +518,9 @@ export default {
         .transaction(count => (count || 0) + 1);
 
       // update the local copy
+      const that = this;
       _.map(this.sampleCounts, val => {
-        if (val[".key"] === this.widgetPointer) {
+        if (val[".key"] === that.widgetPointer) {
           /* eslint-disable */
             val['.value'] += 1;
             /* eslint-enable */
@@ -554,12 +558,13 @@ export default {
      * fetch the server secret and set it in this.data
      */
     fetchServerSecret() {
+      const that = this;
       this.db
         .ref("settings")
         .child("secret")
         .once("value")
         .then(snap => {
-          this.serverSecret = snap.val();
+          that.serverSecret = snap.val();
         });
     }
   }

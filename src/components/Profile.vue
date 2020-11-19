@@ -213,8 +213,9 @@ export default {
      * this watcher should update the chats ui in real time.
      */
     chats() {
+      const that = this;
       this.chats.forEach(c => {
-        this.db
+        that.db
           .ref("chats")
           .child("sampleChats")
           .child(c)
@@ -222,9 +223,9 @@ export default {
           .limitToLast(1)
           .on("value", snap => {
             const data = snap.val();
-            this.chatInfo[c] = data[Object.keys(data)[0]];
-            this.getNotifications(c);
-            this.$forceUpdate();
+            that.chatInfo[c] = data[Object.keys(data)[0]];
+            that.getNotifications(c);
+            that.$forceUpdate();
           });
       });
     }
@@ -235,6 +236,7 @@ export default {
      *
      */
     getUserChats() {
+      const that = this;
       this.db
         .ref("chats")
         .child("userChat")
@@ -242,7 +244,7 @@ export default {
         .on("value", snap => {
           const data = snap.val();
           if (data) {
-            this.chats = Object.keys(data);
+            that.chats = Object.keys(data);
           }
         });
     },
@@ -252,14 +254,15 @@ export default {
      * saw their chats. I don't think this method is even called yet.
      */
     getNotifications(key) {
+      const that = this;
       this.db
         .ref("notifications")
         .child(this.userData[".key"])
         .child(key)
         .on("value", snap => {
           if (snap.val()) {
-            this.chatInfo[key].notify = true;
-            this.$forceUpdate();
+            that.chatInfo[key].notify = true;
+            that.$forceUpdate();
           }
         });
     }

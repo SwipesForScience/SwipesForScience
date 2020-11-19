@@ -170,9 +170,10 @@ export default {
    * If the playMode === 'tutorial', show a tutorial step.
    */
   mounted() {
+    const that = this;
     this.$nextTick(() => {
-      if (this.playMode === "tutorial") {
-        this.showTutorialStep(this.tutorialStep);
+      if (that.playMode === "tutorial") {
+        that.showTutorialStep(that.tutorialStep);
       }
     });
   },

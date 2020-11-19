@@ -189,13 +189,14 @@ export default {
      * This method keeps track of sampleCounts, but only loads it once.
      */
     addFirebaseListener() {
+      const that = this;
       this.db.ref("sampleCounts").once("value", snap => {
         /* eslint-disable */
-        this.sampleCounts = _.map(snap.val(), (val, key) => {
+        that.sampleCounts = _.map(snap.val(), (val, key) => {
           return { '.key': key, '.value': val };
         });
         /* eslint-enable */
-        this.status = "complete";
+        that.status = "complete";
       });
     },
     /**
@@ -211,19 +212,20 @@ export default {
      * to store our search on the server, and preview the first 100 pmids.
      */
     getPubmedQueryPreview() {
+      const that = this;
       const baseUrl =
         "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi";
       const url = `${baseUrl}?db=pubmed&term=${encodeURI(
         this.config.manifestQuery
       )}&usehistory=y&retmax=100`;
       return axios.get(url).then(resp => {
-        const xml = this.xmlParser(resp.data);
+        const xml = that.xmlParser(resp.data);
         const webEnv = xml.getElementsByTagName("WebEnv")[0];
         const count = xml.getElementsByTagName("Count")[0];
         const ids = xml.getElementsByTagName("IdList")[0].children;
-        this.pubmedQueryStore.webEnv = webEnv.innerHTML;
-        this.pubmedQueryStore.count = count.innerHTML;
-        this.manifestEntries = _.map(ids, i => i.innerHTML);
+        that.pubmedQueryStore.webEnv = webEnv.innerHTML;
+        that.pubmedQueryStore.count = count.innerHTML;
+        that.manifestEntries = _.map(ids, i => i.innerHTML);
       });
     },
     /**
@@ -233,9 +235,10 @@ export default {
     getPubmedQueryFull() {
       const baseUrl =
         "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi";
+      const that = this;
       if (!this.pubmedQueryStore.webEnv) {
         this.getPubmedQueryPreview().then(() => {
-          this.getPubmedQueryFull();
+          that.getPubmedQueryFull();
         });
       } else {
         const url = `${baseUrl}?db=pubmed&term=${encodeURI(
@@ -244,11 +247,11 @@ export default {
           this.pubmedQueryStore.webEnv
         }`;
         axios.get(url).then(resp => {
-          const xml = this.xmlParser(resp.data);
+          const xml = that.xmlParser(resp.data);
           const ids = xml.getElementsByTagName("IdList")[0].children;
-          this.manifestEntries = _.map(ids, i => i.innerHTML);
-          // console.log(this.manifestEntries);
-          this.syncEntries();
+          that.manifestEntries = _.map(ids, i => i.innerHTML);
+          // console.log(that.manifestEntries);
+          that.syncEntries();
         });
       }
     },
@@ -257,10 +260,11 @@ export default {
      * TODO: make sure the filenames are firebase compatible, and if they aren't convert them.
      */
     getGithubManifest() {
+      const that = this;
       let url = `https://api.github.com/repos/${this.config.manifestGitHub.user}/`;
       url += `${this.config.manifestGitHub.repo}/contents/${this.config.manifestGitHub.path}`;
       return axios.get(url).then(resp => {
-        this.manifestEntries = _.map(resp.data, v => v.name.split(".")[0]);
+        that.manifestEntries = _.map(resp.data, v => v.name.split(".")[0]);
       });
     },
     /**
@@ -277,12 +281,13 @@ export default {
         this.continuation = null;
       }
       const allKeys = _.map(keys, k => k.innerHTML);
+      const that = this;
       const keysFiltered = _.filter(allKeys, k =>
-        k.replace(`${this.config.manifestS3.prefix}/`, "")
+        k.replace(`${that.config.manifestS3.prefix}/`, "")
       );
       const keysFixed = _.map(
         keysFiltered,
-        k => k.replace(`${this.config.manifestS3.prefix}/`, "").split(".")[0]
+        k => k.replace(`${that.config.manifestS3.prefix}/`, "").split(".")[0]
       );
       return keysFixed;
     },
@@ -297,11 +302,12 @@ export default {
       if (!token) {
         return 0;
       }
+      const that = this;
       return axios.get(url).then(resp => {
-        const keysFixed2 = this.parseS3(resp.data);
-        this.manifestEntries = _.uniq(this.manifestEntries.concat(keysFixed2));
-        if (this.continuation) {
-          this.S3Continuation(this.continuation);
+        const keysFixed2 = that.parseS3(resp.data);
+        that.manifestEntries = _.uniq(that.manifestEntries.concat(keysFixed2));
+        if (that.continuation) {
+          that.S3Continuation(that.continuation);
         }
       });
     },
@@ -315,11 +321,12 @@ export default {
       url += `prefix=${this.config.manifestS3.prefix}/&max-keys=${this.config.manifestS3.max_keys}`;
       url += `&delimiter=${this.config.manifestS3.delimiter}`;
       // console.log(url);
+      const that = this;
       return axios.get(url).then(resp => {
-        const keysFixed = this.parseS3(resp.data);
-        this.manifestEntries = _.uniq(this.manifestEntries.concat(keysFixed));
-        if (this.continuation) {
-          this.S3Continuation(this.continuation);
+        const keysFixed = that.parseS3(resp.data);
+        that.manifestEntries = _.uniq(that.manifestEntries.concat(keysFixed));
+        if (that.continuation) {
+          that.S3Continuation(that.continuation);
         }
       });
     },
@@ -329,9 +336,10 @@ export default {
      * with this request.
      */
     previewManifest() {
+      const that = this;
       if (this.manifestType === "json") {
         axios.get(this.config.manifestUrl).then(resp => {
-          this.manifestEntries = resp.data;
+          that.manifestEntries = resp.data;
         });
       } else if (this.manifestType === "pubmed") {
         this.getPubmedQueryPreview();
@@ -348,13 +356,14 @@ export default {
      */
     refreshSamples() {
       this.status = "refreshing";
+      const that = this;
       if (this.manifestType === "json") {
         // grab all the data from the json file defined in the config
         axios.get(this.config.manifestUrl).then(resp => {
           // resp.data has a list of firebase-friendly strings
           const manifestEntries = resp.data;
-          this.manifestEntries = manifestEntries;
-          this.syncEntries();
+          that.manifestEntries = manifestEntries;
+          that.syncEntries();
         });
       } else if (this.manifestType === "pubmed") {
         this.getPubmedQueryFull();
@@ -400,11 +409,12 @@ export default {
 
       // next check all of the items in firebase db
       // and remove any that aren't in manifestEntries
+      const that = this;
       _.map(firebaseEntries, key => {
         // check to see if the key is in the manifest.
-        if (this.manifestEntries.indexOf(key) < 0) {
+        if (that.manifestEntries.indexOf(key) < 0) {
           // since the key isn't there, remove it from firebase.
-          this.db
+          that.db
             .ref("sampleCounts")
             .child(key)
             .remove();
