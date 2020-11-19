@@ -41,6 +41,23 @@
           </b-col>
         </b-row>
       </b-container>
+
+      <h3>Acknowledgements</h3>
+
+      <p>
+        Fibr development is supported through a grant from the
+        <a href="https://www.moore.org/">Gordon and Betty Moore Foundation</a>
+        and from the
+        <a href="https://sloan.org/">Alfred P. Sloan Foundation</a> to the
+        <a href="http://escience.washington.edu/"
+          >University of Washington eScience Institute</a
+        >, as well as
+        <a
+          href="https://projectreporter.nih.gov/project_info_details.cfm?aid=9886761&icde=46874320&ddparam=&ddvalue=&ddsub=&cr=2&csb=default&cs=ASC&pball="
+          >NIMH BRAIN Initiative grant 1RF1MH121868-01</a
+        >
+        to Ariel Rokem (University of Washington).
+      </p>
     </b-container>
   </div>
 </template>
