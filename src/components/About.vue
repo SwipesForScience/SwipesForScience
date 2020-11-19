@@ -58,7 +58,11 @@
         >
         to Ariel Rokem (University of Washington).
       </p>
-    </b-container>
+      <p>
+        To learn more about this research, please visit
+        <a href="https://autofq.org">https://autofq.org</a>
+      </p></b-container
+    >
   </div>
 </template>
 
