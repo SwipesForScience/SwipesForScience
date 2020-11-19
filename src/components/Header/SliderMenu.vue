@@ -5,24 +5,9 @@
       @click="toggleMenu()"
       ref="slider-menu-toggle"
     >
-      <svg
-        width="31px"
-        height="22px"
-        viewBox="0 0 31 22"
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        xml:space="preserve"
-        xmlns:serif="http://www.serif.com/"
-        style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;"
-      >
-        <g transform="matrix(1,0,0,1,-26.8461,-27.8461)">
-          <path
-            d="M52,33L32,33M47,44L32,44"
-            style="fill:none;stroke:rgb(88,65,171);stroke-width:2.5px;"
-          />
-        </g>
-      </svg>
+      <p class="h3 mb-2">
+        <b-icon style="color: #341789;" icon="three-dots-vertical"></b-icon>
+      </p>
     </a>
     <div
       class="slider-menu__drawer"

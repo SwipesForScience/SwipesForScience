@@ -76,10 +76,12 @@
  */
 import _ from "lodash";
 import Vue from "vue";
+import { VueHammer } from "vue2-hammer";
 import imagesLoaded from "vue-images-loaded";
 import VueProgressiveImage from "../../../node_modules/vue-progressive-image/dist/vue-progressive-image";
 
 Vue.use(VueProgressiveImage);
+Vue.use(VueHammer);
 Vue.use(require("vue-shortkey"));
 
 export default {

@@ -2,9 +2,9 @@
   <div class="tutorial" ref="tutorial">
     <Bubbles v-if="backgroundAnimation == 'Bubbles'" />
     <!-- Title -->
-    <div>
+    <div class="mb-3">
       <h1>Tutorial</h1>
-      <p class="lead">Scroll down to learn how to play</p>
+      <p class="lead mt-2">Scroll down to learn how to play</p>
     </div>
 
     <!-- Progress Bar -->

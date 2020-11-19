@@ -16,7 +16,7 @@
         toggleable="md"
         type="dark"
         :variant="navbarVariant"
-        v-show="false"
+        v-show="true"
       >
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
@@ -85,14 +85,11 @@
         </b-collapse>
       </b-navbar>
 
-      <nav>
+      <nav v-show="false">
         <ul class="navRoot">
           <li class="navSection main-logo">
             <router-link to="/">
-              <img
-                src="./assets/swipes-for-science-logo.svg"
-                alt="Swipes for Science logo"
-              />
+              <img height="25" src="./assets/fibr-logo.svg" alt="fibr logo" />
             </router-link>
           </li>
           <li class="navSection mobile-menu">
@@ -101,6 +98,7 @@
           <li class="navSection account-details">
             <AccountMenu
               :userInfo="userInfo"
+              :userData="userData"
               :loggedIn="userIsDefined"
               @logout="logout"
             />
@@ -147,7 +145,7 @@
  * The main entrypoint to the app.
  */
 import Vue from "vue";
-import BootstrapVue from "bootstrap-vue";
+import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 import axios from "axios";
 
 // firebase-related libraries
@@ -180,6 +178,7 @@ import Footer from "./components/Footer";
 // explicit installation required in module environments
 Vue.use(VueFire);
 Vue.use(BootstrapVue);
+Vue.use(BootstrapVueIcons);
 
 // this is only for debugging. probably should get rid of it.
 window.firebase = firebase;
@@ -297,7 +296,7 @@ export default {
      * the brandname from the config file (home.title)
      */
     brandName() {
-      return this.config.home.title;
+      return this.config.home.shortTitle;
     },
     /**
      * whether or not to show the 'beta' ribbon, defined in the config.

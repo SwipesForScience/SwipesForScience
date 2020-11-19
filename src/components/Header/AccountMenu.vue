@@ -10,7 +10,7 @@
       />
       <div class="account-menu__user-information">
         <span class="username">{{ userInfo.displayName }}</span>
-        <span class="user-score">99999 points</span>
+        <span class="user-score">{{ userData.score }} points</span>
       </div>
     </div>
     <!-- The login option shows if the user is not authenticated -->
@@ -28,7 +28,12 @@
       v-click-outside="{ exclude: ['account-menu-toggle'], handler: 'onClose' }"
     >
       <ul>
-        <li>Profile</li>
+        <li>
+          <router-link to="/profile" class="nav__link">
+            <i class="fa fa-user" aria-hidden="true"></i>
+            Profile
+          </router-link>
+        </li>
         <li>
           <span v-on:click="onClickLogout">Sign out</span>
         </li>
@@ -54,6 +59,10 @@ export default {
       required: true
     },
     userInfo: {
+      type: Object,
+      required: true
+    },
+    userData: {
       type: Object,
       required: true
     }

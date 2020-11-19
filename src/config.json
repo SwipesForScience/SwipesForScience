@@ -84,6 +84,7 @@
     "navbarVariant": "info"
   },
   "home": {
+    "shortTitle": "fibr",
     "title": "fibr: swipe left on dirty minds",
     "tagline": "A citizen science game to measure the quality of children's brain images",
     "backgroundUrl": "https://raw.githubusercontent.com/arokem/2020-10-30-ODSC/master/img/pyafq_segmentation1.gif"

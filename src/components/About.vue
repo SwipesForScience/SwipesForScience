@@ -3,11 +3,22 @@
     <h1>About</h1>
 
     <b-container>
-      <p>
+      <p class="mt-3">
+        Fibr is an app for quality control of diffusion MRI images from the
+        <a href="https://healthybrainnetwork.org/">Healthy Brain Network.</a>
+      </p>
+      <p class="mt-3">
+        It is inspired by the previous success of the
+        <a href="https://braindr.us/">braindr</a> app for structural MRI images.
+      </p>
+      <p class="mt-3">
+        Your objective is to classify these slices as "Pass" or "Fail" by
+        swiping right or left
+      </p>
+      <p class="mt-3">
         You get points for each sample you annotate.
       </p>
-
-      <p>
+      <p class="mt-3">
         You can unlock the following animals based on the number of points you
         have:
       </p>
