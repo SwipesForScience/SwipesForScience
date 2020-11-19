@@ -158,11 +158,12 @@ export default {
      * baseUrlTemplate = 'https://base_url/{0}/{1}.jpg' and delimiter === '__'.
      */
     baseUrl() {
-      return this.widgetProperties.baseUrlTemplate && this.widgetPointer
-        ? this.fillPropertyPattern(
-            this.widgetProperties.baseUrlTemplate,
-            this.widgetProperties.delimiter
-          )
+      let template = this.widgetProperties.baseUrlTemplate;
+      if (this.widgetPointer.endsWith("_5")) {
+        template = template.replace(/gif$/, "png");
+      }
+      return template && this.widgetPointer
+        ? this.fillPropertyPattern(template, this.widgetProperties.delimiter)
         : null;
     }
   },
