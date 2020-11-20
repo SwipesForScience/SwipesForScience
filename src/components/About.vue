@@ -8,10 +8,6 @@
         <a href="https://healthybrainnetwork.org/">Healthy Brain Network.</a>
       </p>
       <p class="mt-3">
-        It is inspired by the previous success of the
-        <a href="https://braindr.us/">braindr</a> app for structural MRI images.
-      </p>
-      <p class="mt-3">
         Your objective is to classify these slices as "Pass" or "Fail" by
         swiping right or left
       </p>
@@ -45,6 +41,12 @@
       <h2>Acknowledgements</h2>
 
       <p class="mt-3">
+        Fibr is inspired by the previous success of the
+        <a href="https://braindr.us/">braindr</a> app for structural MRI images
+        and was built using a modified version of the
+        <a href="https://swipesforscience.org/">Swipes for Science</a> template.
+      </p>
+      <p class="mt-3">
         Fibr development is supported through a grant from the
         <a href="https://www.moore.org/">Gordon and Betty Moore Foundation</a>
         and from the
@@ -58,7 +60,7 @@
         >
         to Ariel Rokem (University of Washington).
       </p>
-      <p>
+      <p class="mt-3">
         To learn more about this research, please visit
         <a href="https://autofq.org">https://autofq.org</a>
       </p></b-container
