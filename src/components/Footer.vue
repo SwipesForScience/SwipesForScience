@@ -1,16 +1,12 @@
 <template>
   <footer>
     <div class="footer__container">
-      <a href="https://swipesforscience.org/">
-        <img
+      <a href="https://swipesforscience.org/"
+        ><img
           src="../assets/swipes-for-science-logo.svg"
           alt="Swipes for science logo"
           class="logo"
-        />
-      </a>
-      <a href="https://elifesciences.org/">
-        <img src="../assets/eLife-logo.svg" alt="eLife logo" class="logo" />
-      </a>
+      /></a>
       <nav>
         <router-link
           v-for="menuItem in menuItems"
@@ -20,6 +16,13 @@
           >{{ menuItem.name }}</router-link
         >
       </nav>
+
+      <a href="https://escience.washington.edu/"
+        ><img
+          src="../assets/eScience_Logo_RGB.svg"
+          alt="eScience logo"
+          height="45em"
+      /></a>
 
       <!-- <div class="configureButton">
         <b-button variant="info" @click="openConfig">
