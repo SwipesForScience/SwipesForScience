@@ -7,10 +7,7 @@
   >
     <div id="review" class="container">
       <div class="chat container">
-        <div
-          class="chatHistory pl-3 pr-3 pt-3 pb-3 mb-3"
-          v-if="chatOrder.length"
-        >
+        <div class="chatHistory px-3 py-3 mb-3" v-if="chatOrder.length">
           <p v-for="msg in chatOrder" class="text-left mb-3" :key="msg.time">
             <b>{{ msg.username }}</b
             >: {{ msg.message }}
@@ -163,7 +160,7 @@ export default {
   },
   /**
    * When the component is mounted, set this components `widgetPointer`
-   * to the route's `key` parameter. Also grab this sample's chats and its summary.
+   * also grab this sample's chats and its summary.
    */
   mounted() {
     this.setSampleInfo();
@@ -178,7 +175,7 @@ export default {
      */
     sendChat(e) {
       e.preventDefault();
-      const key = this.$route.params.key;
+      const key = this.widgetPointer;
 
       this.db
         .ref("chats")
@@ -229,6 +226,8 @@ export default {
           .child(key)
           .set(true);
       });
+
+      this.setSampleInfo();
     },
     /**
      * Get the chat history for the current sample ID.

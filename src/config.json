@@ -177,8 +177,8 @@
           "tutorialStep": 1
         },
         {
-          "text": "Here's another good example.<br>Notice how the colored bundles form continuous lines.<br>Swipe right!",
-          "pointer": "sub-NDARNC287MK5_desc-colorfa_slice-2_medium",
+          "text": "Here's another good example.<br>This time it's a static image, and that's okay.<br>Notice how the colored bundles form continuous lines.<br>Swipe right!",
+          "pointer": "sub-NDARNC287MK5_desc-colorfa_slice-2_medium_5",
           "answer": 1,
           "tutorialStep": 0
         },
