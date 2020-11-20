@@ -1,55 +1,47 @@
 <template name="review">
-  <div id="review" class="container">
-    <div class="chat container">
-      <h3 class="mb-2">Chat</h3>
-      <div class="chatHistory pl-3 pr-3 pt-3 pb-3 mb-3" v-if="chatOrder.length">
-        <p v-for="msg in chatOrder" class="text-left mb-3" :key="msg.time">
-          <b>{{ msg.username }}</b
-          >: {{ msg.message }}
-        </p>
-      </div>
-      <div v-else>
-        <p>No one has said anything yet!</p>
-      </div>
-      <b-form @submit="sendChat">
-        <b-form-group
-          id="exampleInputGroup1"
-          label="Enter chat message:"
-          label-for="exampleInput1"
-          description=""
+  <b-modal
+    :id="'reviewModal-' + widgetPointer"
+    :ref="'reviewModal-' + widgetPointer"
+    title="Chat"
+    ok-only
+  >
+    <div id="review" class="container">
+      <div class="chat container">
+        <div
+          class="chatHistory pl-3 pr-3 pt-3 pb-3 mb-3"
+          v-if="chatOrder.length"
         >
-          <b-form-input
-            id="exampleInput1"
-            type="text"
-            v-model="chatMessage"
-            required
-            placeholder="Enter your message"
+          <p v-for="msg in chatOrder" class="text-left mb-3" :key="msg.time">
+            <b>{{ msg.username }}</b
+            >: {{ msg.message }}
+          </p>
+        </div>
+        <div class="mb-3" v-else>
+          <p>No one has said anything yet!</p>
+        </div>
+        <b-form @submit="sendChat">
+          <b-form-group
+            id="exampleInputGroup1"
+            label="Enter chat message:"
+            label-for="exampleInput1"
+            description=""
           >
-          </b-form-input>
-          <b-button class="mt-2 mx-1" variant="primary" @click="sendChat"
-            >Send</b-button
-          >
-          <router-link
-            class="btn btn-primary white mt-2 mx-1"
-            :to="{ name: 'Play', query: this.$route.query }"
-          >
-            Return to game
-          </router-link>
-        </b-form-group>
-      </b-form>
+            <b-form-input
+              id="exampleInput1"
+              type="text"
+              v-model="chatMessage"
+              required
+              placeholder="Enter your message"
+            >
+            </b-form-input>
+            <b-button class="mt-2 mx-1" variant="primary" @click="sendChat"
+              >Send</b-button
+            >
+          </b-form-group>
+        </b-form>
+      </div>
     </div>
-    <div>
-      <WidgetSelector
-        :widgetType="widgetType"
-        :widgetPointer="widgetPointer"
-        :widgetProperties="widgetProperties"
-        :widgetSummary="widgetSummary"
-        :userSettings="userSettings"
-        :playMode="''"
-        ref="widget"
-      />
-    </div>
-  </div>
+  </b-modal>
 </template>
 
 <style>
@@ -75,15 +67,21 @@
 
 <script>
 import _ from "lodash";
-import WidgetSelector from "./WidgetSelector";
 /**
- * The review component shows the widget for a pointer to a sample in its route,
+ * The review component shows the widaget for a pointer to a sample in its route,
  * and lets the user discuss the sample in a chat-room type UI.
  */
 
 export default {
-  name: "review",
+  name: "ReviewModal",
   props: {
+    /**
+     * This sample ID to discuss.
+     */
+    widgetPointer: {
+      type: String,
+      required: false
+    },
     /**
      * the authenticated user object from firebase
      */
@@ -131,15 +129,8 @@ export default {
       required: true
     }
   },
-  components: {
-    WidgetSelector
-  },
   data() {
     return {
-      /**
-       * This sample ID to discuss.
-       */
-      widgetPointer: "",
       /**
        * The summary of the sample ID
        */
@@ -168,27 +159,6 @@ export default {
         chats.push(v);
       });
       return chats;
-    },
-    /**
-     * The widgetType to display, based on the config value.
-     */
-    widgetType() {
-      return this.config.widgetType;
-    },
-    /**
-     * The properties of the widget, from the config.
-     */
-    widgetProperties() {
-      return this.config.widgetProperties;
-    }
-  },
-  watch: {
-    /**
-     * When the route changes, set the current sample ID
-     * (`widgetPointer`) to the `key` parameter from the route.
-     */
-    $route() {
-      this.widgetPointer = this.$route.params.key;
     }
   },
   /**
@@ -196,7 +166,6 @@ export default {
    * to the route's `key` parameter. Also grab this sample's chats and its summary.
    */
   mounted() {
-    this.widgetPointer = this.$route.params.key;
     this.setSampleInfo();
   },
   methods: {
@@ -260,16 +229,6 @@ export default {
           .child(key)
           .set(true);
       });
-    },
-    /**
-     * Take a firebase input object and make it a nice list.
-     */
-    unravelFirebaseListObject(inputObject) {
-      const output = [];
-      _.mapValues(inputObject, v => {
-        output.push(v);
-      });
-      return output;
     },
     /**
      * Get the chat history for the current sample ID.

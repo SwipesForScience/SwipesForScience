@@ -201,7 +201,7 @@
           "tutorialStep": 1
         },
         {
-          "text": "This one is borderline and it's hard to tell whether to pass or fail.<br>There are two blue bundles but no other colored bundles.<br>Also the underlying grayscale image is of poor quality.<br>If you're not sure, click 'help' to discuss with the scientists and other users.",
+          "text": "This one is borderline and it's hard to tell whether to pass or fail.<br>There are two blue bundles but no other colored bundles.<br>Also the underlying grayscale image is of poor quality.<br>If you're not sure, click 'Comments' to discuss with the scientists and other users.",
           "pointer": "sub-NDARGC099LDZ_desc-colorfa_slice-3_medium",
           "answer": 0,
           "tutorialStep": 2

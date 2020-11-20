@@ -9,6 +9,16 @@
       </div>
     </b-modal>
 
+    <ReviewModal
+      :widgetPointer="widgetPointer"
+      :userInfo="userInfo"
+      :userData="userData"
+      :levels="levels"
+      :currentLevel="currentLevel"
+      :config="config"
+      :db="db"
+    ></ReviewModal>
+
     <div class="main">
       <b-alert
         :show="dismissCountDown"
@@ -102,8 +112,10 @@ import _ from "lodash";
 import Vue from "vue";
 import WidgetSelector from "./WidgetSelector";
 import Flask from "./Animations/Flask";
+import ReviewModal from "./ReviewModal";
 
 Vue.component("WidgetSelector", WidgetSelector);
+Vue.component("ReviewModal", ReviewModal);
 
 export default {
   name: "play",

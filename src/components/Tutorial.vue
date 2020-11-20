@@ -36,6 +36,16 @@
       :key="'example' + index"
       class="fullpage"
     >
+      <ReviewModal
+        :widgetPointer="step.pointer"
+        :userInfo="userInfo"
+        :userData="userData"
+        :levels="levels"
+        :currentLevel="currentLevel"
+        :config="config"
+        :db="db"
+      ></ReviewModal>
+
       <div class="text-center message w-100" :id="'example' + index">
         <p v-html="step.text"></p>
         <span class="invisible">{{ step.text }}</span>
@@ -106,7 +116,9 @@ import Vue from "vue";
 import Arrow from "./Animations/ArrowDown";
 import Bubbles from "./Animations/Bubbles";
 import WidgetSelector from "./WidgetSelector";
+import ReviewModal from "./ReviewModal";
 
+Vue.component("ReviewModal", ReviewModal);
 const VueScrollTo = require("vue-scrollto");
 
 // You can also pass in the default options
@@ -163,6 +175,34 @@ export default {
      * and also the type of widget and where to update pointers to data
      */
     config: {
+      type: Object,
+      required: true
+    },
+    /**
+     * the user's current level
+     */
+    currentLevel: {
+      type: Object,
+      required: true
+    },
+    /**
+     * the authenticated user object from firebase
+     */
+    userInfo: {
+      type: Object,
+      required: true
+    },
+    /**
+     * the computed user data object based on userInfo
+     */
+    userData: {
+      type: Object,
+      required: true
+    },
+    /**
+     * the intialized firebase database
+     */
+    db: {
       type: Object,
       required: true
     }

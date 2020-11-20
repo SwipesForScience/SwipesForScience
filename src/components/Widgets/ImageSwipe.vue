@@ -37,10 +37,10 @@
 
           <b-button
             v-if="playMode"
-            :to="'/review/' + widgetPointer"
+            @click="showChatModal"
             ref="helpButton"
             class="helpbtn"
-            >Help</b-button
+            >Comments</b-button
           >
 
           <b-button
@@ -291,6 +291,12 @@ export default {
         aveVote: newVote,
         count: this.widgetSummary.count + 1
       };
+    },
+    /**
+     * emit an event to show chat modal
+     */
+    showChatModal() {
+      this.$bvModal.show("reviewModal-" + this.widgetPointer);
     },
     /**
      * emit an annotation to the parent.
