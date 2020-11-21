@@ -28,25 +28,26 @@
         <span class="invisible">{{ step.text }}</span>
       </div>
       <img :src="step.image" class="mt-3 pt-3 img" />
+      <hr />
     </div>
 
     <!-- Example Steps -->
     <div
       v-for="(step, index) in steps.examples"
       :key="'example' + index"
-      class="fullpage"
+      class="examplefullpage"
     >
-      <ReviewModal
-        :widgetPointer="step.pointer"
-        :userInfo="userInfo"
-        :userData="userData"
-        :levels="levels"
-        :currentLevel="currentLevel"
-        :config="config"
-        :db="db"
-      ></ReviewModal>
-
       <div class="text-center message w-100" :id="'example' + index">
+        <ReviewModal
+          :widgetPointer="step.pointer"
+          :userInfo="userInfo"
+          :userData="userData"
+          :levels="levels"
+          :currentLevel="currentLevel"
+          :config="config"
+          :db="db"
+        ></ReviewModal>
+
         <p v-html="step.text"></p>
         <span class="invisible">{{ step.text }}</span>
         <div v-if="step.pointer" class="mt-3">
@@ -64,6 +65,7 @@
         <div v-if="step.tutorialCompleted">
           <b-button @click="tutorialComplete" class="mt-3">Play now</b-button>
         </div>
+        <hr />
       </div>
     </div>
 
@@ -86,7 +88,11 @@
 }
 
 .fullpage {
-  height: 100vh;
+  height: 110%;
+}
+
+.examplefullpage {
+  min-height: 125vh;
 }
 
 .message {
