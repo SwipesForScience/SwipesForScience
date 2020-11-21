@@ -165,6 +165,11 @@ export default {
   mounted() {
     this.setSampleInfo();
   },
+  watch: {
+    widgetPointer() {
+      this.setSampleInfo();
+    }
+  },
   methods: {
     /**
      * Method to add a new chat message. Update

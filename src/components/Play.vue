@@ -10,6 +10,7 @@
     </b-modal>
 
     <ReviewModal
+      v-if="widgetPointer"
       :widgetPointer="widgetPointer"
       :userInfo="userInfo"
       :userData="userData"
