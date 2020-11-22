@@ -195,6 +195,18 @@
           "tutorialStep": 1
         },
         {
+          "text": "Sometimes, you will see a slice of the brain that's very low in the head.<br>In that case, you might see ears or eyeball.<br>Or a part of the hindbrain called the cerebellum, which has finely spaced parallel grooves.<br>When this happens, you shouldn't expect to see a lot of colored bundles.<br>Just rate the quality of the grayscale image. You would swipe right on this example.",
+          "pointer": "sub-NDARYG391PMU_desc-colorfa_slice-0_medium",
+          "answer": 1,
+          "tutorialStep": 0
+        },
+        {
+          "text": "Other times, you will see a slice of the brain at the top of the head.<br>In that case, the brain will appear to shrink and grow.<br>That's okay. Just rate the image quality as you did before.<br>You would swipe right on this example.",
+          "pointer": "sub-NDARZB517KTU_desc-colorfa_slice-3_medium",
+          "answer": 1,
+          "tutorialStep": 0
+        },
+        {
           "text": "This one's no good either.<br>The colors look fine but look at the image in the background: more rings.<br>This participant apparently moved a lot in the scanner. Swipe left!",
           "pointer": "sub-NDARBD341NEM_desc-colorfa_slice-2_medium",
           "answer": 0,
