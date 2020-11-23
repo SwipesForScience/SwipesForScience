@@ -82,7 +82,9 @@ import VueProgressiveImage from "../../../node_modules/vue-progressive-image/dis
 
 Vue.use(VueProgressiveImage);
 Vue.use(VueHammer);
-Vue.use(require("vue-shortkey"));
+Vue.use(require("vue-shortkey"), {
+  prevent: [".modal-content", ".modal-dialog"]
+});
 
 export default {
   name: "ImageSwipe",
