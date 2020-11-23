@@ -1,6 +1,6 @@
 {
   "needsTutorial": false,
-  "manifestUrl": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/BCP_manifest.json",
+  "manifestUrl": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/BCP8%2B_manifest.json",
   "manifestType": "json",
   "widgetType": "ImageSwipe",
   "widgetProperties": {
