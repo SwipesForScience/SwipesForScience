@@ -1,4 +1,4 @@
-{
+[
   "sub-100619_ses-17mo_desc-AtlasInSubcort",
   "sub-100619_ses-17mo_desc-AtlasInT1w",
   "sub-100619_ses-17mo_desc-SubcortInAtlas",
@@ -9747,4 +9747,4 @@
   "sub-999947_ses-21mo_task-rest_run-002_desc-T2InTask",
   "sub-999947_ses-21mo_task-rest_run-002_desc-TaskInT1",
   "sub-999947_ses-21mo_task-rest_run-002_desc-TaskInT2"
-}
+]
