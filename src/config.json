@@ -1,10 +1,10 @@
 {
   "needsTutorial": false,
-  "manifestUrl": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/manifest.json",
+  "manifestUrl": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/BCP_manifest.json",
   "manifestType": "json",
   "widgetType": "ImageSwipe",
   "widgetProperties": {
-    "baseUrlTemplate": "https://s3-us-west-2.amazonaws.com/abcd-braindr/dcan-braindr/{0}.png",
+    "baseUrlTemplate": "https://s3-us-west-2.amazonaws.com/abcd-braindr/BCP/{0}.png",
     "delimiter": "%",
     "leftSwipeLabel": "Fail",
     "rightSwipeLabel": "Pass"
@@ -73,12 +73,12 @@
   },
   "betaMode": false,
   "firebaseKeys": {
-    "apiKey": "AIzaSyCz0WsKVv-yP2kKGEdyO3PZQGbna9xl4yE",
-    "authDomain": "swipesforscience-d0036.firebaseapp.com",
-    "databaseURL": "https://swipesforscience-d0036.firebaseio.com",
-    "projectId": "swipesforscience-d0036",
-    "storageBucket": "swipesforscience-d0036.appspot.com",
-    "messagingSenderId": "575177827378"
+    "apiKey": "AIzaSyCnRfYP0bEqFlOxu9-76cvYv2gMbgN4lrE",
+    "authDomain": "bcp-braindr.firebaseapp.com",
+    "databaseURL": "https://bcp-braindr.firebaseio.com",
+    "projectId": "bcp-braindr",
+    "storageBucket": "bcp-braindr.appspot.com",
+    "messagingSenderId": "73279233790"
   },
   "app": {
     "navbarVariant": "info"
