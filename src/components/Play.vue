@@ -1,27 +1,38 @@
 <template name="play">
-  <div id="play" class="container">
-    <!-- Modal Component -->
+  <div id="play" class="page-content">
+    <ReviewPopup
+      v-if="showReview"
+      :widgetPointer="widgetPointer"
+      v-on:toggleReviewPopup="toggleReviewPopup"
+      :userInfo="userInfo"
+      :userData="userData"
+      :db="db"
+    />
     <b-modal id="levelUp" ref="levelUp" title="You've Levelled Up!" ok-only>
       <div class="my-4">
-        <h3>Level {{currentLevel.level}}</h3>
-        <img :src="currentLevel.img" width="120px" height="120px"/>
-        <p class="lead">You've unlocked: {{currentLevel.character}}</p>
+        <h3>Level {{ currentLevel.level }}</h3>
+        <img :src="currentLevel.img" width="120px" height="120px" />
+        <p class="lead">You've unlocked: {{ currentLevel.character }}</p>
       </div>
     </b-modal>
-
     <div class="main">
+      <button @click="toggleReviewPopup"><i class="fa fa-comments"></i></button>
 
-      <b-alert :show="dismissCountDown"
-         :variant="feedback.variant"
-         class="toast"
-         @dismissed="dismissCountdown=0"
-         @dismiss-count-down="countDownChanged">
-         {{feedback.message}}
+      <b-alert
+        :show="dismissCountDown"
+        :variant="feedback.variant"
+        class="toast"
+        @dismissed="dismissCountdown = 0"
+        @dismiss-count-down="countDownChanged"
+      >
+        {{ feedback.message }}
       </b-alert>
 
       <div v-if="noData">
         <h1>There is no data in your database!</h1>
-        <p class="lead">Follow the instructions to set up your SwipesForScience App</p>
+        <p class="lead">
+          Follow the instructions to set up your SwipesForScience App
+        </p>
         <img class="blankImage" :src="blankImage" alt="there is no data" />
       </div>
 
@@ -32,27 +43,25 @@
         </div>
 
         <WidgetSelector
-         v-else
-         :widgetType="widgetType"
-         :widgetPointer="widgetPointer"
-         :widgetProperties="widgetProperties"
-         :widgetSummary="widgetSummary"
-         :userSettings="userSettings"
-         :needsSecret="needsSecret"
-         :serverSecret="serverSecret"
-         v-on:widgetRating="sendWidgetResponse"
-         v-on:updateUserSettings="updateUserSettings"
-         :playMode="'play'"
-         ref="widget"
+          v-else
+          :widgetType="widgetType"
+          :widgetPointer="widgetPointer"
+          :widgetProperties="widgetProperties"
+          :widgetSummary="widgetSummary"
+          :userSettings="userSettings"
+          :needsSecret="needsSecret"
+          :serverSecret="serverSecret"
+          v-on:widgetRating="sendWidgetResponse"
+          v-on:updateUserSettings="updateUserSettings"
+          :playMode="'play'"
+          ref="widget"
         />
       </div>
-
-
-
     </div>
-
   </div>
 </template>
+
+
 
 <style>
   /*https://github.com/pudymody/tinderSwipe/blob/gh-pages/style.css*/
@@ -104,6 +113,7 @@
   import Vue from 'vue';
   import WidgetSelector from './WidgetSelector';
   import Flask from './Animations/Flask';
+  import ReviewPopup from "@/components/Review/ReviewPopup";
 
   Vue.component('WidgetSelector', WidgetSelector);
 
@@ -216,6 +226,10 @@
          * secret key (btoa'd) from the firebase server, in case the widget is locked.
          */
         serverSecret: '',
+        /**
+        * show or hide review
+        */
+        showReview: false
       };
     },
     watch: {
@@ -255,6 +269,7 @@
     components: {
       // WidgetSelector,
       Flask,
+      ReviewPopup
     },
     computed: {
       /**
@@ -543,6 +558,12 @@
             this.serverSecret = snap.val();
           });
       },
+      /**
+      * toggle review popup
+      */
+      toggleReviewPopup() {
+        this.showReview = !this.showReview;
+      }
     },
   };
 </script>

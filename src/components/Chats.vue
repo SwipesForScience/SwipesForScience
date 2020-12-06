@@ -1,24 +1,31 @@
 <template>
-  <b-container>
-    <div v-if="!noData">
+  <div class="page">
+    <div class="page-title">
       <h1>Chats</h1>
-      <p class="lead">See which samples people are talking about</p>
-      <p v-for="(c, index) in sampleChat" :key="index">
-        <b-alert show>
-          <router-link :to="'/review/' + c['.key']">{{c['.key']}}</router-link>
-          <br>
-          <span v-if="chatInfo[c['.key']]">
-            <b>{{chatInfo[c['.key']].username}}</b> : {{chatInfo[c['.key']].message}}
-          </span>
-        </b-alert>
-      </p>
     </div>
-    <div v-else>
-      <h1>Chats</h1>
-      <p class="lead">No one has said anything yet!</p>
-      <img :src="blankChatImage" class="blankImage"/>
+    <div class="page-content grey-gradient-bg">
+      <div class="page__content-container">
+        <div class="chat__placeholder" v-if="noData">
+          <p>No one has said anything yet!</p>
+          <img :src="blankChatImage" />
+        </div>
+        <div v-else>
+          <router-link
+            v-for="(c, index) in sampleChat"
+            :key="index"
+            :to="'/review/' + c['.key']"
+            class="chat__card"
+          >
+            <div class="title">{{ c[".key"] }}</div>
+            <div class="chat__message">
+              <span class="username">{{ chatInfo[c[".key"]].username }}</span> :
+              {{ chatInfo[c[".key"]].message }}
+            </div>
+          </router-link>
+        </div>
+      </div>
     </div>
-  </b-container>
+  </div>
 </template>
 
 <script>
@@ -107,8 +114,33 @@
   };
 </script>
 
-<style>
-  .blankImage {
-    max-width: 500px;
-  }
+<style scoped>
+.chat__placeholder img {
+  max-width: 500px;
+}
+.chat__card {
+  display: block;
+  padding: 1.5em;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  transition: all 0.1s ease;
+  margin-bottom: 2em;
+}
+.chat__card:hover {
+  transform: translate(-2px, -2px);
+}
+.chat__card .title {
+  display: block;
+  color: var(--color-purple);
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+.chat__message {
+  color: var(--color-steel);
+}
+.chat__message .username {
+  font-weight: bold;
+}
 </style>
+
