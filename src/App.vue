@@ -69,7 +69,7 @@
             <SliderMenu :needsTutorial="false" :isAdmin="false" />
           </li>
           <li class="navSection account-details">
-            <AccountMenu :userInfo="userInfo" :loggedIn="userIsDefined" @logout="logout" />
+            <AccountMenu :userInfo="userInfo" :userData="userData" :loggedIn="userIsDefined" @logout="logout" />
           </li>
           <li class="navSection desktop-menu"></li>
         </ul>
