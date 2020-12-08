@@ -1,6 +1,6 @@
 <template name="leaderboard">
   <div class="page">
-    <div class="page__header">
+    <div class="page-title">
       <h1>Leaderboard</h1>
     </div>
     <div class="page__content grey-gradient-bg">
@@ -40,7 +40,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 .leaderboard {
   display: flex;
   margin: 0 auto;

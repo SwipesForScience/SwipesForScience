@@ -38,7 +38,6 @@
 export default {
   name: "SampleAvatar"
 };
-// fill="url('#defaultGradient')"
 </script>
 
 <style scoped>

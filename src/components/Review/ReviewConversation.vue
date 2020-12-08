@@ -1,6 +1,6 @@
 <template name="review">
   <div>
-    <div class="page__content-container review__header dashed-border">
+    <div class="review__header dashed-border">
       <slot name="button">
         <router-link to="/play">
           <button class="back-button">
@@ -9,7 +9,7 @@
         >
       </slot>
     </div>
-    <div id="review" class="page-content grey-gradient-bg mobile-no-bg">
+    <div id="review" class="page__content grey-gradient-bg mobile-no-bg">
       <div class="page__content-container">
         <header class="dashed-border">
           <SampleAvatar />
@@ -241,18 +241,16 @@ export default {
 </script>
 
 <style scoped>
-.page-content {
+.page__content {
   min-height: calc(100vh - 32px);
 }
 header {
   padding-bottom: 24px;
 }
 .review__header {
-  display: flex;
-  justify-content: left;
-  margin: 0 1.25em;
-  padding: 1em 0;
+  padding: 1em 1.25em;
   position: relative;
+  display: flex;
 }
 .back-button {
   width: auto;
@@ -338,6 +336,7 @@ h2 {
   }
   @media (min-width: 65em) {
     .review__header {
+      width: 65em;
       margin: 0 auto;
     }
   }

@@ -3,7 +3,7 @@
     <div class="page-title">
       <h1>Chats</h1>
     </div>
-    <div class="page-content grey-gradient-bg">
+    <div class="page__content grey-gradient-bg">
       <div class="page__content-container">
         <div class="chat__placeholder" v-if="noData">
           <p>No one has said anything yet!</p>

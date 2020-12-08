@@ -1,5 +1,5 @@
 <template name="play">
-  <div id="play" class="page-content">
+  <div id="play" class="page__content">
     <ReviewPopup
       v-if="showReview"
       :widgetPointer="widgetPointer"
