@@ -51,7 +51,7 @@ export default {
   position: absolute;
   left: 0;
   right: 0;
-  top: 120px;
+  top: 0;
   background-color: white;
 }
 </style>

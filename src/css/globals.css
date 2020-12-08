@@ -2,13 +2,37 @@
 * {
   box-sizing: border-box;
 }
-a,
-button, .toggle {
+/* CSS variables */
+:root {
+ --color-purple: #5841ab;
+ --color-lavender:  #eae7f4;
+ --color-yellow: #fff3ca;
+ --color-steel: #1f1d21;
+ --color-white: #fff;
+ --border-radius: 7px;
+ --box-shadow: 0 2px 40px rgba(14,30,37,.16);
+ --font-display: Nunito, Helvetica, Arial, sans-serif;
+ --color-focus-ring: var(--color-purple);
+}
+a, .toggle {
   cursor: pointer;
 }
-/* removes blue highlight on Chrome 8 */
+
+/* underline and blue styles from bootstrap, remove when bootstrap is removed */
+a:hover {
+  text-decoration: none;
+}
 *:focus {
-  outline: none;
+  outline-color: var(--color-focus-ring);
+}
+
+input {
+  border: none;
+  padding: 12px;
+  height: 48px;
+  background-color: var(--color-lavender);
+  border-radius: var(--border-radius);
+  transition: all .15s ease;
 }
 
 /* body and html styles */
@@ -18,30 +42,37 @@ body {
     overflow-x: hidden;
   }
 
+  
 /* Page styles */
-.page__header {
+.page-title {
   min-height: 2.4em;
   padding: 0 1.25em;
   display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
-.page__content {
-  min-height: calc(100vh - 10em);
-  padding: 1.25em;
+.page-content {
+  position: relative;
+  padding: 2em 1.25em;
+  min-height: calc(100vh - 11em);
+
 }
 
+
+
 @media (min-width: 65em) {
-    .page__header {
-        width: 65em;
-        margin: 0 auto;
-        padding: 0;
+    .page-title {
+      width: 65em;
+      margin: 0 auto;
+      padding: 0;
     }
-    .page__content {
-        padding: 2em 1.25em;
+    .page-content {
+      padding: 2em 1.25em;
     }
     .page__content-container {
-            width: 65em;
-            margin: 0 auto;
-            padding: 0;
+      width: 65em;
+      margin: 0 auto;
+      padding: 0;
     }
 }
 
@@ -61,26 +92,39 @@ nav a.nav__link:hover {
 
 
 /* Button styles */
-button.full-size-mobile, button.full-size-desktop {
-    outline: none;
-
-    color: white;
-    width: 100%;
-    height: 3em;
-    border: none;
-    border-radius: 7px;
-    background-image: linear-gradient(to bottom, hsl(265, 56%, 56%), hsl(257, 55%, 45%));
- 
+button {
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  border-radius: var(--border-radius);
+}
+/* variant: primary */
+button.primary {
+  color: var(--color-white);
+  background-image: linear-gradient(to bottom, hsl(265, 56%, 56%), hsl(257, 55%, 45%));
+}
+/* variant: hollow */
+button.hollow {
+  border: 1px solid var(--color-purple);
+  color: var(--color-purple);
+}
+/* variant: fail */
+button.fail {
+  color: var(--color-white);
+  background-image: linear-gradient(to top, #d92929, #e82828);
+}
+/* variant: pass */
+button.pass {
+  color: var(--color-white);
+  background-image: linear-gradient(to top, #4db22f, #5acc22);
 }
 
-@media (min-width: 30em) {
-    button.full-size-mobile {
-        width: 33.6em;
-        margin: 0 auto;
-    }
+/* background gradients */
+@media (max-width: 30em) {
+  .grey-gradient-bg.mobile-no-bg {
+    background: white;
+  }
 }
-
-/* Background gradients */
 .grey-gradient-bg {
     background-image: linear-gradient(
       to bottom,
@@ -181,5 +225,27 @@ button.full-size-mobile, button.full-size-desktop {
 }
 .corner-ribbon.yellow {
   background: #ec0;
+}
+
+.dashed-border {
+  position: relative;
+}
+.dashed-border:after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  content: '';
+  border: 0;
+  background-repeat: repeat-x;
+  height: 3px;
+  background-image: linear-gradient(
+    90deg,
+    hsl(253, 44%, 47%),
+    hsl(253, 44%, 47%) 60%,
+    transparent 60%,
+    transparent 100%
+  );
+  background-size: 15px 1px;
 }
 

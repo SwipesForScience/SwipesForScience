@@ -241,6 +241,9 @@ export default {
 </script>
 
 <style scoped>
+.page-content {
+  min-height: calc(100vh - 32px);
+}
 header {
   padding-bottom: 24px;
 }
@@ -309,6 +312,7 @@ h2 {
   margin-bottom: 12px;
 }
 .review-message-text {
+  background-color: var(--color-yellow);
   width: 70%;
   font-size: 14px;
   line-height: 160%;
