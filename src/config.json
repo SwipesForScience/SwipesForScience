@@ -102,174 +102,174 @@
     "steps": {
       "intro": [
         {
-          text: 'The structural image of the brain is the T1-weighted image (T1). \nThis image is a clear snapshot of the brain at one point in time and is used to measure physical characteristics like shape and size.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/atlas_justimg.jpg',
+          "text": "The structural image of the brain is the T1-weighted image (T1). \nThis image is a clear snapshot of the brain at one point in time and is used to measure physical characteristics like shape and size.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/atlas_justimg.jpg"
         },
         {
-          text: 'On the T1, you can classify white and gray matter. \nGray matter is made up of folds with the “hills” called gyri and “valleys” called sulci delineated by red lines. \nWhite matter is delineated by dark gray lines.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/GM_WM.JPG',
+          "text": "On the T1, you can classify white and gray matter. \nGray matter is made up of folds with the “hills” called gyri and “valleys” called sulci delineated by red lines. \nWhite matter is delineated by dark gray lines.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/GM_WM.JPG"
         },
         {
-          text: 'There are 7 types of images in 3 different planes to assess the surface delineation quality on the T1.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/planes.JPG',
+          "text": "There are 7 types of images in 3 different planes to assess the surface delineation quality on the T1.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/planes.JPG"
         },
         {
-          text: 'Ignore the subcortical regions highlighted between the temporal lobes in the coronal view. \nSurface delineation is only concerned with the outer area of the brain called the cortex.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/subcort.JPG',
+          "text": "Ignore the subcortical regions highlighted between the temporal lobes in the coronal view. \nSurface delineation is only concerned with the outer area of the brain called the cortex.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/subcort.JPG"
         },
         {
-          text: 'The lines separating the gray and white matter are called surface delineations. \nHow well the gray and white matter are delineated will signify the quality of the surface delineations. \nLook below for common errors in surface delineation.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/deline.JPG',
+          "text": "The lines separating the gray and white matter are called surface delineations. \nHow well the gray and white matter are delineated will signify the quality of the surface delineations. \nLook below for common errors in surface delineation.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/deline.JPG"
         },
         {
-          text: 'Blurriness occurs when the participant is moving in the scanner and can make it difficult to delineate the surface.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/blurryfail.JPG',
+          "text": "Blurriness occurs when the participant is moving in the scanner and can make it difficult to delineate the surface.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/blurryfail.JPG"
         },
         {
-          text: 'Blurriness in the T1 does not always make the surface delineation bad quality.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/blurrypass.JPG',
+          "text": "Blurriness in the T1 does not always make the surface delineation bad quality.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/blurrypass.JPG"
         },
         {
-          text: 'Ringing occurs when the participant is moving in the scanner and can disrupt the surface delineation \nbecause the rings can be mistaken as brain or make the brain unrecognizable.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/ringingfail.JPG',
+          "text": "Ringing occurs when the participant is moving in the scanner and can disrupt the surface delineation \nbecause the rings can be mistaken as brain or make the brain unrecognizable.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/ringingfail.JPG"
         },
         {
-          text: 'Ringing in the T1 does not always make the surface delineation bad quality.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/ringingpass.JPG',
+          "text": "Ringing in the T1 does not always make the surface delineation bad quality.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/ringingpass.JPG"
         },
         {
-          text: 'White matter extension is when the white matter is poorly delineated and extends to the gray matter line.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/whitematter.PNG',
+          "text": "White matter extension is when the white matter is poorly delineated and extends to the gray matter line.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/whitematter.PNG"
         },
         {
-          text: 'Another error is when the surface delineation goes outside of the brain and into the dura or skull. \nThe dura is the faint gray line between the brain and the skull. The skull is the thick white line.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/duraskull.JPG',
+          "text": "Another error is when the surface delineation goes outside of the brain and into the dura or skull. \nThe dura is the faint gray line between the brain and the skull. The skull is the thick white line.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/duraskull.JPG"
         },
         {
-          text: 'The image is also bad quality when the white and gray matter surface delineations cross over each other.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/14-T1Surf.jpg',
+          "text": "The image is also bad quality when the white and gray matter surface delineations cross over each other.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/14-T1Surf.jpg"
         },
         {
-          text: 'Warps of the brain, skull, and surface delineations are caused by poor atlas registration. \nThese warps appear to "pull" the brain and surface delineations.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/15-T1Surf.jpg',
+          "text": "Warps of the brain, skull, and surface delineations are caused by poor atlas registration. \nThese warps appear to 'pull' the brain and surface delineations.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/15-T1Surf.jpg"
         },
         {
-          text: 'Below are examples of good and bad quality surface delineation:',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/17-T1Surf.jpg',
+          "text": "Below are examples of good and bad quality surface delineation:",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/17-T1Surf.jpg"
         },
         {
-          text: '',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/18-T1Surf.jpg',
+          "text": "",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/18-T1Surf.jpg"
         },
         {
-          text: '',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/16-T1Surf.jpg',
+          "text": "",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/16-T1Surf.jpg"
         },
         {
-          text: '',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/19-T1Surf.jpg',
+          "text": "",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/19-T1Surf.jpg"
         },
         {
-          text: '',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/20-T1Surf.jpg',
+          "text": "",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/20-T1Surf.jpg"
         },
         {
-          text: 'The structural image of the brain is the T1-weighted image (T1). \nThis image is a clear snapshot of the brain at one point in time and is used to measure physical characteristics like shape and size.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/atlas_justimg.jpg',
+          "text": "The structural image of the brain is the T1-weighted image (T1). \nThis image is a clear snapshot of the brain at one point in time and is used to measure physical characteristics like shape and size.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/atlas_justimg.jpg"
         },
         {
-          text: 'Each ABCD Study participant’s T1 is registered to the Montreal Neurological Institute (MNI) atlas. \nThe structural image is registered to a common atlas in order to compare subjects with different brain shapes.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/mni_final.jpg',
+          "text": "Each ABCD Study participant’s T1 is registered to the Montreal Neurological Institute (MNI) atlas. \nThe structural image is registered to a common atlas in order to compare subjects with different brain shapes.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/mni_final.jpg"
         },
         {
-          text: 'There are two types of images to assess the quality of the T1 registration to the MNI atlas. \nThese images are the T1 and MNI atlas overlaid onto each other.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/atlast1horizontal.JPG',
+          "text": "There are two types of images to assess the quality of the T1 registration to the MNI atlas. \nThese images are the T1 and MNI atlas overlaid onto each other.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/atlast1horizontal.JPG"
         },
         {
-          text: 'The quality of the atlas registration depends on how well the T1 aligns to the boundaries of the MNI atlas.\nThe goal is to have all participants’ overlaid images look the same so their brain shapes are the same and can be compared.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/innerboundary_screenshot.jpg',
+          "text": "The quality of the atlas registration depends on how well the T1 aligns to the boundaries of the MNI atlas.\nThe goal is to have all participants’ overlaid images look the same so their brain shapes are the same and can be compared.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/innerboundary_screenshot.jpg"
         },
         {
-          text: 'The T1 may not align to the atlas due to not extending to the atlas boundaries.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/insidefail.JPG',
+          "text": "The T1 may not align to the atlas due to not extending to the atlas boundaries.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/insidefail.JPG"
 
         },
         {
-          text: 'However if the T1 is minimally inside the atlas boundaries it is not necessarily bad quality.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/insidepass.JPG',
+          "text": "However if the T1 is minimally inside the atlas boundaries it is not necessarily bad quality.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/insidepass.JPG"
         },
         {
-          text: 'The T1 may also extend outside of the atlas boundaries.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/outsidefail.JPG',
+          "text": "The T1 may also extend outside of the atlas boundaries.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/outsidefail.JPG"
         },
         {
-          text: 'However if the T1 extends minimally outside of the atlas boundaries it is not necessarily bad quality.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/outsidepass.JPG',
+          "text": "However if the T1 extends minimally outside of the atlas boundaries it is not necessarily bad quality.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/outsidepass.JPG"
         },
         {
-          text: 'If the image has no red overlay, click the HELP button and type "no overlay". This is a problem with how the overlaid image was created, not the T1 registration.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/blank_help_arrow.JPG',
+          "text": "If the image has no red overlay, click the HELP button and type 'no overlay'. This is a problem with how the overlaid image was created, not the T1 registration.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/blank_help_arrow.JPG"
         },
         {
-          text: 'Functional MRI (fMRI) is used to measure brain activity over time whereas \nstructural MRI (e.g. T1-weighted imaging) is used to measure brain structure at one point in time.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/2sidebyside.JPG',
+          "text": "Functional MRI (fMRI) is used to measure brain activity over time whereas \nstructural MRI (e.g. T1-weighted imaging) is used to measure brain structure at one point in time.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/2sidebyside.JPG"
         },
         {
-          text: 'The fMRI image is much more blurry than the T1-weighted image (T1) and \nis more difficult to define the white and gray matter. \nSo image processing aligns the blurry fMRI image to the clearer T1. \nThis allows us to map the brain activity from the fMRI image to the precise regions defined in the T1.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/fMRIalignsT1.JPG',
+          "text": "The fMRI image is much more blurry than the T1-weighted image (T1) and \nis more difficult to define the white and gray matter. \nSo image processing aligns the blurry fMRI image to the clearer T1. \nThis allows us to map the brain activity from the fMRI image to the precise regions defined in the T1.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/fMRIalignsT1.JPG"
         },
         {
-          text: 'There are two types of images to assess the quality of the fMRI registration to the T1. \nThese images are the T1 and the fMRI overlaid onto each other.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/sidebysiderest_testwidth.JPG',
+          "text": "There are two types of images to assess the quality of the fMRI registration to the T1. \nThese images are the T1 and the fMRI overlaid onto each other.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/sidebysiderest_testwidth.JPG"
         },
         {
-          text: 'The quality of the fMRI registration depends on how well the fMRI image and T1 align. \nCommon functional registration errors include: \nfield of view cut off and signal dropout.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/alignexample.JPG',
+          "text": "The quality of the fMRI registration depends on how well the fMRI image and T1 align. \nCommon functional registration errors include: \nfield of view cut off and signal dropout.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/alignexample.JPG"
         },
         {
-          text: 'Field of view cut-off occurs when the participant’s head is not fully in the image field of view and \neither the bottom or top of the brain appears cut off.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/failwithtexttest.JPG',
+          "text": "Field of view cut-off occurs when the participant’s head is not fully in the image field of view and \neither the bottom or top of the brain appears cut off.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/failwithtexttest.JPG"
         },
         {
-          text: 'Not all field of view cut-off errors imply bad quality, \nit is more important to what extent the brain is cut off.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/passwithtexttest.JPG',
+          "text": "Not all field of view cut-off errors imply bad quality, \nit is more important to what extent the brain is cut off.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/passwithtexttest.JPG"
         },
         {
-          text: 'Signal dropout occurs where the scanner cannot acquire data during a scan. \nThere are many reasons this can occur.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/signalfail.JPG',
+          "text": "Signal dropout occurs where the scanner cannot acquire data during a scan. \nThere are many reasons this can occur.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/signalfail.JPG"
         },
         {
-          text: 'Not all signal dropout errors imply bad quality, \nit is more important to what extent the signal is not recorded.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/passsignal.JPG',
+          "text": "Not all signal dropout errors imply bad quality, \nit is more important to what extent the signal is not recorded.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/passsignal.JPG"
         },
         {
-          text: 'Ignore movement artifacts and warped brain shapes when assessing the quality of the functional registration. \nMovement artifacts occur when the participant is moving too much during the fMRI scan but still is a PASS if the T1 and fMRI align well.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/movementpass.JPG',
+          "text": "Ignore movement artifacts and warped brain shapes when assessing the quality of the functional registration. \nMovement artifacts occur when the participant is moving too much during the fMRI scan but still is a PASS if the T1 and fMRI align well.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/movementpass.JPG"
         },
         {
-          text: 'Ignore warped brain shapes when assessing the quality of the functional registration. \nWarped brains are due to poor registration of the T1 to the MNI atlas and are not a problem with the functional scan. \nWarped brains will be quality checked in the ABCD Anatomical Swipes For Science app.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/ignorewarp.JPG',
+          "text": "Ignore warped brain shapes when assessing the quality of the functional registration. \nWarped brains are due to poor registration of the T1 to the MNI atlas and are not a problem with the functional scan. \nWarped brains will be quality checked in the ABCD Anatomical Swipes For Science app.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/ignorewarp.JPG"
         },
         {
-          text: 'Below are examples of good and bad quality fMRI scans:',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/example1.JPG',
+          "text": "Below are examples of good and bad quality fMRI scans:",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/example1.JPG"
         },
         {
-          text: '',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/example2.JPG',
+          "text": "",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/example2.JPG"
         },
         {
-          text: '',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/example3.JPG',
+          "text": "",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/example3.JPG"
         },
         {
-          text: '',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/example4.JPG',
+          "text": "",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/example4.JPG"
         },
         {
-          text: 'If the image has no red overlay, click the HELP button and type "no overlay". This is a problem with how the overlaid image was created, not the functional registration.',
-          image: 'https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/blank_help_arrow.JPG',
-        },
+          "text": "If the image has no red overlay, click the HELP button and type 'no overlay'. This is a problem with how the overlaid image was created, not the functional registration.",
+          "image": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/master/config/tutorial_imgs/blank_help_arrow.JPG"
+        }
       ],
       "examples": [
         {
