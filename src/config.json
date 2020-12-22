@@ -274,37 +274,37 @@
       "examples": [
         {
           "text": "Swipe right when the image is good quality.\n The gray matter and white matter is properly delineated.",
-          "pointer": "sub-232633_ses-36mo_T2-Axial-BasalGangila-Putamen.png",
+          "pointer": "sub-232633_ses-36mo_T2-Axial-BasalGangila-Putamen",
           "answer": 1,
           "tutorialStep": 0
         },
         {
           "text": "Swipe right: Only minor gray matter cutoff around the perimeter of the brain.",
-          "pointer": "sub-583494_ses-20mo_T1-Sagittal-Insula-FrontoTemporal.png",
+          "pointer": "sub-583494_ses-20mo_T1-Sagittal-Insula-FrontoTemporal",
           "answer": 1,
           "tutorialStep": 1
         },
         {
           "text": "Swipe right: Functional registration passes with only minor cutoff in functional data.",
-          "pointer": "sub-583494_ses-44mo_task-rest_run-002_desc-TaskInT1.png",
+          "pointer": "sub-583494_ses-44mo_task-rest_run-002_desc-TaskInT1",
           "answer": 1,
           "tutorialStep": 2
         },
         {
           "text": "Swipe left when its bad:\n Too much white matter cut off",
-          "pointer": "sub-752770_ses-9mo_T1-Coronal-OrbitoFrontal.png",
+          "pointer": "sub-752770_ses-9mo_T1-Coronal-OrbitoFrontal",
           "answer": 0,
           "tutorialStep": 3
         },
         {
           "text": "Swipe left:\n Large areas where functional data is not registered to the atlas.",
-          "pointer": "sub-764612_ses-28mo_task-rest_run-001_desc-TaskInT1.png",
+          "pointer": "sub-764612_ses-28mo_task-rest_run-001_desc-TaskInT1",
           "answer": 0,
           "tutorialStep": 4
         },
         {
           "text": "if you're not sure, click 'help' \n to discuss with scientists ",
-          "pointer": "sub-675362_ses-42mo_task-rest_run-003_desc-TaskInT2.png",
+          "pointer": "sub-675362_ses-42mo_task-rest_run-003_desc-TaskInT2",
           "answer": 0,
           "tutorialStep": 5
         },
