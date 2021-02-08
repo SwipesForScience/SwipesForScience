@@ -447,6 +447,10 @@ export default {
      * last, it will set the next sample.
      */
     sendWidgetResponse(response) {
+      // record timeDiff as soon as possible
+      const timeDiff = new Date() - this.startTime;
+      console.log(timeDiff);
+
       // 1. get feedback from the widget, and display if needed
       const feedback = this.$refs.widget.getFeedback(response);
       if (feedback.show) {
@@ -455,7 +459,6 @@ export default {
       }
 
       // 2. send the widget data
-      const timeDiff = new Date() - this.startTime;
       this.sendVote(response, timeDiff);
 
       // 3. update the score and count for the sample

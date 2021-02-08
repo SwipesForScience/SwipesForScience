@@ -321,8 +321,8 @@ export default {
      * emit an annotation to the parent.
      */
     vote(val) {
-      clearTimeout(this.durationTimer);
       this.$emit("widgetRating", val);
+      clearTimeout(this.durationTimer);
     },
     /**
      * This method should tell users how their widgetProperties configuration should be defined.
