@@ -449,7 +449,6 @@ export default {
     sendWidgetResponse(response) {
       // record timeDiff as soon as possible
       const timeDiff = new Date() - this.startTime;
-      console.log(timeDiff);
 
       // 1. get feedback from the widget, and display if needed
       const feedback = this.$refs.widget.getFeedback(response);
@@ -467,7 +466,7 @@ export default {
       this.updateCount();
       this.updateSeen();
 
-      // 3. set the next Sample
+      // 4. set the next Sample
       this.setNextSampleId();
     },
     /**

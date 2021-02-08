@@ -1,5 +1,5 @@
 <template>
-  <div class="ImageSwipe">
+  <div class="ImageSwipe" v-if="showStimuli">
     <transition :key="swipe" :name="swipe">
       <div class="user-card" :key="baseUrl">
         <div class="image_area">
@@ -160,7 +160,16 @@ export default {
        * Timer object for frame duration handling.
        * Used when `widgetProperties.stimulusDuration` is set.
        */
-      durationTimer: null
+      durationTimer: null,
+      /**
+       * Timer object for inter-stimuli duration handling.
+       * Used when `widgetProperties.timing.interStimuliDuration` is set.
+       */
+      interStimuliTimer: null,
+      /**
+       * flag to hide stimulus if `widgetProperties.timing.interStimuliDuration` is set.
+       */
+      showStimuli: true
     };
   },
   computed: {
@@ -179,6 +188,15 @@ export default {
         : null;
     }
   },
+  watch: {
+    /**
+     * Watch the widget pointer, which is from `/sampleCounts` document in firebase.
+     * When it changes, also update the `widgetSummary` to be from the new `widgetPointer`.
+     */
+    widgetPointer() {
+      this.preImgLoad();
+    }
+  },
   /**
    * If the playMode === 'tutorial', show a tutorial step.
    */
@@ -191,6 +209,7 @@ export default {
   },
   beforeUnmount() {
     clearTimeout(this.durationTimer);
+    clearTimeout(this.interStimuliTimer);
   },
   methods: {
     /**
@@ -212,6 +231,17 @@ export default {
           break;
         default:
           break;
+      }
+    },
+    preImgLoad() {
+      const interStimuliDuration = this.widgetProperties.timing
+        .interStimuliDuration;
+      if (interStimuliDuration) {
+        this.showStimuli = false;
+        this.interStimuliTimer = setTimeout(() => {
+          this.showStimuli = true;
+          clearTimeout(this.interStimuliTimer);
+        }, interStimuliDuration);
       }
     },
     /**
@@ -323,6 +353,7 @@ export default {
     vote(val) {
       this.$emit("widgetRating", val);
       clearTimeout(this.durationTimer);
+      clearTimeout(this.interStimuliTimer);
     },
     /**
      * This method should tell users how their widgetProperties configuration should be defined.
@@ -389,6 +420,13 @@ export default {
               default: 0,
               description:
                 "value stored to database when stimulus times out before user has swiped"
+            },
+            interStimuliDuration: {
+              type: Number,
+              required: false,
+              default: 0,
+              description:
+                "time between stimuli end and next stimuli load (defaults to zero). Note: this is only as precise as the clients environment allows"
             },
             stimulusFadeIn: {
               type: Boolean,
