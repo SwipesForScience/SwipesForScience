@@ -16,7 +16,7 @@ export default {
     delimiter: "__",
     leftSwipe: {
       label: "Fail",
-      value: 0
+      value: -1
     },
     rightSwipe: {
       label: "Pass",
@@ -24,7 +24,7 @@ export default {
     },
     timing: {
       stimulusDuration: 10_000,
-      timeoutValue: -1,
+      timeoutValue: 0,
       stimulusFadeIn: true
     }
   },

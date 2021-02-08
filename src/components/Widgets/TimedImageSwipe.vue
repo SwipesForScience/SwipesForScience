@@ -218,6 +218,7 @@ export default {
      * Set a duration timer on image load if stimulusDuration is configured.
      */
     onImgLoad() {
+      this.$emit("setStartTime", new Date());
       if (this.widgetProperties.timing.stimulusDuration) {
         this.durationTimer = setTimeout(() => {
           this.vote(this.widgetProperties.timing.timeoutValue);
