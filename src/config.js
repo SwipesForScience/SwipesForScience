@@ -23,8 +23,9 @@ export default {
       value: 1
     },
     timing: {
-      stimulusDuration: 500,
+      stimulusDuration: 10_000,
       timeoutValue: 0,
+      interStimuliDuration: 2000,
       stimulusFadeIn: false
     }
   },
