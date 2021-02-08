@@ -8,14 +8,25 @@ export default {
   manifestUrl:
     "https://raw.githubusercontent.com/SwipesForScience/exampleConfig/master/bsHbnManifest.json",
   manifestType: "json",
-  widgetType: "ImageSwipe", // 'EvalNHA',
+  widgetType: "TimedImageSwipe", // 'EvalNHA',
   widgetUsesSecret: false,
   widgetProperties: {
     baseUrlTemplate:
       "https://s3-us-west-2.amazonaws.com/akeshavan-mindcontrol/hbnSplat/{0}/tiles/base_{1}.png",
     delimiter: "__",
-    leftSwipeLabel: "Fail",
-    rightSwipeLabel: "Pass"
+    leftSwipe: {
+      label: "Fail",
+      value: 0
+    },
+    rightSwipe: {
+      label: "Pass",
+      value: 1
+    },
+    timing: {
+      stimulusDuration: 10_000,
+      timeoutValue: -1,
+      stimulusFadeIn: true
+    }
   },
 
   // if manifestType = 'pubmed' then you should also include a manifestQuery key.
