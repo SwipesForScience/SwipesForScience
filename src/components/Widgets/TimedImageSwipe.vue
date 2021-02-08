@@ -500,7 +500,7 @@ export default {
 </script>
 
 <style scoped>
-.timedImageSwipe {
+.imageSwipe {
   min-height: 100vh;
   height: 532px;
 }
