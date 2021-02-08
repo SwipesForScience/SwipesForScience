@@ -27,6 +27,7 @@
         :userSettings="userSettings"
         :tutorialStep="tutorialStep"
         v-on:widgetRating="widgetRating"
+        v-on:setStartTime="setStartTime"
         v-on:updateUserSettings="updateUserSettings"
         :playMode="playMode"
       />
@@ -157,6 +158,12 @@ export default {
      */
     widgetRating(response) {
       this.$emit("widgetRating", response);
+    },
+    /**
+     * emit the widget's response to the parent.
+     */
+    setStartTime(response) {
+      this.$emit("setStartTime", response);
     },
     /**
      * emit the widget's user settings to the parent
