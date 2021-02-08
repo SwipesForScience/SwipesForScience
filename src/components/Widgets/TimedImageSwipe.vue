@@ -1,5 +1,5 @@
 <template>
-  <div class="ImageSwipe" v-if="showStimuli">
+  <div class="imageSwipe" v-if="showStimuli">
     <transition :key="swipe" :name="swipe">
       <div class="user-card" :key="baseUrl">
         <div class="image_area">
