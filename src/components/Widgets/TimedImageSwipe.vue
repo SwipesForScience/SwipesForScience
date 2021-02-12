@@ -351,9 +351,22 @@ export default {
      * emit an annotation to the parent.
      */
     vote(val) {
-      this.$emit("widgetRating", val);
-      clearTimeout(this.durationTimer);
-      clearTimeout(this.interStimuliTimer);
+      if (this.playMode === "tutorial") {
+        this.tutorialVote(val);
+      } else {
+        this.$emit("widgetRating", val);
+        clearTimeout(this.durationTimer);
+        clearTimeout(this.interStimuliTimer);
+      }
+    },
+    /**
+     * emit a correct/incorrect answer to parent
+     */
+    tutorialVote(value) {
+      this.$emit("widgetRating", {
+        pointer: this.widgetPointer,
+        value
+      });
     },
     /**
      * This method should tell users how their widgetProperties configuration should be defined.
