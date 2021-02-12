@@ -166,7 +166,7 @@ export default {
       /**
        * Event listener `timeupdate` on video el. Pauses video after configured duration.
        */
-      videoPaused: false,
+      videoPaused: true,
       removeVideoListener: () => {},
       /**
        * [observer, element] pairs for triggering videos on step visibility.
@@ -390,6 +390,7 @@ export default {
   right: 0;
   height: 15.9em;
   width: 28em;
+  z-index: 2;
 }
 .tutorial-helper .video {
   position: absolute;
@@ -399,7 +400,6 @@ export default {
   min-height: 100%;
   width: 100%;
   height: auto;
-  z-index: -100;
   background-size: cover;
   overflow: hidden;
 }
