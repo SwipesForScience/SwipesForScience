@@ -1,0 +1,249 @@
+{
+  "needsTutorial": true,
+  "manifestUrl": "https://raw.githubusercontent.com/jyeatman/SwipesForScience/master/data/manifest.json",
+  "manifestType": "json",
+  "widgetType": "ImageSwipe",
+  "widgetProperties": {
+    "baseUrlTemplate": "https://jdy-sentences.s3.amazonaws.com/{0}.jpg",
+    "delimiter": "__",
+    "leftSwipeLabel": "Fake",
+    "rightSwipeLabel": "Real"
+  },
+  "iconAttribute": {
+    "name": "openmoji",
+    "url": "http://openmoji.org"
+  },
+  "levels": {
+    "0": {
+      "level": 0,
+      "min": 0,
+      "max": 4,
+      "character": "worm",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1FAB1.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1FAB1.svg?sanitize=true"
+    },
+    "1": {
+      "level": 1,
+      "min": 5,
+      "max": 9,
+      "character": "cricket",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F997.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F997.svg?sanitize=true"
+    },
+    "2": {
+      "level": 2,
+      "min": 10,
+      "max": 24,
+      "character": "fish",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F41F.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F41F.svg?sanitize=true"
+    },
+    "3": {
+      "level": 3,
+      "min": 25,
+      "max": 49,
+      "character": "frog",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F438.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F438.svg?sanitize=true"
+    },
+    "4": {
+      "level": 4,
+      "min": 50,
+      "max": 99,
+      "character": "turtle",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F422.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F422.svg?sanitize=true"
+    },
+    "5": {
+      "level": 5,
+      "min": 100,
+      "max": 249,
+      "character": "hedgehog",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F994.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F994.svg?sanitize=true"
+    },
+    "6": {
+      "level": 6,
+      "min": 250,
+      "max": 499,
+      "character": "duck",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F986.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F986.svg?sanitize=true"
+    },
+    "7": {
+      "level": 7,
+      "min": 500,
+      "max": 999,
+      "character": "koala",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F428.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F428.svg?sanitize=true"
+    },
+    "8": {
+      "level": 8,
+      "min": 1000,
+      "max": 2499,
+      "character": "gorilla",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F98D.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F98D.svg?sanitize=true"
+    },
+    "9": {
+      "level": 9,
+      "min": 2500,
+      "max": 4999,
+      "character": "mammoth",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F9A3.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F9A3.svg?sanitize=true"
+    },
+    "10": {
+      "level": 10,
+      "min": 5000,
+      "max": 7499,
+      "character": "dragon",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F409.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F409.svg?sanitize=true"
+    },
+    "11": {
+      "level": 11,
+      "min": 7500,
+      "max": 9999,
+      "character": "sauropod",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F995.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F995.svg?sanitize=true"
+    },
+    "12": {
+      "level": 12,
+      "min": 10000,
+      "max": 12499,
+      "character": "unicorn",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F984.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F984.svg?sanitize=true"
+    },
+    "13": {
+      "level": 13,
+      "min": 12500,
+      "max": 20000,
+      "character": "brain",
+      "img": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F9E0.svg?sanitize=true",
+      "img_grey": "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F9E0.svg?sanitize=true"
+    }
+  },
+  "betaMode": false,
+  "firebaseKeys": {
+    "apiKey": "AIzaSyBC1IiNKg-AzveUj9_bwpASk8n5zE1Yy4c",
+    "authDomain": "gse-yeatman-lab.firebaseapp.com",
+    "projectId": "gse-yeatman-lab",
+    "storageBucket": "gse-yeatman-lab.appspot.com",
+    "messagingSenderId": "984978630424"
+  },
+  "app": {
+    "navbarVariant": "info"
+  },
+  "home": {
+    "shortTitle": ROAR",
+    "title": "ROAR",
+    "tagline": "A citizen science game to measure the quality of children's brain images",
+    "backgroundUrl": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/fibr_example_optimized.gif"
+  },
+  "play": {
+    "blankImage": "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_blank_canvas.svg?sanitize=true"
+  },
+  "chats": {
+    "blankImage": "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_no_data.svg?sanitize=true"
+  },
+  "profile": {
+    "blankImage": "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_chatting.svg?sanitize=true"
+  },
+  "tutorial": {
+    "customBackgroundAnimation": "",
+    "steps": {
+      "intro": [
+        {
+          "text": "Most mental health disorders are diagnosed between the ages of 5-20.",
+          "image": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/undraw_children_4rtb.svg?sanitize=true"
+        },
+        {
+          "text": "The Healthy Brain Network is collecting brain MRI scans of adolescents with mental health disorders.",
+          "image": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/magnetic-resonance-imaging-5366912.svg?sanitize=true"
+        },
+        {
+          "text": "Can brain images help us understand mental health?<br>To find out, scientists need your help to measure the brain and assess the quality of the collected data.",
+          "image": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/undraw_medical_research_qg4d.svg?sanitize=true"
+        },
+        {
+          "text": "Here is an animated MRI image of the head (looking from the top down).<br>There are dark and light spots. In this kind of image, the dark regions comprise<br>the 'white matter,' with fiber bundles connecting different parts of the brain.",
+          "image": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/sub-NDARNH170TJU_desc-b0_optimized.gif"
+        },
+        {
+          "text": "A computer has colored in parts of the brain<br>where it has found fibers connecting different parts of the brain.<br>Most of the dark spots have been colored in using red, green, or blue.",
+          "image": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/sub-NDARNH170TJU_desc-colorfa_optimized.gif"
+        }
+      ],
+      "examples": [
+        {
+          "text": "But scientists need your help to check whether the computer did a good job.<br>You will see sections of the brain below.<br>Sometimes you'll see static images and sometimes you'll see animations.<br>The underlying grayscale image should be free from distortion and without dark bands.<br>The color bundles should be continuous and mostly fill in the dark spots from the grayscale image underneath.<br>Swipe right when the image is of good quality, like this one.",
+          "pointer": "sub-NDARNT113YX7_desc-b0colorfa_slice-1_medium",
+          "answer": 1,
+          "tutorialStep": 0
+        },
+        {
+          "text": "Swipe left when its bad. In this example, there is little to no color in the image<br>and there are dark bands across the underlying grayscale image.",
+          "pointer": "sub-NDARYZ871DXQ_desc-b0colorfa_slice-0_medium",
+          "answer": 0,
+          "tutorialStep": 1
+        },
+        {
+          "text": "Here's another good example.<br>This time it's a static image, and that's okay.<br>Notice how the colored bundles form continuous lines<br>and fill in the dark regions from the underlying image. Swipe right!",
+          "pointer": "sub-NDARNC287MK5_desc-b0colorfa_slice-2_medium_5",
+          "answer": 1,
+          "tutorialStep": 0
+        },
+        {
+          "text": "Whoa, something went wrong here.<br>There's no color at all.<br>Swipe left!",
+          "pointer": "sub-NDARYF338WW1_desc-b0colorfa_slice-1_medium",
+          "answer": 0,
+          "tutorialStep": 1
+        },
+        {
+          "text": "This one is also bad.<br>The colors are sparse. They don't connect to form fiber bundles.<br>Swipe left!",
+          "pointer": "sub-NDARHP924ZHW_desc-b0colorfa_slice-2_medium",
+          "answer": 0,
+          "tutorialStep": 1
+        },
+        {
+          "text": "Sometimes, you will see a slice of the brain that's very low in the head.<br>In that case, you might see eyeballs or a part of the hindbrain called<br>the cerebellum, which has finely spaced parallel grooves.<br>When this happens, you shouldn't expect to see as many colored bundles,<br>but there should still be some.<br>You would swipe right on this example.",
+          "pointer": "sub-NDARYG391PMU_desc-b0colorfa_slice-0_medium",
+          "answer": 1,
+          "tutorialStep": 0
+        },
+        {
+          "text": "Other times, you will see a slice of the brain at the top of the head.<br>In that case, the brain will appear to shrink and grow.<br>That's okay. Just rate the image quality as you did before.<br>You would swipe right on this example.",
+          "pointer": "sub-NDARZB517KTU_desc-b0colorfa_slice-3_medium",
+          "answer": 1,
+          "tutorialStep": 0
+        },
+        {
+          "text": "This one has a thick dark diagonal band. Vote 'fail' (or swipe left) on this one.",
+          "pointer": "sub-NDARGG539YGN_desc-b0colorfa_slice-2_medium",
+          "answer": 0,
+          "tutorialStep": 1
+        },
+        {
+          "text": "This one's no good either.<br>There are dark spots in the underlying grayscale image<br>that aren't filled in with colored bundles.<br>Swipe left!",
+          "pointer": "sub-NDARGC099LDZ_desc-b0colorfa_slice-3_medium",
+          "answer": 0,
+          "tutorialStep": 1
+        },
+        {
+          "text": "This one is borderline perhaps and it's hard to tell whether to pass or fail.<br>The existing colored bundles look fine but there are big dark spots in the grayscale image that are not filled in with color.<br>If you're not sure, click 'Comments' to discuss with the scientists and other users.",
+          "pointer": "sub-NDARBD341NEM_desc-b0colorfa_slice-2_medium",
+          "answer": 0,
+          "tutorialStep": 2
+        },
+        {
+          "text": "Are you ready to play? Don't worry too much about making mistakes. Just rate as best as you can.<br>You can always return to the tutorial. You can leave any time you like and we'll save your progress.",
+          "tutorialCompleted": true
+        }
+      ]
+    }
+  }
+}
