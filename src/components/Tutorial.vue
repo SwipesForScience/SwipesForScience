@@ -6,7 +6,6 @@
       <h1>Tutorial</h1>
       <p class="lead">Scroll down to learn how to play</p>
     </div>
-
     <!-- Progress Bar -->
     <div class="pbar pt-3 pb-3" v-if="currentBin.bin">
       <b-progress
@@ -21,7 +20,8 @@
     <div
       v-for="(step, index) in steps.intro"
       v-bind:key="step.key"
-      class="fullpage"
+      :ref="step.key"
+      class="fullpage video-trigger"
     >
       <div class="" :id="'intro' + index">
         <p v-html="step.text"></p>
@@ -34,7 +34,8 @@
     <div
       v-for="(step, index) in steps.examples"
       v-bind:key="step.key"
-      class="fullpage"
+      :ref="step.key"
+      class="fullpage video-trigger"
     >
       <div class="text-center message w-100" :id="'example' + index">
         <p v-html="step.text"></p>
@@ -48,6 +49,7 @@
             :playMode="'tutorial'"
             :userSettings="userSettings"
             :tutorialStep="step.tutorialStep"
+            v-on:widgetRating="triggerHelper"
             ref="widget"
           />
         </div>
@@ -59,7 +61,7 @@
 
     <!-- Video Player -->
     <div class="tutorial-helper">
-      <video class="video" muted ref="tutorialVideo">
+      <video class="video" ref="tutorialVideo">
         <source :src="video" type="video/mp4" />
       </video>
     </div>
@@ -158,9 +160,17 @@ export default {
        */
       video,
       /**
+       * time (s) to pause video. Set by duration + start
+       */
+      videoEnd: 2,
+      /**
        * Event listener `timeupdate` on video el. Pauses video after configured duration.
        */
-      videoListener: null
+      removeVideoListener: () => {},
+      /**
+       * [observer, element] pairs for triggering videos on step visibility.
+       */
+      stepObservers: []
     };
   },
   props: {
@@ -204,9 +214,18 @@ export default {
       // return this.config.tutorial.steps;
       const steps = this.config.tutorial.steps;
       return {
-        intro: steps.intro.map((step, i) => ({ ...step, key: i })),
-        examples: steps.examples.map((step, i) => ({ ...step, key: i }))
+        intro: steps.intro.map((step, i) => ({ ...step, key: "intro." + i })),
+        examples: steps.examples.map((step, i) => ({
+          ...step,
+          key: "examples." + i
+        }))
       };
+    },
+    /**
+     * The steps defined in config, with text and images to display.
+     */
+    allSteps() {
+      return [...this.steps.intro, ...this.steps.examples];
     },
     /**
      * The type of background animation to show.
@@ -292,21 +311,50 @@ export default {
     },
     playVideo(start, duration) {
       const tutorialVideo = this.$refs.tutorialVideo;
-      tutorialVideo.removeEventListener("timeupdate", this.videoListener);
+      tutorialVideo.removeEventListener("timeupdate", this.pause);
 
       tutorialVideo.currentTime = start || 0;
       tutorialVideo.play();
 
-      const end = duration ? start + duration : tutorialVideo.duration;
-      this.videoListener = tutorialVideo.addEventListener(
-        "timeupdate",
-        function() {
-          if (this.currentTime >= end) {
-            this.pause();
-            this.removeEventListener("timeupdate", this.videoListener);
-          }
-        }
-      );
+      this.videoEnd = duration ? start + duration : tutorialVideo.duration;
+      this.removeVideoListener = () => {
+        tutorialVideo.removeEventListener("timeupdate", this.pause, true);
+        this.removeVideoListener = () => {};
+      };
+      tutorialVideo.addEventListener("timeupdate", this.pause, true);
+    },
+    pause() {
+      const tutorialVideo = this.$refs.tutorialVideo;
+      if (tutorialVideo.currentTime >= this.videoEnd) {
+        tutorialVideo.pause();
+        this.removeVideoListener();
+      }
+    },
+    setVisibilityTriggers() {
+      this.allSteps.forEach(step => {
+        const element = this.$refs[step.key][0];
+        const observer = new IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting && step?.video?.onFocus) {
+              const { start, duration } = step.video.onFocus;
+              this.playVideo(start, duration);
+            }
+          },
+          { threshold: [0.6] }
+        );
+        observer.observe(element);
+        this.stepObservers.push([observer, element]);
+      });
+    },
+    triggerHelper(vote) {
+      const step = this.allSteps.find(step => step.pointer === vote.pointer);
+      const expected = step.answer;
+      const success = vote.value === expected;
+      const videoSettings = success
+        ? step.video?.onCorrect
+        : step.video?.onIncorrect;
+      if (videoSettings)
+        this.playVideo(videoSettings.start, videoSettings.duration);
     }
   },
   /**
@@ -315,15 +363,19 @@ export default {
   created() {
     window.addEventListener("scroll", this.handleScroll);
   },
+  mounted() {
+    this.setVisibilityTriggers();
+  },
   /**
-   * Remove the scroll listener when the component is destroyed.
+   * Remove the scroll listener before the component is destroyed.
    */
-  destroyed() {
-    this.$refs.tutorialVideo.removeEventListener(
-      "timeupdate",
-      this.videoListener
-    );
+  beforeDestroy() {
+    this.$refs.tutorialVideo?.removeEventListener("timeupdate", this.pause);
     window.removeEventListener("scroll", this.handleScroll);
+    this.stepObservers.forEach(([observer, element]) => {
+      observer.unobserve(element);
+    });
+    this.stepObservers = [];
   }
 };
 </script>
@@ -333,8 +385,8 @@ export default {
   position: fixed;
   bottom: 0;
   right: 0;
-  height: 17em;
-  width: 30em;
+  height: 15.9em;
+  width: 28em;
 }
 .tutorial-helper .video {
   position: absolute;
