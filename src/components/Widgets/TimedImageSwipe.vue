@@ -186,6 +186,9 @@ export default {
             this.widgetProperties.delimiter
           )
         : null;
+    },
+    timing() {
+      return this.playMode === "tutorial" ? {} : this.widgetProperties.timing;
     }
   },
   watch: {
@@ -234,8 +237,7 @@ export default {
       }
     },
     preImgLoad() {
-      const interStimuliDuration = this.widgetProperties.timing
-        .interStimuliDuration;
+      const interStimuliDuration = this.timing.interStimuliDuration;
       if (interStimuliDuration) {
         this.showStimuli = false;
         this.interStimuliTimer = setTimeout(() => {
@@ -249,10 +251,10 @@ export default {
      */
     onImgLoad() {
       this.$emit("setStartTime", new Date());
-      if (this.widgetProperties.timing.stimulusDuration) {
+      if (this.timing.stimulusDuration) {
         this.durationTimer = setTimeout(() => {
-          this.vote(this.widgetProperties.timing.timeoutValue);
-        }, this.widgetProperties.timing.stimulusDuration);
+          this.vote(this.timing.timeoutValue);
+        }, this.timing.stimulusDuration);
       }
     },
     /**
