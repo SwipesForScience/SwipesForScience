@@ -60,7 +60,7 @@
     </div>
 
     <!-- Video Player -->
-    <div class="tutorial-helper">
+    <div :class="`tutorial-helper ${videoPaused ? 'not-playing' : ''}`">
       <video class="video" ref="tutorialVideo">
         <source :src="video" type="video/mp4" />
       </video>
@@ -166,6 +166,7 @@ export default {
       /**
        * Event listener `timeupdate` on video el. Pauses video after configured duration.
        */
+      videoPaused: false,
       removeVideoListener: () => {},
       /**
        * [observer, element] pairs for triggering videos on step visibility.
@@ -310,6 +311,7 @@ export default {
       }
     },
     playVideo(start, duration) {
+      this.videoPaused = false;
       const tutorialVideo = this.$refs.tutorialVideo;
       tutorialVideo.removeEventListener("timeupdate", this.pause);
 
@@ -328,6 +330,7 @@ export default {
       if (tutorialVideo.currentTime >= this.videoEnd) {
         tutorialVideo.pause();
         this.removeVideoListener();
+        this.videoPaused = true;
       }
     },
     setVisibilityTriggers() {
@@ -399,5 +402,8 @@ export default {
   z-index: -100;
   background-size: cover;
   overflow: hidden;
+}
+.tutorial-helper.not-playing {
+  transform: translateY(50vh);
 }
 </style>
