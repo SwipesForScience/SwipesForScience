@@ -139,7 +139,7 @@
     "navbarVariant": "info"
   },
   "home": {
-    "shortTitle": ROAR",
+    "shortTitle": "ROAR",
     "title": "ROAR",
     "tagline": "A citizen science game to measure the quality of children's brain images",
     "backgroundUrl": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/fibr_example_optimized.gif"
