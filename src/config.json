@@ -131,6 +131,7 @@
   "firebaseKeys": {
     "apiKey": "AIzaSyBC1IiNKg-AzveUj9_bwpASk8n5zE1Yy4c",
     "authDomain": "gse-yeatman-lab.firebaseapp.com",
+    "databaseURL": "https://roar-ldt.firebaseio.com",
     "projectId": "gse-yeatman-lab",
     "storageBucket": "gse-yeatman-lab.appspot.com",
     "messagingSenderId": "984978630424"
