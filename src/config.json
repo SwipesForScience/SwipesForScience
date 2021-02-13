@@ -143,7 +143,7 @@
     "shortTitle": "ROAR",
     "title": "Rapid Online Assessment of Reading",
     "tagline": "Are the words real or fake?",
-    "backgroundUrl": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/fibr_example_optimized.gif"
+    "backgroundUrl": "https://github.com/jyeatman/SwipesForScience/blob/master/src/assets/Cover-WordDetective-scaled.png?raw=true"
   },
   "play": {
     "blankImage": "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_blank_canvas.svg?sanitize=true"
