@@ -141,8 +141,8 @@
   },
   "home": {
     "shortTitle": "ROAR",
-    "title": "ROAR",
-    "tagline": "A citizen science game to measure the quality of children's brain images",
+    "title": "Rapid Online Assessment of Reading",
+    "tagline": "Are the words real or fake?",
     "backgroundUrl": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/fibr_example_optimized.gif"
   },
   "play": {
@@ -159,89 +159,42 @@
     "steps": {
       "intro": [
         {
-          "text": "Most mental health disorders are diagnosed between the ages of 5-20.",
+          "text": "WELCOME TO THE WORD ADVENTURE!",
           "image": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/undraw_children_4rtb.svg?sanitize=true"
         },
         {
-          "text": "The Healthy Brain Network is collecting brain MRI scans of adolescents with mental health disorders.",
-          "image": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/magnetic-resonance-imaging-5366912.svg?sanitize=true"
-        },
-        {
-          "text": "Can brain images help us understand mental health?<br>To find out, scientists need your help to measure the brain and assess the quality of the collected data.",
-          "image": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/undraw_medical_research_qg4d.svg?sanitize=true"
-        },
-        {
-          "text": "Here is an animated MRI image of the head (looking from the top down).<br>There are dark and light spots. In this kind of image, the dark regions comprise<br>the 'white matter,' with fiber bundles connecting different parts of the brain.",
-          "image": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/sub-NDARNH170TJU_desc-b0_optimized.gif"
-        },
-        {
-          "text": "A computer has colored in parts of the brain<br>where it has found fibers connecting different parts of the brain.<br>Most of the dark spots have been colored in using red, green, or blue.",
-          "image": "https://raw.githubusercontent.com/richford/fibr/master/src/assets/sub-NDARNH170TJU_desc-colorfa_optimized.gif"
+          "text": "WELCOME TO THE WORD ADVENTURE!<br>Swipe RIGHT for REAL WORDS.<br>Swipe LEFT for FAKE WORDS",
+          "image": "https://raw.githubusercontent.com/jyeatman/SwipesForScience/master/src/assets/Instrructions.jpg"
         }
+        
       ],
       "examples": [
         {
-          "text": "But scientists need your help to check whether the computer did a good job.<br>You will see sections of the brain below.<br>Sometimes you'll see static images and sometimes you'll see animations.<br>The underlying grayscale image should be free from distortion and without dark bands.<br>The color bundles should be continuous and mostly fill in the dark spots from the grayscale image underneath.<br>Swipe right when the image is of good quality, like this one.",
-          "pointer": "sub-NDARNT113YX7_desc-b0colorfa_slice-1_medium",
-          "answer": 1,
+          "text": "SUN is a real word. So swipe RIGHT",
+          "pointer": "A-sun",
+          "answer": 0,
           "tutorialStep": 0
         },
         {
-          "text": "Swipe left when its bad. In this example, there is little to no color in the image<br>and there are dark bands across the underlying grayscale image.",
-          "pointer": "sub-NDARYZ871DXQ_desc-b0colorfa_slice-0_medium",
+          "text": "BULBET is not a real word. So swipe LEFT",
+          "pointer": "A-bulbet",
           "answer": 0,
           "tutorialStep": 1
         },
         {
-          "text": "Here's another good example.<br>This time it's a static image, and that's okay.<br>Notice how the colored bundles form continuous lines<br>and fill in the dark regions from the underlying image. Swipe right!",
-          "pointer": "sub-NDARNC287MK5_desc-b0colorfa_slice-2_medium_5",
-          "answer": 1,
+          "text": "INSIDE is a real word. So swipe RIGHT",
+          "pointer": "A-inside",
+          "answer": 0,
           "tutorialStep": 0
         },
         {
-          "text": "Whoa, something went wrong here.<br>There's no color at all.<br>Swipe left!",
-          "pointer": "sub-NDARYF338WW1_desc-b0colorfa_slice-1_medium",
+          "text": "BLEDGE is a fake word. So swipe LEFT",
+          "pointer": "A-bledge",
           "answer": 0,
           "tutorialStep": 1
         },
         {
-          "text": "This one is also bad.<br>The colors are sparse. They don't connect to form fiber bundles.<br>Swipe left!",
-          "pointer": "sub-NDARHP924ZHW_desc-b0colorfa_slice-2_medium",
-          "answer": 0,
-          "tutorialStep": 1
-        },
-        {
-          "text": "Sometimes, you will see a slice of the brain that's very low in the head.<br>In that case, you might see eyeballs or a part of the hindbrain called<br>the cerebellum, which has finely spaced parallel grooves.<br>When this happens, you shouldn't expect to see as many colored bundles,<br>but there should still be some.<br>You would swipe right on this example.",
-          "pointer": "sub-NDARYG391PMU_desc-b0colorfa_slice-0_medium",
-          "answer": 1,
-          "tutorialStep": 0
-        },
-        {
-          "text": "Other times, you will see a slice of the brain at the top of the head.<br>In that case, the brain will appear to shrink and grow.<br>That's okay. Just rate the image quality as you did before.<br>You would swipe right on this example.",
-          "pointer": "sub-NDARZB517KTU_desc-b0colorfa_slice-3_medium",
-          "answer": 1,
-          "tutorialStep": 0
-        },
-        {
-          "text": "This one has a thick dark diagonal band. Vote 'fail' (or swipe left) on this one.",
-          "pointer": "sub-NDARGG539YGN_desc-b0colorfa_slice-2_medium",
-          "answer": 0,
-          "tutorialStep": 1
-        },
-        {
-          "text": "This one's no good either.<br>There are dark spots in the underlying grayscale image<br>that aren't filled in with colored bundles.<br>Swipe left!",
-          "pointer": "sub-NDARGC099LDZ_desc-b0colorfa_slice-3_medium",
-          "answer": 0,
-          "tutorialStep": 1
-        },
-        {
-          "text": "This one is borderline perhaps and it's hard to tell whether to pass or fail.<br>The existing colored bundles look fine but there are big dark spots in the grayscale image that are not filled in with color.<br>If you're not sure, click 'Comments' to discuss with the scientists and other users.",
-          "pointer": "sub-NDARBD341NEM_desc-b0colorfa_slice-2_medium",
-          "answer": 0,
-          "tutorialStep": 2
-        },
-        {
-          "text": "Are you ready to play? Don't worry too much about making mistakes. Just rate as best as you can.<br>You can always return to the tutorial. You can leave any time you like and we'll save your progress.",
+          "text": "Are you ready to play?<br>You can always return to the tutorial. You can leave any time you like and we'll save your progress.",
           "tutorialCompleted": true
         }
       ]
