@@ -1,7 +1,7 @@
 export default {
   // if set to true, the user will be routed to /tutorial instead of /play if
   // they haven't taken a tutorial
-  needsTutorial: false,
+  needsTutorial: true,
   // each time the app is run, it will check this manifest and update the firebase database
   // if new entries are there, they will be added, and entries that aren't in the manifest
   // but are in the firebase database will be *removed*
@@ -328,7 +328,7 @@ export default {
   // describe your problem and the way you want people to annotate
   tutorial: {
     // there is only 1 available custom animiation right now, and its 'Bubbles'
-    customBackgroundAnimation: "Bubbles",
+    // customBackgroundAnimation: "Bubbles",
     // steps have 2 parts, the intro and examples. In the intro you provide
     // text and images. In the examples, you provide text, data pointers, and tutorial steps
     // that the widget will display
@@ -338,28 +338,67 @@ export default {
           // keep the text really short
           text: "here is an example tutorial step",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/8/8b/Humpback_whales_in_singing_position.jpg"
+            "https://upload.wikimedia.org/wikipedia/commons/8/8b/Humpback_whales_in_singing_position.jpg",
+          video: {
+            onFocus: {
+              start: 6,
+              duration: 2.9
+            }
+          }
         },
         {
           // use \n to linebreak the text
           text: "here is another one.",
           image:
-            "https://upload.wikimedia.org/wikipedia/commons/d/dd/Hydrophone_being_lowered_into_the_Atlantic.jpg"
+            "https://upload.wikimedia.org/wikipedia/commons/d/dd/Hydrophone_being_lowered_into_the_Atlantic.jpg",
+          video: {
+            onFocus: {
+              start: 0,
+              duration: 2.9
+            }
+          }
         }
       ],
       examples: [
+        // this is the widget section of the tutorial
+        // note that the tutorialStep's purpose is to highlight either the
+        //   right-side (pass) button: 0
+        //   left-side (fail) button: 1
+        //   middle (help) button: 2
+        // the answer is dependent on how you configure the swipe values in this.widgetProperties
+        // don't know why this is, but it is
         {
           // fill these with examples with respect to the widget you're using
           text: "swipe right when the image is good quality",
           pointer: "sub-NDARYX806FL1__cor_184",
           answer: 1,
-          tutorialStep: 0
+          tutorialStep: 0,
+          video: {
+            onFocus: {
+              start: 6,
+              duration: 2.9
+            },
+            onCorrect: {
+              start: 0,
+              duration: 2.9
+            },
+            onIncorrect: {
+              start: 3,
+              duration: 2.9
+            }
+          }
         },
         {
           text: "swipe left when its bad",
           pointer: "sub-NDAREG590BNY__sag_201",
           answer: 0,
-          tutorialStep: 1
+          tutorialStep: -1,
+          video: {
+            onFocus: {
+              start: 6,
+              duration: 2.9
+            }
+          }
         },
         {
           text: `if you're not sure, click 'help' \n to discuss with scientists ${""}`,
