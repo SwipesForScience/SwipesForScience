@@ -4,7 +4,7 @@
   "manifestType": "json",
   "widgetType": "ImageSwipe",
   "widgetProperties": {
-    "baseUrlTemplate": "https://jdy-sentences.s3.amazonaws.com/{0}.jpg",
+    "baseUrlTemplate": "https://roar-ldt-v2.s3.amazonaws.com/{0}.jpg",
     "delimiter": "__",
     "leftSwipeLabel": "Fake",
     "rightSwipeLabel": "Real"
