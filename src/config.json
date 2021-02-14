@@ -170,25 +170,25 @@
       ],
       "examples": [
         {
-          "text": "SUN is a real word. So swipe RIGHT",
+          "text": "SUN is a real word. So swipe RIGHT.",
           "pointer": "A-sun",
           "answer": 0,
           "tutorialStep": 0
         },
         {
-          "text": "BULBET is not a real word. So swipe LEFT",
+          "text": "BULBET is not a real word. So swipe LEFT.",
           "pointer": "A-bulbet",
           "answer": 0,
           "tutorialStep": 1
         },
         {
-          "text": "INSIDE is a real word. So swipe RIGHT",
+          "text": "INSIDE is a real word. So swipe RIGHT.",
           "pointer": "A-inside",
           "answer": 0,
           "tutorialStep": 0
         },
         {
-          "text": "BLEDGE is a fake word. So swipe LEFT",
+          "text": "BLEDGE is a fake word. So swipe LEFT.",
           "pointer": "A-bledge",
           "answer": 0,
           "tutorialStep": 1
