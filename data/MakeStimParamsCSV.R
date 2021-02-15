@@ -1,0 +1,7 @@
+library(dplyr)
+df.swipes = read.csv('~/Documents/LDTimages/wordlist.csv')
+df.rasch = read.csv('~/git/ROAR-LDT-Public/Study2/data/V2_RaschModelWords.csv')
+df.swipes = left_join(df.swipes,df.rasch,by = c('word' = 'words'))
+df.swipes = select(df.swipes,imagename,word,list,b)
+df.swipes = rename(df.swipes,difficulty=b)
+write.csv(df.swipes,'~/git/SwipesForScience/data/stimparams.csv',row.names=FALSE)
