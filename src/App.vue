@@ -110,7 +110,7 @@
       </nav>
 
       <!-- The content is in the router view -->
-      <div class="router">
+      <div class="router" v-if="isMounted">
         <router-view
           :userInfo="userInfo"
           :userData="userData"
@@ -220,7 +220,8 @@ export default {
       /**
        * Whether or not to show Mobile menu, will be extracted into Header component later
        */
-      showHeader: false
+      showHeader: false,
+      isMounted: false
     };
   },
   /**
@@ -233,6 +234,7 @@ export default {
     firebase.auth().onAuthStateChanged(user => {
       self.userInfo = user || {};
     });
+    this.isMounted = true;
   },
 
   components: {

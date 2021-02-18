@@ -28,6 +28,7 @@
 <script>
 import Vue from "vue";
 import ImageSwipe from "../Widgets/ImageSwipe";
+import TimedImageSwipe from "../Widgets/TimedImageSwipe";
 import TemplateWidget from "../Widgets/TemplateWidget";
 
 /**
@@ -51,7 +52,7 @@ export default {
       /**
        * The options that are allowed for widgetType.
        */
-      widgetOptions: ["ImageSwipe"]
+      widgetOptions: ["ImageSwipe", "TimedImageSwipe"]
     };
   },
   computed: {
@@ -70,6 +71,9 @@ export default {
       switch (widgetType) {
         case "ImageSwipe":
           Constructor = Vue.extend(ImageSwipe);
+          break;
+        case "TimedImageSwipe":
+          Constructor = Vue.extend(TimedImageSwipe);
           break;
         default:
           Constructor = Vue.extend(TemplateWidget);

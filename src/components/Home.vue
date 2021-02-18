@@ -12,6 +12,12 @@
         >
           Play Now
         </router-link>
+        <router-link
+          class="btn btn-primary white mx-1"
+          :to="{ name: 'Tutorial', query: routerQuery }"
+        >
+          Tutorial
+        </router-link>
       </p>
     </div>
   </div>

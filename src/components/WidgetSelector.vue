@@ -18,6 +18,19 @@
         v-on:updateUserSettings="updateUserSettings"
         :playMode="playMode"
       />
+      <TimedImageSwipe
+        v-if="widgetType == 'TimedImageSwipe'"
+        ref="TimedImageSwipe"
+        :widgetPointer="widgetPointer"
+        :widgetProperties="widgetProperties"
+        :widgetSummary="widgetSummary"
+        :userSettings="userSettings"
+        :tutorialStep="tutorialStep"
+        v-on:widgetRating="widgetRating"
+        v-on:setStartTime="setStartTime"
+        v-on:updateUserSettings="updateUserSettings"
+        :playMode="playMode"
+      />
 
       <TemplateWidget
         v-else
@@ -42,6 +55,7 @@
  * the specific widget to the parent.
  */
 import ImageSwipe from "./Widgets/ImageSwipe";
+import TimedImageSwipe from "./Widgets/TimedImageSwipe";
 import TemplateWidget from "./Widgets/TemplateWidget";
 import Secret from "./Widgets/Secret";
 
@@ -116,6 +130,7 @@ export default {
   },
   components: {
     ImageSwipe,
+    TimedImageSwipe,
     TemplateWidget,
     Secret
   },
@@ -143,6 +158,12 @@ export default {
      */
     widgetRating(response) {
       this.$emit("widgetRating", response);
+    },
+    /**
+     * emit the widget's response to the parent.
+     */
+    setStartTime(response) {
+      this.$emit("setStartTime", response);
     },
     /**
      * emit the widget's user settings to the parent
