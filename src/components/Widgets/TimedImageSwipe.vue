@@ -132,9 +132,9 @@ export default {
     },
     /**
      * Tells the widget to display a tutorial step.
-     * tutorialStep = 1 highlights/glows the pass button.
-     * tutorialStep = 2 highlights/glows the fail button.
-     * tutorialStep = 3 highlights/glows the help button.
+     * tutorialStep = 0 highlights/glows the pass button.
+     * tutorialStep = 1 highlights/glows the fail button.
+     * tutorialStep = 2 highlights/glows the help button.
      */
     tutorialStep: {
       type: Number,
@@ -158,7 +158,7 @@ export default {
       swipe: null,
       /**
        * Timer object for frame duration handling.
-       * Used when `widgetProperties.stimulusDuration` is set.
+       * Used when `widgetProperties.timing.stimulusDuration` is set.
        */
       durationTimer: null,
       /**
