@@ -137,10 +137,6 @@ export default {
         consented: false
       },
       /**
-       * **TODO**: I'm not sure this is used anywhere. Check this.
-       */
-      show: true,
-      /**
        * A variable to keep track of errors, whether to show it and the error message.
        */
       errors: {
@@ -224,7 +220,7 @@ export default {
         .auth()
         .createUserWithEmailAndPassword(this.form.email, this.form.password)
         .then(
-          user => {
+          ({ user }) => {
             this.updateProfile(user);
           },
           err => {
