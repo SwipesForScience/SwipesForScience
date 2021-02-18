@@ -19,7 +19,7 @@
         :playMode="playMode"
       />
       <TimedImageSwipe
-        v-if="widgetType == 'TimedImageSwipe'"
+        v-else-if="widgetType == 'TimedImageSwipe'"
         ref="TimedImageSwipe"
         :widgetPointer="widgetPointer"
         :widgetProperties="widgetProperties"
