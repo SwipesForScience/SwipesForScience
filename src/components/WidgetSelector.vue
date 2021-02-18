@@ -31,7 +31,6 @@
         v-on:updateUserSettings="updateUserSettings"
         :playMode="playMode"
       />
-
       <TemplateWidget
         v-else
         ref="TemplateWidget"
