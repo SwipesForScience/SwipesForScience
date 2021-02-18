@@ -7,11 +7,11 @@ let handleOutsideClick;
 
 const ClickOutside = {
   bind(el, binding, vnode) {
-    handleOutsideClick = (e) => {
+    handleOutsideClick = e => {
       e.stopPropagation();
       const { handler, exclude } = binding.value;
       let clickedOnExcludedEl = false;
-      exclude.forEach((refName) => {
+      exclude.forEach(refName => {
         if (!clickedOnExcludedEl) {
           // Get the element using the reference name
           const excludedEl = vnode.context.$refs[refName];
@@ -29,15 +29,15 @@ const ClickOutside = {
         vnode.context[handler]();
       }
     };
-    document.addEventListener('click', handleOutsideClick);
-    document.addEventListener('touchstart', handleOutsideClick);
+    document.addEventListener("click", handleOutsideClick);
+    document.addEventListener("touchstart", handleOutsideClick);
   },
   unbind() {
     // If the element that has v-click-outside is removed, then
     // unbind click/touchstart listeners from the whole page
-    document.removeEventListener('click', handleOutsideClick);
-    document.removeEventListener('touchstart', handleOutsideClick);
-  },
+    document.removeEventListener("click", handleOutsideClick);
+    document.removeEventListener("touchstart", handleOutsideClick);
+  }
 };
 
 export default ClickOutside;

@@ -1,5 +1,5 @@
-import _ from 'lodash';
-import firebase from 'firebase';
+import _ from "lodash";
+import firebase from "firebase";
 
 // eslint-disable-next-line
 onmessage = function(e) {
@@ -11,20 +11,22 @@ onmessage = function(e) {
   const target = filtered.length;
   let current = 0;
   if (!target) {
-    postMessage('done');
+    postMessage("done");
   }
-  _.map(filtered,
-    (key) => {
-      db.ref('sampleCounts').child(key).set(0).then(() => {
+  _.map(filtered, key => {
+    db.ref("sampleCounts")
+      .child(key)
+      .set(0)
+      .then(() => {
         current += 1;
         if (current === target) {
-            // We then have treated all the objects
-          postMessage('done');
+          // We then have treated all the objects
+          postMessage("done");
         }
-        postMessage('progress');
+        postMessage("progress");
       })
       .catch(() => {
-        postMessage('error');
+        postMessage("error");
       });
-    });
+  });
 };

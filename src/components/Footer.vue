@@ -8,7 +8,8 @@
           :key="menuItem.name"
           :to="menuItem.path"
           class="nav__link"
-        >{{menuItem.name}}</router-link>
+          >{{ menuItem.name }}</router-link
+        >
       </nav>
 
       <div class="configureButton">
@@ -24,7 +25,7 @@
     Footer component with useful links and stuff.
   */
 export default {
-  name: 'Footer',
+  name: "Footer",
   props: {
     /**
      * The config object that is loaded from src/config.js.
@@ -34,23 +35,23 @@ export default {
      */
     config: {
       type: Object,
-      required: true,
+      required: true
     },
     routerQuery: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
       menuItems: [
-        { path: '/', name: 'Home' },
-        { path: '/play', name: 'Game' },
-        { path: '/chats', name: 'Chat' },
-        { path: '/leaderboard', name: 'Leaderboard' },
-        { path: '/about', name: 'About' },
-        { path: '/contact', name: 'Contact us' },
-      ],
+        { path: "/", name: "Home" },
+        { path: "/play", name: "Game" },
+        { path: "/chats", name: "Chat" },
+        { path: "/leaderboard", name: "Leaderboard" },
+        { path: "/about", name: "About" },
+        { path: "/contact", name: "Contact us" }
+      ]
     };
   },
   methods: {
@@ -59,9 +60,9 @@ export default {
      */
     openConfig(e) {
       e.preventDefault();
-      this.$emit('openConfig');
-    },
-  },
+      this.$emit("openConfig");
+    }
+  }
 };
 </script>
 <style scoped>

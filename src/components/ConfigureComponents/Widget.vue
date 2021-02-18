@@ -1,16 +1,22 @@
 <template>
   <div>
     <h5 class="mt3 pt-3">Widget</h5>
-    <b-form-select id="navbarVariant" v-model="config.widgetType" :options="widgetOptions" class="mb-3" />
+    <b-form-select
+      id="navbarVariant"
+      v-model="config.widgetType"
+      :options="widgetOptions"
+      class="mb-3"
+    />
     <h5 class="mt3 pt-3">Widget Properties</h5>
     <div v-for="(val, key) in widgetSchema" :key="key" class="mt-2">
-      <label :for="key">{{key}}</label>
+      <label :for="key">{{ key }}</label>
       <div v-if="val.type() === ''">
-        <b-form-input v-model="config.widgetProperties[key]"
-                  type="text"
-                  :id="key"
-                  :placeholder="val.default"
-                  >
+        <b-form-input
+          v-model="config.widgetProperties[key]"
+          type="text"
+          :id="key"
+          :placeholder="val.default"
+        >
         </b-form-input>
       </div>
       <div v-else-if="Array.isArray(val.type())">
@@ -20,9 +26,9 @@
   </div>
 </template>
 <script>
-import Vue from 'vue';
-import ImageSwipe from '../Widgets/ImageSwipe';
-import TemplateWidget from '../Widgets/TemplateWidget';
+import Vue from "vue";
+import ImageSwipe from "../Widgets/ImageSwipe";
+import TemplateWidget from "../Widgets/TemplateWidget";
 
 /**
  * This is the UI to set up a widget during configuration.
@@ -37,32 +43,32 @@ export default {
      */
     config: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   data() {
     return {
       /**
        * The options that are allowed for widgetType.
        */
-      widgetOptions: ['ImageSwipe']
+      widgetOptions: ["ImageSwipe"]
     };
   },
   computed: {
     /**
-    * get the config widget's schema.
-    */
+     * get the config widget's schema.
+     */
     widgetSchema() {
       const schema = this.getWidgetSchema(this.config.widgetType);
       // console.log(schema);
       return schema;
-    },
+    }
   },
   methods: {
     getWidgetSchema(widgetType) {
       let Constructor;
       switch (widgetType) {
-        case 'ImageSwipe':
+        case "ImageSwipe":
           Constructor = Vue.extend(ImageSwipe);
           break;
         default:
@@ -71,22 +77,22 @@ export default {
       }
       const vm = new Constructor({
         propsData: {
-          widgetPointer: '',
+          widgetPointer: "",
           widgetProperties: {},
-          userSettings: {},
-        },
+          userSettings: {}
+        }
       });
       return vm.getPropertiesSchema();
-    },
-  },
-  /**
-  * if the router is defined, then navigate to the /play route.
-  */
-  mounted() {
-    if (this.$router) {
-      this.$router.replace('/play');
     }
   },
+  /**
+   * if the router is defined, then navigate to the /play route.
+   */
+  mounted() {
+    if (this.$router) {
+      this.$router.replace("/play");
+    }
+  }
 };
 </script>
 <style></style>

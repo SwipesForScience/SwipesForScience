@@ -1,17 +1,20 @@
 <template>
   <div class="home container">
     <div class="jumbotron landing" :style="landingStyle">
-      <h1>{{title}}</h1>
+      <h1>{{ title }}</h1>
       <p class="lead buttons mt-3">
-        {{tagline}}
+        {{ tagline }}
       </p>
       <p class="buttons mt-3">
-        <router-link class="btn btn-primary white" :to="{name: 'Play', query: routerQuery}"> Play Now </router-link>
+        <router-link
+          class="btn btn-primary white"
+          :to="{ name: 'Play', query: routerQuery }"
+        >
+          Play Now
+        </router-link>
       </p>
     </div>
   </div>
-
-
 </template>
 
 <script>
@@ -21,7 +24,7 @@
  */
 
 export default {
-  name: 'Home',
+  name: "Home",
   props: {
     /**
      * The config object that is loaded from src/config.js.
@@ -31,16 +34,14 @@ export default {
      */
     config: {
       type: Object,
-      required: true,
+      required: true
     },
     routerQuery: {
-      type: Object,
-    },
+      type: Object
+    }
   },
   data() {
-    return {
-
-    };
+    return {};
   },
   computed: {
     /**
@@ -59,20 +60,20 @@ export default {
      * The background image to display. Defined in `config.home.backgroundUrl`
      */
     landingStyle() {
-      return { 'background-image': `url("${this.config.home.backgroundUrl}")` };
-    },
-  },
+      return { "background-image": `url("${this.config.home.backgroundUrl}")` };
+    }
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 .home {
   min-height: 100vh;
 }
 
-h1, h2 {
+h1,
+h2 {
   font-weight: normal;
 }
 ul {
@@ -123,5 +124,4 @@ a {
 .white {
   color: white;
 }
-
 </style>

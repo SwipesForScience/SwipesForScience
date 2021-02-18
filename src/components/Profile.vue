@@ -4,92 +4,107 @@
     <b-container fluid>
       <!-- userInfo is a prop that was passed in from App -->
       <h1>
-        <b-img rounded="circle" width="75"
-          height="75" blank-color="#777"
-          alt="img" class="m-1"
+        <b-img
+          rounded="circle"
+          width="75"
+          height="75"
+          blank-color="#777"
+          alt="img"
+          class="m-1"
           :src="currentLevel.img"
           v-if="currentLevel.img"
-          />
-        {{userInfo.displayName}}
+        />
+        {{ userInfo.displayName }}
       </h1>
 
-      <p class="lead">
-        You have {{userData.score}} points!
-      </p>
-      <hr>
+      <p class="lead">You have {{ userData.score }} points!</p>
+      <hr />
 
-      <h3>Level {{currentLevel.level}}</h3>
+      <h3>Level {{ currentLevel.level }}</h3>
       <p class="lead">
         Keep playing to unlock the remaining animals!
       </p>
 
       <b-container fluid class="p-4">
         <b-row>
-          <b-col v-for="lev in levels" v-if="lev.img" :key="lev.min">
-            <div >
-              <b-img fluid class="pokemon"
-               :src="lev.img" alt="Thumbnail" v-if="lev.level <= currentLevel.level"/>
-              <b-img fluid class="pokemon"
-               :src="lev.img_grey" alt="Thumbnail" v-else/>
-              <br>
-              Level {{lev.level}}
-              <br>
-              <span v-if="lev.level > currentLevel.level">{{lev.min}} points</span>
+          <b-col v-for="lev in levelsWithImages" :key="lev.min">
+            <div>
+              <b-img
+                fluid
+                class="pokemon"
+                :src="lev.img"
+                alt="Thumbnail"
+                v-if="lev.level <= currentLevel.level"
+              />
+              <b-img
+                fluid
+                class="pokemon"
+                :src="lev.img_grey"
+                alt="Thumbnail"
+                v-else
+              />
+              <br />
+              Level {{ lev.level }}
+              <br />
+              <span v-if="lev.level > currentLevel.level"
+                >{{ lev.min }} points</span
+              >
             </div>
           </b-col>
         </b-row>
       </b-container>
 
-      <hr>
+      <hr />
 
       <div v-if="chats.length">
-        <h2> Your Chats </h2>
+        <h2>Your Chats</h2>
         <p class="lead">
           Your discussions on specific samples
         </p>
 
-        <div v-for="c in chats"  class="text-left" :key="c">
+        <div v-for="c in chats" class="text-left" :key="c">
           <div v-if="chatInfo[c]">
             <b-alert :show="chatInfo[c].notify">
-              <router-link :to="'/listen/' + c">{{c}}</router-link>:
-              <b>{{chatInfo[c].username}}</b>
-              {{chatInfo[c].message}}
+              <router-link :to="'/listen/' + c">{{ c }}</router-link
+              >:
+              <b>{{ chatInfo[c].username }}</b>
+              {{ chatInfo[c].message }}
             </b-alert>
             <b-alert :show="!chatInfo[c].notify" variant="light">
-              <router-link :to="'/review/' + c">{{c}}</router-link>:
-              <b>{{chatInfo[c].username}}</b>
-              {{chatInfo[c].message}}
+              <router-link :to="'/review/' + c">{{ c }}</router-link
+              >:
+              <b>{{ chatInfo[c].username }}</b>
+              {{ chatInfo[c].message }}
             </b-alert>
           </div>
         </div>
       </div>
       <div v-else>
-        <h2> Chats </h2>
+        <h2>Chats</h2>
         <p class="lead">
           You haven't said anything yet! When you're ready, join the discussion.
         </p>
-        <img :src="blankImage" class="blankImage"/>
+        <img :src="blankImage" class="blankImage" />
       </div>
     </b-container>
-
   </div>
 </template>
 
 <style>
-  .pokemon{
-    min-width: 25px;
-    min-height: 25px;
-    width: 100px;
-    height: 100px;
-  }
+.pokemon {
+  min-width: 25px;
+  min-height: 25px;
+  width: 100px;
+  height: 100px;
+}
 
-  #profile {
-    min-height: 100vh;
-  }
+#profile {
+  min-height: 100vh;
+}
 
-  .blankImage {
-    max-width: 500px;
-  }
+.blankImage {
+  max-width: 500px;
+}
 </style>
 
 <script>
@@ -105,7 +120,7 @@
  */
 
 export default {
-  name: 'profile',
+  name: "profile",
   data() {
     return {
       /**
@@ -117,7 +132,7 @@ export default {
        * chatInfo is filled from the firebase database. For each item in chats,
        * get the most recent discussion point from that chat and store it here.
        */
-      chatInfo: {},
+      chatInfo: {}
     };
   },
   computed: {
@@ -127,6 +142,19 @@ export default {
     blankImage() {
       return this.config.profile.blankImage;
     },
+    /**
+     * A filtered list of levels that have associated images
+     */
+    levelsWithImages() {
+      return Object.entries(this.levels)
+        .filter(o => {
+          return o[1].img;
+        })
+        .reduce((accum, [k, v]) => {
+          accum[k] = v;
+          return accum;
+        }, {});
+    }
   },
   props: {
     /**
@@ -134,14 +162,14 @@ export default {
      */
     userInfo: {
       type: Object,
-      required: true,
+      required: true
     },
     /**
      * the computed user data object based on userInfo
      */
     userData: {
       type: Object,
-      required: true,
+      required: true
     },
     /**
      * the various levels, the points need to reach the levels,
@@ -149,14 +177,14 @@ export default {
      */
     levels: {
       type: Object,
-      required: true,
+      required: true
     },
     /**
      * the user's current level
      */
     currentLevel: {
       type: Object,
-      required: true,
+      required: true
     },
     /**
      * The config object that is loaded from src/config.js.
@@ -166,21 +194,21 @@ export default {
      */
     config: {
       type: Object,
-      required: true,
+      required: true
     },
     /**
      * the intialized firebase database
      */
     db: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   /**
    * when the component is mounted, it gets the user's chats.
    */
   mounted() {
-    if (this.userData['.key']) {
+    if (this.userData[".key"]) {
       this.getUserChats();
     }
   },
@@ -189,7 +217,7 @@ export default {
      * if the user is updated, get their chats. (is this necessary?)
      */
     userData() {
-      if (this.userData['.key']) {
+      if (this.userData[".key"]) {
         this.getUserChats();
       }
     },
@@ -198,20 +226,21 @@ export default {
      * this watcher should update the chats ui in real time.
      */
     chats() {
-      this.chats.forEach((c) => {
-        this.db.ref('chats')
-          .child('sampleChats')
+      this.chats.forEach(c => {
+        this.db
+          .ref("chats")
+          .child("sampleChats")
           .child(c)
           .orderByKey()
           .limitToLast(1)
-          .on('value', (snap) => {
+          .on("value", snap => {
             const data = snap.val();
             this.chatInfo[c] = data[Object.keys(data)[0]];
             this.getNotifications(c);
             this.$forceUpdate();
           });
       });
-    },
+    }
   },
   methods: {
     /**
@@ -219,10 +248,11 @@ export default {
      *
      */
     getUserChats() {
-      this.db.ref('chats')
-        .child('userChat')
-        .child(this.userData['.key'])
-        .on('value', (snap) => {
+      this.db
+        .ref("chats")
+        .child("userChat")
+        .child(this.userData[".key"])
+        .on("value", snap => {
           const data = snap.val();
           if (data) {
             this.chats = Object.keys(data);
@@ -235,16 +265,17 @@ export default {
      * saw their chats. I don't think this method is even called yet.
      */
     getNotifications(key) {
-      this.db.ref('notifications')
-        .child(this.userData['.key'])
+      this.db
+        .ref("notifications")
+        .child(this.userData[".key"])
         .child(key)
-        .on('value', (snap) => {
+        .on("value", snap => {
           if (snap.val()) {
             this.chatInfo[key].notify = true;
             this.$forceUpdate();
           }
         });
-    },
-  },
+    }
+  }
 };
 </script>
