@@ -2,12 +2,24 @@
   "needsTutorial": true,
   "manifestUrl": "https://raw.githubusercontent.com/jyeatman/SwipesForScience/master/data/manifest.json",
   "manifestType": "json",
-  "widgetType": "ImageSwipe",
+  "widgetType": "TimedImageSwipe",
   "widgetProperties": {
     "baseUrlTemplate": "https://roar-ldt-v2.s3.amazonaws.com/{0}.jpg",
     "delimiter": "__",
-    "leftSwipeLabel": "Fake",
-    "rightSwipeLabel": "Real"
+    "leftSwipe": {
+      "label": "Fake",
+      "value": -1
+    },
+    "rightSwipe": {
+      "label": "Real",
+      "value": 1
+    },
+    "timing": {
+      "stimulusDuration": "3000",
+      "stimulusFadeIn": false,
+      "timeoutValue": "0",
+      "interStimuliDuration": "1000"
+    }
   },
   "iconAttribute": {
     "name": "openmoji",
@@ -172,25 +184,25 @@
         {
           "text": "SUN is a real word. So swipe RIGHT.",
           "pointer": "A-sun",
-          "answer": 0,
+          "answer": 1,
           "tutorialStep": 0
         },
         {
           "text": "BULBET is not a real word. So swipe LEFT.",
           "pointer": "A-bulbet",
-          "answer": 0,
+          "answer": -1,
           "tutorialStep": 1
         },
         {
           "text": "INSIDE is a real word. So swipe RIGHT.",
           "pointer": "A-inside",
-          "answer": 0,
+          "answer": 1,
           "tutorialStep": 0
         },
         {
           "text": "BLEDGE is a fake word. So swipe LEFT.",
           "pointer": "A-bledge",
-          "answer": 0,
+          "answer": -1,
           "tutorialStep": 1
         },
         {
