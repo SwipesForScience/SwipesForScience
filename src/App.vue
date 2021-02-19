@@ -229,7 +229,7 @@ export default {
    * load the config file from the query and set it to the components config variable.
    */
   mounted() {
-    this.userInfo = firebase.auth().currentUser;
+    this.userInfo = firebase.auth().currentUser || {};
     const self = this;
     firebase.auth().onAuthStateChanged(user => {
       self.userInfo = user || {};

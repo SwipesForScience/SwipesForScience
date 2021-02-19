@@ -1,51 +1,50 @@
 <template>
   <div id="about">
-    <h1> About </h1>
+    <h1>About</h1>
 
     <b-container>
-
       <p>
         You get points for each sample you annotate.
       </p>
 
       <p>
-        You can unlock the following animals based on the number of points you have:
+        You can unlock the following animals based on the number of points you
+        have:
       </p>
 
       <b-container fluid class="p-4">
         <b-row>
-          <b-col v-for="lev in levels" v-if="lev.img" :key="lev.level">
-            <div >
-              <b-img fluid class="pokemon" :src="lev.img_grey" alt="Thumbnail"/>
-              <br>
-              Level {{lev.level}}
-              <br>
-              <span>{{lev.min}} points</span>
+          <b-col v-for="lev in levelsWithImages" :key="lev.level">
+            <div>
+              <b-img
+                fluid
+                class="pokemon"
+                :src="lev.img_grey"
+                alt="Thumbnail"
+              />
+              <br />
+              Level {{ lev.level }}
+              <br />
+              <span>{{ lev.min }} points</span>
             </div>
           </b-col>
         </b-row>
       </b-container>
-
     </b-container>
-
   </div>
-
 </template>
 
 <style>
-
-.pokemon{
+.pokemon {
   min-width: 25px;
   min-height: 25px;
   width: 100px;
   height: 100px;
 }
 
-
 #about {
   min-height: 100vh;
 }
-
 </style>
 
 <script>
@@ -56,10 +55,9 @@
  * provides, in markdown.
  */
 export default {
-  name: 'about',
+  name: "about",
   data() {
-    return {
-    };
+    return {};
   },
   props: {
     /**
@@ -68,8 +66,23 @@ export default {
      */
     levels: {
       type: Object,
-      required: false,
-    },
+      required: false
+    }
   },
+  computed: {
+    /**
+     * A filtered list of levels that have associated images
+     */
+    levelsWithImages() {
+      return Object.entries(this.levels)
+        .filter(o => {
+          return o[1].img;
+        })
+        .reduce((accum, [k, v]) => {
+          accum[k] = v;
+          return accum;
+        }, {});
+    }
+  }
 };
 </script>
