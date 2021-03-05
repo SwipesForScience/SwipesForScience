@@ -44,6 +44,7 @@
           :needsSecret="needsSecret"
           :serverSecret="serverSecret"
           v-on:widgetRating="sendWidgetResponse"
+          v-on:setStartTime="setStartTime"
           v-on:updateUserSettings="updateUserSettings"
           :playMode="'play'"
           ref="widget"
@@ -432,6 +433,13 @@ export default {
       return null;
     },
     /**
+     * called from child widget
+     * used to set start time according to child widget needs
+     */
+    setStartTime(response) {
+      this.startTime = response;
+    },
+    /**
      * this method is called from the child widget
      * it will first get feedback from the child on the response
      * next, it will send the user response to the db
@@ -439,6 +447,9 @@ export default {
      * last, it will set the next sample.
      */
     sendWidgetResponse(response) {
+      // record timeDiff as soon as possible
+      const timeDiff = new Date() - this.startTime;
+
       // 1. get feedback from the widget, and display if needed
       const feedback = this.$refs.widget.getFeedback(response);
       if (feedback.show) {
@@ -447,7 +458,6 @@ export default {
       }
 
       // 2. send the widget data
-      const timeDiff = new Date() - this.startTime;
       this.sendVote(response, timeDiff);
 
       // 3. update the score and count for the sample
@@ -456,7 +466,7 @@ export default {
       this.updateCount();
       this.updateSeen();
 
-      // 3. set the next Sample
+      // 4. set the next Sample
       this.setNextSampleId();
     },
     /**

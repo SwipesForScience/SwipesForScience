@@ -1,14 +1,19 @@
 <template>
-  <div class="imageSwipe">
+  <div class="imageSwipe" v-if="showStimuli">
     <transition :key="swipe" :name="swipe">
       <div class="user-card" :key="baseUrl">
         <div class="image_area">
           <progressive-img
-            class="user-card__picture mx-auto"
+            :class="[
+              'user-card__picture',
+              'mx-auto',
+              widgetProperties.timing.stimulusFadeIn ? '' : 'no-fade-in'
+            ]"
             :src="baseUrl"
             v-hammer:swipe.horizontal="onSwipe"
             placeholder="https://unsplash.it/500"
             :aspect-ratio="1"
+            @onLoad="onImgLoad"
           >
           </progressive-img>
         </div>
@@ -25,7 +30,7 @@
             ref="leftSwipe"
           >
             <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
-            {{ widgetProperties.leftSwipeLabel }}
+            {{ widgetProperties.leftSwipe.label }}
           </b-button>
 
           <span style="float:left" v-else>
@@ -52,7 +57,7 @@
             @shortkey="swipeRight"
             ref="rightSwipe"
           >
-            {{ widgetProperties.rightSwipeLabel }}
+            {{ widgetProperties.rightSwipe.label }}
             <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
           </b-button>
 
@@ -70,9 +75,10 @@
 
 <script>
 /**
- * The ImageSwipe widget is the original, https://braindr.us Tinder-like widget
+ * The TimedImageSwipe widget is build on the original, https://braindr.us Tinder-like widget
  * where you swipe left to "fail" an image, and swipe right to  "pass" it.
- * it is for binary classification only.
+ * It is for binary classification only.
+ * It differs from the original in that it the stimulus duration is configurable.
  */
 import _ from "lodash";
 import Vue from "vue";
@@ -86,7 +92,7 @@ Vue.use(VueHammer);
 Vue.use(require("vue-shortkey"));
 
 export default {
-  name: "ImageSwipe",
+  name: "TimedImageSwipe",
   props: {
     /**
      * The sample ID to tell the widget to display.
@@ -135,6 +141,7 @@ export default {
       required: false
     }
   },
+  // eslint-disable-next-line
   components: { VueHammer, GridLoader },
   directives: {
     imagesLoaded
@@ -148,7 +155,21 @@ export default {
       /**
        * save the swipe direction.
        */
-      swipe: null
+      swipe: null,
+      /**
+       * Timer object for frame duration handling.
+       * Used when `widgetProperties.timing.stimulusDuration` is set.
+       */
+      durationTimer: null,
+      /**
+       * Timer object for inter-stimuli duration handling.
+       * Used when `widgetProperties.timing.interStimuliDuration` is set.
+       */
+      interStimuliTimer: null,
+      /**
+       * flag to hide stimulus if `widgetProperties.timing.interStimuliDuration` is set.
+       */
+      showStimuli: true
     };
   },
   computed: {
@@ -167,6 +188,15 @@ export default {
         : null;
     }
   },
+  watch: {
+    /**
+     * Watch the widget pointer, which is from `/sampleCounts` document in firebase.
+     * When it changes, also update the `widgetSummary` to be from the new `widgetPointer`.
+     */
+    widgetPointer() {
+      this.preImgLoad();
+    }
+  },
   /**
    * If the playMode === 'tutorial', show a tutorial step.
    */
@@ -176,6 +206,10 @@ export default {
         this.showTutorialStep(this.tutorialStep);
       }
     });
+  },
+  beforeUnmount() {
+    clearTimeout(this.durationTimer);
+    clearTimeout(this.interStimuliTimer);
   },
   methods: {
     /**
@@ -197,6 +231,28 @@ export default {
           break;
         default:
           break;
+      }
+    },
+    preImgLoad() {
+      const interStimuliDuration = this.widgetProperties.timing
+        .interStimuliDuration;
+      if (interStimuliDuration) {
+        this.showStimuli = false;
+        this.interStimuliTimer = setTimeout(() => {
+          this.showStimuli = true;
+          clearTimeout(this.interStimuliTimer);
+        }, interStimuliDuration);
+      }
+    },
+    /**
+     * Set a duration timer on image load if stimulusDuration is configured.
+     */
+    onImgLoad() {
+      this.$emit("setStartTime", new Date());
+      if (this.widgetProperties.timing.stimulusDuration) {
+        this.durationTimer = setTimeout(() => {
+          this.vote(this.widgetProperties.timing.timeoutValue);
+        }, this.widgetProperties.timing.stimulusDuration);
       }
     },
     /**
@@ -296,6 +352,8 @@ export default {
      */
     vote(val) {
       this.$emit("widgetRating", val);
+      clearTimeout(this.durationTimer);
+      clearTimeout(this.interStimuliTimer);
     },
     /**
      * This method should tell users how their widgetProperties configuration should be defined.
@@ -313,17 +371,71 @@ export default {
           default: "__",
           description: "how to split the sample ID to fill in the template"
         },
-        leftSwipeLabel: {
-          type: String,
-          required: false,
-          default: "Fail",
-          description: "label for the left swipe button"
+        leftSwipe: {
+          type: Object,
+          schema: {
+            label: {
+              type: String,
+              required: false,
+              default: "Fail",
+              description: "label for the left swipe button"
+            },
+            value: {
+              type: Number,
+              required: false,
+              default: -1,
+              description: "value stored to database"
+            }
+          }
         },
-        rightSwipeLabel: {
-          type: String,
-          required: false,
-          default: "True",
-          description: "label for the right swipe button"
+        rightSwipe: {
+          type: Object,
+          schema: {
+            label: {
+              type: String,
+              required: false,
+              default: "Pass",
+              description: "label for the right swipe button"
+            },
+            value: {
+              type: Number,
+              required: false,
+              default: 1,
+              description: "value stored to database"
+            }
+          }
+        },
+        timing: {
+          type: Object,
+          schema: {
+            stimulusDuration: {
+              type: Number,
+              required: false,
+              default: null,
+              description: "stimulus duration (defaults to infinite)"
+            },
+            timeoutValue: {
+              type: Number,
+              required: false,
+              default: 0,
+              description:
+                "value stored to database when stimulus times out before user has swiped"
+            },
+            interStimuliDuration: {
+              type: Number,
+              required: false,
+              default: 0,
+              description:
+                "time between stimuli end and next stimuli load (defaults to zero). Note: this is only as precise as the clients environment allows"
+            },
+            stimulusFadeIn: {
+              type: Boolean,
+              required: false,
+              default: true,
+              description:
+                "sets the fade-in effect on stimulus load; set to `false` for precise timing (default: true)"
+            }
+          }
         }
       };
     },
@@ -333,7 +445,7 @@ export default {
     swipeLeft() {
       // set the transition style
       this.setSwipe("swipe-left");
-      this.vote(0);
+      this.vote(this.widgetProperties.leftSwipe.value);
     },
     /**
      * set the swipe-right animation and vote 1
@@ -341,7 +453,7 @@ export default {
     swipeRight() {
       // set the transition style
       this.setSwipe("swipe-right");
-      this.vote(1);
+      this.vote(this.widgetProperties.rightSwipe.value);
     },
     /**
      * set the swipe direction based on the mouse/touch event.
@@ -408,6 +520,9 @@ export default {
 .user-card__picture {
   width: 100%;
   display: block;
+}
+.user-card__picture.no-fade-in >>> .progressive-image-main {
+  transition-duration: 0s;
 }
 .image_area {
   background: black;
