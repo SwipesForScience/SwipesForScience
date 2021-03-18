@@ -3,7 +3,11 @@
     <!-- Dropdown menu only available if user is logged in -->
     <div v-if="loggedIn" ref="account-menu-toggle" @click="toggleMenu">
       <!-- Please replace with user's actual icon and data-->
-      <img src="../../assets/kesh-profile-icon.svg" alt="Profile Avatar" class="avatar" />
+      <img
+        src="../../assets/kesh-profile-icon.svg"
+        alt="Profile Avatar"
+        class="avatar"
+      />
       <div class="account-menu__user-information">
         <span class="username">{{userInfo.displayName}}</span>
         <span class="user-score">{{ userData.score }}</span>
@@ -21,7 +25,7 @@
     <div
       class="account-menu__dropdown"
       v-if="isActive"
-      v-click-outside="{exclude: ['account-menu-toggle'], handler: 'onClose'}"
+      v-click-outside="{ exclude: ['account-menu-toggle'], handler: 'onClose' }"
     >
       <ul>
         <li>Profile</li>
@@ -38,16 +42,16 @@
 import ClickOutside from '../../directives/ClickOutside.js';
 
 export default {
-  name: 'AccountMenu',
+  name: "AccountMenu",
   data() {
     return {
-      isActive: false,
+      isActive: false
     };
   },
   props: {
     loggedIn: {
       type: Boolean,
-      required: true,
+      required: true
     },
     userData: {
       type: Object,
@@ -55,8 +59,8 @@ export default {
     },
     userInfo: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   methods: {
     onClose() {
@@ -66,17 +70,17 @@ export default {
       this.isActive = !this.isActive;
     },
     onClickLogout() {
-      this.$emit('logout');
-    },
+      this.$emit("logout");
+    }
   },
   directives: {
-    ClickOutside,
+    ClickOutside
   },
   watch: {
     $route() {
       this.isActive = false;
-    },
-  },
+    }
+  }
 };
 </script>
 
@@ -141,7 +145,7 @@ export default {
     color: hsl(273, 9%, 46%);
   }
   .account-menu__user-information .username:after {
-    content: 'NEW';
+    content: "NEW";
     position: absolute;
     top: 1.6em;
     left: 0px;
