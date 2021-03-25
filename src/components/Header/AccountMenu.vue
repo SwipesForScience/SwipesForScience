@@ -9,8 +9,8 @@
         class="avatar"
       />
       <div class="account-menu__user-information">
-        <span class="username">{{ userInfo.displayName }}</span>
-        <span class="user-score">99999 points</span>
+        <span class="username">{{userInfo.displayName}}</span>
+        <span class="user-score">{{ userData.score }}</span>
       </div>
     </div>
     <!-- The login option shows if the user is not authenticated -->
@@ -52,6 +52,10 @@ export default {
     loggedIn: {
       type: Boolean,
       required: true
+    },
+    userData: {
+      type: Object,
+      required: true,
     },
     userInfo: {
       type: Object,

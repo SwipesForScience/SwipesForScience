@@ -1,6 +1,13 @@
 <template name="play">
-  <div id="play" class="container">
-    <!-- Modal Component -->
+  <div id="play" class="page__content">
+    <ReviewPopup
+      v-if="showReview"
+      :widgetPointer="widgetPointer"
+      v-on:toggleReviewPopup="toggleReviewPopup"
+      :userInfo="userInfo"
+      :userData="userData"
+      :db="db"
+    />
     <b-modal id="levelUp" ref="levelUp" title="You've Levelled Up!" ok-only>
       <div class="my-4">
         <h3>Level {{ currentLevel.level }}</h3>
@@ -8,8 +15,9 @@
         <p class="lead">You've unlocked: {{ currentLevel.character }}</p>
       </div>
     </b-modal>
-
     <div class="main">
+      <button @click="toggleReviewPopup"><i class="fa fa-comments"></i></button>
+
       <b-alert
         :show="dismissCountDown"
         :variant="feedback.variant"
@@ -103,6 +111,7 @@ import _ from "lodash";
 import Vue from "vue";
 import WidgetSelector from "./WidgetSelector";
 import Flask from "./Animations/Flask";
+import ReviewPopup from "@/components/Review/ReviewPopup";
 
 Vue.component("WidgetSelector", WidgetSelector);
 
@@ -214,7 +223,11 @@ export default {
       /**
        * secret key (btoa'd) from the firebase server, in case the widget is locked.
        */
-      serverSecret: ""
+      serverSecret: "",
+      /**
+       * show or hide review
+       */
+      showReview: false
     };
   },
   watch: {
@@ -258,8 +271,8 @@ export default {
     this.fetchServerSecret();
   },
   components: {
-    // WidgetSelector,
-    Flask
+    Flask,
+    ReviewPopup
   },
   computed: {
     /**
@@ -274,6 +287,7 @@ export default {
     blankImage() {
       return this.config.play.blankImage;
     },
+
     /**
      * type of widget, named exactly how it is in the Widgets folder
      */
@@ -571,6 +585,12 @@ export default {
         .then(snap => {
           this.serverSecret = snap.val();
         });
+    },
+    /**
+     * toggle review popup
+     */
+    toggleReviewPopup() {
+      this.showReview = !this.showReview;
     }
   }
 };
