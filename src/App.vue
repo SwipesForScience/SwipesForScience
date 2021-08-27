@@ -9,11 +9,18 @@
          to see the profile or logout.
     -->
     <div class="content">
-      <div v-if="betaMode" class="corner-ribbon bottom-right sticky blue">Beta</div>
-      <b-navbar toggleable="md" type="dark" :variant="navbarVariant" v-show="false">
+      <div v-if="betaMode" class="corner-ribbon bottom-right sticky blue">
+        Beta
+      </div>
+      <b-navbar
+        toggleable="md"
+        type="dark"
+        :variant="navbarVariant"
+        v-show="false"
+      >
         <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-        <b-navbar-brand to="/" id="brandName">{{brandName}}</b-navbar-brand>
+        <b-navbar-brand to="/" id="brandName">{{ brandName }}</b-navbar-brand>
 
         <!-- If the viewport is small, the navbar collapses.
           Everything in b-collapse is what gets collapsed.
@@ -21,12 +28,28 @@
         <b-collapse is-nav id="nav_collapse">
           <!--  Here are links to different routes  -->
           <b-navbar-nav id="navLinks">
-            <b-nav-item :to="{ name: 'Home', query: routerQuery}" exact>Home</b-nav-item>
-            <b-nav-item :to="{ name: 'Leaderboard', query: routerQuery}">Leaderboard</b-nav-item>
-            <b-nav-item :to="{ name: 'Play', query: routerQuery}">Play</b-nav-item>
-            <b-nav-item :to="{ name: 'Chats', query: routerQuery}">Chats</b-nav-item>
-            <b-nav-item v-if="needsTutorial" :to="{ name: 'Tutorial', query: routerQuery}">Tutorial</b-nav-item>
-            <b-nav-item v-if="userData.admin" :to="{ name: 'Admin', query: routerQuery}">Admin</b-nav-item>
+            <b-nav-item :to="{ name: 'Home', query: routerQuery }" exact
+              >Home</b-nav-item
+            >
+            <b-nav-item :to="{ name: 'Leaderboard', query: routerQuery }"
+              >Leaderboard</b-nav-item
+            >
+            <b-nav-item :to="{ name: 'Play', query: routerQuery }"
+              >Play</b-nav-item
+            >
+            <b-nav-item :to="{ name: 'Chats', query: routerQuery }"
+              >Chats</b-nav-item
+            >
+            <b-nav-item
+              v-if="needsTutorial"
+              :to="{ name: 'Tutorial', query: routerQuery }"
+              >Tutorial</b-nav-item
+            >
+            <b-nav-item
+              v-if="userData.admin"
+              :to="{ name: 'Admin', query: routerQuery }"
+              >Admin</b-nav-item
+            >
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->
@@ -34,14 +57,18 @@
             <!-- This part only displays if the user is authenticated -->
             <b-nav-item-dropdown right v-if="userIsDefined">
               <template slot="button-content">
-                <em>{{userInfo.displayName}}</em>
+                <em>{{ userInfo.displayName }}</em>
               </template>
-              <b-dropdown-item :to="{ name: 'Profile', query: routerQuery }">Profile</b-dropdown-item>
+              <b-dropdown-item :to="{ name: 'Profile', query: routerQuery }"
+                >Profile</b-dropdown-item
+              >
               <b-dropdown-item @click="logout">Signout</b-dropdown-item>
             </b-nav-item-dropdown>
 
             <!-- The login option shows if the user is not authenticated -->
-            <b-nav-item v-else :to="{ name: 'Login', query: routerQuery}">Login</b-nav-item>
+            <b-nav-item v-else :to="{ name: 'Login', query: routerQuery }"
+              >Login</b-nav-item
+            >
             <b-nav-text v-if="userIsDefined">
               <b-img
                 v-if="currentLevel.img"
@@ -52,7 +79,7 @@
                 class="m-1"
                 :src="currentLevel.img"
               />
-              {{userData.score}}
+              {{ userData.score }}
             </b-nav-text>
           </b-navbar-nav>
         </b-collapse>
@@ -62,21 +89,29 @@
         <ul class="navRoot">
           <li class="navSection main-logo">
             <router-link to="/">
-              <img src="./assets/swipes-for-science-logo.svg" alt="Swipes for Science logo" />
+              <img
+                src="./assets/swipes-for-science-logo.svg"
+                alt="Swipes for Science logo"
+              />
             </router-link>
           </li>
           <li class="navSection mobile-menu">
             <SliderMenu :needsTutorial="false" :isAdmin="false" />
           </li>
           <li class="navSection account-details">
-            <AccountMenu :userInfo="userInfo" :userData="userData" :loggedIn="userIsDefined" @logout="logout" />
+            <AccountMenu
+              :userInfo="userInfo"
+              :userData="userData"
+              :loggedIn="userIsDefined"
+              @logout="logout"
+            />
           </li>
           <li class="navSection desktop-menu"></li>
         </ul>
       </nav>
 
       <!-- The content is in the router view -->
-      <div class="router">
+      <div class="router" v-if="isMounted">
         <router-view
           :userInfo="userInfo"
           :userData="userData"
@@ -100,7 +135,11 @@
         :configurationState="configurationState"
       />
     </div>
-    <Footer v-on:openConfig="openConfig" :config="config" :routerQuery="routerQuery"></Footer>
+    <Footer
+      v-on:openConfig="openConfig"
+      :config="config"
+      :routerQuery="routerQuery"
+    ></Footer>
   </div>
 </template>
 
@@ -108,39 +147,36 @@
 /**
  * The main entrypoint to the app.
  */
-import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-import axios from 'axios';
-
+import Vue from "vue";
+import BootstrapVue from "bootstrap-vue";
+import axios from "axios";
 
 // firebase-related libraries
-import VueFire from 'vuefire';
-import firebase from 'firebase';
+import VueFire from "vuefire";
+import firebase from "firebase";
 // import { db } from './firebaseConfig';
 
-
 // useful library for objects and arrays
-import _ from 'lodash';
+import _ from "lodash";
 
 // Animate on scroll, for the tutorial
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
 // font-awesome icons
-import '../node_modules/font-awesome/css/font-awesome.min.css';
-import '../node_modules/reset-css/reset.css';
-import '../src/css/animations.css';
-import '../src/css/globals.css';
-import '../src/css/typography.css';
-
+import "../node_modules/font-awesome/css/font-awesome.min.css";
+import "../node_modules/reset-css/reset.css";
+import "../src/css/animations.css";
+import "../src/css/globals.css";
+import "../src/css/typography.css";
 
 // config options
-import config from './config';
-import Configure from './components/Configure';
+import config from "./config";
+import Configure from "./components/Configure";
 
 // components
-import SliderMenu from './components/Header/SliderMenu';
-import AccountMenu from './components/Header/AccountMenu';
-import Footer from './components/Footer';
+import SliderMenu from "./components/Header/SliderMenu";
+import AccountMenu from "./components/Header/AccountMenu";
+import Footer from "./components/Footer";
 
 // explicit installation required in module environments
 Vue.use(VueFire);
@@ -153,7 +189,7 @@ window.firebase = firebase;
  * This is the main entrypoint to the app.
  */
 export default {
-  name: 'app',
+  name: "app",
   data() {
     return {
       /**
@@ -180,12 +216,13 @@ export default {
        * The configuration state, keeping track of the step number only.
        */
       configurationState: {
-        step: 0,
+        step: 0
       },
       /**
        * Whether or not to show Mobile menu, will be extracted into Header component later
        */
       showHeader: false,
+      isMounted: false
     };
   },
   /**
@@ -193,26 +230,27 @@ export default {
    * load the config file from the query and set it to the components config variable.
    */
   mounted() {
-    this.userInfo = firebase.auth().currentUser;
+    this.userInfo = firebase.auth().currentUser || {};
     const self = this;
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(user => {
       self.userInfo = user || {};
     });
+    this.isMounted = true;
   },
 
   components: {
     Configure,
     Footer,
     SliderMenu,
-    AccountMenu,
+    AccountMenu
   },
 
   firebase() {
     return {
       allUsers: {
-        source: this.db.ref('/users/').orderByChild('score'),
-        asObject: true,
-      },
+        source: this.db.ref("/users/").orderByChild("score"),
+        asObject: true
+      }
     };
   },
   watch: {
@@ -236,19 +274,19 @@ export default {
               firebase.initializeApp(newKeys);
               this.db = firebase.database();
               this.db
-                .ref('/users/')
-                .orderByChild('score')
-                .on('value', (snap) => {
+                .ref("/users/")
+                .orderByChild("score")
+                .on("value", snap => {
                   this.allUsers = snap.val();
                 });
               this.userInfo = firebase.auth().currentUser || {};
               const self = this;
-              firebase.auth().onAuthStateChanged((user) => {
+              firebase.auth().onAuthStateChanged(user => {
                 self.userInfo = user || {};
               });
             });
         });
-    },
+    }
   },
 
   computed: {
@@ -280,7 +318,7 @@ export default {
      * color of the navbar, based on bootstrap4 color variants.
      */
     navbarVariant() {
-      return this.config.app ? this.config.app.navbarVariant || 'info' : 'info';
+      return this.config.app ? this.config.app.navbarVariant || "info" : "info";
     },
     /**
      * the current user's data, based on the userInfo from the firebase.auth.
@@ -297,7 +335,7 @@ export default {
       _.map(this.allUsers, (value, key) => {
         if (key === this.userInfo.displayName) {
           data = value;
-          data['.key'] = key;
+          data[".key"] = key;
         }
       });
       return data;
@@ -315,7 +353,7 @@ export default {
      */
     currentLevel() {
       let clev = {};
-      _.mapValues(this.levels, (val) => {
+      _.mapValues(this.levels, val => {
         if (this.userData.score >= val.min && this.userData.score <= val.max) {
           clev = val;
         }
@@ -337,7 +375,7 @@ export default {
      */
     routerQuery() {
       return this.$route.query;
-    },
+    }
   },
   methods: {
     /**
@@ -349,7 +387,7 @@ export default {
         .signOut()
         .then(() => {
           this.userInfo = {};
-          this.$router.replace('login');
+          this.$router.replace("login");
         });
     },
     /**
@@ -364,9 +402,9 @@ export default {
     setTutorial(val) {
       this.db
         .ref(`/users/${this.userInfo.displayName}`)
-        .child('taken_tutorial')
+        .child("taken_tutorial")
         .set(val);
-      this.$router.replace('play');
+      this.$router.replace("play");
     },
     /**
      * open the config panel
@@ -379,7 +417,7 @@ export default {
      */
     closeConfig() {
       this.showConfig = false;
-    },
+    }
   },
   /**
    * intialize the animate on scroll library (for tutorial) and listen to authentication state
@@ -389,7 +427,7 @@ export default {
       // the URL has a config file that overrides the default one for this app!
       axios
         .get(this.$route.query.config)
-        .then((resp) => {
+        .then(resp => {
           // remove the firebase project
           this.config = resp.data;
         })
@@ -398,7 +436,7 @@ export default {
           // console.log(e.message);
         });
     }
-  },
+  }
 };
 </script>
 
@@ -407,7 +445,7 @@ export default {
     You can style your component here. Since this is a top level component
     the styles follow into child components.
   */
-@import url('https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap");
 
 .content {
   flex: 1 0 auto;
