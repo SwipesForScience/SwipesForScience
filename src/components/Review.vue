@@ -22,7 +22,7 @@ export default {
      */
     userInfo: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * the various levels, the points need to reach the levels,
@@ -30,14 +30,14 @@ export default {
      */
     levels: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * the user's current level
      */
     currentLevel: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * The config object that is loaded from src/config.js.
@@ -47,25 +47,25 @@ export default {
      */
     config: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * the intialized firebase database
      */
     db: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   components: {
-    ReviewConversation
+    ReviewConversation,
   },
   data() {
     return {
       /**
        * This sample ID to discuss.
        */
-      widgetPointer: ""
+      widgetPointer: "",
     };
   },
   watch: {
@@ -75,7 +75,7 @@ export default {
      */
     $route() {
       this.widgetPointer = this.$route.params.key;
-    }
+    },
   },
   /**
    * When the component is mounted, set this components `widgetPointer`
@@ -83,6 +83,6 @@ export default {
    */
   mounted() {
     this.widgetPointer = this.$route.params.key;
-  }
+  },
 };
 </script>

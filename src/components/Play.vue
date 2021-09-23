@@ -281,7 +281,7 @@ export default {
   mounted() {
     this.initSampleCounts();
     this.initSeenSamples();
-    this.initUserSettings();
+    // this.initUserSettings();
     this.fetchServerSecret();
   },
   components: {

@@ -2,12 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from "vue";
 import { initializeApp } from "firebase/app";
-import { getDatabase, connectDatabaseEmulator } from "firebase/database";
-import {
-  getAuth,
-  onAuthStateChanged,
-  connectAuthEmulator,
-} from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import App from "./App";
 import router from "./router";
 import config from "./config";
@@ -27,11 +22,6 @@ This will make sure Firebase initializes before loading the app when a user refr
 
 initializeApp(config.firebaseKeys);
 const auth = getAuth();
-const db = getDatabase();
-if (process.env.NODE_ENV === "development") {
-  connectAuthEmulator(auth, "http://localhost:9099");
-  connectDatabaseEmulator(db, "localhost", 9000);
-}
 
 onAuthStateChanged(auth, () => {
   if (!app) {

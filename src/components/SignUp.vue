@@ -229,7 +229,6 @@ export default {
           this.updateProfile();
         })
         .catch((err) => {
-          console.log("test", err);
           this.errors.show = true;
           this.errors.message = err.message;
         });

@@ -69,6 +69,7 @@
             <b-nav-item v-else :to="{ name: 'Login', query: routerQuery }"
               >Login</b-nav-item
             >
+
             <b-nav-text v-if="userIsDefined">
               <b-img
                 v-if="currentLevel.img"
@@ -154,7 +155,7 @@ import axios from "axios";
 // firebase-related libraries
 import VueFire from "vuefire";
 import firebase from "firebase/compat/app";
-import { getDatabase, ref, update } from "firebase/database";
+import { getDatabase, ref, update, onValue } from "firebase/database";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 
 // useful library for objects and arrays
@@ -194,6 +195,7 @@ export default {
        * This is from firebase
        */
       userInfo: {},
+      userData: {},
       /**
        * This is the firebase database object.
        */
@@ -221,6 +223,7 @@ export default {
        */
       showHeader: false,
       isMounted: false,
+      unsubscribeUser: () => {},
     };
   },
   /**
@@ -232,8 +235,20 @@ export default {
     this.userInfo = auth.currentUser || {};
     onAuthStateChanged(auth, (user) => {
       this.userInfo = user || {};
+      // if there is a user, subscribe to changes in userData
+      if (user) {
+        this.unsubscribeUser = onValue(
+          ref(getDatabase(), "users/" + user.displayName),
+          (snapshot) => {
+            this.userData = snapshot.val();
+          }
+        );
+      } else this.unsubscribeUser();
     });
     this.isMounted = true;
+  },
+  beforeDestroy() {
+    this.unsubscribeUser();
   },
 
   components: {
@@ -308,26 +323,6 @@ export default {
      */
     navbarVariant() {
       return this.config.app ? this.config.app.navbarVariant || "info" : "info";
-    },
-    /**
-     * the current user's data, based on the userInfo from the firebase.auth.
-     * this matches the info in allUsers (/users) to the firebase.auth user info.
-     */
-    userData() {
-      let data = {};
-      if (this.userInfo == null) {
-        return data;
-      } else if (!Object.keys(this.userInfo).length) {
-        return data;
-      }
-
-      _.map(this.allUsers, (value, key) => {
-        if (key === this.userInfo.displayName) {
-          data = value;
-          data[".key"] = key;
-        }
-      });
-      return data;
     },
     /**
      * The levels are defined based on score bins. Each level also defines

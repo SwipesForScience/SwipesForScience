@@ -28,7 +28,6 @@
       v-click-outside="{ exclude: ['account-menu-toggle'], handler: 'onClose' }"
     >
       <ul>
-        <li>Profile</li>
         <li>
           <span v-on:click="onClickLogout">Sign out</span>
         </li>
@@ -39,28 +38,28 @@
 
 <script>
 // eslint-disable-next-line
-import ClickOutside from '../../directives/ClickOutside.js';
+import ClickOutside from "../../directives/ClickOutside.js";
 
 export default {
   name: "AccountMenu",
   data() {
     return {
-      isActive: false
+      isActive: false,
     };
   },
   props: {
     loggedIn: {
       type: Boolean,
-      required: true
+      required: true,
     },
     userData: {
       type: Object,
-      required: true
+      required: true,
     },
     userInfo: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     onClose() {
@@ -71,16 +70,16 @@ export default {
     },
     onClickLogout() {
       this.$emit("logout");
-    }
+    },
   },
   directives: {
-    ClickOutside
+    ClickOutside,
   },
   watch: {
     $route() {
       this.isActive = false;
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -6,33 +6,40 @@
     <div class="page__content grey-gradient-bg">
       <div class="page__content-container">
         <div class="leaderboard">
-         <transition-group tag="div" name="list" class="leaderboard__rows">
+          <transition-group tag="div" name="list" class="leaderboard__rows">
             <div
               v-for="(user, index) in displayUsersList"
               v-bind:key="user.name"
               class="leaderboard__row"
             >
               <div class="leaderboard__row-container">
-                <div class="leaderboard__cell user-index">{{index + 1}}</div>
+                <div class="leaderboard__cell user-index">{{ index + 1 }}</div>
                 <div class="leaderboard__cell avatar">
                   <div class="avatar">
-                    <img src="../assets/kesh-profile-icon.svg" alt="Swipes for Science logo" />
+                    <img
+                      src="../assets/kesh-profile-icon.svg"
+                      alt="Swipes for Science logo"
+                    />
                   </div>
                 </div>
-                <div class="leaderboard__cell username">{{user.name}}</div>
+                <div class="leaderboard__cell username">{{ user.name }}</div>
                 <div v-if="index === 0" class="leaderboard__cell crown">
                   <img src="../assets/leaderboard-crown.svg" alt="Medal" />
                 </div>
-                <div class="leaderboard__cell user-score"><div>{{user.score}}</div></div>
+                <div class="leaderboard__cell user-score">
+                  <div>{{ user.score }}</div>
+                </div>
               </div>
               <hr class="dashed-decorative-line" />
             </div>
           </transition-group>
-          <button @click="showMore()" 
-                  id="leaderboard__showMore"
-                  class="full-size-desktop"
-                  v-if="displayLimit < sortedUsersList.length">
-                  Load more
+          <button
+            @click="showMore()"
+            id="leaderboard__showMore"
+            class="full-size-desktop"
+            v-if="displayLimit < sortedUsersList.length"
+          >
+            Load more
           </button>
         </div>
       </div>
@@ -66,7 +73,7 @@
   background-color: hsl(253, 44%, 47%);
   color: hsl(0, 0%, 100%);
   border-radius: 8px;
-  margin-bottom:  1.25em ;
+  margin-bottom: 1.25em;
 }
 /* Leaderboard cell */
 .leaderboard__cell {
@@ -106,7 +113,6 @@
   left: 0px;
 }
 
-
 .dashed-decorative-line {
   border: 0;
   background-repeat: repeat-x;
@@ -120,29 +126,28 @@
     transparent 100%
   );
   background-size: 15px 1px;
-  margin:  0;
+  margin: 0;
   margin-left: auto;
 }
 @media (min-width: 30em) {
   .leaderboard__cell.user-index {
-  width: calc(10% - 1em);
-}
-.leaderboard__cell.crown {
-  flex-grow: 1;
-}
-.leaderboard__cell.crown img {
-  width: 50px;
-}
-.leaderboard__cell.username {
-  padding-left: 1.25em;
-}
-.leaderboard__cell.user-score:before {
-  left: -10px;
-}
-.dashed-decorative-line {
-  width: 90%;
-
-}
+    width: calc(10% - 1em);
+  }
+  .leaderboard__cell.crown {
+    flex-grow: 1;
+  }
+  .leaderboard__cell.crown img {
+    width: 50px;
+  }
+  .leaderboard__cell.username {
+    padding-left: 1.25em;
+  }
+  .leaderboard__cell.user-score:before {
+    left: -10px;
+  }
+  .dashed-decorative-line {
+    width: 90%;
+  }
 }
 @media (min-width: 65em) {
   .page__content-container {
@@ -154,13 +159,14 @@
 </style>
 
 <script>
+import { ref, get, getDatabase } from "firebase/database";
 /**
  * The leaderboard component for the route `/leaderboard`. It displays the
  * rank, badge, player username, and score. You can sort based on the score.
  */
 
 export default {
-  name: 'leaderboard',
+  name: "leaderboard",
   props: {
     /**
      * the various levels, the points need to reach the levels,
@@ -170,31 +176,19 @@ export default {
       type: Object,
       required: true,
     },
-    /**
-       * This is an object that looks like:
-       ```
-       {
-        username: {
-          level:
-          score:
-          taken_tutorial:
-          consent:
-          admin:
-        }
+  },
+  mounted() {
+    get(ref(getDatabase(), "users")).then((snapshot) => {
+      if (snapshot.exists()) {
+        this.allUsers = snapshot.val();
       }
-       ```
-       * it comes directly from the `/users` document in Firebase.
-       */
-    allUsers: {
-      type: Object,
-      required: true,
-    },
+    });
   },
   computed: {
     sortedUsersList() {
       /* Removes '.key' property present on allUsers data */
       let allUsernames = Object.keys(this.allUsers).filter(
-        userName => userName !== '.key',
+        (userName) => userName !== ".key"
       );
       // eslint-disable-next-line
       allUsernames = allUsernames.map((userName) => {
@@ -210,10 +204,11 @@ export default {
   },
   data() {
     return {
+      allUsers: {},
       /**
        * Tell the table component to sort by the score.
        */
-      sortBy: 'score',
+      sortBy: "score",
       /**
        * Tell the table component to sort descending.
        */
@@ -224,16 +219,16 @@ export default {
        * sorted.
        */
       fields: [
-        'rank',
-        'badge',
+        "rank",
+        "badge",
         {
-          key: '.key',
-          label: 'Player',
+          key: ".key",
+          label: "Player",
           sortable: false,
         },
         {
-          key: 'score',
-          label: 'Score',
+          key: "score",
+          label: "Score",
           sortable: true,
         },
       ],
