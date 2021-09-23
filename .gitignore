@@ -26,3 +26,9 @@ pnpm-debug.log*
 
 # firebase
 src/firebaseConfig.js
+.firebaserc
+
+# firebase emulator files
+database-debug.log*
+firebase-debug.log*
+ui-debug.log*

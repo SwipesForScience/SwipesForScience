@@ -1,0 +1,52 @@
+
+      {
+        "rules": {
+          ".read": "auth.uid === 'alice'",
+          ".write": "auth.uid === 'alice'",
+          "users": {
+            ".read": true,
+            ".write": "auth !== null && data.exists()",
+            "$displayName": {
+              ".read": true,
+              ".write": "$displayName === auth.token.name",
+              "admin": {
+                ".write": "auth.uid === 'alice'"
+              }
+            }
+          },
+          "userSettings": {
+            ".read": false,
+            ".write": "auth !== null && data.exists()",
+            "$displayName": {
+              ".read": "$displayName === auth.token.name",
+              ".write": "$displayName === auth.token.name"
+            }
+          },
+          "chats": {
+            ".read": true,
+            ".write": "auth !== null && data.exists()"
+          },
+          "sampleCounts": {
+            ".read": true,
+            ".write": "auth !== null && data.exists()"
+          },
+          "sampleSummary": {
+            ".read": true,
+            ".write": "auth !== null && data.exists()"
+          },
+          "settings": {
+            ".read": true,
+            ".write": "auth.uid === 'alice'"
+          },
+          "userSeenSamples": {
+            ".read": true,
+            "$userId": {
+              ".write": "auth.uid == $userId"
+            }
+          },
+          "votes": {
+            ".write": "data.exists()",
+            ".read": "auth !== null"
+          }
+        }
+      }

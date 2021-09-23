@@ -153,8 +153,9 @@ import axios from "axios";
 
 // firebase-related libraries
 import VueFire from "vuefire";
-import firebase from "firebase";
-// import { db } from './firebaseConfig';
+import firebase from "firebase/compat/app";
+import { getDatabase, ref, update } from "firebase/database";
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 
 // useful library for objects and arrays
 import _ from "lodash";
@@ -182,9 +183,6 @@ import Footer from "./components/Footer";
 Vue.use(VueFire);
 Vue.use(BootstrapVue);
 
-// this is only for debugging. probably should get rid of it.
-window.firebase = firebase;
-
 /**
  * This is the main entrypoint to the app.
  */
@@ -199,7 +197,7 @@ export default {
       /**
        * This is the firebase database object.
        */
-      db: firebase.database(),
+      db: getDatabase(),
       /**
        * This is the config object, it defines the look of the app
        */
@@ -216,13 +214,13 @@ export default {
        * The configuration state, keeping track of the step number only.
        */
       configurationState: {
-        step: 0
+        step: 0,
       },
       /**
        * Whether or not to show Mobile menu, will be extracted into Header component later
        */
       showHeader: false,
-      isMounted: false
+      isMounted: false,
     };
   },
   /**
@@ -230,10 +228,10 @@ export default {
    * load the config file from the query and set it to the components config variable.
    */
   mounted() {
-    this.userInfo = firebase.auth().currentUser || {};
-    const self = this;
-    firebase.auth().onAuthStateChanged(user => {
-      self.userInfo = user || {};
+    const auth = getAuth();
+    this.userInfo = auth.currentUser || {};
+    onAuthStateChanged(auth, (user) => {
+      this.userInfo = user || {};
     });
     this.isMounted = true;
   },
@@ -242,16 +240,7 @@ export default {
     Configure,
     Footer,
     SliderMenu,
-    AccountMenu
-  },
-
-  firebase() {
-    return {
-      allUsers: {
-        source: this.db.ref("/users/").orderByChild("score"),
-        asObject: true
-      }
-    };
+    AccountMenu,
   },
   watch: {
     /**
@@ -276,17 +265,17 @@ export default {
               this.db
                 .ref("/users/")
                 .orderByChild("score")
-                .on("value", snap => {
+                .on("value", (snap) => {
                   this.allUsers = snap.val();
                 });
               this.userInfo = firebase.auth().currentUser || {};
               const self = this;
-              firebase.auth().onAuthStateChanged(user => {
+              firebase.auth().onAuthStateChanged((user) => {
                 self.userInfo = user || {};
               });
             });
         });
-    }
+    },
   },
 
   computed: {
@@ -353,7 +342,7 @@ export default {
      */
     currentLevel() {
       let clev = {};
-      _.mapValues(this.levels, val => {
+      _.mapValues(this.levels, (val) => {
         if (this.userData.score >= val.min && this.userData.score <= val.max) {
           clev = val;
         }
@@ -375,20 +364,18 @@ export default {
      */
     routerQuery() {
       return this.$route.query;
-    }
+    },
   },
   methods: {
     /**
      * log out of firebase
      */
     logout() {
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          this.userInfo = {};
-          this.$router.replace("login");
-        });
+      const auth = getAuth();
+      signOut(auth).then(() => {
+        this.userInfo = {};
+        this.$router.replace("/");
+      });
     },
     /**
      * set the userInfo attribute
@@ -400,11 +387,11 @@ export default {
      * set the tutorial status of the current user
      */
     setTutorial(val) {
-      this.db
-        .ref(`/users/${this.userInfo.displayName}`)
-        .child("taken_tutorial")
-        .set(val);
-      this.$router.replace("play");
+      const updates = {};
+      updates[`/users/${this.userInfo.displayName}/taken_tutorial`] = val;
+      update(ref(this.db), updates).then(() => {
+        this.$router.replace("play");
+      });
     },
     /**
      * open the config panel
@@ -417,7 +404,7 @@ export default {
      */
     closeConfig() {
       this.showConfig = false;
-    }
+    },
   },
   /**
    * intialize the animate on scroll library (for tutorial) and listen to authentication state
@@ -427,7 +414,7 @@ export default {
       // the URL has a config file that overrides the default one for this app!
       axios
         .get(this.$route.query.config)
-        .then(resp => {
+        .then((resp) => {
           // remove the firebase project
           this.config = resp.data;
         })
@@ -436,7 +423,7 @@ export default {
           // console.log(e.message);
         });
     }
-  }
+  },
 };
 </script>
 

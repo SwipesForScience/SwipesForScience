@@ -112,6 +112,16 @@ import Vue from "vue";
 import WidgetSelector from "./WidgetSelector";
 import Flask from "./Animations/Flask";
 import ReviewPopup from "@/components/Review/ReviewPopup";
+import {
+  ref,
+  get,
+  set,
+  child,
+  runTransaction,
+  push,
+  increment,
+  update,
+} from "firebase/database";
 
 Vue.component("WidgetSelector", WidgetSelector);
 
@@ -123,14 +133,14 @@ export default {
      */
     userInfo: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * the computed user data object based on userInfo
      */
     userData: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * the various levels, the points need to reach the levels,
@@ -138,14 +148,14 @@ export default {
      */
     levels: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * the user's current level
      */
     currentLevel: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * The config object that is loaded from src/config.js.
@@ -155,15 +165,15 @@ export default {
      */
     config: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * the intialized firebase database
      */
     db: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -186,7 +196,7 @@ export default {
        */
       feedback: {
         variant: "warning",
-        message: ""
+        message: "",
       },
 
       /**
@@ -227,7 +237,7 @@ export default {
       /**
        * show or hide review
        */
-      showReview: false
+      showReview: false,
     };
   },
   watch: {
@@ -242,10 +252,10 @@ export default {
         this.currentLevel.min
       ) {
         this.$refs.levelUp.show();
-        this.db
-          .ref(`/users/${this.userInfo.displayName}`)
-          .child("level")
-          .set(this.currentLevel.level);
+        set(
+          ref(this.db, `/users/${this.userInfo.displayName}/level`),
+          this.currentLevel.level
+        );
       }
     },
     /**
@@ -253,12 +263,16 @@ export default {
      * When it changes, also update the `widgetSummary` to be from the new `widgetPointer`.
      */
     widgetPointer() {
-      /* eslint-disable */
-        this.widgetPointer ? this.db.ref('sampleSummary').child(this.widgetPointer).once('value', (snap) => {
-          this.widgetSummary = snap.val();
-        }) : null;
-        /* eslint-enable */
-    }
+      if (this.widgetPointer) {
+        get(ref(this.db, `/sampleSummary/${this.widgetPointer}`)).then(
+          (snapshot) => {
+            if (snapshot.exists()) {
+              this.widgetSummary = snapshot.val();
+            }
+          }
+        );
+      }
+    },
   },
   /**
    * When the component mounts, initialize the sampleCounts from firebase,
@@ -272,7 +286,7 @@ export default {
   },
   components: {
     Flask,
-    ReviewPopup
+    ReviewPopup,
   },
   computed: {
     /**
@@ -305,7 +319,7 @@ export default {
      */
     needsSecret() {
       return this.config.widgetUsesSecret;
-    }
+    },
   },
   methods: {
     /**
@@ -313,47 +327,44 @@ export default {
      * this property saves the state of the widget, if it needs it.
      */
     initUserSettings() {
-      // console.log('updating user settings');
-      this.db
-        .ref("userSettings")
-        .child(this.userInfo.displayName)
-        .on("value", snap => {
-          const val = snap.val();
-          if (val == null) {
-            this.userSettings = {};
+      const userSettingsRef = ref(this.db, "/userSettings");
+      get(child(userSettingsRef, this.userInfo.displayName)).then(
+        (snapshot) => {
+          if (snapshot.exists()) {
+            this.userSettings = snapshot.val();
           } else {
-            this.userSettings = val;
+            this.userSettings = {};
           }
-        });
+        }
+      );
     },
     /**
      * update the /userSettings/<username> in firebase.
-     * this method is called when the widget emits the "udpateUserSettings" event.
+     * this method is called when the widget emits the "updateUserSettings" event.
      */
     updateUserSettings(settings) {
       if (settings) {
-        this.db
-          .ref("userSettings")
-          .child(this.userInfo.displayName)
-          .set(settings);
+        set(ref(this.db, "userSettings/" + this.user.displayName), settings);
       }
     },
     /**
-     * Ask Firebase for the sampleCounts document,
-     * but don't watch it in real time, just fetch the data once.
+     * Read sampleCounts document once with get()
      */
     initSampleCounts() {
-      this.db.ref("sampleCounts").once("value", snap => {
-        /* eslint-disable */
-          this.sampleCounts = _.map(snap.val(), (val, key) => {
-            return { '.key': key, '.value': val };
+      const sampleCountsRef = ref(this.db, "sampleCounts");
+      get(sampleCountsRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          this.sampleCounts = _.map(snapshot.val(), (val, key) => {
+            return { ".key": key, ".value": val };
           });
-          /* eslint-enable */
-        if (!this.sampleCounts.length) {
-          this.noData = true;
+          if (!this.sampleCounts.length) {
+            this.noData = true;
+          } else {
+            this.startTime = new Date();
+            this.setNextSampleId();
+          }
         } else {
-          this.startTime = new Date();
-          this.setNextSampleId();
+          this.noData = true;
         }
       });
     },
@@ -362,17 +373,17 @@ export default {
      * `/userSeenSamples/<username>` document from firebase, once.
      */
     initSeenSamples() {
-      // console.log('userSeenSamples', this.userInfo.displayName);
-      this.db
-        .ref("userSeenSamples")
-        .child(this.userInfo.displayName)
-        .once("value", snap => {
-          /* eslint-disable */
-            this.userSeenSamples = _.map(snap.val(), (val, key) => {
-              return { '.key': key, '.value': val };
-            });
-            /* eslint-enable */
-        });
+      const userSeenSamplesRef = ref(
+        this.db,
+        "/userSeenSamples/" + this.userInfo.displayName
+      );
+      get(userSeenSamplesRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          this.userSeenSamples = _.map(snapshot.val(), (val, key) => {
+            return { ".key": key, ".value": val };
+          });
+        }
+      });
     },
     /**
      * A method to shuffle an array.
@@ -391,9 +402,9 @@ export default {
         // And swap it with the current element.
         temporaryValue = array[currentIndex];
         /* eslint-disable */
-          array[currentIndex] = array[randomIndex];
-          array[randomIndex] = temporaryValue;
-          /* eslint-enable */
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+        /* eslint-enable */
       }
       return array;
     },
@@ -408,10 +419,10 @@ export default {
         let samplesRemain;
         if (this.userSeenSamples) {
           // if the user has seen some samples, remove them
-          const userSeenList = _.map(this.userSeenSamples, s => s[".key"]);
+          const userSeenList = _.map(this.userSeenSamples, (s) => s[".key"]);
           samplesRemain = _.filter(
             this.samplePriority,
-            v => userSeenList.indexOf(v[".key"]) < 0
+            (v) => userSeenList.indexOf(v[".key"]) < 0
           );
 
           // but if the user has seen everything,
@@ -434,7 +445,7 @@ export default {
           // so they are only the smallest seen value;
           const samplesSmallest = _.filter(
             samplesRemain,
-            c => c[".value"] === minUnseen
+            (c) => c[".value"] === minUnseen
           );
           // and then randomize the order;
           return this.shuffle(samplesSmallest);
@@ -502,48 +513,51 @@ export default {
      * along with their user displayName and the time they took to respond.
      */
     sendVote(response, time) {
-      this.db.ref("votes").push({
+      const voteListRef = ref(this.db, "votes");
+      const newVoteRef = push(voteListRef);
+      set(newVoteRef, {
         user: this.userInfo.displayName,
         sample: this.widgetPointer,
         response,
-        time
+        time,
       });
     },
     /**
      * this method update's the user's score by scoreIncrement;
      */
     updateScore(scoreIncrement) {
-      this.db
-        .ref("users")
-        .child(this.userInfo.displayName)
-        .child("score")
-        .transaction(score => (score || 0) + scoreIncrement);
+      const updates = {};
+      const currentUserRef = ref(this.db, `users/${this.userInfo.displayName}`);
+      updates.score = increment(scoreIncrement);
+      update(currentUserRef, updates);
     },
     /**
      * Update the summary of a given widgetPointer
      */
     updateSummary(summary) {
-      this.db
-        .ref("sampleSummary")
-        .child(this.widgetPointer)
-        .set(summary);
+      const currentSampleSummaryRef = ref(
+        this.db,
+        `sampleSummary/${this.widgetPointer}`
+      );
+      set(currentSampleSummaryRef, summary);
     },
     /**
      * Update the sampleCount of the current widgetPointer.
      */
     updateCount() {
       // update the firebase database copy
-      this.db
-        .ref("sampleCounts")
-        .child(this.widgetPointer)
-        .transaction(count => (count || 0) + 1);
-
+      const sampleCountRef = ref(this.db, `sampleCounts/${this.widgetPointer}`);
+      runTransaction(sampleCountRef, (sampleCount) => {
+        if (sampleCount && typeof sampleCount === "number") {
+          return sampleCount + 1;
+        } else {
+          return 1;
+        }
+      });
       // update the local copy
-      _.map(this.sampleCounts, val => {
+      _.map(this.sampleCounts, (val) => {
         if (val[".key"] === this.widgetPointer) {
-          /* eslint-disable */
-            val['.value'] += 1;
-            /* eslint-enable */
+          val[".value"] += 1;
         }
       });
     },
@@ -551,14 +565,15 @@ export default {
      * Update that the user has seen this sample, incrementing by 1.
      */
     updateSeen() {
-      // mark that this user has seen this widgetPointer
+      // mark number of times that this user has seen this widgetPointer
       // update the firebase database copy
-      this.db
-        .ref("userSeenSamples")
-        .child(this.userInfo.displayName)
-        .child(this.widgetPointer)
-        .transaction(count => (count || 0) + 1);
-
+      const currentUserSeenSamplesRef = ref(
+        this.db,
+        `userSeenSamples/${this.userInfo.displayName}`
+      );
+      const updates = {};
+      updates[this.widgetPointer] = increment(1);
+      update(currentUserSeenSamplesRef, updates);
       // update the local copy
       this.userSeenSamples.push({ ".key": this.widgetPointer, ".value": 1 });
     },
@@ -578,20 +593,19 @@ export default {
      * fetch the server secret and set it in this.data
      */
     fetchServerSecret() {
-      this.db
-        .ref("settings")
-        .child("secret")
-        .once("value")
-        .then(snap => {
-          this.serverSecret = snap.val();
-        });
+      const settingsRef = ref(this.db, "settings");
+      get(child(settingsRef, "secret/value")).then((snapshot) => {
+        if (snapshot.exists()) {
+          this.serverSecret = snapshot.val();
+        }
+      });
     },
     /**
      * toggle review popup
      */
     toggleReviewPopup() {
       this.showReview = !this.showReview;
-    }
-  }
+    },
+  },
 };
 </script>
