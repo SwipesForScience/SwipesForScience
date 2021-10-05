@@ -1,5 +1,5 @@
 <template name="signup">
-  <div id="signup">
+  <div id="signup" class="frame frame--landing">
     <h1>Sign Up</h1>
     <!-- Modal Component -->
     <b-modal id="consentform" title="Consent Form" ref="consentform" size="lg">
@@ -11,110 +11,104 @@
       </div>
     </b-modal>
 
-    <div id="signupForm" class="container fluid">
-      <b-form @submit="onSubmit" validated>
-        <b-alert :show="errors.show" variant="danger">{{
-          errors.message
-        }}</b-alert>
+    <form @submit="onSubmit" validated class="form--landing">
+      <b-alert :show="errors.show" variant="danger">{{
+        errors.message
+      }}</b-alert>
 
-        <b-form-group
-          id="consentOpenButton"
-          :label="consentFormLabel"
-          label-for="openConsent"
-        >
-          <b-button
-            v-if="!form.consented"
-            variant="success"
-            id="openConsent"
-            @click="openConsentModal"
-          >
-            Open Consent Form
-          </b-button>
-        </b-form-group>
-
-        <b-form-group
-          id="emailAddressInputGroup"
-          label="Email address:"
-          label-for="emailAddress"
-          description="We'll never share your email with anyone else."
-        >
-          <b-form-input
-            id="emailAddress"
-            type="email"
-            v-model="form.email"
-            required
-            placeholder="Enter email"
-          >
-          </b-form-input>
-        </b-form-group>
-        <b-form-group
-          id="usernameInputGroup"
-          label="Username:"
-          label-for="usernameInput"
-          description="This will be displayed on the leaderboard"
-        >
-          <b-form-input
-            id="usernameInput"
-            type="text"
-            v-model="form.username"
-            required
-            placeholder="Choose a username"
-          >
-          </b-form-input>
-        </b-form-group>
-
-        <b-form-group
-          id="passwordInputGroup"
-          label="Password:"
-          label-for="passwordInput"
-        >
-          <b-form-input
-            id="passwordInput"
-            type="password"
-            v-model="form.password"
-            required
-            placeholder="Password"
-          >
-          </b-form-input>
-        </b-form-group>
-
-        <b-form-group
-          id="password2InputGroup"
-          label="Password Again:"
-          label-for="password2Input"
-        >
-          <b-alert :show="!validated" variant="danger">
-            Make sure your passwords match!
-          </b-alert>
-          <b-form-input
-            id="password2Input"
-            type="password"
-            v-model="form.password2"
-            required
-            placeholder="Confirm password"
-          >
-          </b-form-input>
-        </b-form-group>
-
+      <b-form-group
+        id="consentOpenButton"
+        :label="consentFormLabel"
+        label-for="openConsent"
+      >
         <b-button
-          type="submit"
-          variant="primary"
-          :disabled="!validated || !form.consented"
-          >Submit</b-button
+          v-if="!form.consented"
+          variant="success"
+          id="openConsent"
+          @click="openConsentModal"
         >
+          Open Consent Form
+        </b-button>
+      </b-form-group>
 
-        <p class="mt-3">
-          Already have an account? <router-link to="/login">Log In</router-link>
-        </p>
-      </b-form>
-    </div>
+      <b-form-group
+        id="emailAddressInputGroup"
+        label="Email address:"
+        label-for="emailAddress"
+        description="We'll never share your email with anyone else."
+      >
+        <b-form-input
+          id="emailAddress"
+          type="email"
+          v-model="form.email"
+          required
+          placeholder="Enter email"
+        >
+        </b-form-input>
+      </b-form-group>
+      <b-form-group
+        id="usernameInputGroup"
+        label="Username:"
+        label-for="usernameInput"
+        description="This will be displayed on the leaderboard"
+      >
+        <b-form-input
+          id="usernameInput"
+          type="text"
+          v-model="form.username"
+          required
+          placeholder="Choose a username"
+        >
+        </b-form-input>
+      </b-form-group>
+
+      <b-form-group
+        id="passwordInputGroup"
+        label="Password:"
+        label-for="passwordInput"
+      >
+        <b-form-input
+          id="passwordInput"
+          type="password"
+          v-model="form.password"
+          required
+          placeholder="Password"
+        >
+        </b-form-input>
+      </b-form-group>
+
+      <b-form-group
+        id="password2InputGroup"
+        label="Password Again:"
+        label-for="password2Input"
+      >
+        <b-alert :show="!validated" variant="danger">
+          Make sure your passwords match!
+        </b-alert>
+        <b-form-input
+          id="password2Input"
+          type="password"
+          v-model="form.password2"
+          required
+          placeholder="Confirm password"
+        >
+        </b-form-input>
+      </b-form-group>
+
+      <b-button
+        type="submit"
+        variant="primary"
+        :disabled="!validated || !form.consented"
+        >Submit</b-button
+      >
+
+      <p class="mt-3">
+        Already have an account? <router-link to="/login">Log In</router-link>
+      </p>
+    </form>
   </div>
 </template>
-<style>
-#signup {
-  min-height: 100vh;
-}
-</style>
+
 <script>
 /**
  * The component for the `/signup` route.

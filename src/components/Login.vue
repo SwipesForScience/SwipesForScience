@@ -1,59 +1,35 @@
 <template name="login">
-  <div id="login">
-    <h1>Log In</h1>
-
-    <div id="signupForm" class="container fluid">
-      <b-alert :show="errors.show" variant="danger">{{
-        errors.message
-      }}</b-alert>
-      <b-form @submit="onSubmit">
-        <b-form-group
-          id="emailAddressInputGroup"
-          label="Email address:"
-          label-for="emailAddress"
-        >
-          <b-form-input
-            id="emailAddress"
-            type="email"
-            v-model="form.email"
-            required
-            placeholder="Enter email"
-          >
-          </b-form-input>
-        </b-form-group>
-
-        <b-form-group
-          id="passwordInputGroup"
-          label="Password:"
-          label-for="passwordInput"
-        >
-          <b-form-input
-            id="passwordInput"
-            type="password"
-            v-model="form.password"
-            required
-            placeholder="Password"
-          >
-          </b-form-input>
-        </b-form-group>
-
-        <b-button type="submit" variant="primary">Submit</b-button>
-      </b-form>
-
-      <p class="mt-3">
-        Don't have an account?
-        <router-link :to="{ name: 'SignUp', query: routerQuery }"
-          >Create one</router-link
-        >
-      </p>
-    </div>
+  <div class="frame frame--landing">
+    <h1 class="mb-2">Login</h1>
+    <b-alert :show="errors.show" variant="danger">{{ errors.message }}</b-alert>
+    <form @submit="onSubmit" class="form--landing">
+      <label for="emailAddress">Email address</label>
+      <input
+        v-model="form.email"
+        type="email"
+        placeholder="Your email"
+        id="emailAddress"
+        required
+      />
+      <label for="password">Password</label>
+      <input
+        type="password"
+        v-model="form.password"
+        placeholder="Password"
+        id="password"
+        required
+      />
+      <button class="btn--landing-primary btn-full-size">Login</button>
+    </form>
+    <p class="mt-4">
+      Haven’t played before?
+      <router-link :to="{ name: 'SignUp', query: routerQuery }"
+        >Create an account to play</router-link
+      >
+    </p>
   </div>
 </template>
-<style>
-#login {
-  min-height: 100vh;
-}
-</style>
+<style lang="scss" scoped></style>
 <script>
 /**
  * The login component for the `/login` route.
