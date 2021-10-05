@@ -119,7 +119,12 @@
 /**
  * The component for the `/signup` route.
  */
-import firebase from "firebase";
+import { getDatabase, child, ref, get, set } from "firebase/database";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import Terms from "@/components/Terms";
 
 export default {
@@ -134,7 +139,7 @@ export default {
         password: "",
         password2: "",
         username: "",
-        consented: false
+        consented: false,
       },
       /**
        * **TODO**: I'm not sure this is used anywhere. Check this.
@@ -145,8 +150,8 @@ export default {
        */
       errors: {
         show: false,
-        message: null
-      }
+        message: null,
+      },
     };
   },
   props: {
@@ -158,8 +163,8 @@ export default {
      */
     config: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   components: { terms: Terms },
   computed: {
@@ -176,7 +181,7 @@ export default {
       return this.form.consented
         ? "You have consented!"
         : "Click to read and sign the consent form";
-    }
+    },
   },
   methods: {
     /**
@@ -186,20 +191,18 @@ export default {
     onSubmit(e) {
       e.preventDefault();
       // check for a unique username
-      firebase
-        .database()
-        .ref("users")
-        .child(this.form.username)
-        .once("value")
-        .then(snapshot => {
-          const val = snapshot.val();
-          if (!val) {
-            this.createAccount();
-          } else {
-            this.errors.show = true;
-            this.errors.message =
-              "Username already exists! Please choose a unique username";
-          }
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, `users/${this.form.username}`))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            throw new Error(
+              "Username already exists! Please choose a unique username"
+            );
+          } else this.createAccount();
+        })
+        .catch((err) => {
+          this.errors.show = true;
+          this.errors.message = err.message;
         });
     },
     /**
@@ -220,18 +223,15 @@ export default {
      * A method that creates the firebase account and shows an error if there is one.
      */
     createAccount() {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.form.email, this.form.password)
-        .then(
-          ({ user }) => {
-            this.updateProfile(user);
-          },
-          err => {
-            this.errors.show = true;
-            this.errors.message = err.message;
-          }
-        );
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, this.form.email, this.form.password)
+        .then(() => {
+          this.updateProfile();
+        })
+        .catch((err) => {
+          this.errors.show = true;
+          this.errors.message = err.message;
+        });
     },
     /**
      * A method to insert a new user into the `/users` document of firebase.
@@ -239,48 +239,39 @@ export default {
      * and when they consented.
      * **TODO**: set an error message if something goes wrong here.
      */
-    insertUser(user) {
-      firebase
-        .database()
-        .ref("users")
-        .child(user.displayName)
-        .set({
-          score: 0,
-          level: 0,
-          admin: false,
-          taken_tutorial: false,
-          consent: this.form.consented,
-          consentedOn: new Date()
-        })
-        .then(() => {})
-        .catch(() => {});
+    insertUser(displayName) {
+      const db = getDatabase();
+      set(ref(db, "users/" + displayName), {
+        score: 0,
+        level: 0,
+        admin: false,
+        taken_tutorial: false,
+        consent: this.form.consented,
+        consentedOn: new Date(),
+      });
     },
     /**
      * Update the user's profile with their username
      * (in the displayName field of an authenticated user.)
      */
-    updateProfile(user) {
-      user
-        .updateProfile({
-          displayName: this.form.username
-        })
-        .then(
-          () => {
-            // Profile updated successfully!
-            this.insertUser(user);
-            if (this.config.needsTutorial) {
-              this.$router.replace("tutorial");
-            } else {
-              this.$router.replace("play");
-            }
-          },
-          err => {
-            // An error happened.
-            this.errors.show = true;
-            this.errors.message = err.message;
+    updateProfile() {
+      const auth = getAuth();
+      updateProfile(auth.currentUser, {
+        displayName: this.form.username,
+      })
+        .then(() => {
+          this.insertUser(this.form.username);
+          if (this.config.needsTutorial) {
+            this.$router.replace("tutorial");
+          } else {
+            this.$router.replace("play");
           }
-        );
-    }
-  }
+        })
+        .catch((err) => {
+          this.errors.show = true;
+          this.errors.message = err.message;
+        });
+    },
+  },
 };
 </script>

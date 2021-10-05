@@ -1,11 +1,11 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue';
-import firebase from 'firebase';
-import App from './App';
-import router from './router';
-import config from './config';
-
+import Vue from "vue";
+import { initializeApp } from "firebase/app";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import App from "./App";
+import router from "./router";
+import config from "./config";
 
 Vue.config.productionTip = false;
 
@@ -20,20 +20,16 @@ This will make sure Firebase initializes before loading the app when a user refr
 - https://savvyapps.com/blog/definitive-guide-building-web-app-vuejs-firebase
 */
 
-firebase.initializeApp(config.firebaseKeys);
+initializeApp(config.firebaseKeys);
+const auth = getAuth();
 
-firebase.auth().onAuthStateChanged(() => {
+onAuthStateChanged(auth, () => {
   if (!app) {
-    /* eslint-disable no-new */
     app = new Vue({
-      el: '#app',
-      template: '<App/>',
+      el: "#app",
+      template: "<App/>",
       components: { App },
       router,
     });
   }
-    // console.log('user is', user);
 });
-
-
-// export { db };

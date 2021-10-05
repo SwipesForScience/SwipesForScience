@@ -78,7 +78,6 @@ import _ from "lodash";
 import Vue from "vue";
 import { VueHammer } from "vue2-hammer";
 import imagesLoaded from "vue-images-loaded";
-import GridLoader from "vue-spinner/src/PulseLoader";
 import VueProgressiveImage from "../../../node_modules/vue-progressive-image/dist/vue-progressive-image";
 
 Vue.use(VueProgressiveImage);
@@ -135,7 +134,6 @@ export default {
       required: false
     }
   },
-  components: { VueHammer, GridLoader },
   directives: {
     imagesLoaded
   },

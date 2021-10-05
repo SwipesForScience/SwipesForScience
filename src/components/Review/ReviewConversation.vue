@@ -22,7 +22,7 @@
             class="review-message"
             :key="msg.time"
             v-bind:class="{
-              ['own-message']: msg.username === userInfo.displayName
+              ['own-message']: msg.username === userInfo.displayName,
             }"
           >
             <div class="review-message-date">{{ msg.formattedDate }}</div>
@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import _ from "lodash";
 import moment from "moment";
+import { ref, onValue, get, update, push, set } from "firebase/database";
 import SampleAvatar from "@/components/SampleAvatar";
 /**
  * The review component shows the widget for a pointer to a sample in its route,
@@ -68,29 +68,29 @@ export default {
   props: {
     widgetPointer: {
       type: String,
-      required: true
+      required: true,
     },
     /**
      * the authenticated user object from firebase
      */
     userInfo: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * the intialized firebase database
      */
     db: {
       type: Object,
-      required: true
+      required: true,
     },
     chats: {
       type: Object,
-      required: false
-    }
+      required: false,
+    },
   },
   components: {
-    SampleAvatar
+    SampleAvatar,
   },
   data() {
     return {
@@ -105,7 +105,8 @@ export default {
       /**
        * This list of previous chat messages.
        */
-      chatHistory: []
+      chatHistory: [],
+      unsubscribeChat: () => {},
     };
   },
   computed: {
@@ -114,20 +115,33 @@ export default {
      */
     chatOrder() {
       if (this.chatHistory) {
-        return Object.values(this.chatHistory).map(message => ({
+        return Object.values(this.chatHistory).map((message) => ({
           formattedDate: moment(message.time).format("dddd, D MMM YYYY, LT"),
-          ...message
+          ...message,
         }));
       }
       return [];
-    }
+    },
   },
   /**
    * When the component is mounted, set this components `widgetPointer`
    * to the route's `key` parameter. Also grab this sample's chats and its summary.
    */
   mounted() {
-    this.setSampleInfo();
+    /**
+     * Get the chat history for the current sample ID.
+     */
+    const sampleChatRef = ref(this.db, "chats/sampleChats");
+    this.unsubscribeChat = onValue(sampleChatRef, (snapshot) => {
+      if (snapshot.exists()) {
+        let chats = snapshot.val();
+        this.chatHistory = chats[this.widgetPointer];
+      }
+    });
+    this.getUserSettings();
+  },
+  beforeDestroy() {
+    this.unsubscribeChat();
   },
   methods: {
     /**
@@ -139,104 +153,92 @@ export default {
      */
     sendChat(e) {
       e.preventDefault();
-      this.db
-        .ref("chats")
-        .child("sampleChats")
-        .child(this.widgetPointer)
-        .push({
-          username: this.userInfo.displayName,
-          message: this.chatMessage,
-          time: new Date().toISOString()
-        });
-
-      this.db
-        .ref("chats")
-        .child("sampleChatIndex")
-        .child(this.widgetPointer)
-        .set({
-          time: new Date().toISOString()
-        });
-
-      this.db
-        .ref("chats")
-        .child("userChat")
-        .child(this.userInfo.displayName)
-        .child(this.widgetPointer)
-        .set({
-          watch: 1
-        });
-
+      this.updateSampleChat();
+      this.updateSampleChatIndex();
+      this.watchSampleChat();
+      this.updateNotificationFlags();
       this.chatMessage = "";
-
-      // // add a flag to all other users following this chat.
+    },
+    /**
+     * Get the user's settings for the widget
+     */
+    updateSampleChat() {
+      const sampleChatRef = ref(
+        this.db,
+        `chats/sampleChats/${this.widgetPointer}`
+      );
+      const newMessageRef = push(sampleChatRef);
+      set(newMessageRef, {
+        username: this.userInfo.displayName,
+        message: this.chatMessage,
+        time: new Date().toISOString(),
+      });
+    },
+    updateSampleChatIndex() {
+      set(ref(this.db, "chats/sampleChatIndex/" + this.widgetPointer), {
+        time: new Date().toISOString(),
+      });
+    },
+    watchSampleChat() {
+      const userChatRef = ref(
+        this.db,
+        `chats/userChat/${this.userInfo.displayName}`
+      );
+      const updates = {};
+      updates[this.widgetPointer] = {
+        watch: 1,
+      };
+      update(userChatRef, updates);
+    },
+    /**
+     * add a flag to all other users following this chat
+     */
+    updateNotificationFlags() {
+      const userNotifRef = ref(this.db, "chats/userNotifications");
       const usersToNotify = [];
-      this.chatOrder.forEach(v => {
+      this.chatOrder.forEach((message) => {
         if (
-          usersToNotify.indexOf(v.username) < 0 &&
-          v.username !== this.userInfo.displayName
+          usersToNotify.indexOf(message.username) < 0 &&
+          message.username !== this.userInfo.displayName
         ) {
-          usersToNotify.push(v.username);
+          usersToNotify.push(message.username);
         }
       });
-
-      usersToNotify.forEach(u => {
-        this.db
-          .ref("chats")
-          .child("userNotifications")
-          .child(u)
-          .child(this.widgetPointer)
-          .set(true);
+      const updates = {};
+      usersToNotify.forEach((user) => {
+        updates[`/${user}/${this.widgetPointer}`] = true;
       });
+      update(userNotifRef, updates);
     },
-    /**
-     * Take a firebase input object and make it a nice list.
-     */
-    unravelFirebaseListObject(inputObject) {
-      const output = [];
-      _.mapValues(inputObject, v => {
-        output.push(v);
-      });
-      return output;
-    },
-    /**
-     * Get the chat history for the current sample ID.
-     */
-    setSampleInfo() {
-      // get the chat for this sample
-      this.db
-        .ref("chats")
-        .child("sampleChats")
-        .child(this.widgetPointer)
-        .on("value", snap2 => {
-          const chatData = snap2.val();
-          this.chatHistory = chatData;
-        });
-
-      // get the user's settings for the widget.
+    getUserSettings() {
       if (this.userInfo.displayName) {
-        this.db
-          .ref("userSettings")
-          .child(this.userInfo.displayName)
-          .once("value")
-          .then(snap => {
-            this.userSettings = snap.val() || {};
-          });
+        get(ref(this.db, `userSettings/${this.userInfo.displayName}`)).then(
+          (snapshot) => {
+            if (snapshot.exists()) {
+              this.userSettings = snapshot.val();
+            } else this.userSettings = {};
+          }
+        );
       }
-
-      // get the widget's summary info
-      this.db
-        .ref("sampleSummary")
-        .child(this.widgetPointer)
-        .on("value", snap => {
-          this.widgetSummary = snap.val();
-        });
-    }
+    },
+    /**
+     * Get the widget's summary info
+     */
+    getWidgetSummary() {
+      const sampleSummaryRef = ref(this.db, "sampleSummary");
+      get(sampleSummaryRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          const sampleSummary = snapshot.val();
+          this.widgetSummary = sampleSummary[this.widgetPointer];
+        }
+      });
+    },
   },
   watch: {
     widgetPointer() {
-      this.setSampleInfo();
-    }
-  }
+      this.getWidgetSummary();
+    },
+  },
 };
 </script>
 

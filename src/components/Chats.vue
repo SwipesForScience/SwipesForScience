@@ -5,21 +5,25 @@
     </div>
     <div class="page__content grey-gradient-bg">
       <div class="page__content-container">
-        <div class="chat__placeholder" v-if="noData">
+        <div
+          class="chat__placeholder"
+          v-if="lastUpdatedSampleChats.length === 0"
+        >
           <p>No one has said anything yet!</p>
+
           <img :src="blankChatImage" />
         </div>
         <div v-else>
           <router-link
-            v-for="(c, index) in sampleChat"
-            :key="index"
-            :to="'/review/' + c['.key']"
+            v-for="{ sampleId, lastMessage } in lastUpdatedSampleChats"
+            :key="sampleId"
+            :to="'/review/' + sampleId"
             class="chat__card"
           >
-            <div class="title">{{ c[".key"] }}</div>
+            <div class="title">{{ sampleId }}</div>
             <div class="chat__message">
-              <span class="username">{{ chatInfo[c[".key"]].username }}</span> :
-              {{ chatInfo[c[".key"]].message }}
+              <span class="username">{{ lastMessage.username }}</span> :
+              {{ lastMessage.message }}
             </div>
           </router-link>
         </div>
@@ -29,89 +33,77 @@
 </template>
 
 <script>
+import _ from "lodash";
+import { ref, onValue } from "firebase/database";
 /**
  * This is the component for the /chats route. It shows all the chat messages
  * for each sample.
  */
-
-  export default {
-    firebase() {
-      return {
-        /**
-        * keep track of all the samples that have been discussed.
-        */
-        sampleChat: {
-          source: this.db.ref('chats').child('sampleChatIndex').orderByChild('time'),
-          readyCallback() {
-            // this.sampleChat.reverse();
-            this.sampleChat.forEach((c) => {
-              // console.log('c is', c);
-              this.db.ref('chats')
-                .child('sampleChats')
-                .child(c['.key'])
-                .orderByKey()
-                .limitToLast(1)
-                .on('value', (snap) => {
-                  const data = snap.val();
-                  this.chatInfo[c['.key']] = data[Object.keys(data)[0]];
-                  this.$forceUpdate();
-                });
-            });
-
-            if (!this.sampleChat.length) {
-              this.noData = true;
-            }
-          },
-        },
-      };
+export default {
+  created() {
+    const chatsRef = ref(this.db, "chats");
+    const unsubscribe = onValue(chatsRef, (snapshot) => {
+      let lastUpdatedSampleChats = [];
+      if (snapshot.exists()) {
+        const chats = snapshot.val();
+        const sampleChatIndex = _.get(chats, "sampleChatIndex");
+        const fullSampleChats = _.get(chats, "sampleChats");
+        lastUpdatedSampleChats = Object.keys(sampleChatIndex)
+          .map((sampleId) => ({
+            sampleId,
+            time: new Date(sampleChatIndex[sampleId].time).getTime(),
+          }))
+          .sort((a, b) => {
+            return b.time - a.time;
+          })
+          .map(({ sampleId }) => {
+            return {
+              sampleId,
+              lastMessage: _.last(Object.values(fullSampleChats[sampleId])),
+            };
+          });
+      }
+      this.lastUpdatedSampleChats = lastUpdatedSampleChats;
+    });
+    this.unsubscribeChats = unsubscribe;
+  },
+  beforeDestroy() {
+    this.unsubscribeChats();
+  },
+  data() {
+    return {
+      lastUpdatedSampleChats: [],
+      unsubscribeChats: () => {},
+    };
+  },
+  props: {
+    /**
+     * The config object that is loaded from src/config.js.
+     * It defines how the app is configured, including
+     * any content that needs to be displayed (app title, images, etc)
+     * and also the type of widget and where to update pointers to data
+     */
+    config: {
+      type: Object,
+      required: true,
     },
-    data() {
-      return {
-        /**
-         *
-         */
-        chatInfo: {},
-        /**
-         * A flag to tell us if the /chats doc is empty on firebase.
-         */
-        noData: false,
-      };
+    /**
+     * the intialized firebase database
+     */
+    db: {
+      type: Object,
+      required: true,
     },
-    props: {
-      /**
-       * The config object that is loaded from src/config.js.
-       * It defines how the app is configured, including
-       * any content that needs to be displayed (app title, images, etc)
-       * and also the type of widget and where to update pointers to data
-       */
-      config: {
-        type: Object,
-        required: true,
-      },
-      /**
-       * the intialized firebase database
-       */
-      db: {
-        type: Object,
-        required: true,
-      },
+  },
+  computed: {
+    /**
+     * A blank image from the config file. If this.noData is true, this image is rendered.
+     */
+    blankChatImage() {
+      return this.config.chats.blankImage;
     },
-    computed: {
-      /**
-       * Reverses the order of the chats.
-       */
-      orderedPosts() {
-        const chats = this.sampleChat;
-        return chats.reverse();
-      },
-      /**
-       * A blank image from the config file. If this.noData is true, this image is rendered.
-       */
-      blankChatImage() {
-        return this.config.chats.blankImage;
-      },
-    },
-  };
+  },
+};
 </script>
 
 <style scoped>
@@ -143,4 +135,3 @@
   font-weight: bold;
 }
 </style>
-
