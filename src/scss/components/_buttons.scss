@@ -1,0 +1,31 @@
+button {
+  outline: none;
+}
+
+.btn-full-size {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+
+$landing-btn-variants: (
+  "cta": $landing-secondary-gradient,
+  "primary": $landing-primary-gradient,
+);
+
+@mixin landing-btn($bg-image) {
+  padding: space(2);
+  color: $landing-font-light;
+  font-family: $primary-font;
+  font-weight: $bold;
+  background-image: $bg-image;
+  border: none;
+  border-radius: $border-radius-md;
+  transition: all 0.5ms ease;
+}
+
+@each $key, $val in $landing-btn-variants {
+  .btn--landing-#{$key} {
+    @include landing-btn($val);
+  }
+}

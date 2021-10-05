@@ -4,6 +4,7 @@
 @import "./abstracts/_colors.scss";
 @import "./abstracts/_border-radius.scss";
 @import "./abstracts/_fonts.scss";
+@import "./abstracts/_spacings.scss";
 @import "./abstracts/_mixins.scss";
 @import "./components/_frames.scss";
 @import "./components/_buttons.scss";
@@ -17,8 +18,6 @@
   --color-white: #fff;
   --border-radius: 7px;
   --box-shadow: 0 2px 40px rgba(14, 30, 37, 0.16);
-  --font-display: Nunito, Helvetica, Arial, sans-serif;
-  --color-focus-ring: var(--color-purple);
 }
 /* Project specific resets */
 * {
