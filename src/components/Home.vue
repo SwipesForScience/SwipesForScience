@@ -1,29 +1,40 @@
 <template>
-  <div class="home container">
-    <div class="jumbotron landing" :style="landingStyle">
-      <h1>{{ title }}</h1>
-      <p class="lead buttons mt-3">
-        {{ tagline }}
-      </p>
-      <p class="buttons mt-3">
-        <router-link
-          class="btn btn-primary white"
-          :to="{ name: 'Play', query: routerQuery }"
+  <div class="home">
+    <div class="frame">
+      <div
+        v-for="i in [0, 1, 2, 3, 4]"
+        :key="`cloud-${i}`"
+        :class="`cloud cloud-${i}`"
+      ></div>
+      <div class="frame__content">
+        <header>
+          <div class="swipes-for-science-logo">
+            <Logo />
+          </div>
+          <h1 class="mt-4">{{ title }}</h1>
+          <h2 class="mt-5">{{ tagline }}</h2>
+        </header>
+        <button
+          ref="play"
+          class="btn--landing-cta btn-full-size"
+          @click="onPlay"
         >
-          Play Now
-        </router-link>
-        <router-link
-          class="btn btn-primary white mx-1"
-          :to="{ name: 'Tutorial', query: routerQuery }"
-        >
-          Tutorial
-        </router-link>
-      </p>
+          Play
+        </button>
+
+        <div class="disclaimer">
+          Some little disclaimer here that this game was brought to you by your
+          school or educational institution!
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import Logo from "./Logo.vue";
+import gsap from "gsap";
+
 /**
  * The landing page, on the route `/`. This component displays a title, tagline,
  * and background image splash page that's defined on the config property.
@@ -31,6 +42,81 @@
 
 export default {
   name: "Home",
+  components: { Logo },
+  mounted() {
+    gsap.from(".swipes-for-science-logo", {
+      duration: 1,
+      y: -40,
+      opacity: 0,
+      delay: 0.5,
+      ease: "elastic.out(1.2, 0.45)",
+    });
+    gsap.from("h1", {
+      duration: 1,
+      opacity: 0,
+      y: 20,
+      delay: 0.8,
+      ease: "elastic.out(1.2, 0.45)",
+    });
+    gsap.from("h2", {
+      duration: 1,
+      opacity: 0,
+      y: -20,
+      delay: 1.2,
+      ease: "elastic.out(1.2, 0.45)",
+    });
+
+    gsap.from(this.$refs.play, {
+      duration: 1.2,
+      opacity: 0,
+      scale: 0.8,
+      ease: "elastic.out(1.2, 0.45)",
+      delay: 1.4,
+    });
+    gsap.from(".disclaimer", {
+      duration: 0.4,
+      opacity: 0,
+      y: 20,
+      delay: 1.6,
+      ease: "power4.out",
+    });
+    const clouds = document.querySelectorAll(".cloud");
+    for (let i = 0; i < 5; i++) {
+      let startPoint = 512 + clouds[i].scrollWidth;
+      let endPoint = -clouds[i].scrollWidth;
+      if (i % 2 === 1) {
+        startPoint = -clouds[i].scrollWidth;
+        endPoint = 512 + clouds[i].scrollWidth;
+      }
+      gsap
+        .fromTo(
+          `.cloud-${i}`,
+          { x: startPoint },
+          {
+            duration: gsap.utils.random(10, 12),
+            x: endPoint,
+            repeat: -1,
+            yoyo: true,
+            delay: 5.5,
+            ease: "none",
+          }
+        )
+        .progress(Math.random());
+    }
+  },
+  methods: {
+    onPlay() {
+      gsap
+        .to(this.$refs.play, {
+          duration: 0.5,
+          scale: 1.1,
+          ease: "elastic.out(1.2, 0.45)",
+        })
+        .then(() => {
+          this.$router.push({ name: "Login" });
+        });
+    },
+  },
   props: {
     /**
      * The config object that is loaded from src/config.js.
@@ -40,14 +126,11 @@ export default {
      */
     config: {
       type: Object,
-      required: true
+      required: true,
     },
     routerQuery: {
-      type: Object
-    }
-  },
-  data() {
-    return {};
+      type: Object,
+    },
   },
   computed: {
     /**
@@ -62,72 +145,82 @@ export default {
     tagline() {
       return this.config.home.tagline;
     },
-    /**
-     * The background image to display. Defined in `config.home.backgroundUrl`
-     */
-    landingStyle() {
-      return { "background-image": `url("${this.config.home.backgroundUrl}")` };
-    }
-  }
+  },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
 .home {
-  min-height: 100vh;
+  background: $landing-bg-color;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  .frame {
+    background-image: $landing-primary-gradient;
+  }
+
+  .cloud {
+    position: absolute;
+    left: 0;
+    height: 7vh;
+    max-height: 3rem;
+    padding: 10px 0 10px;
+    border-radius: 3rem;
+    background: $white;
+    opacity: 0.1;
+    &:nth-child(odd) {
+      left: -10px;
+    }
+    &:nth-child(even) {
+      right: -10px;
+    }
+    @for $i from 1 through 6 {
+      &:nth-child(#{$i}) {
+        top: #{(20% * ($i - 1)) + 5%};
+        width: #{percentage(((random(50) + 20) / 100))};
+      }
+    }
+  }
 }
 
-h1,
-h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-.home {
-  text-align: left;
-}
+.frame__content {
+  height: 100%;
+  position: relative;
+  @include centralize-children;
+  header {
+    @include centralize-children;
+  }
 
-.home h1 {
-  text-align: center;
-}
-
-.buttons {
-  text-align: center;
-}
-
-.landing {
-  background-color: white;
-  /* background-image: url('../assets/whaldrStatic.png'); */
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 80vh;
-}
-
-.landing h1 {
-  background-color: black;
-  color: white;
-  max-width: 350px;
-  margin: auto;
-}
-
-.landing .lead {
-  background-color: black;
-  color: white;
-  max-width: 250px;
-  margin: auto;
-}
-
-.white {
-  color: white;
+  .swipes-for-science-logo {
+    width: clamp(8rem, 20vw, 14rem);
+    margin-top: 1rem;
+  }
+  h1 {
+    position: relative;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    &:before,
+    &:after {
+      content: "-";
+      position: absolute;
+      top: 0;
+    }
+    &:before {
+      left: -0.75rem;
+    }
+    &:after {
+      right: -0.75rem;
+    }
+  }
+  h2 {
+    margin-top: 2.5rem;
+    text-align: center;
+  }
+  .disclaimer {
+    @include font-size("xs");
+  }
 }
 </style>
