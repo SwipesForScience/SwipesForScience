@@ -1,0 +1,8 @@
+// Add more breakpoints here to use within selectors with include-media mixin
+// example: @include media(">phone", "<=tablet") {}
+
+$breakpoints: (
+  phone: 320px,
+  tablet: 568px,
+  desktop: 1024px,
+);
