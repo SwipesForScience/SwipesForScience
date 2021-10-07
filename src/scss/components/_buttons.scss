@@ -27,5 +27,8 @@ $landing-btn-variants: (
 @each $key, $val in $landing-btn-variants {
   .btn--landing-#{$key} {
     @include landing-btn($val);
+    &:disabled {
+      filter: grayscale(60%);
+    }
   }
 }

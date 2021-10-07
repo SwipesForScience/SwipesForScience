@@ -1,106 +1,49 @@
 <template name="signup">
   <div id="signup" class="frame frame--landing">
-    <h1>Sign Up</h1>
-    <!-- Modal Component -->
-    <b-modal id="consentform" title="Consent Form" ref="consentform" size="lg">
-      <terms></terms>
-      <div slot="modal-footer" class="w-100">
-        <b-form @submit="saveConsent">
-          <b-button type="submit" variant="primary">I Consent</b-button>
-        </b-form>
-      </div>
-    </b-modal>
-
-    <form @submit="onSubmit" validated class="form--landing">
+    <h1 class="mb-3">Create an account</h1>
+    <form @submit="onSubmit" class="form--landing">
       <b-alert :show="errors.show" variant="danger">{{
         errors.message
       }}</b-alert>
 
-      <b-form-group
-        id="consentOpenButton"
-        :label="consentFormLabel"
-        label-for="openConsent"
-      >
-        <b-button
-          v-if="!form.consented"
-          variant="success"
-          id="openConsent"
-          @click="openConsentModal"
-        >
-          Open Consent Form
-        </b-button>
-      </b-form-group>
+      <label for="emailAddress">Email address</label>
+      <input
+        v-model="form.email"
+        type="email"
+        placeholder="Your email"
+        id="emailAddress"
+        required
+      />
+      <label for="username">Username</label>
+      <input
+        v-model="form.username"
+        type="text"
+        placeholder="Choose a username"
+        id="username"
+        required
+      />
+      <label for="password">Password</label>
+      <input
+        v-model="form.password"
+        type="text"
+        placeholder="Password"
+        id="username"
+        required
+      />
 
-      <b-form-group
-        id="emailAddressInputGroup"
-        label="Email address:"
-        label-for="emailAddress"
-        description="We'll never share your email with anyone else."
-      >
-        <b-form-input
-          id="emailAddress"
-          type="email"
-          v-model="form.email"
-          required
-          placeholder="Enter email"
-        >
-        </b-form-input>
-      </b-form-group>
-      <b-form-group
-        id="usernameInputGroup"
-        label="Username:"
-        label-for="usernameInput"
-        description="This will be displayed on the leaderboard"
-      >
-        <b-form-input
-          id="usernameInput"
-          type="text"
-          v-model="form.username"
-          required
-          placeholder="Choose a username"
-        >
-        </b-form-input>
-      </b-form-group>
-
-      <b-form-group
-        id="passwordInputGroup"
-        label="Password:"
-        label-for="passwordInput"
-      >
-        <b-form-input
-          id="passwordInput"
-          type="password"
-          v-model="form.password"
-          required
-          placeholder="Password"
-        >
-        </b-form-input>
-      </b-form-group>
-
-      <b-form-group
-        id="password2InputGroup"
-        label="Password Again:"
-        label-for="password2Input"
-      >
-        <b-alert :show="!validated" variant="danger">
-          Make sure your passwords match!
-        </b-alert>
-        <b-form-input
-          id="password2Input"
-          type="password"
-          v-model="form.password2"
-          required
-          placeholder="Confirm password"
-        >
-        </b-form-input>
-      </b-form-group>
-
-      <b-button
+      <!-- <b-button
         type="submit"
         variant="primary"
         :disabled="!validated || !form.consented"
-        >Submit</b-button
+        >Get started</b-button
+      > -->
+      <button
+        :disabled="false"
+        @click="onSubmit"
+        class="btn--landing-primary btn-full-size"
       >
+        Get started
+      </button>
 
       <p class="mt-3">
         Already have an account? <router-link to="/login">Log In</router-link>
@@ -119,7 +62,6 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import Terms from "@/components/Terms";
 
 export default {
   name: "signup",
@@ -160,7 +102,6 @@ export default {
       required: true,
     },
   },
-  components: { terms: Terms },
   computed: {
     /**
      * The form is validated if the user types the same password twice.
