@@ -53,6 +53,10 @@ export default {
       type: Object,
       required: true,
     },
+    userData: {
+      type: Object,
+      required: true,
+    },
   },
   methods: {
     onClose() {
