@@ -1,70 +1,145 @@
 <template name="signup">
-  <div id="signup" class="frame frame--landing">
-    <h1 class="mb-3">Create an account</h1>
-    <form @submit="onSubmit" class="form--landing">
+  <div>
+    <Terms
+      v-show="showConsentForm"
+      @toggleConsentForm="toggleConsentForm"
+      @updateConsent="updateConsent"
+      :consented="form.consented"
+    />
+    <div id="signup" class="frame frame--landing" v-show="!showConsentForm">
+      <h1 class="mb-3">Create an account</h1>
       <b-alert :show="errors.show" variant="danger">{{
         errors.message
       }}</b-alert>
+      <ValidationObserver v-slot="{ handleSubmit }" ref="form" tag="div">
+        <form @submit.prevent="handleSubmit(onSubmit)" class="form--landing">
+          <FormText
+            label="Email Address"
+            placeholder="Your email"
+            vid="email"
+            v-model="form.email"
+            type="email"
+            rules="required|email"
+          />
+          <FormText
+            label="Username"
+            placeholder="Username"
+            vid="username"
+            v-model="form.username"
+            rules="required|alpha_dash"
+          />
+          <FormText
+            label="Password"
+            placeholder="Password"
+            vid="password"
+            v-model="form.password"
+            rules="required"
+            type="password"
+          />
+          <!-- Additional fields specified by config-->
+          <div v-for="field in additionalFormFields" :key="field.fieldName">
+            <FormText
+              v-if="field.component === 'FormText'"
+              :vid="field.fieldName"
+              :label="field.label"
+              :placeholder="field.placeholder"
+              v-model="form[`${field.fieldName}`]"
+              :rules="field.rules"
+              :type="field.type"
+            />
+            <FormSelect
+              v-if="field.component === 'FormSelect'"
+              :vid="field.fieldName"
+              :label="field.label"
+              v-model="form[`${field.fieldName}`]"
+              :options="field.options"
+              :rules="field.rules"
+            />
+            <FormCheckbox
+              v-if="field.component === 'FormCheckbox'"
+              :vid="field.fieldName"
+              :label="field.label"
+              :value="form[`${field.fieldName}`]"
+              :checked.sync="form[`${field.fieldName}`]"
+              :rules="field.rules"
+            />
+          </div>
 
-      <label for="emailAddress">Email address</label>
-      <input
-        v-model="form.email"
-        type="email"
-        placeholder="Your email"
-        id="emailAddress"
-        required
-      />
-      <label for="username">Username</label>
-      <input
-        v-model="form.username"
-        type="text"
-        placeholder="Choose a username"
-        id="username"
-        required
-      />
-      <label for="password">Password</label>
-      <input
-        v-model="form.password"
-        type="text"
-        placeholder="Password"
-        id="username"
-        required
-      />
-
-      <!-- <b-button
-        type="submit"
-        variant="primary"
-        :disabled="!validated || !form.consented"
-        >Get started</b-button
-      > -->
+          <button
+            class="btn--landing-primary btn-full-size mt-3"
+            v-if="form.consented"
+          >
+            Get started
+          </button>
+        </form>
+      </ValidationObserver>
       <button
-        :disabled="false"
-        @click="onSubmit"
-        class="btn--landing-primary btn-full-size"
+        class="btn--landing-primary btn-full-size mt-3"
+        @click="toggleConsentForm"
+        v-if="!form.consented"
       >
-        Get started
+        Read and sign consent form
       </button>
-
+      <span
+        class="terms__consent-form-link"
+        v-if="form.consented"
+        @click="toggleConsentForm"
+      >
+        View consent form
+      </span>
       <p class="mt-3">
-        Already have an account? <router-link to="/login">Log In</router-link>
+        Already have an account?
+        <router-link to="/login">Log In</router-link>
       </p>
-    </form>
+    </div>
   </div>
 </template>
 
 <script>
-/**
- * The component for the `/signup` route.
- */
 import { getDatabase, child, ref, get, set } from "firebase/database";
+import { omit } from "lodash";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
+import { ValidationObserver, extend } from "vee-validate";
+import {
+  required,
+  email,
+  min_value,
+  max_value,
+  integer,
+  alpha_dash,
+} from "vee-validate/dist/rules";
+import FormSelect from "./Form/FormSelect.vue";
+import FormText from "./Form/FormText.vue";
+import FormCheckbox from "./Form/FormCheckbox.vue";
+import Terms from "@/components/Terms";
+
+extend("email", { ...email, message: "Please enter a valid email" });
+extend("required", {
+  ...required,
+  message: "This field is required",
+});
+extend("alpha_dash", {
+  ...alpha_dash,
+  message:
+    "Should only contain alphabetic characters, numbers, dashes or underscores",
+});
+extend("min_value", { ...min_value, message: "Value is too low" });
+extend("max_value", { ...max_value, message: "Value is too high" });
+extend("integer", integer);
 
 export default {
   name: "signup",
+  components: {
+    ValidationObserver,
+    FormSelect,
+    FormText,
+    Terms,
+    FormCheckbox,
+  },
   data() {
     return {
       /**
@@ -73,14 +148,10 @@ export default {
       form: {
         email: "",
         password: "",
-        password2: "",
         username: "",
         consented: false,
       },
-      /**
-       * **TODO**: I'm not sure this is used anywhere. Check this.
-       */
-      show: true,
+
       /**
        * A variable to keep track of errors, whether to show it and the error message.
        */
@@ -88,6 +159,7 @@ export default {
         show: false,
         message: null,
       },
+      showConsentForm: false,
     };
   },
   props: {
@@ -102,38 +174,29 @@ export default {
       required: true,
     },
   },
-  computed: {
-    /**
-     * The form is validated if the user types the same password twice.
-     */
-    validated() {
-      return this.form.password === this.form.password2;
-    },
-    /**
-     * Return a message based on whether or not the user has consented.
-     */
-    consentFormLabel() {
-      return this.form.consented
-        ? "You have consented!"
-        : "Click to read and sign the consent form";
-    },
-  },
   methods: {
     /**
      * Register a new user to firebase.
      * Make sure the username isn't already taken.
      */
-    onSubmit(e) {
-      e.preventDefault();
+    onSubmit() {
       // check for a unique username
       const dbRef = ref(getDatabase());
       get(child(dbRef, `users/${this.form.username}`))
         .then((snapshot) => {
           if (snapshot.exists()) {
-            throw new Error(
-              "Username already exists! Please choose a unique username"
-            );
-          } else this.createAccount();
+            this.$refs.form.setErrors({
+              username: [
+                "Username already exists! Please choose a unique username",
+              ],
+            });
+          } else {
+            if (this.form.consented) {
+              this.createAccount();
+            } else {
+              this.toggleConsentForm();
+            }
+          }
         })
         .catch((err) => {
           this.errors.show = true;
@@ -143,16 +206,14 @@ export default {
     /**
      * Save that the user has consented.
      */
-    saveConsent(e) {
-      e.preventDefault();
-      this.form.consented = true;
-      this.$refs.consentform.hide();
+    updateConsent(value) {
+      this.form.consented = value;
     },
     /**
      * Open the consent form modal.
      */
-    openConsentModal() {
-      this.$refs.consentform.show();
+    toggleConsentForm() {
+      this.showConsentForm = !this.showConsentForm;
     },
     /**
      * A method that creates the firebase account and shows an error if there is one.
@@ -161,7 +222,19 @@ export default {
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, this.form.email, this.form.password)
         .then(() => {
-          this.updateProfile();
+          return updateProfile(auth.currentUser, {
+            displayName: this.form.username,
+          });
+        })
+        .then(() => {
+          return this.insertUser(this.form.username);
+        })
+        .then(() => {
+          if (this.config.needsTutorial) {
+            this.$router.replace("tutorial");
+          } else {
+            this.$router.replace("play");
+          }
         })
         .catch((err) => {
           this.errors.show = true;
@@ -176,7 +249,14 @@ export default {
      */
     insertUser(displayName) {
       const db = getDatabase();
-      set(ref(db, "users/" + displayName), {
+      const additionalUserData = omit(this.form, [
+        "username",
+        "password",
+        "email",
+        "consented",
+      ]);
+      return set(ref(db, "users/" + displayName), {
+        ...additionalUserData,
         score: 0,
         level: 0,
         admin: false,
@@ -195,7 +275,9 @@ export default {
         displayName: this.form.username,
       })
         .then(() => {
-          this.insertUser(this.form.username);
+          return this.insertUser(this.form.username);
+        })
+        .then(() => {
           if (this.config.needsTutorial) {
             this.$router.replace("tutorial");
           } else {
@@ -208,5 +290,21 @@ export default {
         });
     },
   },
+  computed: {
+    additionalFormFields() {
+      return this.config?.signup?.additionalFormFields || [];
+    },
+  },
 };
 </script>
+<style lang="scss" scoped>
+.terms__consent-form-link {
+  margin-top: space(1);
+  cursor: pointer;
+  @include font-size("xs");
+  color: $landing-warning;
+  display: block;
+  text-decoration: underline;
+  text-align: center;
+}
+</style>

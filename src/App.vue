@@ -120,7 +120,9 @@ export default {
         this.unsubscribeUser = onValue(
           ref(getDatabase(), "users/" + user.displayName),
           (snapshot) => {
-            this.userData = snapshot.val();
+            if (snapshot.exists()) {
+              this.userData = snapshot.val();
+            }
           }
         );
       } else this.unsubscribeUser();
