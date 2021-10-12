@@ -20,6 +20,9 @@
 .frame--landing {
   font-family: $primary-font;
   background: $landing-bg-color;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
   h1 {
     @include font-size("sm");
     color: $landing-font-dark;

@@ -2,25 +2,28 @@
   <div class="frame frame--landing">
     <h1 class="mb-2">Login</h1>
     <b-alert :show="errors.show" variant="danger">{{ errors.message }}</b-alert>
-    <form @submit="onSubmit" class="form--landing">
-      <label for="emailAddress">Email address</label>
-      <input
-        v-model="form.email"
-        type="email"
-        placeholder="Your email"
-        id="emailAddress"
-        required
-      />
-      <label for="password">Password</label>
-      <input
-        type="password"
-        v-model="form.password"
-        placeholder="Password"
-        id="password"
-        required
-      />
-      <button class="btn--landing-primary btn-full-size">Login</button>
-    </form>
+    <ValidationObserver v-slot="{ handleSubmit }" ref="form" tag="div">
+      <form @submit.prevent="handleSubmit(onSubmit)" class="form--landing">
+        <FormText
+          label="Email Address"
+          placeholder="Your email"
+          vid="email"
+          v-model="form.email"
+          type="email"
+          rules="required|email"
+        />
+        <FormText
+          label="Password"
+          placeholder="Password"
+          vid="password"
+          v-model="form.password"
+          rules="required"
+          type="password"
+        />
+        <button class="btn--landing-primary btn-full-size">Login</button>
+      </form>
+    </ValidationObserver>
+
     <p class="mt-4">
       Haven’t played before?
       <router-link :to="{ name: 'SignUp', query: routerQuery }"
@@ -31,6 +34,15 @@
 </template>
 <style lang="scss" scoped></style>
 <script>
+import { ValidationObserver, extend } from "vee-validate";
+import { required, email } from "vee-validate/dist/rules";
+import FormText from "./Form/FormText.vue";
+
+extend("email", { ...email, message: "Please enter a valid email" });
+extend("required", {
+  ...required,
+  message: "This field is required",
+});
 /**
  * The login component for the `/login` route.
  */
@@ -41,6 +53,10 @@ export default {
     routerQuery: {
       type: Object,
     },
+  },
+  components: {
+    ValidationObserver,
+    FormText,
   },
   data() {
     return {
@@ -66,8 +82,7 @@ export default {
      * If its succesful, route the user to the `/play` route.
      * If there is an error, show the message.
      */
-    onSubmit(e) {
-      e.preventDefault();
+    onSubmit() {
       const auth = getAuth();
       signInWithEmailAndPassword(auth, this.form.email, this.form.password)
         .then((user) => {

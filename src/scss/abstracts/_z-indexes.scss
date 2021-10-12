@@ -1,0 +1,12 @@
+$z-indexes: (
+  "base": 0,
+  "above-base": 1,
+  "below-base": -1,
+  "header": 100,
+  "screen-overlay": 101,
+  "screen-overlay-content": 102,
+);
+
+@mixin z-index($name) {
+  z-index: map-get($z-indexes, $name);
+}
