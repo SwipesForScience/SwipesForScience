@@ -1,0 +1,31 @@
+$font-sizes: (
+  "xxs": 0.7rem,
+  "xs": 0.875rem,
+  "s": 1rem,
+  "sm": 1.25rem,
+  "md": 1.5rem,
+  "lg": 2rem,
+  "xl": 2.25rem,
+);
+
+$line-heights: (
+  "xxs": 0.7rem,
+  "xs": 1.5rem,
+  "s": 1.625rem,
+  "sm": 1.875rem,
+  "md": 2.125rem,
+  "lg": 2.75rem,
+  "xl": 2.875rem,
+);
+
+$normal: 400;
+$semibold: 600;
+$bold: 700;
+
+$primary-font: "Open Sans", Helvetica, sans-serif;
+$display-font: Nunito, Helvetica, Arial, sans-serif;
+
+@mixin font-size($step) {
+  font-size: map-get($font-sizes, $step);
+  line-height: map-get($line-heights, $step);
+}

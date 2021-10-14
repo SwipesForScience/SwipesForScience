@@ -16,18 +16,18 @@ export default {
     delimiter: "__",
     leftSwipe: {
       label: "Fail",
-      value: -1
+      value: -1,
     },
     rightSwipe: {
       label: "Pass",
-      value: 1
+      value: 1,
     },
     timing: {
       stimulusDuration: 10_000,
       timeoutValue: 0,
       interStimuliDuration: 2000,
-      stimulusFadeIn: false
-    }
+      stimulusFadeIn: false,
+    },
   },
 
   // if manifestType = 'pubmed' then you should also include a manifestQuery key.
@@ -51,8 +51,8 @@ export default {
   // },
 
   // widgetType: 'ImageSwipe', //'BranchingTemplateWidget',
-/* eslint-disable */
-// widgetProperties: {
+  /* eslint-disable */
+  // widgetProperties: {
   // titleKey: 'trackName',
   // textKey: 'description',
   // baseUrlTemplate: 'https://raw.githubusercontent.com/akeshavan/mHealthLandscape/master/ios/{0}.json',
@@ -201,11 +201,11 @@ export default {
   //     },
   //   },
   // ],
-// },
+  // },
   /* eslint-enable */
   iconAttribute: {
     name: "openmoji",
-    url: "http://openmoji.org"
+    url: "http://openmoji.org",
   },
 
   levels: {
@@ -215,68 +215,62 @@ export default {
       max: 100,
       character: null,
       img: null,
-      img_grey: null
+      img_grey: null,
     },
     1: {
       level: 1,
       min: 101,
       max: 350,
       character: "fish",
-      img:
-        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F41F.svg?sanitize=true",
+      img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F41F.svg?sanitize=true",
       img_grey:
-        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F41F.svg?sanitize=true"
+        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F41F.svg?sanitize=true",
     },
     2: {
       level: 2,
       min: 351,
       max: 750,
       character: "frog",
-      img:
-        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F438.svg?sanitize=true",
+      img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F438.svg?sanitize=true",
       img_grey:
-        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F438.svg?sanitize=true"
+        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F438.svg?sanitize=true",
     },
     3: {
       level: 3,
       min: 751,
       max: 1000,
       character: "duck",
-      img:
-        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F986.svg?sanitize=true",
+      img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F986.svg?sanitize=true",
       img_grey:
-        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F986.svg?sanitize=true"
+        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F986.svg?sanitize=true",
     },
     4: {
       level: 4,
       min: 1001,
       max: 1500,
       character: "koala",
-      img:
-        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F428.svg?sanitize=true",
+      img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F428.svg?sanitize=true",
       img_grey:
-        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F428.svg?sanitize=true"
+        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F428.svg?sanitize=true",
     },
     5: {
       level: 5,
       min: 1501,
       max: 2000,
       character: "cat",
-      img:
-        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F408.svg?sanitize=true",
+      img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F408.svg?sanitize=true",
       img_grey:
-        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F408.svg?sanitize=true"
+        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F408.svg?sanitize=true",
     },
     6: {
       level: 6,
       min: 2001,
       max: 2500,
       character: "lion",
-      img:
-        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F981.svg?sanitize=true",
+      img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F981.svg?sanitize=true",
       img_grey:
-        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F981.svg?sanitize=true"
-    }
+        "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/black/svg/1F981.svg?sanitize=true",
+    },
   },
 
   // this shows a 'beta' ribbon in the bottom right corner
@@ -289,11 +283,11 @@ export default {
     databaseURL: "https://swipesforsciencedev1.firebaseio.com",
     projectId: "swipesforsciencedev1",
     storageBucket: "swipesforsciencedev1.appspot.com",
-    messagingSenderId: "380364880642"
+    messagingSenderId: "380364880642",
   },
 
   app: {
-    navbarVariant: "info"
+    navbarVariant: "info",
   },
 
   // Homepage configuration
@@ -303,25 +297,25 @@ export default {
     tagline: "A citizen science game template",
     // background image on Homepage
     backgroundUrl:
-      "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/SwipesForScience.svg?sanitize=true"
+      "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/SwipesForScience.svg?sanitize=true",
   },
 
   // Play configuration
   play: {
     blankImage:
-      "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_blank_canvas.svg?sanitize=true"
+      "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_blank_canvas.svg?sanitize=true",
   },
 
   // Chats configuration
   chats: {
     blankImage:
-      "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_no_data.svg?sanitize=true"
+      "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_no_data.svg?sanitize=true",
   },
 
   // Profile configuration
   profile: {
     blankImage:
-      "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_chatting.svg?sanitize=true"
+      "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_chatting.svg?sanitize=true",
   },
 
   // your app's tutorial page
@@ -342,9 +336,9 @@ export default {
           video: {
             onFocus: {
               start: 6,
-              duration: 2.9
-            }
-          }
+              duration: 2.9,
+            },
+          },
         },
         {
           // use \n to linebreak the text
@@ -354,10 +348,10 @@ export default {
           video: {
             onFocus: {
               start: 0,
-              duration: 2.9
-            }
-          }
-        }
+              duration: 2.9,
+            },
+          },
+        },
       ],
       examples: [
         // this is the widget section of the tutorial
@@ -376,17 +370,17 @@ export default {
           video: {
             onFocus: {
               start: 6,
-              duration: 2.9
+              duration: 2.9,
             },
             onCorrect: {
               start: 0,
-              duration: 2.9
+              duration: 2.9,
             },
             onIncorrect: {
               start: 3,
-              duration: 2.9
-            }
-          }
+              duration: 2.9,
+            },
+          },
         },
         {
           text: "swipe left when its bad",
@@ -396,21 +390,62 @@ export default {
           video: {
             onFocus: {
               start: 6,
-              duration: 2.9
-            }
-          }
+              duration: 2.9,
+            },
+          },
         },
         {
           text: `if you're not sure, click 'help' \n to discuss with scientists ${""}`,
           pointer: "sub-NDAREW671HZW__ax_86",
           answer: 0,
-          tutorialStep: 2
+          tutorialStep: 2,
         },
         {
           text: "Are you ready to play?",
-          tutorialCompleted: true
-        }
-      ]
-    }
-  }
+          tutorialCompleted: true,
+        },
+      ],
+    },
+  },
+  // Add custom text, select and checkbox inputs here to collect additional data about players
+  // Will later be generated through the configure website
+  // text input rules: required, min_value, max_value, integer, alpha_dash
+  // select input rules: required
+  signup: {
+    additionalFormFields: [
+      // {
+      //   fieldName: "age",
+      //   component: "FormText",
+      //   label: "Age",
+      //   type: "Number",
+      //   placeholder: "Your age",
+      //   rules: "required|min_value:10|max_value:120|integer",
+      // },
+      // {
+      //   fieldName: "educationLevel",
+      //   component: "FormSelect",
+      //   label: "Grade / Education Level",
+      //   rules: "required",
+      //   options: [
+      //     "1st Grade",
+      //     "2nd Grade",
+      //     "3rd Grade",
+      //     "4th Grade",
+      //     "5th Grade",
+      //     "6th Grade",
+      //     "7th Grade",
+      //     "8th Grade",
+      //     "9th Grade",
+      //     "10th Grade",
+      //     "11th Grade",
+      //     "12th Grade",
+      //   ],
+      // },
+      // {
+      //   fieldName: "privacyAgreement",
+      //   component: "FormCheckbox",
+      //   label: "I agree not to divulge my answers to anyone else",
+      // },
+    ],
+  },
 };

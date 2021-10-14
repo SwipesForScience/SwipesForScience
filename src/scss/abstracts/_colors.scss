@@ -1,0 +1,39 @@
+$white: #fff;
+$black: #1f1d21;
+$black-rock: rgba(23, 6, 60, 0.6);
+$selago-white: #f4f6fd;
+
+$lavender-mist: #e6e2fe;
+$violet: #8551ce;
+$purple-heart: #5733b2;
+$plum: #5841ab;
+$gray-suit: #b6acbe;
+$dull-lavender: #8b8fe5;
+
+$amethyst-smoke: #7c6f8b;
+$indigo: #210856;
+$cerise-red: #dc3154;
+$raspberry: #e01164;
+$canyon-coral: #d94c48;
+
+$yellow-orange: #fcaf00;
+$amber: #fec203;
+
+$home-page-gradient: linear-gradient(
+  146deg,
+  $purple-heart 10%,
+  $dull-lavender 94%
+);
+$landing-overlay: $black-rock;
+$landing-primary: $plum;
+$landing-bg-color: $lavender-mist;
+$landing-primary-gradient: linear-gradient(to bottom, #8551ce, #5733b2);
+$landing-secondary-gradient: linear-gradient(to bottom, #fb75a3, #ed254e);
+$landing-font-light: $white;
+$landing-font-dark: $black;
+$landing-warning: $purple-heart;
+$landing-link-color: $plum;
+$landing-hollow-fill: $selago-white;
+$landing-border-neutral: $gray-suit;
+
+$game-bg-color: $indigo;

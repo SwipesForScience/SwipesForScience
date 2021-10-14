@@ -1,0 +1,57 @@
+button {
+  outline: none;
+  user-select: none;
+}
+
+.btn-full-size {
+  display: block;
+  text-align: center;
+  width: 100%;
+}
+.btn-close--landing {
+  fill: $amethyst-smoke;
+  border: 0;
+  background: transparent;
+  width: 3rem;
+  height: 3rem;
+  @include font-size("lg");
+}
+$landing-btn-variants: (
+  "cta": $landing-secondary-gradient,
+  "primary": $landing-primary-gradient,
+);
+
+@mixin landing-btn($bg-image) {
+  padding: space(2);
+  color: $landing-font-light;
+  font-family: $primary-font;
+  font-weight: $bold;
+  background-image: $bg-image;
+  border: none;
+  border-radius: $border-radius-md;
+  transition: box-shadow 0.2s ease-in;
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px $amber;
+  }
+}
+
+@each $key, $val in $landing-btn-variants {
+  .btn--landing-#{$key} {
+    @include landing-btn($val);
+    &:disabled {
+      filter: grayscale(60%);
+    }
+  }
+}
+
+.btn--landing-hollow {
+  background: $landing-hollow-fill;
+  padding: space(2);
+  color: $landing-primary;
+  font-family: $primary-font;
+  font-weight: $bold;
+  border: 1px solid $landing-primary;
+  border-radius: $border-radius-md;
+  transition: box-shadow 0.2s ease-in;
+}

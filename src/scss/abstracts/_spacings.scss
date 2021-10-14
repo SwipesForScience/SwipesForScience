@@ -1,0 +1,29 @@
+$base-spacing: 0.5rem;
+
+@function space($n) {
+  $result: $n * $base-spacing;
+  @return $result;
+}
+
+@mixin generate($prefix, $property) {
+  $steps: (1, 2, 3, 4, 5, 6);
+  $base-spacing: 1rem;
+  @for $i from 1 through length($steps) {
+    $step: nth($steps, $i);
+    .#{$prefix}-#{$i - 1} {
+      #{$property}: $base-spacing * $step;
+    }
+  }
+}
+
+// Bootstrap-style utility classes for margin and paddings
+
+@include generate("ml", "margin-left");
+@include generate("mr", "margin-right");
+@include generate("mt", "margin-top");
+@include generate("mb", "margin-bottom");
+
+@include generate("pl", "padding-left");
+@include generate("pr", "padding-right");
+@include generate("pt", "padding-top");
+@include generate("pb", "padding-bottom");

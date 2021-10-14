@@ -1,0 +1,9 @@
+.form--landing {
+  text-align: left;
+  label {
+    @include font-size("xs");
+    color: $landing-font-dark;
+    font-weight: $semibold;
+    margin-bottom: space(1);
+  }
+}

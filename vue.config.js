@@ -1,7 +1,15 @@
 module.exports = {
   runtimeCompiler: true,
   configureWebpack: {
-    devtool: "source-map"
+    devtool: "source-map",
   },
-  lintOnSave: false //TODO: remove later to fix linting errors
+  css: {
+    loaderOptions: {
+      scss: {
+        additionalData: `@import "~@/scss/_base.scss";`,
+      },
+    },
+  },
+
+  lintOnSave: false, //TODO: remove later to fix linting errors
 };

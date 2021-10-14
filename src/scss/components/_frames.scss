@@ -1,0 +1,45 @@
+.frame {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  margin: auto;
+  overflow: hidden;
+  padding: 0;
+  transform: translateY(-50%);
+  padding: space(5) space(4);
+  @include media("≥tablet") {
+    padding: space(5) space(6);
+    border-radius: $border-radius-sm;
+    height: 90%;
+    max-width: 32rem;
+  }
+}
+.frame--landing {
+  font-family: $primary-font;
+  background: $landing-bg-color;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  h1 {
+    @include font-size("sm");
+    color: $landing-font-dark;
+    font-weight: $bold;
+    text-align: center;
+  }
+  p {
+    @include font-size("xs");
+    color: $landing-font-dark;
+  }
+  p > a {
+    text-decoration: underline;
+    color: $landing-link-color;
+  }
+  @include media("≥tablet") {
+    height: 70%;
+    top: 55%;
+    border-radius: $border-radius-xs;
+  }
+}

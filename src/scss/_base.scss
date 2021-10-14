@@ -1,0 +1,35 @@
+@import "../../node_modules/include-media/dist/include-media";
+@import "./abstracts/_breakpoints.scss";
+@import "./abstracts/_z-indexes.scss";
+@import "./abstracts/_colors.scss";
+@import "./abstracts/_border-radius.scss";
+@import "./abstracts/_fonts.scss";
+@import "./abstracts/_spacings.scss";
+@import "./abstracts/_mixins.scss";
+@import "./components/_frames.scss";
+@import "./components/_buttons.scss";
+@import "./components/_forms.scss";
+
+:root {
+  --color-purple: #5841ab;
+  --color-lavender: #eae7f4;
+  --color-yellow: #fff3ca;
+  --color-steel: #1f1d21;
+  --color-white: #fff;
+  --border-radius: 7px;
+  --box-shadow: 0 2px 40px rgba(14, 30, 37, 0.16);
+}
+/* Project specific resets */
+* {
+  box-sizing: border-box;
+}
+
+a,
+.toggle {
+  cursor: pointer;
+}
+
+/* underline and blue styles from bootstrap, remove when bootstrap is removed */
+a:hover {
+  text-decoration: none;
+}

@@ -1,118 +1,21 @@
 <template>
-  <div id="app">
-    <!-- The Navbar below stays constant throughout the app.
-         We've set up links on the navbar to different "routes",
-         like the "Home" page and "About" page.
-
-         There is also a right-aligned link to Login with GitHub.
-         When logged in, this shows the username with a dropdown menu
-         to see the profile or logout.
-    -->
-    <div class="content">
-      <div v-if="betaMode" class="corner-ribbon bottom-right sticky blue">
-        Beta
-      </div>
-      <b-navbar
-        toggleable="md"
-        type="dark"
-        :variant="navbarVariant"
-        v-show="false"
+  <div id="app" ref="app">
+    <transition
+      appear
+      @before-enter="beforeNavEnter"
+      @enter="navEnter"
+      mode="out-in"
+    >
+      <Navigation v-if="showNavigationBar" />
+    </transition>
+    <div class="router" v-if="isMounted">
+      <transition
+        appear
+        v-on:before-enter="beforeEnter"
+        v-on:enter="enter"
+        v-on:before-leave="beforeLeave"
+        mode="out-in"
       >
-        <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-
-        <b-navbar-brand to="/" id="brandName">{{ brandName }}</b-navbar-brand>
-
-        <!-- If the viewport is small, the navbar collapses.
-          Everything in b-collapse is what gets collapsed.
-        -->
-        <b-collapse is-nav id="nav_collapse">
-          <!--  Here are links to different routes  -->
-          <b-navbar-nav id="navLinks">
-            <b-nav-item :to="{ name: 'Home', query: routerQuery }" exact
-              >Home</b-nav-item
-            >
-            <b-nav-item :to="{ name: 'Leaderboard', query: routerQuery }"
-              >Leaderboard</b-nav-item
-            >
-            <b-nav-item :to="{ name: 'Play', query: routerQuery }"
-              >Play</b-nav-item
-            >
-            <b-nav-item :to="{ name: 'Chats', query: routerQuery }"
-              >Chats</b-nav-item
-            >
-            <b-nav-item
-              v-if="needsTutorial"
-              :to="{ name: 'Tutorial', query: routerQuery }"
-              >Tutorial</b-nav-item
-            >
-            <b-nav-item
-              v-if="userData.admin"
-              :to="{ name: 'Admin', query: routerQuery }"
-              >Admin</b-nav-item
-            >
-          </b-navbar-nav>
-
-          <!-- Right aligned nav items -->
-          <b-navbar-nav class="ml-auto">
-            <!-- This part only displays if the user is authenticated -->
-            <b-nav-item-dropdown right v-if="userIsDefined">
-              <template slot="button-content">
-                <em>{{ userInfo.displayName }}</em>
-              </template>
-              <b-dropdown-item :to="{ name: 'Profile', query: routerQuery }"
-                >Profile</b-dropdown-item
-              >
-              <b-dropdown-item @click="logout">Signout</b-dropdown-item>
-            </b-nav-item-dropdown>
-
-            <!-- The login option shows if the user is not authenticated -->
-            <b-nav-item v-else :to="{ name: 'Login', query: routerQuery }"
-              >Login</b-nav-item
-            >
-
-            <b-nav-text v-if="userIsDefined">
-              <b-img
-                v-if="currentLevel.img"
-                rounded="circle"
-                width="20"
-                height="20"
-                alt="img"
-                class="m-1"
-                :src="currentLevel.img"
-              />
-              {{ userData.score }}
-            </b-nav-text>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-navbar>
-
-      <nav>
-        <ul class="navRoot">
-          <li class="navSection main-logo">
-            <router-link to="/">
-              <img
-                src="./assets/swipes-for-science-logo.svg"
-                alt="Swipes for Science logo"
-              />
-            </router-link>
-          </li>
-          <li class="navSection mobile-menu">
-            <SliderMenu :needsTutorial="false" :isAdmin="false" />
-          </li>
-          <li class="navSection account-details">
-            <AccountMenu
-              :userInfo="userInfo"
-              :userData="userData"
-              :loggedIn="userIsDefined"
-              @logout="logout"
-            />
-          </li>
-          <li class="navSection desktop-menu"></li>
-        </ul>
-      </nav>
-
-      <!-- The content is in the router view -->
-      <div class="router" v-if="isMounted">
         <router-view
           :userInfo="userInfo"
           :userData="userData"
@@ -124,23 +27,8 @@
           v-on:taken_tutorial="setTutorial"
           :routerQuery="routerQuery"
         />
-      </div>
-      <!-- Configuration Drawer -->
-      <Configure
-        ref="configurationPane"
-        v-if="showConfig"
-        :config="config"
-        v-on:closeConfig="closeConfig"
-        :userInfo="userInfo"
-        :db="db"
-        :configurationState="configurationState"
-      />
+      </transition>
     </div>
-    <Footer
-      v-on:openConfig="openConfig"
-      :config="config"
-      :routerQuery="routerQuery"
-    ></Footer>
   </div>
 </template>
 
@@ -151,7 +39,8 @@
 import Vue from "vue";
 import BootstrapVue from "bootstrap-vue";
 import axios from "axios";
-
+import Navigation from "@/components/Navigation";
+import gsap from "gsap";
 // firebase-related libraries
 import VueFire from "vuefire";
 import firebase from "firebase/compat/app";
@@ -168,19 +57,8 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import "../node_modules/font-awesome/css/font-awesome.min.css";
 import "../node_modules/reset-css/reset.css";
 import "../src/css/animations.css";
-import "../src/css/globals.css";
-import "../src/css/typography.css";
-
 // config options
 import config from "./config";
-import Configure from "./components/Configure";
-
-// components
-import SliderMenu from "./components/Header/SliderMenu";
-import AccountMenu from "./components/Header/AccountMenu";
-import Footer from "./components/Footer";
-
-// explicit installation required in module environments
 Vue.use(VueFire);
 Vue.use(BootstrapVue);
 
@@ -189,10 +67,11 @@ Vue.use(BootstrapVue);
  */
 export default {
   name: "app",
+  components: { Navigation },
   data() {
     return {
       /**
-       * This is from firebase
+       * This is from firebase auth
        */
       userInfo: {},
       userData: {},
@@ -224,6 +103,7 @@ export default {
       showHeader: false,
       isMounted: false,
       unsubscribeUser: () => {},
+      transitionName: "fade",
     };
   },
   /**
@@ -240,7 +120,9 @@ export default {
         this.unsubscribeUser = onValue(
           ref(getDatabase(), "users/" + user.displayName),
           (snapshot) => {
-            this.userData = snapshot.val();
+            if (snapshot.exists()) {
+              this.userData = snapshot.val();
+            }
           }
         );
       } else this.unsubscribeUser();
@@ -249,13 +131,6 @@ export default {
   },
   beforeDestroy() {
     this.unsubscribeUser();
-  },
-
-  components: {
-    Configure,
-    Footer,
-    SliderMenu,
-    AccountMenu,
   },
   watch: {
     /**
@@ -292,7 +167,6 @@ export default {
         });
     },
   },
-
   computed: {
     /**
      * the firebase keys from the config file
@@ -300,30 +174,14 @@ export default {
     firebaseKeys() {
       return this.config.firebaseKeys;
     },
-    /**
-     * the brandname from the config file (home.title)
-     */
-    brandName() {
-      return this.config.home.title;
-    },
-    /**
-     * whether or not to show the 'beta' ribbon, defined in the config.
-     */
-    betaMode() {
-      return this.config.betaMode;
-    },
+
     /**
      * whether or not the user is forced to take the tutorial.
      */
     needsTutorial() {
       return this.config.needsTutorial;
     },
-    /**
-     * color of the navbar, based on bootstrap4 color variants.
-     */
-    navbarVariant() {
-      return this.config.app ? this.config.app.navbarVariant || "info" : "info";
-    },
+
     /**
      * The levels are defined based on score bins. Each level also defines
      * a character image that a user can "unlock" when the annotate enough samples.
@@ -345,6 +203,9 @@ export default {
 
       return clev;
     },
+    isLanding() {
+      return false;
+    },
     /**
      * whether or not a user is authenticated and has a username.
      */
@@ -359,6 +220,14 @@ export default {
      */
     routerQuery() {
       return this.$route.query;
+    },
+    backgroundColor() {
+      return this.$route.name === "Home" ? "#e7e2fe" : "#210856";
+    },
+    showNavigationBar() {
+      const routesWithNav = ["Login", "SignUp"];
+
+      return routesWithNav.includes(this.$route.name);
     },
   },
   methods: {
@@ -388,19 +257,38 @@ export default {
         this.$router.replace("play");
       });
     },
-    /**
-     * open the config panel
-     */
-    openConfig() {
-      this.showConfig = true;
+    beforeEnter(el) {
+      el.style.opacity = 0;
     },
-    /**
-     * close the config panel
-     */
-    closeConfig() {
-      this.showConfig = false;
+    enter(el) {
+      gsap.to(el, {
+        opacity: 1,
+        duration: 2,
+        ease: "elastic.out(1.2, 0.45)",
+      });
+    },
+    beforeLeave(el) {
+      gsap.to(el, {
+        opacity: 0,
+        duration: 2,
+        ease: "elastic.out(1.2, 0.45)",
+      });
+    },
+    beforeNavEnter(el) {
+      el.style.opacity = 0;
+      el.style.transform = "translateY(-60px)";
+    },
+    navEnter(el) {
+      gsap.to(el, {
+        duration: 0.5,
+        y: 0,
+        opacity: 1,
+        ease: "elastic.out(1.2, 0.45)",
+        delay: 1,
+      });
     },
   },
+
   /**
    * intialize the animate on scroll library (for tutorial) and listen to authentication state
    */
@@ -422,66 +310,26 @@ export default {
 };
 </script>
 
-<style>
-/*
-    You can style your component here. Since this is a top level component
-    the styles follow into child components.
-  */
+<style lang="scss">
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
 
-.content {
-  flex: 1 0 auto;
-  min-height: -webkit-fill-available;
-  height: fit-content;
+.router {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
-
 #app {
-  font-family: Nunito, Helvetica, Arial, sans-serif;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $game-bg-color;
+  font-family: $display-font;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-}
-
-#signupForm {
-  max-width: 400px;
-  padding: 20px;
-  margin-top: 20px;
-  box-shadow: 0px 0 7px 0px #80808036;
-}
-
-/* Main Navigation: navRoot */
-
-.navRoot {
-  display: flex;
-  justify-content: space-between;
-  position: relative;
-  padding: 1em 1.25em;
-  height: 7.5em;
-}
-
-.navRoot .navSection.main-logo {
-  position: absolute;
-  width: 7.5em;
-  height: 3em;
-  left: 50%;
-  right: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.navRoot .navSection.desktop-menu {
-  display: none;
-}
-
-@media (min-width: 65em) {
-  .navRoot {
-    margin: 0 auto;
-    width: 65em;
-    padding: 2em 0;
-  }
-  .navRoot .navSection.main-logo {
-    position: static;
-    transform: none;
-  }
+  color: $white;
 }
 </style>
