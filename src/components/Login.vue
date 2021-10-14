@@ -85,11 +85,11 @@ export default {
     onSubmit() {
       const auth = getAuth();
       signInWithEmailAndPassword(auth, this.form.email, this.form.password)
-        .then((user) => {
+        .then(user => {
           this.$emit("login", user);
           this.$router.push({ name: "Play", query: this.routerQuery });
         })
-        .catch((err) => {
+        .catch(err => {
           this.errors.show = true;
           this.errors.message = err.message;
         });

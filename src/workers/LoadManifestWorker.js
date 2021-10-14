@@ -7,13 +7,13 @@ onmessage = function(e) {
   const firebaseKeys = entries[2];
   firebase.initializeApp(firebaseKeys);
   const db = firebase.database();
-  const filtered = _.filter(entries[0], (m) => entries[1].indexOf(m) < 0);
+  const filtered = _.filter(entries[0], m => entries[1].indexOf(m) < 0);
   const target = filtered.length;
   let current = 0;
   if (!target) {
     postMessage("done");
   }
-  _.map(filtered, (key) => {
+  _.map(filtered, key => {
     db.ref("sampleCounts")
       .child(key)
       .set(0)

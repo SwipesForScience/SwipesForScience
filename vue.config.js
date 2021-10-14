@@ -11,5 +11,5 @@ module.exports = {
     },
   },
 
-  lintOnSave: false, //TODO: remove later to fix linting errors
+  lintOnSave: true,
 };

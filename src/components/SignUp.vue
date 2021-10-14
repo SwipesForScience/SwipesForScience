@@ -183,7 +183,7 @@ export default {
       // check for a unique username
       const dbRef = ref(getDatabase());
       get(child(dbRef, `users/${this.form.username}`))
-        .then((snapshot) => {
+        .then(snapshot => {
           if (snapshot.exists()) {
             this.$refs.form.setErrors({
               username: [
@@ -198,7 +198,7 @@ export default {
             }
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.errors.show = true;
           this.errors.message = err.message;
         });
@@ -236,7 +236,7 @@ export default {
             this.$router.replace("play");
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.errors.show = true;
           this.errors.message = err.message;
         });
@@ -284,7 +284,7 @@ export default {
             this.$router.replace("play");
           }
         })
-        .catch((err) => {
+        .catch(err => {
           this.errors.show = true;
           this.errors.message = err.message;
         });

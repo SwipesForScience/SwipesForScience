@@ -115,7 +115,7 @@ export default {
      */
     chatOrder() {
       if (this.chatHistory) {
-        return Object.values(this.chatHistory).map((message) => ({
+        return Object.values(this.chatHistory).map(message => ({
           formattedDate: moment(message.time).format("dddd, D MMM YYYY, LT"),
           ...message,
         }));
@@ -132,7 +132,7 @@ export default {
      * Get the chat history for the current sample ID.
      */
     const sampleChatRef = ref(this.db, "chats/sampleChats");
-    this.unsubscribeChat = onValue(sampleChatRef, (snapshot) => {
+    this.unsubscribeChat = onValue(sampleChatRef, snapshot => {
       if (snapshot.exists()) {
         let chats = snapshot.val();
         this.chatHistory = chats[this.widgetPointer];
@@ -196,7 +196,7 @@ export default {
     updateNotificationFlags() {
       const userNotifRef = ref(this.db, "chats/userNotifications");
       const usersToNotify = [];
-      this.chatOrder.forEach((message) => {
+      this.chatOrder.forEach(message => {
         if (
           usersToNotify.indexOf(message.username) < 0 &&
           message.username !== this.userInfo.displayName
@@ -205,7 +205,7 @@ export default {
         }
       });
       const updates = {};
-      usersToNotify.forEach((user) => {
+      usersToNotify.forEach(user => {
         updates[`/${user}/${this.widgetPointer}`] = true;
       });
       update(userNotifRef, updates);
@@ -213,7 +213,7 @@ export default {
     getUserSettings() {
       if (this.userInfo.displayName) {
         get(ref(this.db, `userSettings/${this.userInfo.displayName}`)).then(
-          (snapshot) => {
+          snapshot => {
             if (snapshot.exists()) {
               this.userSettings = snapshot.val();
             } else this.userSettings = {};
@@ -226,7 +226,7 @@ export default {
      */
     getWidgetSummary() {
       const sampleSummaryRef = ref(this.db, "sampleSummary");
-      get(sampleSummaryRef).then((snapshot) => {
+      get(sampleSummaryRef).then(snapshot => {
         if (snapshot.exists()) {
           const sampleSummary = snapshot.val();
           this.widgetSummary = sampleSummary[this.widgetPointer];

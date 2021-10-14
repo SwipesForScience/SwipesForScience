@@ -17,7 +17,7 @@
           <b-button
             variant="danger"
             v-if="playMode"
-            style="float:left"
+            style="float: left"
             @click="swipeLeft"
             v-shortkey="['arrowleft']"
             @shortkey="swipeLeft"
@@ -28,7 +28,7 @@
             {{ widgetProperties.leftSwipeLabel }}
           </b-button>
 
-          <span style="float:left" v-else>
+          <span style="float: left" v-else>
             <span v-if="widgetSummary">
               ave vote: {{ widgetSummary.aveVote || 0 }}
             </span>
@@ -46,7 +46,7 @@
           <b-button
             variant="success"
             v-if="playMode"
-            style="float:right"
+            style="float: right"
             @click="swipeRight"
             v-shortkey="['arrowright']"
             @shortkey="swipeRight"
@@ -56,7 +56,7 @@
             <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
           </b-button>
 
-          <span style="float:right" v-else>
+          <span style="float: right" v-else>
             <span v-if="widgetSummary">
               num votes: {{ widgetSummary.count || 0 }}
             </span>
@@ -92,14 +92,14 @@ export default {
      */
     widgetPointer: {
       type: String,
-      required: true
+      required: true,
     },
     /**
      * The widget-specific properties. The schema is widget specific.
      */
     widgetProperties: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * The summary data for the widget.
@@ -107,21 +107,21 @@ export default {
      */
     widgetSummary: {
       type: Object,
-      required: false
+      required: false,
     },
     /**
      * The user's settings on the widget. The schema is widget specific.
      */
     userSettings: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * Tells the widget if it should be in a "play mode" or maybe a "review mode".
      */
     playMode: {
       type: String,
-      required: false
+      required: false,
     },
     /**
      * Tells the widget to display a tutorial step.
@@ -131,11 +131,11 @@ export default {
      */
     tutorialStep: {
       type: Number,
-      required: false
-    }
+      required: false,
+    },
   },
   directives: {
-    imagesLoaded
+    imagesLoaded,
   },
   data() {
     return {
@@ -146,7 +146,7 @@ export default {
       /**
        * save the swipe direction.
        */
-      swipe: null
+      swipe: null,
     };
   },
   computed: {
@@ -163,7 +163,7 @@ export default {
             this.widgetProperties.delimiter
           )
         : null;
-    }
+    },
   },
   /**
    * If the playMode === 'tutorial', show a tutorial step.
@@ -226,7 +226,7 @@ export default {
       let widgetSummary;
       if (!this.widgetSummary) {
         widgetSummary = {
-          count: 0
+          count: 0,
         };
       } else {
         widgetSummary = this.widgetSummary;
@@ -241,28 +241,28 @@ export default {
           return {
             show: false,
             variant: "danger",
-            message: "+0 most people swiped right"
+            message: "+0 most people swiped right",
           };
         } else if (aveVote <= 0.3 && response) {
           // on average, most people did not mark this image, but you did
           return {
             show: false,
             variant: "danger",
-            message: "+0 most people swiped left"
+            message: "+0 most people swiped left",
           };
         }
 
         return {
           show: true,
           variant: "success",
-          message: "+1 good job"
+          message: "+1 good job",
         };
       }
 
       return {
         show: true,
         variant: "success",
-        message: "+1 thanks"
+        message: "+1 thanks",
       };
     },
     /**
@@ -276,7 +276,7 @@ export default {
         // the summary isn't initialized yet
         return {
           aveVote: response,
-          count: 1
+          count: 1,
         };
       }
 
@@ -286,7 +286,7 @@ export default {
 
       return {
         aveVote: newVote,
-        count: this.widgetSummary.count + 1
+        count: this.widgetSummary.count + 1,
       };
     },
     /**
@@ -303,26 +303,26 @@ export default {
         baseUrlTemplate: {
           type: String,
           required: true,
-          description: "base url to the image file"
+          description: "base url to the image file",
         },
         delimiter: {
           type: String,
           required: false,
           default: "__",
-          description: "how to split the sample ID to fill in the template"
+          description: "how to split the sample ID to fill in the template",
         },
         leftSwipeLabel: {
           type: String,
           required: false,
           default: "Fail",
-          description: "label for the left swipe button"
+          description: "label for the left swipe button",
         },
         rightSwipeLabel: {
           type: String,
           required: false,
           default: "True",
-          description: "label for the right swipe button"
-        }
+          description: "label for the right swipe button",
+        },
       };
     },
     /**
@@ -380,8 +380,8 @@ export default {
       this.setSwipe("swipe-left");
       this.getPropertiesSchema();
       return 1;
-    }
-  }
+    },
+  },
 };
 </script>
 

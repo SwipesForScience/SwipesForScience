@@ -30,22 +30,22 @@ export default {
      */
     config: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * the intialized firebase database
      */
     db: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * the authenticated user object from firebase
      */
     userInfo: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -76,7 +76,7 @@ export default {
       /**
        * whether or not the /votes is initialized on firebase
        */
-      votes: false
+      votes: false,
     };
   },
   computed: {
@@ -99,7 +99,7 @@ export default {
         this.votes &&
         this.userSettings
       );
-    }
+    },
   },
   watch: {
     /**
@@ -109,7 +109,7 @@ export default {
       if (this.ready) {
         this.next();
       }
-    }
+    },
   },
   /**
    * initialize all documents
@@ -123,11 +123,7 @@ export default {
      */
     initAdmin() {
       const displayName = this.userInfo.displayName;
-      this.db
-        .ref("settings")
-        .child("admins")
-        .child(displayName)
-        .set(1);
+      this.db.ref("settings").child("admins").child(displayName).set(1);
       this.db
         .ref("users")
         .child(displayName)
@@ -200,10 +196,7 @@ export default {
         .then(snap => {
           const val = snap.val();
           if (val === null) {
-            this.db
-              .ref("userSeenSamples")
-              .child(displayName)
-              .set(0);
+            this.db.ref("userSeenSamples").child(displayName).set(0);
           }
         })
         .then(() => {
@@ -261,8 +254,8 @@ export default {
      */
     next() {
       this.$emit("next");
-    }
-  }
+    },
+  },
 };
 </script>
 <style></style>

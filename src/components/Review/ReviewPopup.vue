@@ -20,27 +20,27 @@ import ReviewConversation from "./ReviewConversation";
 export default {
   name: "ReviewPopup",
   components: {
-    ReviewConversation
+    ReviewConversation,
   },
   props: {
     widgetPointer: {
       type: String,
-      required: true
+      required: true,
     },
     userInfo: {
       type: Object,
-      required: true
+      required: true,
     },
     db: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
     togglePopup() {
       this.$emit("toggleReviewPopup");
-    }
-  }
+    },
+  },
 };
 </script>
 

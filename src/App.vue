@@ -113,13 +113,13 @@ export default {
   mounted() {
     const auth = getAuth();
     this.userInfo = auth.currentUser || {};
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, user => {
       this.userInfo = user || {};
       // if there is a user, subscribe to changes in userData
       if (user) {
         this.unsubscribeUser = onValue(
           ref(getDatabase(), "users/" + user.displayName),
-          (snapshot) => {
+          snapshot => {
             if (snapshot.exists()) {
               this.userData = snapshot.val();
             }
@@ -155,12 +155,12 @@ export default {
               this.db
                 .ref("/users/")
                 .orderByChild("score")
-                .on("value", (snap) => {
+                .on("value", snap => {
                   this.allUsers = snap.val();
                 });
               this.userInfo = firebase.auth().currentUser || {};
               const self = this;
-              firebase.auth().onAuthStateChanged((user) => {
+              firebase.auth().onAuthStateChanged(user => {
                 self.userInfo = user || {};
               });
             });
@@ -195,7 +195,7 @@ export default {
      */
     currentLevel() {
       let clev = {};
-      _.mapValues(this.levels, (val) => {
+      _.mapValues(this.levels, val => {
         if (this.userData.score >= val.min && this.userData.score <= val.max) {
           clev = val;
         }
@@ -297,7 +297,7 @@ export default {
       // the URL has a config file that overrides the default one for this app!
       axios
         .get(this.$route.query.config)
-        .then((resp) => {
+        .then(resp => {
           // remove the firebase project
           this.config = resp.data;
         })
