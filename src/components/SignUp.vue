@@ -10,7 +10,7 @@
     <div id="signup" class="frame frame--landing" v-show="!showConsentForm">
       <h1 class="mb-3">Create an account</h1>
       <div
-        class="alert-card--landing alert-card--landing--error"
+        class="alert-card--landing alert-card--landing--error mt-1 mb-3"
         v-if="firebaseErrors.show"
       >
         {{ firebaseErrors.message }}

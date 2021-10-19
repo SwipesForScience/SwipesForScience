@@ -66,7 +66,7 @@ export default {
   position: relative;
   margin-bottom: space(3);
 }
-.formtext__input {
+.formtext input {
   width: 100%;
   height: 2.5rem;
   border: none;
@@ -84,7 +84,7 @@ export default {
     border: 1px solid $landing-primary;
   }
 }
-.formtext__input--warning {
+input.formtext--warning {
   border: 1px solid $landing-warning;
 }
 
@@ -93,7 +93,7 @@ export default {
   color: $landing-warning;
   width: 100%;
   position: absolute;
-  top: 5.2rem;
+  bottom: -1rem;
   left: 0;
   &:first-letter {
     text-transform: capitalize;

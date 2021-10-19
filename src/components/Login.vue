@@ -1,7 +1,10 @@
 <template name="login">
   <div class="frame frame--landing">
     <h1 class="mb-2">Login</h1>
-    <div :show="firebaseErrors.show" variant="danger">
+    <div
+      class="alert-card--landing alert-card--landing--error mt-1 mb-3"
+      v-if="firebaseErrors.show"
+    >
       {{ firebaseErrors.message }}
     </div>
     <form @submit.prevent="onSubmit" class="form--landing">
@@ -18,8 +21,13 @@
         type="password"
         placeholder="Password"
         rules="required"
+        class="mb-2"
       />
-
+      <router-link
+        :to="{ name: 'ResetPassword' }"
+        class="landing__link mb-3 float-right"
+        >Reset Password</router-link
+      >
       <button class="btn--landing-primary btn-full-size">Login</button>
     </form>
 

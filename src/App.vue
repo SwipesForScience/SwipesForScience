@@ -213,11 +213,9 @@ export default {
     routerQuery() {
       return this.$route.query;
     },
-    backgroundColor() {
-      return this.$route.name === "Home" ? "#e7e2fe" : "#210856";
-    },
+
     showNavigationBar() {
-      const routesWithNav = ["Login", "SignUp"];
+      const routesWithNav = ["Login", "SignUp", "ResetPassword"];
 
       return routesWithNav.includes(this.$route.name);
     },

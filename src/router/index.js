@@ -6,6 +6,7 @@ import Profile from "@/components/Profile";
 import Play from "@/components/Play";
 import Login from "@/components/Login";
 import SignUp from "@/components/SignUp";
+import ResetPassword from "@/components/ResetPassword";
 import Terms from "@/components/Terms";
 import Unauthorized from "@/components/Unauthorized";
 import Leaderboard from "@/components/Leaderboard";
@@ -65,6 +66,11 @@ const router = createRouter({
       path: "/signup",
       name: "SignUp",
       component: SignUp,
+    },
+    {
+      path: "/reset-password",
+      name: "ResetPassword",
+      component: ResetPassword,
     },
     {
       path: "/terms",
