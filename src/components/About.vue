@@ -3,9 +3,7 @@
     <h1>About</h1>
 
     <b-container>
-      <p>
-        You get points for each sample you annotate.
-      </p>
+      <p>You get points for each sample you annotate.</p>
 
       <p>
         You can unlock the following animals based on the number of points you
@@ -66,8 +64,8 @@ export default {
      */
     levels: {
       type: Object,
-      required: false
-    }
+      required: false,
+    },
   },
   computed: {
     /**
@@ -82,7 +80,7 @@ export default {
           accum[k] = v;
           return accum;
         }, {});
-    }
-  }
+    },
+  },
 };
 </script>

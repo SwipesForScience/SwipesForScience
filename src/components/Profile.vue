@@ -21,9 +21,7 @@
       <hr />
 
       <h3>Level {{ currentLevel.level }}</h3>
-      <p class="lead">
-        Keep playing to unlock the remaining animals!
-      </p>
+      <p class="lead">Keep playing to unlock the remaining animals!</p>
 
       <b-container fluid class="p-4">
         <b-row>
@@ -58,9 +56,7 @@
 
       <div v-if="chats.length">
         <h2>Your Chats</h2>
-        <p class="lead">
-          Your discussions on specific samples
-        </p>
+        <p class="lead">Your discussions on specific samples</p>
 
         <div v-for="c in chats" class="text-left" :key="c">
           <div v-if="chatInfo[c]">
@@ -132,7 +128,7 @@ export default {
        * chatInfo is filled from the firebase database. For each item in chats,
        * get the most recent discussion point from that chat and store it here.
        */
-      chatInfo: {}
+      chatInfo: {},
     };
   },
   computed: {
@@ -154,7 +150,7 @@ export default {
           accum[k] = v;
           return accum;
         }, {});
-    }
+    },
   },
   props: {
     /**
@@ -162,14 +158,14 @@ export default {
      */
     userInfo: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * the computed user data object based on userInfo
      */
     userData: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * the various levels, the points need to reach the levels,
@@ -177,14 +173,14 @@ export default {
      */
     levels: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * the user's current level
      */
     currentLevel: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * The config object that is loaded from src/config.js.
@@ -194,15 +190,15 @@ export default {
      */
     config: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * the intialized firebase database
      */
     db: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   /**
    * when the component is mounted, it gets the user's chats.
@@ -240,7 +236,7 @@ export default {
             this.$forceUpdate();
           });
       });
-    }
+    },
   },
   methods: {
     /**
@@ -275,7 +271,7 @@ export default {
             this.$forceUpdate();
           }
         });
-    }
-  }
+    },
+  },
 };
 </script>

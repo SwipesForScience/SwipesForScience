@@ -67,28 +67,28 @@ export default {
      */
     widgetType: {
       type: String,
-      required: true
+      required: true,
     },
     /**
      * The sample ID to tell the widget to display.
      */
     widgetPointer: {
       type: String,
-      required: true
+      required: true,
     },
     /**
      * The widget-specific properties. The schema is widget specific.
      */
     widgetProperties: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * The user's settings on the widget. The schema is widget specific.
      */
     userSettings: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * The summary data for the widget.
@@ -96,14 +96,14 @@ export default {
      */
     widgetSummary: {
       type: Object,
-      required: false
+      required: false,
     },
     /**
      * Tells the widget if it should be in a "play mode" or maybe a "review mode".
      */
     playMode: {
       type: String,
-      required: false
+      required: false,
     },
     /**
      * Tells the widget to display a tutorial step.
@@ -111,28 +111,28 @@ export default {
      */
     tutorialStep: {
       type: Number,
-      required: false
+      required: false,
     },
     /**
      * whether or not the data needs a secret
      */
     needsSecret: {
       type: Boolean,
-      required: false
+      required: false,
     },
     /**
      * the secret, only used if needed.
      */
     serverSecret: {
       type: String,
-      required: false
-    }
+      required: false,
+    },
   },
   components: {
     ImageSwipe,
     TimedImageSwipe,
     TemplateWidget,
-    Secret
+    Secret,
   },
   methods: {
     /**
@@ -170,8 +170,8 @@ export default {
      */
     updateUserSettings(settings) {
       this.$emit("updateUserSettings", settings);
-    }
-  }
+    },
+  },
 };
 </script>
 

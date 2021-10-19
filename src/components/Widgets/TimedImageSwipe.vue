@@ -7,7 +7,7 @@
             :class="[
               'user-card__picture',
               'mx-auto',
-              widgetProperties.timing.stimulusFadeIn ? '' : 'no-fade-in'
+              widgetProperties.timing.stimulusFadeIn ? '' : 'no-fade-in',
             ]"
             :src="baseUrl"
             v-hammer:swipe.horizontal="onSwipe"
@@ -22,7 +22,7 @@
           <b-button
             variant="danger"
             v-if="playMode"
-            style="float:left"
+            style="float: left"
             @click="swipeLeft"
             v-shortkey="['arrowleft']"
             @shortkey="swipeLeft"
@@ -33,7 +33,7 @@
             {{ widgetProperties.leftSwipe.label }}
           </b-button>
 
-          <span style="float:left" v-else>
+          <span style="float: left" v-else>
             <span v-if="widgetSummary">
               ave vote: {{ widgetSummary.aveVote || 0 }}
             </span>
@@ -51,7 +51,7 @@
           <b-button
             variant="success"
             v-if="playMode"
-            style="float:right"
+            style="float: right"
             @click="swipeRight"
             v-shortkey="['arrowright']"
             @shortkey="swipeRight"
@@ -61,7 +61,7 @@
             <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
           </b-button>
 
-          <span style="float:right" v-else>
+          <span style="float: right" v-else>
             <span v-if="widgetSummary">
               num votes: {{ widgetSummary.count || 0 }}
             </span>
@@ -99,14 +99,14 @@ export default {
      */
     widgetPointer: {
       type: String,
-      required: true
+      required: true,
     },
     /**
      * The widget-specific properties. The schema is widget specific.
      */
     widgetProperties: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * The summary data for the widget.
@@ -114,21 +114,21 @@ export default {
      */
     widgetSummary: {
       type: Object,
-      required: false
+      required: false,
     },
     /**
      * The user's settings on the widget. The schema is widget specific.
      */
     userSettings: {
       type: Object,
-      required: true
+      required: true,
     },
     /**
      * Tells the widget if it should be in a "play mode" or maybe a "review mode".
      */
     playMode: {
       type: String,
-      required: false
+      required: false,
     },
     /**
      * Tells the widget to display a tutorial step.
@@ -138,13 +138,13 @@ export default {
      */
     tutorialStep: {
       type: Number,
-      required: false
-    }
+      required: false,
+    },
   },
   // eslint-disable-next-line
   components: { VueHammer, GridLoader },
   directives: {
-    imagesLoaded
+    imagesLoaded,
   },
   data() {
     return {
@@ -169,7 +169,7 @@ export default {
       /**
        * flag to hide stimulus if `widgetProperties.timing.interStimuliDuration` is set.
        */
-      showStimuli: true
+      showStimuli: true,
     };
   },
   computed: {
@@ -189,7 +189,7 @@ export default {
     },
     timing() {
       return this.playMode === "tutorial" ? {} : this.widgetProperties.timing;
-    }
+    },
   },
   watch: {
     /**
@@ -198,7 +198,7 @@ export default {
      */
     widgetPointer() {
       this.preImgLoad();
-    }
+    },
   },
   /**
    * If the playMode === 'tutorial', show a tutorial step.
@@ -286,7 +286,7 @@ export default {
       let widgetSummary;
       if (!this.widgetSummary) {
         widgetSummary = {
-          count: 0
+          count: 0,
         };
       } else {
         widgetSummary = this.widgetSummary;
@@ -301,28 +301,28 @@ export default {
           return {
             show: false,
             variant: "danger",
-            message: "+0 most people swiped right"
+            message: "+0 most people swiped right",
           };
         } else if (aveVote <= 0.3 && response) {
           // on average, most people did not mark this image, but you did
           return {
             show: false,
             variant: "danger",
-            message: "+0 most people swiped left"
+            message: "+0 most people swiped left",
           };
         }
 
         return {
           show: true,
           variant: "success",
-          message: "+1 good job"
+          message: "+1 good job",
         };
       }
 
       return {
         show: true,
         variant: "success",
-        message: "+1 thanks"
+        message: "+1 thanks",
       };
     },
     /**
@@ -336,7 +336,7 @@ export default {
         // the summary isn't initialized yet
         return {
           aveVote: response,
-          count: 1
+          count: 1,
         };
       }
 
@@ -346,7 +346,7 @@ export default {
 
       return {
         aveVote: newVote,
-        count: this.widgetSummary.count + 1
+        count: this.widgetSummary.count + 1,
       };
     },
     /**
@@ -367,7 +367,7 @@ export default {
     tutorialVote(value) {
       this.$emit("widgetRating", {
         pointer: this.widgetPointer,
-        value
+        value,
       });
     },
     /**
@@ -378,13 +378,13 @@ export default {
         baseUrlTemplate: {
           type: String,
           required: true,
-          description: "base url to the image file"
+          description: "base url to the image file",
         },
         delimiter: {
           type: String,
           required: false,
           default: "__",
-          description: "how to split the sample ID to fill in the template"
+          description: "how to split the sample ID to fill in the template",
         },
         leftSwipe: {
           type: Object,
@@ -393,15 +393,15 @@ export default {
               type: String,
               required: false,
               default: "Fail",
-              description: "label for the left swipe button"
+              description: "label for the left swipe button",
             },
             value: {
               type: Number,
               required: false,
               default: -1,
-              description: "value stored to database"
-            }
-          }
+              description: "value stored to database",
+            },
+          },
         },
         rightSwipe: {
           type: Object,
@@ -410,15 +410,15 @@ export default {
               type: String,
               required: false,
               default: "Pass",
-              description: "label for the right swipe button"
+              description: "label for the right swipe button",
             },
             value: {
               type: Number,
               required: false,
               default: 1,
-              description: "value stored to database"
-            }
-          }
+              description: "value stored to database",
+            },
+          },
         },
         timing: {
           type: Object,
@@ -427,31 +427,31 @@ export default {
               type: Number,
               required: false,
               default: null,
-              description: "stimulus duration (defaults to infinite)"
+              description: "stimulus duration (defaults to infinite)",
             },
             timeoutValue: {
               type: Number,
               required: false,
               default: 0,
               description:
-                "value stored to database when stimulus times out before user has swiped"
+                "value stored to database when stimulus times out before user has swiped",
             },
             interStimuliDuration: {
               type: Number,
               required: false,
               default: 0,
               description:
-                "time between stimuli end and next stimuli load (defaults to zero). Note: this is only as precise as the clients environment allows"
+                "time between stimuli end and next stimuli load (defaults to zero). Note: this is only as precise as the clients environment allows",
             },
             stimulusFadeIn: {
               type: Boolean,
               required: false,
               default: true,
               description:
-                "sets the fade-in effect on stimulus load; set to `false` for precise timing (default: true)"
-            }
-          }
-        }
+                "sets the fade-in effect on stimulus load; set to `false` for precise timing (default: true)",
+            },
+          },
+        },
       };
     },
     /**
@@ -509,8 +509,8 @@ export default {
       this.setSwipe("swipe-left");
       this.getPropertiesSchema();
       return 1;
-    }
-  }
+    },
+  },
 };
 </script>
 

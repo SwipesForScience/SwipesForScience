@@ -9,9 +9,7 @@
           >console.firebase.google.com</a
         >
       </li>
-      <li>
-        Copy the API keys to the text box below and hit "Apply"
-      </li>
+      <li>Copy the API keys to the text box below and hit "Apply"</li>
     </ol>
 
     <video
@@ -66,8 +64,8 @@ export default {
         "databaseURL",
         "projectId",
         "storageBucket",
-        "messagingSenderId"
-      ]
+        "messagingSenderId",
+      ],
     };
   },
   computed: {
@@ -97,7 +95,7 @@ export default {
         );
       }
       return "Please enter your firebase API keys.";
-    }
+    },
   },
   methods: {
     /**
@@ -112,8 +110,8 @@ export default {
       });
       this.$emit("newFirebaseKeys", newFirebaseKeys);
       return newFirebaseKeys;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

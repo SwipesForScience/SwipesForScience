@@ -42,14 +42,14 @@ import { ref, onValue } from "firebase/database";
 export default {
   created() {
     const chatsRef = ref(this.db, "chats");
-    const unsubscribe = onValue(chatsRef, (snapshot) => {
+    const unsubscribe = onValue(chatsRef, snapshot => {
       let lastUpdatedSampleChats = [];
       if (snapshot.exists()) {
         const chats = snapshot.val();
         const sampleChatIndex = _.get(chats, "sampleChatIndex");
         const fullSampleChats = _.get(chats, "sampleChats");
         lastUpdatedSampleChats = Object.keys(sampleChatIndex)
-          .map((sampleId) => ({
+          .map(sampleId => ({
             sampleId,
             time: new Date(sampleChatIndex[sampleId].time).getTime(),
           }))

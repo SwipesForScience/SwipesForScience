@@ -178,7 +178,7 @@ export default {
     },
   },
   mounted() {
-    get(ref(getDatabase(), "users")).then((snapshot) => {
+    get(ref(getDatabase(), "users")).then(snapshot => {
       if (snapshot.exists()) {
         this.allUsers = snapshot.val();
       }
@@ -188,7 +188,7 @@ export default {
     sortedUsersList() {
       /* Removes '.key' property present on allUsers data */
       let allUsernames = Object.keys(this.allUsers).filter(
-        (userName) => userName !== ".key"
+        userName => userName !== ".key"
       );
       // eslint-disable-next-line
       allUsernames = allUsernames.map((userName) => {

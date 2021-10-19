@@ -265,7 +265,7 @@ export default {
     widgetPointer() {
       if (this.widgetPointer) {
         get(ref(this.db, `/sampleSummary/${this.widgetPointer}`)).then(
-          (snapshot) => {
+          snapshot => {
             if (snapshot.exists()) {
               this.widgetSummary = snapshot.val();
             }
@@ -328,15 +328,13 @@ export default {
      */
     initUserSettings() {
       const userSettingsRef = ref(this.db, "/userSettings");
-      get(child(userSettingsRef, this.userInfo.displayName)).then(
-        (snapshot) => {
-          if (snapshot.exists()) {
-            this.userSettings = snapshot.val();
-          } else {
-            this.userSettings = {};
-          }
+      get(child(userSettingsRef, this.userInfo.displayName)).then(snapshot => {
+        if (snapshot.exists()) {
+          this.userSettings = snapshot.val();
+        } else {
+          this.userSettings = {};
         }
-      );
+      });
     },
     /**
      * update the /userSettings/<username> in firebase.
@@ -352,7 +350,7 @@ export default {
      */
     initSampleCounts() {
       const sampleCountsRef = ref(this.db, "sampleCounts");
-      get(sampleCountsRef).then((snapshot) => {
+      get(sampleCountsRef).then(snapshot => {
         if (snapshot.exists()) {
           this.sampleCounts = _.map(snapshot.val(), (val, key) => {
             return { ".key": key, ".value": val };
@@ -377,7 +375,7 @@ export default {
         this.db,
         "/userSeenSamples/" + this.userInfo.displayName
       );
-      get(userSeenSamplesRef).then((snapshot) => {
+      get(userSeenSamplesRef).then(snapshot => {
         if (snapshot.exists()) {
           this.userSeenSamples = _.map(snapshot.val(), (val, key) => {
             return { ".key": key, ".value": val };
@@ -419,10 +417,10 @@ export default {
         let samplesRemain;
         if (this.userSeenSamples) {
           // if the user has seen some samples, remove them
-          const userSeenList = _.map(this.userSeenSamples, (s) => s[".key"]);
+          const userSeenList = _.map(this.userSeenSamples, s => s[".key"]);
           samplesRemain = _.filter(
             this.samplePriority,
-            (v) => userSeenList.indexOf(v[".key"]) < 0
+            v => userSeenList.indexOf(v[".key"]) < 0
           );
 
           // but if the user has seen everything,
@@ -445,7 +443,7 @@ export default {
           // so they are only the smallest seen value;
           const samplesSmallest = _.filter(
             samplesRemain,
-            (c) => c[".value"] === minUnseen
+            c => c[".value"] === minUnseen
           );
           // and then randomize the order;
           return this.shuffle(samplesSmallest);
@@ -547,7 +545,7 @@ export default {
     updateCount() {
       // update the firebase database copy
       const sampleCountRef = ref(this.db, `sampleCounts/${this.widgetPointer}`);
-      runTransaction(sampleCountRef, (sampleCount) => {
+      runTransaction(sampleCountRef, sampleCount => {
         if (sampleCount && typeof sampleCount === "number") {
           return sampleCount + 1;
         } else {
@@ -555,7 +553,7 @@ export default {
         }
       });
       // update the local copy
-      _.map(this.sampleCounts, (val) => {
+      _.map(this.sampleCounts, val => {
         if (val[".key"] === this.widgetPointer) {
           val[".value"] += 1;
         }
@@ -594,7 +592,7 @@ export default {
      */
     fetchServerSecret() {
       const settingsRef = ref(this.db, "settings");
-      get(child(settingsRef, "secret/value")).then((snapshot) => {
+      get(child(settingsRef, "secret/value")).then(snapshot => {
         if (snapshot.exists()) {
           this.serverSecret = snapshot.val();
         }
