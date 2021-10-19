@@ -9,14 +9,9 @@
       <Navigation v-if="showNavigationBar" />
     </transition>
     <div class="router" v-if="isMounted">
-      <transition
-        appear
-        v-on:before-enter="beforeEnter"
-        v-on:enter="enter"
-        v-on:before-leave="beforeLeave"
-        mode="out-in"
-      >
-        <router-view
+      <router-view v-slot="{ Component }">
+        <component
+          :is="Component"
           :userInfo="userInfo"
           :userData="userData"
           :allUsers="allUsers"
@@ -27,7 +22,7 @@
           v-on:taken_tutorial="setTutorial"
           :routerQuery="routerQuery"
         />
-      </transition>
+      </router-view>
     </div>
   </div>
 </template>
@@ -36,13 +31,11 @@
 /**
  * The main entrypoint to the app.
  */
-import Vue from "vue";
-import BootstrapVue from "bootstrap-vue";
+
 import axios from "axios";
 import Navigation from "@/components/Navigation";
 import gsap from "gsap";
-// firebase-related libraries
-import VueFire from "vuefire";
+
 import firebase from "firebase/compat/app";
 import { getDatabase, ref, update, onValue } from "firebase/database";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
@@ -59,8 +52,6 @@ import "../node_modules/reset-css/reset.css";
 import "../src/css/animations.css";
 // config options
 import config from "./config";
-Vue.use(VueFire);
-Vue.use(BootstrapVue);
 
 /**
  * This is the main entrypoint to the app.
@@ -68,6 +59,7 @@ Vue.use(BootstrapVue);
 export default {
   name: "app",
   components: { Navigation },
+
   data() {
     return {
       /**
@@ -129,7 +121,7 @@ export default {
     });
     this.isMounted = true;
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.unsubscribeUser();
   },
   watch: {

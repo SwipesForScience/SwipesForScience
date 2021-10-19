@@ -11,6 +11,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@vee-validate/rules": "^4.5.3",
     "axios": "^0.21.4",
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.15.0",
@@ -20,18 +21,19 @@
     "gsap": "^3.8.0",
     "lodash": "^4.17.21",
     "reset-css": "^5.0.1",
-    "vee-validate": "^3.4.13",
-    "vue": "^2.6.14",
+    "vee-validate": "^4.5.2",
+    "vue": "^3.2.20",
     "vue-images-loaded": "^1.1.2",
     "vue-progressive-image": "^3.2.0",
-    "vue-router": "^3.5.2",
+    "vue-router": "^4.0.0-alpha.6",
     "vue-scrollto": "^2.20.0",
     "vue-shortkey": "^3.1.7",
     "vue-spinner": "^1.0.4",
     "vue2-hammer": "^2.1.2",
     "vuefire": "^1.4.5",
-    "vuex": "^3.6.2",
-    "worker-loader": "^2.0.0"
+    "vuex": "^4.0.0-alpha.1",
+    "worker-loader": "^2.0.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.14",
@@ -41,8 +43,9 @@
     "@vue/cli-plugin-unit-mocha": "~4.5.14",
     "@vue/cli-plugin-vuex": "~4.5.14",
     "@vue/cli-service": "~4.5.14",
+    "@vue/compiler-sfc": "^3.0.0-beta.1",
     "@vue/eslint-config-prettier": "^6.0.0",
-    "@vue/test-utils": "^1.2.2",
+    "@vue/test-utils": "^2.0.0-alpha.1",
     "babel-eslint": "^10.1.0",
     "chai": "^4.3.4",
     "eslint": "^6.7.2",
@@ -52,8 +55,7 @@
     "lint-staged": "^11.1.2",
     "prettier": "^2.4.1",
     "sass": "^1.42.1",
-    "sass-loader": "^10.2.0",
-    "vue-template-compiler": "^2.6.14"
+    "sass-loader": "^10.2.0"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"

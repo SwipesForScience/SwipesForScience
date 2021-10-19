@@ -1,10 +1,9 @@
-import Vue from "vue";
-import Router from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 import About from "@/components/About";
 import Admin from "@/components/Admin";
 import Home from "@/components/Home";
 import Profile from "@/components/Profile";
-import Play from "@/components/Play";
+import Play from "@/components/PlayTwo";
 import Login from "@/components/Login";
 import SignUp from "@/components/SignUp";
 import Terms from "@/components/Terms";
@@ -17,17 +16,18 @@ import config from "../config";
 import { getDatabase, ref, child, get } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
-Vue.use(Router);
+const router = createRouter({
+  history: createWebHashHistory(),
 
-const router = new Router({
   scrollBehavior() {
     // args can be (to, from, savedPosition)
     // return desired position
     return { x: 0, y: 0 };
   },
+
   routes: [
     {
-      path: "*", // redirect to login view
+      path: "/:catchAll(.*)",
       redirect: "/login",
     },
     {
