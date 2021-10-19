@@ -1,13 +1,6 @@
 <template>
-  <ValidationProvider
-    :vid="vid"
-    mode="eager"
-    v-slot="v"
-    :rules="rules"
-    tag="div"
-    class="formselect"
-  >
-    <label for="educationLevel">{{ label }}</label>
+  <div class="formselect">
+    <label :for="name">{{ label }}</label>
     <div class="select__wrapper">
       <i
         class="fa fa-chevron-down select--native__chevron"
@@ -18,17 +11,18 @@
       <!-- Native Select that appears only on devices that do not support hover-->
       <select
         class="select--native"
-        v-model="selected"
+        v-model="inputValue"
         tabindex="0"
         v-bind:class="{
-          'formselect__input--warning': v.errors[0],
+          'formselect__input--warning': errorMessage,
         }"
       >
-        <option disabled value="">Select an option</option>
+        <option disabled :value="undefined">Select an option</option>
         <option v-for="option in options" :key="option" :value="option">
           {{ option }}
         </option>
       </select>
+      <span class="formselect__warning">{{ errorMessage }}</span>
       <!-- Custom Select that appears only on devices that support hover -->
       <div class="select--custom__container">
         <div
@@ -38,10 +32,10 @@
           @keyup.enter="toggleDropdown"
           tabindex="0"
           v-bind:class="{
-            'formselect__input--warning': v.errors[0],
+            'formselect__input--warning': errorMessage,
           }"
         >
-          <span>{{ selected || "Select an option" }}</span>
+          <span>{{ inputValue || "Select an option" }}</span>
           <i
             class="fa fa-chevron-down"
             v-bind:class="{
@@ -60,11 +54,12 @@
               v-for="(option, index) in options"
               :key="option"
               @keyup.enter="selectOption(option)"
+              @blur="handleBlur"
               @click="selectOption(option)"
               :data-index="index"
               tabindex="0"
               v-bind:class="{
-                'select--custom__option--selected': selected === option,
+                'select--custom__option--selected': inputValue === option,
               }"
             >
               {{ option }}
@@ -73,17 +68,33 @@
         </transition>
       </div>
     </div>
-    <span class="formselect__warning">{{ v.errors[0] }}</span>
-  </ValidationProvider>
+  </div>
 </template>
 
 <script>
 import gsap from "gsap";
-import { ValidationProvider } from "vee-validate";
+import { useField } from "vee-validate";
 
 export default {
-  components: {
-    ValidationProvider,
+  name: "FormSelect",
+
+  setup(props) {
+    const {
+      value: inputValue,
+      errorMessage,
+      handleBlur,
+      handleChange,
+      meta,
+    } = useField(props.name, props.rules, {
+      initialValue: props.value,
+    });
+    return {
+      handleChange,
+      handleBlur,
+      errorMessage,
+      inputValue,
+      meta,
+    };
   },
   data: () => {
     return {
@@ -92,7 +103,7 @@ export default {
     };
   },
   props: {
-    vid: { type: String, required: true },
+    name: { type: String, required: false },
     rules: {
       type: String,
       default: "",
@@ -107,10 +118,10 @@ export default {
   methods: {
     toggleDropdown() {
       this.showDropdown = !this.showDropdown;
+      this.handleBlur();
     },
     selectOption(option) {
-      this.selected = option;
-      this.$emit("input", option);
+      this.handleChange(option);
       this.showDropdown = false;
     },
     // staggered transitions for select menu items
@@ -148,7 +159,7 @@ export default {
   position: absolute;
   @include font-size("xxs");
   color: $landing-warning;
-  top: 4.8rem;
+  top: 2.8rem;
   width: 100%;
   left: 0;
 }

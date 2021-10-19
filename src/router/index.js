@@ -3,7 +3,7 @@ import About from "@/components/About";
 import Admin from "@/components/Admin";
 import Home from "@/components/Home";
 import Profile from "@/components/Profile";
-import Play from "@/components/PlayTwo";
+import Play from "@/components/Play";
 import Login from "@/components/Login";
 import SignUp from "@/components/SignUp";
 import Terms from "@/components/Terms";

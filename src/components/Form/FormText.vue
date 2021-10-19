@@ -1,63 +1,62 @@
 <template>
-  <ValidationProvider
-    :vid="vid"
-    mode="eager"
-    v-slot="v"
-    :rules="rules"
-    class="formtext"
-    tag="div"
-  >
-    <label :for="vid">{{ label }}</label>
+  <div class="formtext">
+    <label :for="name">{{ label }}</label>
     <input
-      :value="value"
-      @input="$emit('input', $event.target.value)"
       :type="type"
+      :id="name"
+      v-model="inputValue"
       :placeholder="placeholder"
-      class="formtext__input"
+      @blur="handleBlur"
+      @change="handleChange"
       v-bind:class="{
-        'formtext__input--warning': v.errors[0],
+        'formtext--warning': errorMessage,
       }"
     />
-    <span class="formtext__warning-text">{{ v.errors[0] }}</span>
-  </ValidationProvider>
+    <span class="formtext__warning-text">{{ errorMessage }}</span>
+  </div>
 </template>
 
 <script>
-import { ValidationProvider } from "vee-validate";
+import { useField } from "vee-validate";
+
 export default {
-  components: { ValidationProvider },
+  name: "FormText",
+  setup(props) {
+    const { value, errorMessage, handleBlur, handleChange, errors } = useField(
+      props.name,
+      props.rules
+    );
+    return {
+      handleBlur,
+      inputValue: value,
+      errorMessage,
+      handleChange,
+      errors,
+    };
+  },
+
   props: {
-    vid: { type: String, required: true },
-    value: { required: true },
-    required: {
-      true: Boolean,
-      default: false,
-    },
-    label: {
+    name: {
       type: String,
-      required: true,
-    },
-    placeholder: {
-      type: String,
-      default: "",
+      required: false,
     },
     type: {
       type: String,
+      required: false,
       default: "text",
     },
-    rules: {
+    placeholder: {
       type: String,
+      required: false,
+    },
+    rules: {
+      required: false,
       default: "",
     },
-  },
-  mounted() {},
-  methods: {
-    update(value) {
-      this.$emit("update:modelValue", value);
+    label: {
+      type: String,
+      required: false,
     },
-  },
-  uuid: {
-    type: String,
   },
 };
 </script>
@@ -94,7 +93,10 @@ export default {
   color: $landing-warning;
   width: 100%;
   position: absolute;
-  top: 4.9rem;
+  top: 5.2rem;
   left: 0;
+  &:first-letter {
+    text-transform: capitalize;
+  }
 }
 </style>
