@@ -67,7 +67,7 @@ export default {
     });
     this.unsubscribeChats = unsubscribe;
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.unsubscribeChats();
   },
   data() {

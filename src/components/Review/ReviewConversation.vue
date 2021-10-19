@@ -140,7 +140,7 @@ export default {
     });
     this.getUserSettings();
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.unsubscribeChat();
   },
   methods: {

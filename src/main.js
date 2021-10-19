@@ -4,6 +4,7 @@ import { createApp } from "vue";
 import { initializeApp } from "firebase/app";
 
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import defineValidationRules from "./validation-rules";
 import App from "./App";
 import router from "./router";
 import config from "./config";
@@ -31,3 +32,5 @@ onAuthStateChanged(auth, () => {
     app.use(router).mount("#app");
   }
 });
+
+defineValidationRules();
