@@ -414,15 +414,15 @@ export default {
   signup: {
     additionalFormFields: [
       // {
-      //   fieldName: "age",
+      //   name: "age",
       //   component: "FormText",
+      //   type: "text",
       //   label: "Age",
-      //   type: "Number",
       //   placeholder: "Your age",
-      //   rules: "required|min_value:10|max_value:120|integer",
+      //   rules: "min_value:10|max_value:120|required|integer",
       // },
       // {
-      //   fieldName: "educationLevel",
+      //   name: "educationLevel",
       //   component: "FormSelect",
       //   label: "Grade / Education Level",
       //   rules: "required",
@@ -442,9 +442,10 @@ export default {
       //   ],
       // },
       // {
-      //   fieldName: "privacyAgreement",
+      //   name: "privacyAgreement",
       //   component: "FormCheckbox",
-      //   label: "I agree not to divulge my answers to anyone else",
+      //   placeholder: "I agree not to divulge my answers to anyone else",
+      //   rules: "truthy",
       // },
     ],
   },

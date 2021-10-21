@@ -33,9 +33,13 @@
     @include font-size("xs");
     color: $landing-font-dark;
   }
-  p > a {
+  p > a, .landing__link {
     text-decoration: underline;
     color: $landing-link-color;
+    @include font-size('xs');
+  }
+  .landing__link {
+    display: block;
   }
   @include media("≥tablet") {
     height: 70%;

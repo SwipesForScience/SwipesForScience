@@ -4,85 +4,73 @@
       v-show="showConsentForm"
       @toggleConsentForm="toggleConsentForm"
       @updateConsent="updateConsent"
-      :consented="form.consented"
+      :consented="consented"
     />
+
     <div id="signup" class="frame frame--landing" v-show="!showConsentForm">
       <h1 class="mb-3">Create an account</h1>
-      <b-alert :show="errors.show" variant="danger">{{
-        errors.message
-      }}</b-alert>
-      <ValidationObserver v-slot="{ handleSubmit }" ref="form" tag="div">
-        <form @submit.prevent="handleSubmit(onSubmit)" class="form--landing">
-          <FormText
-            label="Email Address"
-            placeholder="Your email"
-            vid="email"
-            v-model="form.email"
-            type="email"
-            rules="required|email"
-          />
-          <FormText
-            label="Username"
-            placeholder="Username"
-            vid="username"
-            v-model="form.username"
-            rules="required|alpha_dash"
-          />
-          <FormText
-            label="Password"
-            placeholder="Password"
-            vid="password"
-            v-model="form.password"
-            rules="required"
-            type="password"
-          />
-          <!-- Additional fields specified by config-->
-          <div v-for="field in additionalFormFields" :key="field.fieldName">
-            <FormText
-              v-if="field.component === 'FormText'"
-              :vid="field.fieldName"
-              :label="field.label"
-              :placeholder="field.placeholder"
-              v-model="form[`${field.fieldName}`]"
-              :rules="field.rules"
-              :type="field.type"
-            />
-            <FormSelect
-              v-if="field.component === 'FormSelect'"
-              :vid="field.fieldName"
-              :label="field.label"
-              v-model="form[`${field.fieldName}`]"
-              :options="field.options"
-              :rules="field.rules"
-            />
-            <FormCheckbox
-              v-if="field.component === 'FormCheckbox'"
-              :vid="field.fieldName"
-              :label="field.label"
-              :value="form[`${field.fieldName}`]"
-              :checked.sync="form[`${field.fieldName}`]"
-              :rules="field.rules"
-            />
-          </div>
-
-          <button
-            class="btn--landing-primary btn-full-size mt-3"
-            v-if="form.consented"
-          >
-            Get started
-          </button>
-        </form>
-      </ValidationObserver>
+      <div
+        class="alert-card--landing alert-card--landing--error mt-1 mb-3"
+        v-if="firebaseErrors.show"
+      >
+        {{ firebaseErrors.message }}
+      </div>
+      <form @submit.prevent="onSubmit" class="form--landing">
+        <FormText
+          name="email"
+          label="Email"
+          type="email"
+          placeholder="Your Email"
+          rules="required|email"
+        />
+        <FormText
+          name="password"
+          label="Password"
+          type="password"
+          placeholder="Password"
+          rules="min_length:6|required"
+        />
+        <FormText
+          name="username"
+          label="Username"
+          type="text"
+          placeholder="Username"
+          :rules="{
+            min_length: 3,
+            max_length: 20,
+            required: true,
+            alpha_dash: true,
+          }"
+        />
+        <component
+          v-for="field in additionalFormFields"
+          :key="field.name"
+          :type="field.type"
+          :name="field.name"
+          :is="field.component"
+          :label="field.label"
+          :placeholder="field.placeholder"
+          :rules="field.rules"
+          :options="field.options"
+        ></component>
+        <button
+          @click="onSubmit"
+          class="btn--landing-primary btn-full-size mt-3"
+          v-if="consented"
+        >
+          Get started
+        </button>
+      </form>
       <button
         class="btn--landing-primary btn-full-size mt-3"
         @click="toggleConsentForm"
-        v-if="!form.consented"
+        v-if="!consented"
       >
         Read and sign consent form
       </button>
       <span
         class="terms__consent-form-link"
-        v-if="form.consented"
+        v-if="consented"
         @click="toggleConsentForm"
       >
         View consent form
@@ -97,68 +85,107 @@
 
 <script>
 import { getDatabase, child, ref, get, set } from "firebase/database";
+import { useRouter } from "vue-router";
+import { reactive, ref as vueRef } from "vue";
 import { omit } from "lodash";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import { ValidationObserver, extend } from "vee-validate";
-import {
-  required,
-  email,
-  min_value,
-  max_value,
-  integer,
-  alpha_dash,
-} from "vee-validate/dist/rules";
+import Terms from "./Terms.vue";
+import FormCheckbox from "./Form/FormCheckbox.vue";
 import FormSelect from "./Form/FormSelect.vue";
 import FormText from "./Form/FormText.vue";
-import FormCheckbox from "./Form/FormCheckbox.vue";
-import Terms from "@/components/Terms";
-
-extend("email", { ...email, message: "Please enter a valid email" });
-extend("required", {
-  ...required,
-  message: "This field is required",
-});
-extend("alpha_dash", {
-  ...alpha_dash,
-  message:
-    "Should only contain alphabetic characters, numbers, dashes or underscores",
-});
-extend("min_value", { ...min_value, message: "Value is too low" });
-extend("max_value", { ...max_value, message: "Value is too high" });
-extend("integer", integer);
+import { useForm } from "vee-validate";
 
 export default {
   name: "signup",
   components: {
-    ValidationObserver,
-    FormSelect,
     FormText,
-    Terms,
     FormCheckbox,
+    FormSelect,
+    Terms,
   },
+  setup(props) {
+    const consented = vueRef(false);
+    const updateConsent = value => {
+      consented.value = value;
+    };
+    const firebaseErrors = reactive({
+      show: false,
+      message: null,
+    });
+    const dbRef = ref(getDatabase());
+    const router = useRouter();
+
+    const { handleSubmit, setFieldError } = useForm();
+    const insertUser = values => {
+      const additionalUserData = omit(values, [
+        "username",
+        "password",
+        "email",
+      ]);
+      return set(ref(getDatabase(), "users/" + values.username), {
+        ...additionalUserData,
+        score: 0,
+        level: 0,
+        admin: false,
+        taken_tutorial: false,
+        consent: consented,
+        consentedOn: new Date(),
+      });
+    };
+    const createAccount = values => {
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, values.email, values.password)
+        .then(userCredential => {
+          return updateProfile(userCredential.user, {
+            displayName: values.username,
+          });
+        })
+        .then(() => {
+          return insertUser(values);
+        })
+        .then(() => {
+          if (props.config.needsTutorial) {
+            router.replace({
+              name: "tutorial",
+            });
+          } else {
+            router.replace({
+              name: "play",
+            });
+          }
+        })
+        .catch(err => {
+          firebaseErrors.show = true;
+          firebaseErrors.message = err.message;
+        });
+    };
+    const onSubmit = handleSubmit(values => {
+      // check for a unique username
+      get(child(dbRef, `users/${values.username}`))
+        .then(snapshot => {
+          if (snapshot.exists()) {
+            setFieldError(
+              "username",
+              "Username already exists! Please choose a unique username"
+            );
+          } else {
+            createAccount(values);
+          }
+        })
+        .catch(err => {
+          firebaseErrors.show = true;
+          firebaseErrors.message = err.message;
+        });
+    });
+    return { updateConsent, consented, onSubmit, firebaseErrors };
+  },
+
   data() {
     return {
-      /**
-       * This object holds the variables that the user inputs to the sign up form.
-       */
-      form: {
-        email: "",
-        password: "",
-        username: "",
-        consented: false,
-      },
-
-      /**
-       * A variable to keep track of errors, whether to show it and the error message.
-       */
-      errors: {
-        show: false,
-        message: null,
-      },
       showConsentForm: false,
     };
   },
@@ -176,118 +203,10 @@ export default {
   },
   methods: {
     /**
-     * Register a new user to firebase.
-     * Make sure the username isn't already taken.
-     */
-    onSubmit() {
-      // check for a unique username
-      const dbRef = ref(getDatabase());
-      get(child(dbRef, `users/${this.form.username}`))
-        .then(snapshot => {
-          if (snapshot.exists()) {
-            this.$refs.form.setErrors({
-              username: [
-                "Username already exists! Please choose a unique username",
-              ],
-            });
-          } else {
-            if (this.form.consented) {
-              this.createAccount();
-            } else {
-              this.toggleConsentForm();
-            }
-          }
-        })
-        .catch(err => {
-          this.errors.show = true;
-          this.errors.message = err.message;
-        });
-    },
-    /**
-     * Save that the user has consented.
-     */
-    updateConsent(value) {
-      this.form.consented = value;
-    },
-    /**
      * Open the consent form modal.
      */
     toggleConsentForm() {
       this.showConsentForm = !this.showConsentForm;
-    },
-    /**
-     * A method that creates the firebase account and shows an error if there is one.
-     */
-    createAccount() {
-      const auth = getAuth();
-      createUserWithEmailAndPassword(auth, this.form.email, this.form.password)
-        .then(() => {
-          return updateProfile(auth.currentUser, {
-            displayName: this.form.username,
-          });
-        })
-        .then(() => {
-          return this.insertUser(this.form.username);
-        })
-        .then(() => {
-          if (this.config.needsTutorial) {
-            this.$router.replace("tutorial");
-          } else {
-            this.$router.replace("play");
-          }
-        })
-        .catch(err => {
-          this.errors.show = true;
-          this.errors.message = err.message;
-        });
-    },
-    /**
-     * A method to insert a new user into the `/users` document of firebase.
-     * This initializes the user's score, level, whether or not they've consented.
-     * and when they consented.
-     * **TODO**: set an error message if something goes wrong here.
-     */
-    insertUser(displayName) {
-      const db = getDatabase();
-      const additionalUserData = omit(this.form, [
-        "username",
-        "password",
-        "email",
-        "consented",
-      ]);
-      return set(ref(db, "users/" + displayName), {
-        ...additionalUserData,
-        score: 0,
-        level: 0,
-        admin: false,
-        taken_tutorial: false,
-        consent: this.form.consented,
-        consentedOn: new Date(),
-      });
-    },
-    /**
-     * Update the user's profile with their username
-     * (in the displayName field of an authenticated user.)
-     */
-    updateProfile() {
-      const auth = getAuth();
-      updateProfile(auth.currentUser, {
-        displayName: this.form.username,
-      })
-        .then(() => {
-          return this.insertUser(this.form.username);
-        })
-        .then(() => {
-          if (this.config.needsTutorial) {
-            this.$router.replace("tutorial");
-          } else {
-            this.$router.replace("play");
-          }
-        })
-        .catch(err => {
-          this.errors.show = true;
-          this.errors.message = err.message;
-        });
     },
   },
   computed: {
@@ -297,6 +216,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped>
 .terms__consent-form-link {
   margin-top: space(1);

@@ -1,0 +1,15 @@
+.alert-card--landing {
+  @include font-size("s");
+  padding: space(2);
+  border-radius: $border-radius-xs;
+  &--error {
+    color: $landing-error-border;
+    background: $landing-error-fill;
+    border: 1px solid $landing-error-border;
+  }
+  &--success {
+    color: $landing-success-border;
+    background: $landing-success-fill;
+    border: 1px solid $landing-success-border;
+  }
+}

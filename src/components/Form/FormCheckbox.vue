@@ -1,49 +1,50 @@
 <template>
-  <ValidationProvider
-    :vid="vid"
-    mode="eager"
-    v-slot="v"
-    :rules="rules"
-    class="formcheckbox"
-    tag="div"
-  >
-    <input type="checkbox" :id="vid" v-model="checked" />
-    <label :for="vid">{{ label }}</label>
-    <span class="formcheckbox__warning-text">{{ v.errors[0] }}</span>
-  </ValidationProvider>
+  <div class="formcheckbox">
+    <input
+      type="checkbox"
+      :id="name"
+      :checked="checked"
+      @change="handleChange(true)"
+      :rules="rules"
+    />
+    <label :for="name">{{ placeholder }}</label>
+    <span class="formcheckbox__warning-text">{{ errorMessage }}</span>
+  </div>
 </template>
 
 <script>
-import { ValidationProvider } from "vee-validate";
+import { useField } from "vee-validate";
 
 export default {
-  components: {
-    ValidationProvider,
+  setup(props) {
+    const { checked, handleChange, errorMessage, value } = useField(
+      props.name,
+      props.rules,
+      {
+        initialValue: false,
+        uncheckedValue: false,
+        type: "checkbox",
+      }
+    );
+
+    return {
+      checked,
+      handleChange,
+      errorMessage,
+      value,
+    };
   },
   props: {
-    vid: { type: String, required: true },
+    name: {
+      type: String,
+      required: true,
+    },
     rules: {
       type: String,
       default: "",
     },
-    required: {
-      type: Boolean,
-      default: false,
-    },
-    value: {
-      type: Boolean,
-    },
-    label: { type: String, required: true },
-  },
-  computed: {
-    checked: {
-      get: function () {
-        return this.value;
-      },
-      set: function (newValue) {
-        this.$emit("update:checked", newValue);
-      },
-    },
+    label: { type: String, required: false },
+    placeholder: { type: String, required: true },
   },
 };
 </script>

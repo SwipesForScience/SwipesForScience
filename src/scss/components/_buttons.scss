@@ -32,7 +32,7 @@ $landing-btn-variants: (
   transition: box-shadow 0.2s ease-in;
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px $amber;
+    box-shadow: 0 0 0 2px $white;
   }
 }
 

@@ -1,99 +1,87 @@
 <template name="login">
   <div class="frame frame--landing">
     <h1 class="mb-2">Login</h1>
-    <b-alert :show="errors.show" variant="danger">{{ errors.message }}</b-alert>
-    <ValidationObserver v-slot="{ handleSubmit }" ref="form" tag="div">
-      <form @submit.prevent="handleSubmit(onSubmit)" class="form--landing">
-        <FormText
-          label="Email Address"
-          placeholder="Your email"
-          vid="email"
-          v-model="form.email"
-          type="email"
-          rules="required|email"
-        />
-        <FormText
-          label="Password"
-          placeholder="Password"
-          vid="password"
-          v-model="form.password"
-          rules="required"
-          type="password"
-        />
-        <button class="btn--landing-primary btn-full-size">Login</button>
-      </form>
-    </ValidationObserver>
+    <div
+      class="alert-card--landing alert-card--landing--error mt-1 mb-3"
+      v-if="firebaseErrors.show"
+    >
+      {{ firebaseErrors.message }}
+    </div>
+    <form @submit.prevent="onSubmit" class="form--landing">
+      <FormText
+        name="email"
+        label="Email"
+        type="email"
+        rules="required|email"
+        placeholder="Your email"
+      />
+      <FormText
+        name="password"
+        label="Password"
+        type="password"
+        placeholder="Password"
+        rules="required"
+        class="mb-2"
+      />
+      <router-link
+        :to="{ name: 'ResetPassword' }"
+        class="landing__link mb-3 float-right"
+        >Reset Password</router-link
+      >
+      <button class="btn--landing-primary btn-full-size">Login</button>
+    </form>
 
     <p class="mt-4">
       Haven’t played before?
-      <router-link :to="{ name: 'SignUp', query: routerQuery }"
+      <router-link :to="{ name: 'SignUp' }"
         >Create an account to play</router-link
       >
     </p>
   </div>
 </template>
-<style lang="scss" scoped></style>
 <script>
-import { ValidationObserver, extend } from "vee-validate";
-import { required, email } from "vee-validate/dist/rules";
+import { useForm } from "vee-validate";
+import { useRouter } from "vue-router";
+import { reactive } from "vue";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import FormText from "./Form/FormText.vue";
-
-extend("email", { ...email, message: "Please enter a valid email" });
-extend("required", {
-  ...required,
-  message: "This field is required",
-});
 /**
  * The login component for the `/login` route.
  */
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 export default {
   name: "login",
+  components: {
+    FormText,
+  },
   props: {
     routerQuery: {
       type: Object,
     },
   },
-  components: {
-    ValidationObserver,
-    FormText,
-  },
-  data() {
-    return {
-      /**
-       * Elements for the form, with an email and password field.
-       */
-      form: {
-        email: null,
-        password: null,
-      },
-      /**
-       * Variable to store errors and their messages.
-       */
-      errors: {
-        show: false,
-        message: null,
-      },
-    };
-  },
-  methods: {
-    /**
-     * When the user hits submit, we log in with firebase.
-     * If its succesful, route the user to the `/play` route.
-     * If there is an error, show the message.
-     */
-    onSubmit() {
-      const auth = getAuth();
-      signInWithEmailAndPassword(auth, this.form.email, this.form.password)
+  setup(props, context) {
+    const router = useRouter();
+    const firebaseErrors = reactive({
+      show: false,
+      message: null,
+    });
+    const { handleSubmit } = useForm();
+    const auth = getAuth();
+    const onSubmit = handleSubmit(values => {
+      signInWithEmailAndPassword(auth, values.email, values.password)
         .then(user => {
-          this.$emit("login", user);
-          this.$router.push({ name: "Play", query: this.routerQuery });
+          context.emit("login", user);
+          router.push({ name: "Play", query: props.routerQuery });
         })
         .catch(err => {
-          this.errors.show = true;
-          this.errors.message = err.message;
+          firebaseErrors.show = true;
+          firebaseErrors.message = err.message;
         });
-    },
+    });
+
+    return {
+      firebaseErrors,
+      onSubmit,
+    };
   },
 };
 </script>

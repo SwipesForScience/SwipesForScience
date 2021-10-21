@@ -18,6 +18,8 @@ $canyon-coral: #d94c48;
 
 $yellow-orange: #fcaf00;
 $amber: #fec203;
+$floral-white: #fffaf0;
+$bourbon: #c06f21;
 
 $home-page-gradient: linear-gradient(
   146deg,
@@ -35,5 +37,8 @@ $landing-warning: $purple-heart;
 $landing-link-color: $plum;
 $landing-hollow-fill: $selago-white;
 $landing-border-neutral: $gray-suit;
-
+$landing-error-border: $bourbon;
+$landing-error-fill: $floral-white;
+$landing-success-border: $landing-primary;
+$landing-success-fill: $landing-hollow-fill;
 $game-bg-color: $indigo;
