@@ -1,0 +1,46 @@
+
+      {
+        "rules": {
+          "users": {
+            ".read": true,
+            ".write": true,
+            "$displayName": {
+              ".read": true,
+              ".write": "$displayName === auth.token.name"
+            }
+          },
+          "userSettings": {
+            ".read": false,
+            ".write": "auth !== null && data.exists()",
+            "$displayName": {
+              ".read": "$displayName === auth.token.name",
+              ".write": "$displayName === auth.token.name"
+            }
+          },
+          "chats": {
+            ".read": true,
+            ".write": "auth !== null && data.exists()"
+          },
+          "sampleCounts": {
+            ".read": true,
+            ".write": "auth !== null && data.exists()"
+          },
+          "sampleSummary": {
+            ".read": true,
+            ".write": "auth !== null && data.exists()"
+          },
+          "settings": {
+            ".read": true
+          },
+          "userSeenSamples": {
+            ".read": true,
+            "$displayName": {
+              ".write": "$displayName === auth.token.name"
+            }
+          },
+          "votes": {
+            ".write": "data.exists()",
+            ".read": "auth !== null"
+          }
+        }
+      }
