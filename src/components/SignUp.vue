@@ -149,12 +149,12 @@ export default {
         })
         .then(() => {
           if (props.config.needsTutorial) {
-            router.replace({
-              name: "tutorial",
+            router.push({
+              name: "Tutorial",
             });
           } else {
-            router.replace({
-              name: "play",
+            router.push({
+              name: "Play",
             });
           }
         })
