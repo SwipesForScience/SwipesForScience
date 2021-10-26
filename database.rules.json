@@ -3,7 +3,6 @@
         "rules": {
           "users": {
             ".read": true,
-            ".write": true,
             "$displayName": {
               ".read": true,
               ".write": "$displayName === auth.token.name"
