@@ -132,7 +132,7 @@ export default {
         level: 0,
         admin: false,
         taken_tutorial: false,
-        consent: consented,
+        consent: consented.value,
         consentedOn: new Date(),
       });
     };

@@ -17,23 +17,24 @@ var db = admin.database();
 
 function initSamples() {
   console.log("Initializing samples");
-  const sampleSummaryRef = db.ref("sampleSummary");
+  const samplesRef = db.ref("samples");
   const leftSamples = manifest["0"].map(sampleId => ({
     sampleId,
-    count: 0,
-    averageVote: 0,
     isRight: false,
   }));
   const rightSamples = manifest["1"].map(sampleId => ({
     sampleId,
-    count: 0,
-    averageVote: 0,
     isRight: true,
   }));
   const shuffledSamples = _.shuffle([...leftSamples, ...rightSamples]);
 
-  const promises = shuffledSamples.map(sample => {
-    return sampleSummaryRef.push().set(sample);
+  const promises = shuffledSamples.map(({ sampleId, isRight }) => {
+    const sampleRef = samplesRef.child(sampleId);
+    return sampleRef.set({
+      totalSeenCount: 0,
+      averageVote: 0,
+      isRight,
+    });
   });
   return Promise.all(promises).then(() => {
     console.log("Samples initialized");
