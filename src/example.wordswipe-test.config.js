@@ -10,6 +10,8 @@ export default {
     title: "Rapid Online Assessment of Reading",
     tagline: "Are the words real or fake?",
   },
+  shufflingMethod: "random",
+  // shufflingMethod: "leastSeen",
   needsTutorial: true,
   manifestUrl: "",
   widgetType: "TimedWordSwipe",

@@ -12,7 +12,7 @@
       <router-view v-slot="{ Component }">
         <component
           :is="Component"
-          :userInfo="userInfo"
+          :currentUser="currentUser"
           :userData="userData"
           :allUsers="allUsers"
           :levels="levels"
@@ -77,7 +77,7 @@ export default {
       /**
        * This is from firebase auth
        */
-      userInfo: {},
+      currentUser: {},
       userData: {},
       /**
        * This is the firebase database object.
@@ -116,9 +116,9 @@ export default {
    */
   mounted() {
     const auth = getAuth();
-    this.userInfo = auth.currentUser || {};
+    this.currentUser = auth.currentUser || {};
     onAuthStateChanged(auth, user => {
-      this.userInfo = user || {};
+      this.currentUser = user || {};
       // if there is a user, subscribe to changes in userData
       if (user) {
         this.unsubscribeUser = onValue(
@@ -149,7 +149,7 @@ export default {
         .auth()
         .signOut()
         .then(() => {
-          this.userInfo = {};
+          this.currentUser = {};
           firebase
             .app()
             .delete()
@@ -162,10 +162,10 @@ export default {
                 .on("value", snap => {
                   this.allUsers = snap.val();
                 });
-              this.userInfo = firebase.auth().currentUser || {};
+              this.currentUser = firebase.auth().currentUser || {};
               const self = this;
               firebase.auth().onAuthStateChanged(user => {
-                self.userInfo = user || {};
+                self.currentUser = user || {};
               });
             });
         });
@@ -207,28 +207,14 @@ export default {
 
       return clev;
     },
-    isLanding() {
-      return false;
-    },
-    /**
-     * whether or not a user is authenticated and has a username.
-     */
-    userIsDefined() {
-      if (this.userInfo == null) {
-        return false;
-      }
-      return !!Object.keys(this.userInfo).length;
-    },
     /**
      * router query
      */
     routerQuery() {
       return this.$route.query;
     },
-
     showNavigationBar() {
       const routesWithNav = ["Login", "SignUp", "ResetPassword"];
-
       return routesWithNav.includes(this.$route.name);
     },
   },
@@ -239,22 +225,17 @@ export default {
     logout() {
       const auth = getAuth();
       signOut(auth).then(() => {
-        this.userInfo = {};
+        this.currentUser = {};
+        this.userData = {};
         this.$router.replace("/");
       });
-    },
-    /**
-     * set the userInfo attribute
-     */
-    setUser(user) {
-      this.userInfo = user || {};
     },
     /**
      * set the tutorial status of the current user
      */
     setTutorial(val) {
       const updates = {};
-      updates[`/users/${this.userInfo.displayName}/taken_tutorial`] = val;
+      updates[`/users/${this.currentUser.displayName}/taken_tutorial`] = val;
       update(ref(this.db), updates).then(() => {
         this.$router.replace("play");
       });
