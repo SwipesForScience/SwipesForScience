@@ -1,13 +1,13 @@
 <template>
   <div>
     {{ userData.currentDeck }}
-
-    <button @click="upTheScore">Does this do the realtime binding?</button>
   </div>
 </template>
 
 <script>
 import { getDatabase, ref, get, set, runTransaction } from "firebase/database";
+import useSamples from "@/composables/gameplay/useSamples";
+import useGenerateDack from "@/composables/gameplay/useGenerateDeck";
 import { onMounted, ref as vueRef } from "vue";
 import { shuffle } from "lodash";
 export default {
@@ -21,7 +21,9 @@ export default {
     },
   },
   setup(props) {
-    const upTheScore = () => {
+    let { allSamples, getAllSamples } = useSamples();
+    let { generateNewDeck } = useGenerateDack();
+    const removeCard = () => {
       const userDeckRef = ref(
         db,
         `users/${props.currentUser.displayName}/currentDeck`
@@ -34,17 +36,8 @@ export default {
       });
     };
     const db = getDatabase();
-    let allSamples = [];
 
-    const getAllSamples = async () => {
-      allSamples = await get(ref(db, "samples")).then(snapshot => {
-        if (snapshot.exists()) {
-          return snapshot.val();
-        }
-      });
-    };
     const getRandomNewDeck = (samples, deckSize) => {
-      // only card Id
       return shuffle(samples).slice(0, deckSize + 1);
     };
     const setCurrentDeck = async () => {
@@ -52,18 +45,22 @@ export default {
         db,
         `users/${props.currentUser.displayName}/currentDeck`
       );
-      set(currentDeckRef, getRandomNewDeck(allSamples, 10));
+      const allSampleIds = Object.keys(allSamples.value);
+      set(currentDeckRef, getRandomNewDeck(allSampleIds, 5));
     };
     onMounted(async () => {
+      let newDeck;
       await getAllSamples();
-      if (
-        !props.userData.currentDeck ||
-        props.userData.currentDeck.length === 0
-      ) {
-        setCurrentDeck();
-      }
+      // if (
+      //   !props.userData.currentDeck ||
+      //   props.userData.currentDeck.length === 0
+      // ) {
+      newDeck = generateNewDeck(allSamples, "Random");
+      console.log({ newDeck });
+      // await setCurrentDeck();
+      // }
     });
-    return { allSamples, upTheScore, setCurrentDeck };
+    return { allSamples, removeCard, setCurrentDeck };
   },
 };
 </script>

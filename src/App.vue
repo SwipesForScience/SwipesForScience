@@ -133,6 +133,11 @@ export default {
     });
     this.isMounted = true;
   },
+  provide() {
+    return {
+      currentDeck: this.userData?.currentDeck || "provided",
+    };
+  },
   beforeUnmount() {
     this.unsubscribeUser();
   },

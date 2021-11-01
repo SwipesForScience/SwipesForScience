@@ -47,6 +47,13 @@ function initVotes() {
     console.log("Votes initialized");
   });
 }
+function initGames() {
+  console.log("Initializing games");
+  const votesRef = db.ref("games");
+  return votesRef.set(0).then(() => {
+    console.log("Games initialized");
+  });
+}
 function initUsers() {
   console.log("Initializing users");
   const usersRef = db.ref("users");
@@ -66,6 +73,7 @@ async function initializeDatabase() {
   await initSamples();
   await initVotes();
   await initUsers();
+  await initGames();
   await initUserSeenSamples();
   process.exit();
 }

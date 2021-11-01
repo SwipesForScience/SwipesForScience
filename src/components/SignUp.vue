@@ -131,6 +131,8 @@ export default {
         score: 0,
         level: 0,
         admin: false,
+        cumulativeScore: 0,
+        bestScore: 0,
         taken_tutorial: false,
         consent: consented.value,
         consentedOn: new Date(),
