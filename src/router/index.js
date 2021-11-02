@@ -13,9 +13,21 @@ import Leaderboard from "@/components/Leaderboard";
 import Tutorial from "@/components/Tutorial";
 import Review from "@/components/Review";
 import Chats from "@/components/Chats";
-import config from "../config";
+import appConfig from "../config";
+import imageswipeTestConfig from "../example.imageswipe-test.config";
+import wordswipeTestConfig from "../example.wordswipe-test.config";
 import { getDatabase, ref, child, get } from "firebase/database";
 import { getAuth } from "firebase/auth";
+
+let config = appConfig;
+
+// Sample setup for ImageSwipe and WordSwipe for development for testing only. Will be removed when testing is done
+if (process.env.VUE_APP_PROJECT_ID === "imageswipe-test") {
+  config = imageswipeTestConfig;
+}
+if (process.env.VUE_APP_PROJECT_ID === "wordswipe-test") {
+  config = wordswipeTestConfig;
+}
 
 const router = createRouter({
   history: createWebHashHistory(),

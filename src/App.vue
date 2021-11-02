@@ -51,7 +51,19 @@ import "../node_modules/font-awesome/css/font-awesome.min.css";
 import "../node_modules/reset-css/reset.css";
 import "../src/css/animations.css";
 // config options
-import config from "./config";
+import appConfig from "./config";
+import imageswipeTestConfig from "./example.imageswipe-test.config";
+import wordswipeTestConfig from "./example.wordswipe-test.config";
+
+let config = appConfig;
+
+// Sample setup for ImageSwipe and WordSwipe for development for testing only. Will be removed when testing is done
+if (process.env.VUE_APP_PROJECT_ID === "imageswipe-test") {
+  config = imageswipeTestConfig;
+}
+if (process.env.VUE_APP_PROJECT_ID === "wordswipe-test") {
+  config = wordswipeTestConfig;
+}
 
 /**
  * This is the main entrypoint to the app.

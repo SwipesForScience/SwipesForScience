@@ -32,3 +32,4 @@ src/firebaseConfig.js
 database-debug.log*
 firebase-debug.log*
 ui-debug.log*
+.env
