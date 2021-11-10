@@ -140,7 +140,7 @@ router.beforeEach((to, from, next) => {
   }
   // make sure the user has take the tutorial
   if (to.name === "Play" && currentUser) {
-    get(child(dbRef, `/users/${currentUser.displayName}`)).then(snapshot => {
+    get(child(dbRef, `/users/${currentUser.uid}`)).then(snapshot => {
       const userData = snapshot.val();
       if (!userData.taken_tutorial && config.needsTutorial) {
         next({ path: "/tutorial", query: from.query });
@@ -148,11 +148,9 @@ router.beforeEach((to, from, next) => {
     });
   }
   if (requiresAdmin) {
-    get(child(dbRef, `/settings/admins/${currentUser.displayName}`)).then(
-      snapshot => {
-        if (!snapshot.exists()) next("unauthorized");
-      }
-    );
+    get(child(dbRef, `/settings/admins/${currentUser.uid}`)).then(snapshot => {
+      if (!snapshot.exists()) next("unauthorized");
+    });
   }
   next();
 });

@@ -20,20 +20,20 @@ function initSamples() {
   const samplesRef = db.ref("samples");
   const leftSamples = manifest["0"].map(sampleId => ({
     sampleId,
-    isRight: false,
+    actualValue: 0,
   }));
   const rightSamples = manifest["1"].map(sampleId => ({
     sampleId,
-    isRight: true,
+    actualValue: 1,
   }));
   const shuffledSamples = _.shuffle([...leftSamples, ...rightSamples]);
 
-  const promises = shuffledSamples.map(({ sampleId, isRight }) => {
+  const promises = shuffledSamples.map(({ sampleId, actualValue }) => {
     const sampleRef = samplesRef.child(sampleId);
     return sampleRef.set({
       totalSeenCount: 0,
       averageVote: 0,
-      isRight,
+      actualValue,
     });
   });
   return Promise.all(promises).then(() => {
@@ -47,10 +47,17 @@ function initVotes() {
     console.log("Votes initialized");
   });
 }
+function initUsernames() {
+  console.log("Initializing usernames");
+  const usernamesRef = db.ref("usernames");
+  return usernamesRef.set(0).then(() => {
+    console.log("Usernames initialized");
+  });
+}
 function initGames() {
   console.log("Initializing games");
-  const votesRef = db.ref("games");
-  return votesRef.set(0).then(() => {
+  const gamesRef = db.ref("games");
+  return gamesRef.set(0).then(() => {
     console.log("Games initialized");
   });
 }
@@ -73,6 +80,7 @@ async function initializeDatabase() {
   await initSamples();
   await initVotes();
   await initUsers();
+  await initUsernames();
   await initGames();
   await initUserSeenSamples();
   process.exit();

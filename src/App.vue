@@ -122,7 +122,7 @@ export default {
       // if there is a user, subscribe to changes in userData
       if (user) {
         this.unsubscribeUser = onValue(
-          ref(getDatabase(), "users/" + user.displayName),
+          ref(getDatabase(), "users/" + user.uid),
           snapshot => {
             if (snapshot.exists()) {
               this.userData = snapshot.val();
@@ -240,7 +240,7 @@ export default {
      */
     setTutorial(val) {
       const updates = {};
-      updates[`/users/${this.currentUser.displayName}/taken_tutorial`] = val;
+      updates[`/users/${this.currentUser.uid}/taken_tutorial`] = val;
       update(ref(this.db), updates).then(() => {
         this.$router.replace("play");
       });

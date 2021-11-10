@@ -120,13 +120,9 @@ export default {
     const router = useRouter();
 
     const { handleSubmit, setFieldError } = useForm();
-    const insertUser = values => {
-      const additionalUserData = omit(values, [
-        "username",
-        "password",
-        "email",
-      ]);
-      return set(ref(getDatabase(), "users/" + values.username), {
+    const insertUser = (values, uid) => {
+      const additionalUserData = omit(values, ["password", "email"]);
+      return set(ref(getDatabase(), "users/" + uid), {
         ...additionalUserData,
         score: 0,
         level: 0,
@@ -138,36 +134,39 @@ export default {
         consentedOn: new Date(),
       });
     };
-    const createAccount = values => {
+    const insertUsername = (username, uid) => {
+      return set(ref(getDatabase(), "usernames/" + username), uid);
+    };
+    const createAccount = async values => {
       const auth = getAuth();
-      createUserWithEmailAndPassword(auth, values.email, values.password)
-        .then(userCredential => {
-          return updateProfile(userCredential.user, {
-            displayName: values.username,
-          });
-        })
-        .then(() => {
-          return insertUser(values);
-        })
-        .then(() => {
-          if (props.config.needsTutorial) {
-            router.push({
-              name: "Tutorial",
-            });
-          } else {
-            router.push({
-              name: "Play",
-            });
-          }
-        })
-        .catch(err => {
-          firebaseErrors.show = true;
-          firebaseErrors.message = err.message;
+      try {
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          values.email,
+          values.password
+        );
+        await updateProfile(userCredential.user, {
+          displayName: values.username,
         });
+        await insertUser(values, userCredential.user.uid);
+        await insertUsername(values.username, userCredential.user.uid);
+        if (props.config.needsTutorial) {
+          router.push({
+            name: "Tutorial",
+          });
+        } else {
+          router.push({
+            name: "Play",
+          });
+        }
+      } catch (err) {
+        firebaseErrors.show = true;
+        firebaseErrors.message = err.message;
+      }
     };
     const onSubmit = handleSubmit(values => {
       // check for a unique username
-      get(child(dbRef, `users/${values.username}`))
+      get(child(dbRef, `usernames/${values.username}`))
         .then(snapshot => {
           if (snapshot.exists()) {
             setFieldError(

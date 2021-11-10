@@ -3,24 +3,24 @@
         "rules": {
           "users": {
             ".read": true,
-            "$displayName": {
+            "$uid": {
               ".read": true,
-              ".write": "$displayName === auth.token.name"
+              ".write": "auth.uid == $uid"
             }
           },
-          "userSettings": {
-            ".read": false,
-            ".write": "auth !== null && data.exists()",
-            "$displayName": {
-              ".read": "$displayName === auth.token.name",
-              ".write": "$displayName === auth.token.name"
-            }
-          },
-          "chats": {
+          "usernames": {
             ".read": true,
-            ".write": "auth !== null && data.exists()"
+            "$username": {
+              ".write": "$username === auth.token.name"
+            }
           },
-          "sampleCounts": {
+          "games": {
+            "$gameId": {
+              ".read": "root.child('games').child($gameId).child('userId').val() === auth.uid",
+              ".write": "root.child('users').child(auth.uid).child('currentGameId').val() === $gameId"
+            }
+          },
+          "samples": {
             ".read": true,
             ".write": "auth !== null && data.exists()"
           },
@@ -28,13 +28,10 @@
             ".read": true,
             ".write": "auth !== null && data.exists()"
           },
-          "settings": {
-            ".read": true
-          },
           "userSeenSamples": {
-            ".read": true,
-            "$displayName": {
-              ".write": "$displayName === auth.token.name"
+            "$uid": {
+              ".read":"$uid === auth.uid",
+              ".write": "$uid === auth.uid"
             }
           },
           "votes": {
