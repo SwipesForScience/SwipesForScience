@@ -1,7 +1,7 @@
 <template>
   <footer>
     <div class="footer__container">
-      <img src="../assets/eLife-logo.svg" alt="eLife logo" class="logo" />
+      <a href="https://innovation.umn.edu/developmental-cognition-and-neuroimaging-lab/" target="_blank"><img src="../assets/DCAN-logo.png" alt="DCAN logo" class="logo"></a>
       <nav>
         <router-link
           v-for="menuItem in menuItems"
