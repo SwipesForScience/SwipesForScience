@@ -98,7 +98,6 @@
     "blankImage": "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_chatting.svg?sanitize=true"
   },
   "tutorial": {
-    "customBackgroundAnimation": "Bubbles",
     "steps": {
       "intro": [
         {

@@ -137,7 +137,7 @@ import '../src/css/typography.css';
 
 // config options
 import config from './config';
-import Configure from './components/Configure';
+// import Configure from './components/Configure';
 
 // components
 import SliderMenu from './components/Header/SliderMenu';
@@ -204,7 +204,7 @@ export default {
   },
 
   components: {
-    Configure,
+    /**Configure,**/
     Footer,
     SliderMenu,
     AccountMenu,

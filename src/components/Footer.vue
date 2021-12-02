@@ -11,11 +11,6 @@
         >{{menuItem.name}}</router-link>
       </nav>
 
-      <div class="configureButton">
-        <b-button variant="info" @click="openConfig">
-          <i class="fa fa-wrench" aria-hidden="true"></i> Configure
-        </b-button>
-      </div>
     </div>
   </footer>
 </template>
