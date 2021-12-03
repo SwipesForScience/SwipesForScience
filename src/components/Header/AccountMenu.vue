@@ -24,7 +24,11 @@
       v-click-outside="{exclude: ['account-menu-toggle'], handler: 'onClose'}"
     >
       <ul>
-        <li>Profile</li>
+        <li>
+          <router-link to="/profile">
+          Profile
+          </router-link>
+        </li>
         <li>
           <span v-on:click="onClickLogout">Sign out</span>
         </li>
