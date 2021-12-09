@@ -69,6 +69,9 @@
   import imagesLoaded from 'vue-images-loaded';
   import GridLoader from 'vue-spinner/src/PulseLoader';
   import VueProgressiveImage from '../../../node_modules/vue-progressive-image/dist/vue-progressive-image';
+  import { S3Client, ListBucketsCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+  import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
+  import { s3config } from '../../../config/s3-config.js';
 
   Vue.use(VueProgressiveImage);
   Vue.use(VueHammer);
@@ -148,6 +151,8 @@
        * baseUrlTemplate = 'https://base_url/{0}/{1}.jpg' and delimiter === '__'.
        */
       baseUrl() {
+        console.log(this.widgetProperties.baseUrlTemplate);
+        console.log(this.widgetPointer);
         return this.widgetProperties.baseUrlTemplate && this.widgetPointer ?
           this.fillPropertyPattern(this.widgetProperties.baseUrlTemplate,
           this.widgetProperties.delimiter) : null;

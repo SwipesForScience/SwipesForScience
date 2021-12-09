@@ -1,0 +1,1 @@
+export const s3config = {"credentials": {accessKeyId: "PLMS7DLN6GBRKJOOX235", secretAccessKey: "RW0u1KnnWU0xRyNh9gIU6DMOSWjC36Rq9J48UbOO"}, endpoint: "https://s3.msi.umn.edu", region: "global"}
