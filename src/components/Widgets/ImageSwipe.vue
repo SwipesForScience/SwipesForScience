@@ -1,13 +1,14 @@
 <template>
   <div class="imageSwipe">
       <transition :key="swipe" :name="swipe" >
-        <div class="user-card" :key="baseUrl">
+        <div class="user-card" :key="imgUrl">
             <div class="image_area">
-              <progressive-img class="user-card__picture mx-auto" :src="baseUrl"
+              <progressive-img class="user-card__picture mx-auto"
+                :src="imgUrl"
                 v-hammer:swipe.horizontal="onSwipe"
                 placeholder="https://unsplash.it/500"
                 :aspect-ratio="1"
-                >
+              >
               </progressive-img>
             </div>
 
@@ -68,14 +69,16 @@
   import { VueHammer } from 'vue2-hammer';
   import imagesLoaded from 'vue-images-loaded';
   import GridLoader from 'vue-spinner/src/PulseLoader';
+  import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
+  import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
   import VueProgressiveImage from '../../../node_modules/vue-progressive-image/dist/vue-progressive-image';
-  import { S3Client, ListBucketsCommand, GetObjectCommand } from '@aws-sdk/client-s3';
-  import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-  import { s3config } from '../../../config/s3-config.js';
+  import { s3config } from '../../../config/s3-config';
 
   Vue.use(VueProgressiveImage);
   Vue.use(VueHammer);
   Vue.use(require('vue-shortkey'));
+
+  // const s3Client = new S3Client(s3config);
 
   export default {
     name: 'ImageSwipe',
@@ -141,22 +144,8 @@
          * save the swipe direction.
          */
         swipe: null,
+        imgUrl: null,
       };
-    },
-    computed: {
-      /**
-       * Compute the baseURL based on baseUrlTemplate and delimiter of the widgetProperties,
-       * and the widgetPointer. For example a widgetPointer="contrast1__image1" could be
-       * mapped to https://base_url/contrast1/image1.jpg if
-       * baseUrlTemplate = 'https://base_url/{0}/{1}.jpg' and delimiter === '__'.
-       */
-      baseUrl() {
-        console.log(this.widgetProperties.baseUrlTemplate);
-        console.log(this.widgetPointer);
-        return this.widgetProperties.baseUrlTemplate && this.widgetPointer ?
-          this.fillPropertyPattern(this.widgetProperties.baseUrlTemplate,
-          this.widgetProperties.delimiter) : null;
-      },
     },
     /**
      * If the playMode === 'tutorial', show a tutorial step.
@@ -167,6 +156,20 @@
           this.showTutorialStep(this.tutorialStep);
         }
       });
+    },
+    async created() {
+      const s3Client = new S3Client(s3config);
+      const key = `${this.widgetPointer}.png`;
+      console.log('KEY: ', key);
+      const getObjectParams = {
+        Bucket: 'brainswipes',
+        Key: key,
+      };
+
+      const command = new GetObjectCommand(getObjectParams);
+      const url = await getSignedUrl(s3Client, command, { expiresIn: 300 });
+      console.log('URL ', url);
+      this.imgUrl = url;
     },
     methods: {
       /**
