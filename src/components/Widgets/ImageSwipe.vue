@@ -1,7 +1,7 @@
 <template>
   <div class="imageSwipe">
       <transition :key="swipe" :name="swipe" >
-        <div class="user-card" :key="imgUrl">
+        <div class="user-card" :key="imgKey">
             <div class="image_area">
               <progressive-img class="user-card__picture mx-auto"
                 :src="imgUrl"
@@ -78,7 +78,8 @@
   Vue.use(VueHammer);
   Vue.use(require('vue-shortkey'));
 
-  // const s3Client = new S3Client(s3config);
+  // connecting to the s3 bucket
+  const s3Client = new S3Client(s3config);
 
   export default {
     name: 'ImageSwipe',
@@ -145,6 +146,7 @@
          */
         swipe: null,
         imgUrl: null,
+        imgKey: null,
       };
     },
     /**
@@ -158,20 +160,29 @@
       });
     },
     async created() {
-      const s3Client = new S3Client(s3config);
-      const key = `${this.widgetPointer}.png`;
-      console.log('KEY: ', key);
-      const getObjectParams = {
-        Bucket: 'brainswipes',
-        Key: key,
-      };
-
-      const command = new GetObjectCommand(getObjectParams);
-      const url = await getSignedUrl(s3Client, command, { expiresIn: 300 });
-      console.log('URL ', url);
-      this.imgUrl = url;
+      await this.createUrl(this.widgetPointer);
     },
     methods: {
+      /**
+       * Creates the Signed URL for accessing brainswipes s3 bucket on MSI
+       */
+      async createUrl(pointer) {
+        // choosing an image path from the firebase
+        const key = `${pointer}.png`;
+        // setting up the Get command
+        const getObjectParams = {
+          Bucket: 'brainswipes',
+          Key: key,
+        };
+        const command = new GetObjectCommand(getObjectParams);
+        // getting the signed URL
+        const url = await getSignedUrl(s3Client, command, { expiresIn: 300 });
+        console.log('URL: ', url);
+        // setting the url key based on the new url
+        const urlKey = url.split('?')[0];
+        this.imgUrl = url;
+        this.imgKey = urlKey;
+      },
       /**
        * Show a tutorial step
        */
@@ -375,6 +386,11 @@
         this.setSwipe('swipe-left');
         this.getPropertiesSchema();
         return 1;
+      },
+    },
+    watch: {
+      async widgetPointer() {
+        await this.createUrl(this.widgetPointer);
       },
     },
   };
