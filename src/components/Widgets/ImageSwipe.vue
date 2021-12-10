@@ -177,9 +177,9 @@
         const command = new GetObjectCommand(getObjectParams);
         // getting the signed URL
         const url = await getSignedUrl(s3Client, command, { expiresIn: 300 });
-        console.log('URL: ', url);
         // setting the url key based on the new url
         const urlKey = url.split('?')[0];
+        // updating the data elements
         this.imgUrl = url;
         this.imgKey = urlKey;
       },
