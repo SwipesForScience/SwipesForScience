@@ -72,14 +72,20 @@
   import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
   import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
   import VueProgressiveImage from '../../../node_modules/vue-progressive-image/dist/vue-progressive-image';
-  import { s3config } from '../../../config/s3-config';
 
   Vue.use(VueProgressiveImage);
   Vue.use(VueHammer);
   Vue.use(require('vue-shortkey'));
 
   // connecting to the s3 bucket
-  const s3Client = new S3Client(s3config);
+  const s3Client = new S3Client({
+    credentials: {
+      accessKeyId: process.env.AWS_ID,
+      secretAccessKey: process.env.AWS_KEY },
+    endpoint: 'https://s3.msi.umn.edu',
+    region: 'global',
+  },
+  );
 
   export default {
     name: 'ImageSwipe',
