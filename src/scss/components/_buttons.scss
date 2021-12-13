@@ -52,6 +52,20 @@ $landing-btn-variants: (
   font-family: $primary-font;
   font-weight: $bold;
   border: 1px solid $landing-primary;
-  border-radius: $border-radius-md;
+  border-radius: $border-radius-xs;
   transition: box-shadow 0.2s ease-in;
 }
+
+.btn-game-hollow {
+  min-width: 6rem;
+  padding: space(1) space(2);
+  color: $game-font-light;
+  font-weight: $bold;
+  border: 2px solid $amethyst-smoke;
+  border-radius: 1rem;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  min-width: 6rem;
+}
+

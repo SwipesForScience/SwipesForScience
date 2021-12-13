@@ -14,7 +14,8 @@ export default {
   // shufflingMethod: "leastSeen",
   needsTutorial: true,
   manifestUrl: "",
-  widgetType: "TimedWordSwipe",
+  widgetType: "WordSwipe",
+  mode: "Assessment", // "Data Annotation"
   widgetProperties: {
     baseUrlTemplate: "",
     delimiter: "__",
@@ -104,4 +105,9 @@ export default {
     },
   },
   tutorial: {},
+  play: {
+    question: "Are these words real or fake?",
+    swipeRightLabel: "Swipe right for real words",
+    swipeLeftLabel: "Swipe left for fake words",
+  },
 };

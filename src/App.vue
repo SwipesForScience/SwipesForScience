@@ -11,6 +11,7 @@
     <div class="router" v-if="isMounted">
       <router-view v-slot="{ Component }">
         <component
+          class="component"
           :is="Component"
           :currentUser="currentUser"
           :userData="userData"
@@ -306,6 +307,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+}
+.component {
   width: 100%;
 }
 #app {

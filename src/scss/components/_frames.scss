@@ -47,3 +47,9 @@
     border-radius: $border-radius-xs;
   }
 }
+.frame--game {
+  padding: space(2) space(2);
+  @include media("≥tablet") {
+    border: 2px solid $amethyst-smoke;
+  }
+}

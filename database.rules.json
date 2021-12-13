@@ -21,6 +21,7 @@
             }
           },
           "samples": {
+            ".indexOn": ["totalSeenCount", "averageVote"],
             ".read": true,
             ".write": "auth !== null && data.exists()"
           },

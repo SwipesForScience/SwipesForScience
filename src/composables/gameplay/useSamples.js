@@ -1,19 +1,45 @@
-import { getDatabase, ref, get, onMounted } from "firebase/database";
-import { ref as vueRef } from "vue";
+import {
+  getDatabase,
+  ref,
+  orderByChild,
+  query,
+  onValue,
+} from "firebase/database";
+import { computed, ref as vueRef, toRaw } from "vue";
 
 export default function useSamples() {
   const db = getDatabase();
-  const allSamples = vueRef([]);
-  const getAllSamples = async () => {
-    await get(ref(db, "samples")).then(snapshot => {
-      if (snapshot.exists()) {
-        allSamples.value = snapshot.val();
-      }
-    });
-  };
+  const allSamplesList = vueRef([]);
+  const allSampleIds = computed(() => {
+    return Object.keys(allSamples.value);
+  });
 
+  const getAllSamplesByLeastSeen = async () => {
+    const mostSeenRef = query(
+      ref(db, "samples"),
+      orderByChild("totalSeenCount")
+    );
+    onValue(
+      mostSeenRef,
+      snapshot => {
+        const allSamplesByLeastSeen = [];
+        snapshot.forEach(child => {
+          allSamplesByLeastSeen.push({ ...child.val(), sampleId: child.key });
+        });
+        allSamples.value = allSamplesByLeastSeen;
+      },
+      {
+        onlyOnce: true,
+      }
+    );
+  };
+  const removeSampleIds = sampleIds => {
+    toRaw(allSampleIds).filter(sampleId => !sampleIds.includes(sampleId));
+  };
   return {
-    allSamples,
-    getAllSamples,
+    allSamplesList,
+    allSampleIds,
+    getAllSamplesByLeastSeen,
+    removeSampleIds,
   };
 }

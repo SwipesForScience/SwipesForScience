@@ -1,6 +1,6 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import { createApp } from "vue";
+import { createApp, reactive } from "vue";
 import { initializeApp } from "firebase/app";
 import { getDatabase, connectDatabaseEmulator } from "firebase/database";
 import {
@@ -35,6 +35,9 @@ if (process.env.VUE_APP_PROJECT_ID === "wordswipe-test") {
 }
 
 initializeApp(config.firebaseKeys);
+const sourceOfTruth = reactive({
+  message: "Hello",
+});
 const auth = getAuth();
 const db = getDatabase();
 if (process.env.NODE_ENV === "development") {
@@ -46,6 +49,9 @@ onAuthStateChanged(auth, () => {
     app = createApp({
       template: "<App/>",
       components: { App },
+      data() {
+        return sourceOfTruth;
+      },
     });
     app.use(router).mount("#app");
   }

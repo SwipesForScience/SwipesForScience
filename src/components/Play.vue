@@ -1,18 +1,32 @@
 <template>
   <div>
-    {{ userData.currentDeck }}
+    <div v-if="loading"></div>
+    <div v-else class="play">
+      <Widget
+        v-if="currentGame"
+        :currentGame="currentGame"
+        :currentGameId="userData.currentGameId"
+        :config="config"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import { getDatabase, ref, get, set, runTransaction } from "firebase/database";
 import useSamples from "@/composables/gameplay/useSamples";
-import useGenerateDack from "@/composables/gameplay/useGenerateDeck";
-import { onMounted, ref as vueRef } from "vue";
-import { shuffle } from "lodash";
+import Widget from "@/components/Widget";
+import useGenerateDeck from "@/composables/gameplay/useGenerateDeck";
+import useUserSeenSamples from "@/composables/gameplay/useUserSeenSamples";
+import useCurrentGame from "@/composables/gameplay/useCurrentGame";
+
+import { onMounted, onUnmounted, ref as vueRef, toRaw } from "vue";
 export default {
   name: "Play",
+  components: { Widget },
   props: {
+    config: {
+      type: Object,
+    },
     currentUser: {
       type: Object,
     },
@@ -20,49 +34,54 @@ export default {
       type: Object,
     },
   },
+  methods: {},
   setup(props) {
-    let { allSamples, getAllSamples } = useSamples();
-    let { generateNewDeck } = useGenerateDack();
-    const removeCard = () => {
-      const userDeckRef = ref(
-        db,
-        `users/${props.currentUser.displayName}/currentDeck`
-      );
-      runTransaction(userDeckRef, userDeck => {
-        if (userDeck) {
-          userDeck.pop();
-        }
-        return userDeck;
-      });
-    };
-    const db = getDatabase();
+    const loading = vueRef(false);
+    const { allSamples, getAllSamplesByLeastSeen } = useSamples();
+    const { generateLeastSeenDeck } = useGenerateDeck();
+    const { userSeenSamples, getUserSeenSamples } = useUserSeenSamples();
+    const { currentGame, createNewGame, watchCurrentGame } = useCurrentGame();
 
-    const getRandomNewDeck = (samples, deckSize) => {
-      return shuffle(samples).slice(0, deckSize + 1);
-    };
-    const setCurrentDeck = async () => {
-      const currentDeckRef = ref(
-        db,
-        `users/${props.currentUser.displayName}/currentDeck`
-      );
-      const allSampleIds = Object.keys(allSamples.value);
-      set(currentDeckRef, getRandomNewDeck(allSampleIds, 5));
-    };
+    let unsubscribeCurrentGame = () => {};
     onMounted(async () => {
-      let newDeck;
-      await getAllSamples();
-      // if (
-      //   !props.userData.currentDeck ||
-      //   props.userData.currentDeck.length === 0
-      // ) {
-      newDeck = generateNewDeck(allSamples, "Random");
-      console.log({ newDeck });
-      // await setCurrentDeck();
-      // }
+      // if game does not exist, create new game
+      if (!props.userData.currentGameId) {
+        await getUserSeenSamples(props.currentUser.uid);
+        const newDeck = await generateLeastSeenDeck(
+          allSamples,
+          toRaw(userSeenSamples.value),
+          10
+        );
+        await createNewGame(newDeck, props.currentUser.uid);
+        loading.value = true;
+      }
+
+      unsubscribeCurrentGame = await watchCurrentGame(
+        props.userData.currentGameId
+      );
     });
-    return { allSamples, removeCard, setCurrentDeck };
+    onUnmounted(() => {
+      unsubscribeCurrentGame();
+    });
+    const submitVote = () => {
+      // save vote to votes table
+      // update user's cumulative score
+      // +1 to userSeenSamples
+    };
+    return {
+      loading,
+      currentGame,
+      submitVote,
+    };
   },
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.play {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+</style>
