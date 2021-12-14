@@ -41,7 +41,7 @@ export default {
       menuItems: [
         { path: '/', name: 'Home' },
         { path: '/play', name: 'Game' },
-        { path: '/tutorial', name: 'Tutorial'},
+        { path: '/tutorial', name: 'Tutorial' },
         { path: '/chats', name: 'Chat' },
         { path: '/leaderboard', name: 'Leaderboard' },
         { path: '/about', name: 'About' },
