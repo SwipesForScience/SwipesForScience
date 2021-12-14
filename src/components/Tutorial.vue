@@ -1,6 +1,5 @@
 <template name="tutorial">
   <div class="tutorial" ref="tutorial">
-    <Bubbles v-if="backgroundAnimation == 'Bubbles' "/>
     <!-- Title -->
     <div>
       <h1>Tutorial</h1>
@@ -95,7 +94,6 @@
   import _ from 'lodash';
   import Vue from 'vue';
   import Arrow from './Animations/ArrowDown';
-  import Bubbles from './Animations/Bubbles';
   import WidgetSelector from './WidgetSelector';
 
   const VueScrollTo = require('vue-scrollto');
@@ -120,7 +118,6 @@
     components: {
       'vue-typer': VueTyper,
       Arrow,
-      Bubbles,
       WidgetSelector,
     },
     data() {

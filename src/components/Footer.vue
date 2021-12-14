@@ -1,7 +1,7 @@
 <template>
   <footer>
     <div class="footer__container">
-      <img src="../assets/eLife-logo.svg" alt="eLife logo" class="logo" />
+      <a href="https://innovation.umn.edu/developmental-cognition-and-neuroimaging-lab/" target="_blank"><img src="../assets/DCAN-logo.png" alt="DCAN logo" class="logo"></a>
       <nav>
         <router-link
           v-for="menuItem in menuItems"
@@ -11,11 +11,6 @@
         >{{menuItem.name}}</router-link>
       </nav>
 
-      <div class="configureButton">
-        <b-button variant="info" @click="openConfig">
-          <i class="fa fa-wrench" aria-hidden="true"></i> Configure
-        </b-button>
-      </div>
     </div>
   </footer>
 </template>
@@ -46,6 +41,7 @@ export default {
       menuItems: [
         { path: '/', name: 'Home' },
         { path: '/play', name: 'Game' },
+        { path: '/tutorial', name: 'Tutorial' },
         { path: '/chats', name: 'Chat' },
         { path: '/leaderboard', name: 'Leaderboard' },
         { path: '/about', name: 'About' },
