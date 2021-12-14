@@ -107,6 +107,54 @@ const router = new Router({
         requiresAdmin: true,
       },
     },
+    {
+      path: '/about',
+      redirect: '/BCP/about',
+    },
+    {
+      path: '/profile',
+      redirect: '/BCP/profile',
+    },
+    {
+      path: '/play',
+      redirect: '/BCP/play',
+    },
+    {
+      path: '/login',
+      redirect: '/BCP/login',
+    },
+    {
+      path: '/signup',
+      redirect: '/BCP/signup',
+    },
+    {
+      path: '/terms',
+      redirect: '/BCP/terms',
+    },
+    {
+      path: '/unauthorized',
+      redirect: '/BCP/unauthorized',
+    },
+    {
+      path: '/leaderboard',
+      redirect: '/BCP/leaderboard',
+    },
+    {
+      path: '/tutorial',
+      redirect: '/BCP/tutorial',
+    },
+    {
+      path: '/chats',
+      redirect: '/BCP/chats',
+    },
+    {
+      path: '/review/:key',
+      redirect: '/BCP/review/:key',
+    },
+    {
+      path: '/admin',
+      redirect: '/BCP/admin',
+    },
   ],
 });
 
