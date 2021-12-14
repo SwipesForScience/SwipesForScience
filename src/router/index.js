@@ -27,20 +27,20 @@ const router = new Router({
   routes: [
     {
       path: '*', // redirect to login view
-      redirect: '/login',
+      redirect: '/BCP/',
     },
     {
-      path: '/',
+      path: '/BCP/',
       name: 'Home',
       component: Home,
     },
     {
-      path: '/about',
+      path: '/BCP/about',
       name: 'About',
       component: About,
     },
     {
-      path: '/profile',
+      path: '/BCP/profile',
       name: 'Profile',
       component: Profile,
       meta: {
@@ -48,7 +48,7 @@ const router = new Router({
       },
     },
     {
-      path: '/play',
+      path: '/BCP/play',
       name: 'Play',
       component: Play,
       meta: {
@@ -56,37 +56,37 @@ const router = new Router({
       },
     },
     {
-      path: '/login',
+      path: '/BCP/login',
       name: 'Login',
       component: Login,
     },
     {
-      path: '/signup',
+      path: '/BCP/signup',
       name: 'SignUp',
       component: SignUp,
     },
     {
-      path: '/terms',
+      path: '/BCP/terms',
       name: 'Terms',
       component: Terms,
     },
     {
-      path: '/unauthorized',
+      path: '/BCP/unauthorized',
       name: 'Unauthorized',
       component: Unauthorized,
     },
     {
-      path: '/leaderboard',
+      path: '/BCP/leaderboard',
       name: 'Leaderboard',
       component: Leaderboard,
     },
     {
-      path: '/tutorial',
+      path: '/BCP/tutorial',
       name: 'Tutorial',
       component: Tutorial,
     },
     {
-      path: '/chats',
+      path: '/BCP/chats',
       name: 'Chats',
       component: Chats,
       meta: {
@@ -94,12 +94,12 @@ const router = new Router({
       },
     },
     {
-      path: '/review/:key',
+      path: '/BCP/review/:key',
       name: 'Review',
       component: Review,
     },
     {
-      path: '/admin',
+      path: '/BCP/admin',
       name: 'Admin',
       component: Admin,
       meta: {
