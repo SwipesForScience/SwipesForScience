@@ -16,3 +16,4 @@ script:
   - npm run build
 after_script:
   - bash ./deploy.sh
+fqdn: brainswipes.us

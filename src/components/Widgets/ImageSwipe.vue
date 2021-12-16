@@ -164,6 +164,7 @@
           this.showTutorialStep(this.tutorialStep);
         }
       });
+      console.log(process.env.AWS_ID.length);
     },
     async created() {
       await this.createUrl(this.widgetPointer);
