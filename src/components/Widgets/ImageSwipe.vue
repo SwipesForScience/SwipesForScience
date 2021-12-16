@@ -80,8 +80,8 @@
   // connecting to the s3 bucket
   const s3Client = new S3Client({
     credentials: {
-      accessKeyId: process.env.AWS_ID,
-      secretAccessKey: process.env.AWS_KEY },
+      accessKeyId: process.env.VUE_APP_AWS_ID,
+      secretAccessKey: process.env.VUE_APP_AWS_KEY },
     endpoint: 'https://s3.msi.umn.edu',
     region: 'global',
   },
@@ -164,7 +164,7 @@
           this.showTutorialStep(this.tutorialStep);
         }
       });
-      console.log(process.env.AWS_ID.length);
+      console.log(process.env.VUE_APP_AWS_ID.length);
     },
     async created() {
       await this.createUrl(this.widgetPointer);
