@@ -19,5 +19,3 @@ selenium-debug.log
 # firebase
 src/firebaseConfig.js
 
-# env variables
-config/dev.env.js
