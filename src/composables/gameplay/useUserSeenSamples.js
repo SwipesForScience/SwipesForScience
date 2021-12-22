@@ -1,4 +1,4 @@
-import { getDatabase, ref, get } from "firebase/database";
+import { getDatabase, ref, get, runTransaction } from "firebase/database";
 
 import { ref as vueRef } from "vue";
 
@@ -13,9 +13,23 @@ export default function useUserSeenSamples() {
       }
     });
   };
+  const updateUserSeenSamples = async (uid, sampleId) => {
+    const userSeenSamplesRef = ref(db, `userSeenSamples/${uid}`);
+    await runTransaction(userSeenSamplesRef, userSeenSamplesMap => {
+      if (userSeenSamplesMap) {
+        if (userSeenSamplesMap[sampleId]) userSeenSamplesMap[sampleId]++;
+        else userSeenSamplesMap[sampleId] = 1;
+        return userSeenSamplesMap;
+      }
+      return {
+        [sampleId]: 1,
+      };
+    });
+  };
 
   return {
     userSeenSamples,
     getUserSeenSamples,
+    updateUserSeenSamples,
   };
 }
