@@ -51,8 +51,8 @@ export default {
     },
     1: {
       level: 1,
-      min: 101,
-      max: 350,
+      min: 20,
+      max: 50,
       character: "fish",
       img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F41F.svg?sanitize=true",
       img_grey:
@@ -60,8 +60,8 @@ export default {
     },
     2: {
       level: 2,
-      min: 351,
-      max: 750,
+      min: 51,
+      max: 100,
       character: "frog",
       img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F438.svg?sanitize=true",
       img_grey:
@@ -69,8 +69,8 @@ export default {
     },
     3: {
       level: 3,
-      min: 751,
-      max: 1000,
+      min: 101,
+      max: 150,
       character: "duck",
       img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F986.svg?sanitize=true",
       img_grey:
@@ -78,8 +78,8 @@ export default {
     },
     4: {
       level: 4,
-      min: 1001,
-      max: 1500,
+      min: 151,
+      max: 200,
       character: "koala",
       img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F428.svg?sanitize=true",
       img_grey:
@@ -87,8 +87,8 @@ export default {
     },
     5: {
       level: 5,
-      min: 1501,
-      max: 2000,
+      min: 201,
+      max: 250,
       character: "cat",
       img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F408.svg?sanitize=true",
       img_grey:
