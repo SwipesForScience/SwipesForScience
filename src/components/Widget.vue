@@ -1,23 +1,51 @@
 <template>
-  <div class="frame frame--game">
-    <WordSwipe
-      v-if="config.widgetType === 'WordSwipe'"
-      :config="config"
-      :currentGame="currentGame"
-      :currentGameId="currentGameId"
-      :allSamples="allSamples"
-      :displayedSamples="displayedSamples"
-      :displayNextCard="displayNextCard"
-      @submitVote="submitVote"
-    />
+  <div class="widget-container">
+    <div class="widget" v-if="gameState === GAME_STATES.IN_PROGRESS">
+      <WordSwipe
+        v-if="config.widgetType === 'WordSwipe'"
+        :config="config"
+        :currentGame="currentGame"
+        :currentGameId="currentGameId"
+        :allSamples="allSamples"
+        :displayedSamples="displayedSamples"
+        @submitVote="submitVote"
+      />
+    </div>
+    <div v-if="gameState === GAME_STATES.GAME_OVER" class="widget__game-over">
+      Game Completed! You scored
+      {{ currentGame.score }} / {{ currentGame.sampleIds.length }}
+      <button
+        @click="startNewGame"
+        class="btn-game--primary-solid btn-full-size"
+      >
+        Play again
+      </button>
+    </div>
+    <div v-if="gameState === GAME_STATES.PAUSED">
+      <div>Game Paused</div>
+      <button class="btn-game--primary-solid btn-full-size">
+        Continue Playing
+      </button>
+      <button class="btn-game--primary-solid btn-full-size">
+        Save and Quit
+      </button>
+      <div>Read tutorial</div>
+    </div>
+    <div v-if="gameState === GAME_STATES.LEVEL_UP">
+      Level up
+      <button>Continue Playing</button>
+      <button>Save and Quit</button>
+    </div>
   </div>
 </template>
 
 <script>
 import useSamples from "@/composables/gameplay/useSamples";
-import WordSwipe from "@/components/Widgets/WordSwipe/Widget.vue";
+import useUserSeenSamples from "@/composables/gameplay/useUserSeenSamples";
+import WordSwipe from "@/components/Widgets/WordSwipe/WordSwipe.vue";
 import { getDatabase, ref, runTransaction } from "firebase/database";
-import { onMounted, computed, toRaw, reactive } from "vue";
+import { onMounted, toRaw, reactive, watch, ref as vueRef } from "vue";
+import useVote from "@/composables/gameplay/useVote";
 
 export default {
   components: { WordSwipe },
@@ -34,23 +62,41 @@ export default {
       required: true,
     },
   },
-  setup(props) {
-    const { allSamples, getAllSamplesByLeastSeen } = useSamples();
+  setup(props, context) {
+    const { allSamples, getAllSamples } = useSamples();
+    const { updateUserSeenSamples } = useUserSeenSamples();
+    const { sendVote } = useVote();
+    const displayedSamples = reactive([]);
+    const GAME_STATES = {
+      LEVEL_UP: "levelUp",
+      PAUSED: "paused",
+      GAME_OVER: "gameOver",
+      IN_PROGRESS: "inProgress",
+    };
+
+    const gameState = vueRef(GAME_STATES.IN_PROGRESS);
     const db = getDatabase();
     onMounted(async () => {
-      await getAllSamplesByLeastSeen();
+      await getAllSamples();
+      const samples = props.currentGame.sampleIds
+        .map(sampleId => ({
+          sampleId,
+          ...toRaw(allSamples.value)[sampleId],
+        }))
+        .slice(props.currentGame.currentSampleIndex);
+      displayedSamples.push(...samples);
     });
-    // const displayedSamples = reactive([]);
-    const displayedSamplesOnMounted = props.currentGame.sampleIds
-      .slice(
-        props.currentGame.currentSampleIndex,
-        props.currentGame.currentSampleIndex + 2
-      )
-      .map(sampleId => {});
 
-    const displayNextCard = () => {
+    watch(
+      () => props.currentGame.currentSampleIndex,
+      currentSampleIndex => {
+        if (currentSampleIndex < 0) gameState.value = GAME_STATES.GAME_OVER;
+      }
+    );
+
+    const displayNextCard = async () => {
       const currentGameRef = ref(db, `/games/${props.currentGameId}`);
-      runTransaction(currentGameRef, currentGame => {
+      await runTransaction(currentGameRef, currentGame => {
         if (currentGame) {
           if (
             currentGame.currentSampleIndex <
@@ -63,14 +109,56 @@ export default {
         }
         return currentGame;
       });
+
+      displayedSamples.shift();
     };
 
-    const submitVote = vote => {
-      displayNextCard();
+    const submitVote = async ({ response, sampleId }) => {
+      const vote = {
+        response,
+        userId: props.currentGame.userId,
+        gameId: props.currentGameId,
+        sampleId,
+      };
+      await sendVote(vote);
+      await updateUserSeenSamples(props.currentGame.userId, sampleId);
+      await displayNextCard();
     };
-    onMounted(() => {});
 
-    return { submitVote, displayedSamples, displayNextCard, allSamples };
+    const showFeedback = () => {};
+    const startNewGame = () => {
+      context.emit("startNewGame");
+    };
+
+    return {
+      submitVote,
+      displayedSamples,
+      displayNextCard,
+      showFeedback,
+      allSamples,
+      startNewGame,
+      GAME_STATES,
+
+      gameState,
+    };
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.widget-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.widget {
+  width: 100%;
+  height: 100%;
+}
+.widget__game-over {
+  text-align: center;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+</style>

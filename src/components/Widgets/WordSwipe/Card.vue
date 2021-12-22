@@ -10,13 +10,12 @@
     }"
     :style="{ transform: transformString }"
   >
-    {{ sampleId }}
+    {{ sample.sampleId }}
   </div>
 </template>
 
 <script>
 import interact from "interactjs";
-import { onMounted, onUnmounted, ref as vueRef, toRaw, reactive } from "vue";
 const MAX_ROTATION = 30;
 const X_OFFSCREEN_COORDINATE = 1000;
 const X_THRESHOLD = 20;
@@ -24,8 +23,8 @@ const X_THRESHOLD = 20;
 export default {
   name: "Card",
   props: {
-    sampleId: {
-      type: String,
+    sample: {
+      type: Object,
       required: true,
     },
     isCurrent: {
@@ -97,17 +96,15 @@ export default {
     resetCardPosition() {
       this.setPosition({ x: 0, y: 0, rotation: 0 });
     },
-    updateScore(isSentLeft) {
-      if ((isSentLeft && !this.isReal) || (!isSentLeft && this.isReal)) {
-        this.$parent.$emit("add-to-score");
-      }
-    },
+
     updateXThresholdOnResize() {
       this.xThreshold = window.innerWidth > 500 ? 70 : 23;
     },
     sendCardToLeft() {
       this.setPosition({ x: -X_OFFSCREEN_COORDINATE, rotation: 0 });
-      this.$emit("remove-top-card", 0);
+      setTimeout(() => {
+        this.$emit("remove-top-card", { response: 0, duration: 100 });
+      }, 300);
     },
     sendCardToRight() {
       this.setPosition({
@@ -115,11 +112,10 @@ export default {
         y: this.position.y,
         rotation: 0,
       });
-      this.$emit("remove-top-card", 1);
 
-      // setTimeout(() => {
-      //   this.$emit("remove-top-card", 1);
-      // }, 300);
+      setTimeout(() => {
+        this.$emit("remove-top-card", { response: 1, duration: 100 });
+      }, 300);
     },
   },
   computed: {

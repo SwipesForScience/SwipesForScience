@@ -69,3 +69,21 @@ $landing-btn-variants: (
   min-width: 6rem;
 }
 
+.btn-game--primary-solid {
+  color: $game-font-light;
+  font-family: $primary-font;
+  font-weight: $bold;
+  background-color: $game-primary-solid;
+  border: none;
+  border-radius: $border-radius-md;
+  padding: space(2);
+}
+.btn-game--secondary-solid {
+  color: $game-font-light;
+  background-color: $game-secondary-solid;
+  font-family: $primary-font;
+  font-weight: $bold;
+  border: none;
+  border-radius: $border-radius-md;
+  padding: space(2);
+}

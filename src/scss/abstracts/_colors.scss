@@ -20,7 +20,7 @@ $yellow-orange: #fcaf00;
 $amber: #fec203;
 $floral-white: #fffaf0;
 $bourbon: #c06f21;
-
+$boston-blue: #3f88c5;
 $home-page-gradient: linear-gradient(
   146deg,
   $purple-heart 10%,
@@ -42,9 +42,11 @@ $landing-error-fill: $floral-white;
 $landing-success-border: $landing-primary;
 $landing-success-fill: $landing-hollow-fill;
 $game-bg-color: $indigo;
-$game-primary-gradient: linear-gradient(to bottom, #fb75a3, #ed254e);
+$game-primary-gradient: linear-gradient(to bottom, #b6a1a8, #ed254e);
 
 $game-font-light: $white;
 $landing-font-dark: $amethyst-smoke;
 $game-primary-gradient: linear-gradient(to bottom, #d94c48, #e01164);
 $game-border: $amethyst-smoke;
+$game-primary-solid: $cerise-red;
+$game-secondary-solid: $boston-blue;

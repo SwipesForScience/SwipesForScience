@@ -1,34 +1,27 @@
 <template>
-  <div class="wordswipe">
-    <header>
-      <div class="wordswipe__counter">
-        Sample {{ currentGame.currentSampleIndex + 1 }} of
-        {{ currentGame.sampleIds.length }}
-      </div>
-      <div class="wordswipe__buttons">
-        <div class="btn-game-hollow wordswipe__score">
-          Score <span>{{ currentGame.score }}</span>
-        </div>
-        <PauseButton />
-      </div>
-    </header>
-    <div class="wordswipe__cards" v-if="currentGame.currentSampleIndex >= 0">
+  <div class="wordswipe" v-if="currentGame.currentSampleIndex >= 0">
+    <WidgetHeader
+      :currentScore="currentGame.score"
+      :totalSamples="currentGame.sampleIds.length"
+      :currentSampleIndex="currentGame.currentSampleIndex"
+    />
+    <div class="wordswipe__cards">
       <Card
-        v-for="sampleId in displayedSamples"
+        v-for="sample in displayedSamples"
         :isCurrent="
-          currentGame.sampleIds.indexOf(sampleId) ===
+          currentGame.sampleIds.indexOf(sample.sampleId) ===
           currentGame.currentSampleIndex
         "
         :isNext="
-          currentGame.sampleIds.indexOf(sampleId) ===
+          currentGame.sampleIds.indexOf(sample.sampleId) ===
           currentGame.currentSampleIndex + 1
         "
-        :sampleId="sampleId"
-        :key="sampleId"
+        :sample="sample"
+        :key="sample.sampleId"
         @removeTopCard="submitResponse"
       />
     </div>
-    <div v-else>There aren't any cards in the deck</div>
+
     <div class="wordswipe__instructions">
       <div class="wordswipe__question">{{ config?.play?.question }}</div>
       <p>{{ config?.play?.swipeRightLabel }}</p>
@@ -40,11 +33,12 @@
 
 <script>
 import Card from "./Card";
-import PauseButton from "@/components/Widgets/PauseButton";
+import WidgetHeader from "@/components/Widgets/WidgetHeader";
+import { computed } from "vue";
 import { getDatabase, ref, runTransaction } from "firebase/database";
 
 export default {
-  components: { Card, PauseButton },
+  components: { WidgetHeader, Card },
   props: {
     config: {
       type: Object,
@@ -60,20 +54,27 @@ export default {
     displayedSamples: {
       type: Object,
     },
+    allSamples: {
+      type: Object,
+    },
   },
   setup(props, context) {
     const db = getDatabase();
-    const submitResponse = async response => {
+
+    const submitResponse = async ({ response, duration }) => {
       await evaluateVote(response);
-      context.emit("submitVote", response);
+      context.emit("submitVote", {
+        response,
+        duration,
+        sampleId: currentSample.value.sampleId,
+      });
     };
+    const currentSample = computed(() => {
+      return props.displayedSamples[0];
+    });
     const evaluateVote = async response => {
       if (props.config.mode === "Assessment") {
-        if (
-          props.allSamples[props.currentGame.currentSampleIndex].actualValue ===
-          response
-        ) {
-          // update score
+        if (currentSample.value.actualValue === response) {
           await runTransaction(
             ref(db, `games/${props.currentGameId}`),
             currentGame => {
@@ -85,10 +86,8 @@ export default {
           );
         }
       }
-      // else if data annotation mode
-      context.emit("submitVote", response);
     };
-    return { submitResponse, evaluateVote };
+    return { submitResponse, evaluateVote, currentSample };
   },
 };
 </script>
@@ -101,19 +100,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
 }
-.wordswipe__buttons {
-  display: flex;
-  justify-content: space-between;
-}
-.wordswipe__counter {
-  @include font-size("xs");
-  margin-bottom: space(2);
-  text-transform: uppercase;
-  letter-spacing: 0.1rem;
-  font-weight: $bold;
-  text-align: center;
-  grid-column: 1 / span 2;
-}
+
 .wordswipe__cards {
   display: flex;
   height: 12rem;
@@ -122,14 +109,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.wordswipe__score {
-  display: flex;
-  font-weight: $bold;
-  justify-content: space-between;
-  align-items: center;
-  min-width: 6rem;
-  grid-column: 1 / span 1;
-}
+
 .wordswipe__question {
   font-weight: $bold;
   margin-bottom: space(2);
