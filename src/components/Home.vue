@@ -113,7 +113,7 @@ export default {
           ease: "elastic.out(1.2, 0.45)",
         })
         .then(() => {
-          this.$router.push({ name: "Login" });
+          this.$router.push({ name: "Play" });
         });
     },
   },
