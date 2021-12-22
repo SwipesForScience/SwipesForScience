@@ -5,6 +5,9 @@ export default {
     databaseURL: "https://wordswipe-test-default-rtdb.firebaseio.com",
     projectId: "wordswipe-test",
     storageBucket: "wordswipe-test.appspot.com",
+    messagingSenderId: "934860809801",
+    appId: "1:934860809801:web:b59be557ac5a62105a4198",
+    measurementId: "G-0MCHLFQVZ9",
   },
   home: {
     title: "Rapid Online Assessment of Reading",
