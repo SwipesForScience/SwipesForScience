@@ -148,6 +148,7 @@
   .page__content-container {
     background-color: white;
     padding: 1.25em 4em;
+    padding-bottom: 10vh;
     border-radius: 20px;
   }
 }

@@ -413,7 +413,11 @@ export default {
 .content {
   flex: 1 0 auto;
   min-height: -webkit-fill-available;
-  height: fit-content;
+  height: 90vh;
+}
+
+.router {
+  height: 80vh;
 }
 
 #app {
@@ -437,7 +441,7 @@ export default {
   justify-content: space-between;
   position: relative;
   padding: 1em 1.25em;
-  height: 7.5em;
+  height: 10vh;
 }
 
 .navRoot .navSection.main-logo {
