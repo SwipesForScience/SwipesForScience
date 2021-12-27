@@ -1,10 +1,12 @@
 <template>
   <div class="home container">
     <div class="jumbotron landing" :style="landingStyle">
-      <h1>{{title}}</h1>
-      <p class="lead mt-3">
-        {{tagline}}
-      </p>
+      <div id="titles">
+        <h1>{{title}}</h1>
+        <p class="lead mt-3">
+          {{tagline}}
+        </p>
+      </div>
       <p class="buttons mt-3">
         <router-link class="btn btn-primary white" :to="{name: 'Play', query: routerQuery}"> BCP </router-link>
         <router-link class="btn btn-primary white" :to="{name: 'PlayABCD', query: routerQuery}"> ABCD </router-link>
@@ -129,6 +131,11 @@ a {
 .jumbotron {
     padding: 2rem 1rem;
     margin-bottom: 0rem;
+}
+
+#titles {
+  padding: 0.4rem;
+  background-color: white;
 }
 
 </style>
