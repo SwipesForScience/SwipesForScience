@@ -5,6 +5,7 @@ import Admin from '@/components/Admin';
 import Home from '@/components/Home';
 import Profile from '@/components/Profile';
 import Play from '@/components/Play';
+import PlayABCD from '@/components/PlayABCD';
 import Login from '@/components/Login';
 import SignUp from '@/components/SignUp';
 import Terms from '@/components/Terms';
@@ -28,20 +29,20 @@ const router = new Router({
   routes: [
     {
       path: '*', // redirect to login view
-      redirect: '/BCP/',
+      redirect: '/',
     },
     {
-      path: '/BCP/',
+      path: '/',
       name: 'Home',
       component: Home,
     },
     {
-      path: '/BCP/about',
+      path: '/about',
       name: 'About',
       component: About,
     },
     {
-      path: '/BCP/profile',
+      path: '/profile',
       name: 'Profile',
       component: Profile,
       meta: {
@@ -57,37 +58,45 @@ const router = new Router({
       },
     },
     {
-      path: '/BCP/login',
+      path: '/ABCD/play',
+      name: 'PlayABCD',
+      component: PlayABCD,
+      meta: {
+        requiresAuth: true,
+      },
+    },
+    {
+      path: '/login',
       name: 'Login',
       component: Login,
     },
     {
-      path: '/BCP/signup',
+      path: '/signup',
       name: 'SignUp',
       component: SignUp,
     },
     {
-      path: '/BCP/terms',
+      path: '/terms',
       name: 'Terms',
       component: Terms,
     },
     {
-      path: '/BCP/unauthorized',
+      path: '/unauthorized',
       name: 'Unauthorized',
       component: Unauthorized,
     },
     {
-      path: '/BCP/leaderboard',
+      path: '/leaderboard',
       name: 'Leaderboard',
       component: Leaderboard,
     },
     {
-      path: '/BCP/tutorial',
+      path: '/tutorial',
       name: 'Tutorial',
       component: Tutorial,
     },
     {
-      path: '/BCP/chats',
+      path: '/chats',
       name: 'Chats',
       component: Chats,
       meta: {
@@ -95,66 +104,18 @@ const router = new Router({
       },
     },
     {
-      path: '/BCP/review/:key',
+      path: '/review/:key',
       name: 'Review',
       component: Review,
     },
     {
-      path: '/BCP/admin',
+      path: '/admin',
       name: 'Admin',
       component: Admin,
       meta: {
         requiresAuth: true,
         requiresAdmin: true,
       },
-    },
-    {
-      path: '/about',
-      redirect: '/BCP/about',
-    },
-    {
-      path: '/profile',
-      redirect: '/BCP/profile',
-    },
-    {
-      path: '/play',
-      redirect: '/BCP/play',
-    },
-    {
-      path: '/login',
-      redirect: '/BCP/login',
-    },
-    {
-      path: '/signup',
-      redirect: '/BCP/signup',
-    },
-    {
-      path: '/terms',
-      redirect: '/BCP/terms',
-    },
-    {
-      path: '/unauthorized',
-      redirect: '/BCP/unauthorized',
-    },
-    {
-      path: '/leaderboard',
-      redirect: '/BCP/leaderboard',
-    },
-    {
-      path: '/tutorial',
-      redirect: '/BCP/tutorial',
-    },
-    {
-      path: '/chats',
-      redirect: '/BCP/chats',
-    },
-    {
-      path: '/review/:key',
-      redirect: '/BCP/review/:key',
-    },
-    {
-      path: '/admin',
-      redirect: '/BCP/admin',
     },
   ],
 });

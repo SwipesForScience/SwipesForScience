@@ -84,8 +84,8 @@
     "navbarVariant": "info"
   },
   "home": {
-    "title": "Swipes for DCAN",
-    "tagline": "QC platform for BCP",
+    "title": "Brainswipes by DCAN",
+    "tagline": "Choose a dataset to QC",
     "backgroundUrl": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/choose/src/assets/UMN_logos2_PRINT-09.svg"
   },
   "play": {

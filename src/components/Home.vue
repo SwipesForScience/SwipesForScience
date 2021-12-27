@@ -2,11 +2,12 @@
   <div class="home container">
     <div class="jumbotron landing" :style="landingStyle">
       <h1>{{title}}</h1>
-      <p class="lead buttons mt-3">
+      <p class="lead mt-3">
         {{tagline}}
       </p>
       <p class="buttons mt-3">
-        <router-link class="btn btn-primary white" :to="{name: 'Play', query: routerQuery}"> Play Now </router-link>
+        <router-link class="btn btn-primary white" :to="{name: 'Play', query: routerQuery}"> BCP </router-link>
+        <router-link class="btn btn-primary white" :to="{name: 'PlayABCD', query: routerQuery}"> ABCD </router-link>
       </p>
     </div>
   </div>
@@ -69,7 +70,7 @@ export default {
 <style scoped>
 
 h1, h2 {
-  font-weight: normal;
+  font-weight: bold;
 }
 ul {
   list-style-type: none;
@@ -100,24 +101,34 @@ a {
   background-repeat: no-repeat;
   background-position: center;
   height: 80vh;
+  text-align: center;
 }
 
 .landing h1 {
-  background-color: black;
-  color: white;
+  color: black;
   max-width: 350px;
   margin: auto;
 }
 
 .landing .lead {
-  background-color: black;
-  color: white;
+  color: black;
   max-width: 250px;
   margin: auto;
 }
 
 .white {
   color: white;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: maroon;
+    border-color: maroon;
+}
+
+.jumbotron {
+    padding: 2rem 1rem;
+    margin-bottom: 0rem;
 }
 
 </style>
