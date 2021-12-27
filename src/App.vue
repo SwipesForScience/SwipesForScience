@@ -100,7 +100,9 @@
         :configurationState="configurationState"
       />
     </div>
-    <Footer v-on:openConfig="openConfig" :config="config" :routerQuery="routerQuery"></Footer>
+    <div class="foot">
+      <Footer v-on:openConfig="openConfig" :config="config" :routerQuery="routerQuery"></Footer>
+    </div>
   </div>
 </template>
 
@@ -467,6 +469,12 @@ export default {
   .navRoot .navSection.main-logo {
     position: static;
     transform: none;
+  }
+}
+
+@media (max-width: 1040px){
+  .foot{
+    display: none;
   }
 }
 </style>

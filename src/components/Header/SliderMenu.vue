@@ -84,7 +84,6 @@ export default {
         { path: '/', name: 'Home' },
         { path: '/leaderboard', name: 'Leaderboard' },
         { path: '/chats', name: 'Chats' },
-        { path: '/play', name: 'Play' },
         { path: '/admin', name: 'Admin' },
         { path: '/tutorial', name: 'Tutorial' },
       ],

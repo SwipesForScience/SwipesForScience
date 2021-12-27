@@ -40,9 +40,8 @@ export default {
     return {
       menuItems: [
         { path: '/', name: 'Home' },
-        { path: '/play', name: 'Game' },
         { path: '/tutorial', name: 'Tutorial' },
-        { path: '/chats', name: 'Chat' },
+        { path: '/chats', name: 'Chats' },
         { path: '/leaderboard', name: 'Leaderboard' },
         { path: '/about', name: 'About' },
       ],
