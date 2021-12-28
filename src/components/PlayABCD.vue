@@ -58,7 +58,7 @@
   /*https://github.com/pudymody/tinderSwipe/blob/gh-pages/style.css*/
 
   .main {
-    min-height: 100vh;
+    min-height: 80vh;
   }
 
   .toast {

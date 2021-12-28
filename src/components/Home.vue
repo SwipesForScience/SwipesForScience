@@ -9,7 +9,11 @@
       </div>
       <p class="buttons mt-3">
         <router-link class="btn btn-primary white" :to="{name: 'Play', query: routerQuery}"> BCP </router-link>
-        <router-link class="btn btn-primary white" :to="{name: 'PlayABCD', query: routerQuery}"> ABCD </router-link>
+        <router-link class="btn btn-primary turned-off white" :disabled="!whateverActivatesThisLink" :event="whateverActivatesThisLink ? 'click' : ''" :to="{name: 'PlayABCD', query: routerQuery}">
+          <span>
+            ABCD
+          </span>
+        </router-link>
       </p>
     </div>
   </div>
@@ -123,11 +127,14 @@ a {
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: maroon;
-    border-color: maroon;
+  color: #fff;
+  background-color: maroon;
+  border-color: maroon;
 }
 
+.turned-off{
+  background-color: rgba(128, 0, 0, 0.3);
+}
 .jumbotron {
     padding: 2rem 1rem;
     margin-bottom: 0rem;
@@ -135,7 +142,20 @@ a {
 
 #titles {
   padding: 0.4rem;
-  background-color: white;
+  margin: 0 auto; 
+  text-shadow: white 1px 1px, white 0 0 1px;
+}
+
+.turned-off:hover{
+  cursor: not-allowed;
+}
+
+.turned-off:hover span {
+  display: none;
+}
+
+.turned-off:hover:before {
+  content: 'Unavailable';
 }
 
 </style>

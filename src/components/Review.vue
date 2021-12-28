@@ -63,6 +63,10 @@
     border-color: #17a2b8;
   }
 
+  #review {
+    padding-bottom: 10vh;
+  }
+
 </style>
 
 <script>

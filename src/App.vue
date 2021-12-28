@@ -62,7 +62,7 @@
         <ul class="navRoot">
           <li class="navSection main-logo">
             <router-link to="/">
-              <img src="./assets/swipes-for-science-logo.svg" alt="Swipes for Science logo" />
+              <img src="./assets/swipes-for-science-logo.svg" alt="BrainSwipes logo" />
             </router-link>
           </li>
           <li class="navSection mobile-menu">
