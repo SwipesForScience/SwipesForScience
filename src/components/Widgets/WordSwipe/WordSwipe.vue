@@ -5,19 +5,14 @@
       :totalSamples="currentGame.sampleIds.length"
       :currentSampleIndex="currentGame.currentSampleIndex"
     />
+
     <div class="wordswipe__cards">
       <Card
-        v-for="sample in displayedSamples"
-        :isCurrent="
-          currentGame.sampleIds.indexOf(sample.sampleId) ===
-          currentGame.currentSampleIndex
-        "
-        :isNext="
-          currentGame.sampleIds.indexOf(sample.sampleId) ===
-          currentGame.currentSampleIndex + 1
-        "
-        :sample="sample"
+        v-for="(sample, index) in displayedSamples"
         :key="sample.sampleId"
+        :isCurrent="index === 0"
+        :isNext="index === 1"
+        :sample="sample"
         @removeTopCard="submitResponse"
       />
     </div>
@@ -73,18 +68,16 @@ export default {
       return props.displayedSamples[0];
     });
     const evaluateVote = async response => {
-      if (props.config.mode === "Assessment") {
-        if (currentSample.value.actualValue === response) {
-          await runTransaction(
-            ref(db, `games/${props.currentGameId}`),
-            currentGame => {
-              if (currentGame) {
-                currentGame.score++;
-              }
-              return currentGame;
+      if (currentSample.value.actualValue === response) {
+        await runTransaction(
+          ref(db, `games/${props.currentGameId}`),
+          currentGame => {
+            if (currentGame) {
+              currentGame.score++;
             }
-          );
-        }
+            return currentGame;
+          }
+        );
       }
     };
     return { submitResponse, evaluateVote, currentSample };

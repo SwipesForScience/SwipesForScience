@@ -104,7 +104,7 @@ export default {
       this.setPosition({ x: -X_OFFSCREEN_COORDINATE, rotation: 0 });
       setTimeout(() => {
         this.$emit("remove-top-card", { response: 0, duration: 100 });
-      }, 300);
+      }, 100);
     },
     sendCardToRight() {
       this.setPosition({
@@ -115,7 +115,7 @@ export default {
 
       setTimeout(() => {
         this.$emit("remove-top-card", { response: 1, duration: 100 });
-      }, 300);
+      }, 100);
     },
   },
   computed: {
@@ -164,6 +164,6 @@ export default {
   opacity: 0.7;
 }
 .isAnimating {
-  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in;
 }
 </style>

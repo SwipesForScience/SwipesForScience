@@ -78,12 +78,9 @@ export default {
     const db = getDatabase();
     onMounted(async () => {
       await getAllSamples();
-      const samples = props.currentGame.sampleIds
-        .map(sampleId => ({
-          sampleId,
-          ...toRaw(allSamples.value)[sampleId],
-        }))
-        .slice(props.currentGame.currentSampleIndex);
+      const samples = toRaw(props.currentGame.sampleIds).slice(
+        props.currentGame.currentSampleIndex
+      );
       displayedSamples.push(...samples);
     });
 
@@ -95,6 +92,7 @@ export default {
     );
 
     const displayNextCard = async () => {
+      displayedSamples.shift();
       const currentGameRef = ref(db, `/games/${props.currentGameId}`);
       await runTransaction(currentGameRef, currentGame => {
         if (currentGame) {
@@ -109,8 +107,6 @@ export default {
         }
         return currentGame;
       });
-
-      displayedSamples.shift();
     };
 
     const submitVote = async ({ response, sampleId }) => {

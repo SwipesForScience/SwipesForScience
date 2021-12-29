@@ -36,19 +36,23 @@ export default {
     const loading = vueRef(false);
     const { currentGame, createNewGame, watchCurrentGame, getGameById } =
       useCurrentGame();
-    let unsubscribeCurrentGame = null;
+    let unsubscribeCurrentGame = () => {};
 
     onMounted(async () => {
       loading.value = true;
+
       if (props.userData.currentGameId) {
         const game = await getGameById(props.userData.currentGameId);
-        if (game.currentSampleIndex == -1)
+        if (game.currentSampleIndex === -1)
           await createNewGame(props.currentUser.uid);
-      } else await createNewGame(props.currentUser.uid);
+      } else {
+        await createNewGame(props.currentUser.uid);
+      }
 
       unsubscribeCurrentGame = await watchCurrentGame(
         props.userData.currentGameId
       );
+
       loading.value = false;
     });
 

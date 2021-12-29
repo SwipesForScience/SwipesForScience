@@ -44,7 +44,6 @@ export default function useCurrentGame() {
     const gamesRef = ref(db, "games");
     const newGameRef = await push(gamesRef);
     const userRef = ref(db, `users/${userId}`);
-
     await getUserSeenSamples(userId);
     await getSampleListByLeastSeen();
     const newDeck = await generateLeastSeenDeck(
