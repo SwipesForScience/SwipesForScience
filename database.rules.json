@@ -25,10 +25,7 @@
             ".read": true,
             ".write": "auth !== null && data.exists()"
           },
-          "sampleSummary": {
-            ".read": true,
-            ".write": "auth !== null && data.exists()"
-          },
+
           "userSeenSamples": {
             "$uid": {
               ".read":"$uid === auth.uid",
@@ -36,8 +33,10 @@
             }
           },
           "votes": {
-            ".write": "data.exists()",
-            ".read": "auth !== null"
+            ".read": true,
+            "$uid": {
+              ".write": "!data.exists()"
+            }
           }
         }
       }
