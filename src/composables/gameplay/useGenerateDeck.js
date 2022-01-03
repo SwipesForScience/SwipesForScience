@@ -1,7 +1,7 @@
-import { shuffle, remove } from "lodash";
+import { shuffle } from "lodash";
 
 export default function useGenerateDeck() {
-  const generateRandomDeck = (allSamples, deckSize) => {
+  const generateRandomDeck = ({ allSamples, deckSize }) => {
     let newDeck = [];
     newDeck = shuffle(Object.keys(allSamples.value));
     if (deckSize) {
@@ -10,11 +10,12 @@ export default function useGenerateDeck() {
     return newDeck;
   };
 
-  const getTotalSeenCountMap = sampleList => {
+  const getTotalSeenCountMap = (sampleList, allSamples) => {
     const map = new Map();
     const sortedMap = new Map();
     sampleList.forEach(sample => {
-      const { totalSeenCount } = sample;
+      const totalSeenCount = allSamples[sample].totalSeenCount;
+
       if (map.has(totalSeenCount)) {
         map.set(totalSeenCount, [...map.get(totalSeenCount), sample]);
       } else {
@@ -26,40 +27,49 @@ export default function useGenerateDeck() {
       .forEach(key => {
         sortedMap.set(key, map.get(key));
       });
+
     return sortedMap;
   };
 
-  const generateTotalLeastSeenDeck = (sampleList, deckSize) => {
+  const generateTotalLeastSeenDeck = ({ allSamples, sampleIds, deckSize }) => {
     const newDeck = [];
-    const totalSeenCountMap = getTotalSeenCountMap(sampleList);
+    const totalSeenCountMap = getTotalSeenCountMap(sampleIds, allSamples);
     for (const samples of totalSeenCountMap.values()) {
       newDeck.push(...shuffle(samples));
       if (newDeck.length >= deckSize) break;
     }
+
     return newDeck.slice(0, deckSize);
   };
 
-  const generateLeastSeenDeck = (allSamples, userSeenSamples, deckSize) => {
-    const newDeck = [];
-    const allSamplesList = Object.keys(allSamples.value).map(sampleId => ({
-      sampleId: sampleId,
-      ...allSamples.value[sampleId],
-    }));
-    if (userSeenSamples.length === allSamplesList.length) {
-      return generateTotalLeastSeenDeck(allSamplesList, deckSize);
+  const getUserUnseenSamples = ({ sampleIds, userSeenSamples }) => {
+    if (userSeenSamples.length === sampleIds.length) {
+      return [];
     }
-    const seenSamplesList = [...allSamplesList];
-    const unseenSamplesList = remove(
-      seenSamplesList,
-      ({ sampleId }) => !userSeenSamples.includes(sampleId)
-    );
-    // prioritize unseen samples
-    newDeck.push(...shuffle(unseenSamplesList).slice(0, deckSize));
-    const remainder = deckSize - newDeck.length;
-    if (remainder > 0) {
-      newDeck.push(...generateTotalLeastSeenDeck(seenSamplesList, remainder));
-    }
-    return newDeck.map(({ sampleId }) => sampleId);
+    return sampleIds.filter(sampleId => !userSeenSamples.includes(sampleId));
   };
-  return { generateRandomDeck, generateLeastSeenDeck };
+  const generateLeastSeenDeck = ({ allSamples, userSeenSamples, deckSize }) => {
+    const sampleIds = Object.keys(allSamples);
+    const userUnseenSamples = getUserUnseenSamples({
+      sampleIds,
+      userSeenSamples,
+    });
+
+    const remainingDeckSize = deckSize - userUnseenSamples.length;
+    if (remainingDeckSize <= 0) return userUnseenSamples.slice(0, deckSize);
+    const remainingDeck = generateTotalLeastSeenDeck({
+      allSamples,
+      sampleIds: userSeenSamples,
+      remainingDeckSize,
+    });
+
+    return [...userUnseenSamples, ...remainingDeck].slice(0, deckSize);
+  };
+
+  return {
+    generateRandomDeck,
+    getUserUnseenSamples,
+    generateTotalLeastSeenDeck,
+    generateLeastSeenDeck,
+  };
 }

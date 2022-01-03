@@ -16,6 +16,7 @@
 <script>
 import Widget from "@/components/Widget";
 import useCurrentGame from "@/composables/gameplay/useCurrentGame";
+
 import { onMounted, onUnmounted, ref as vueRef } from "vue";
 
 export default {
@@ -35,7 +36,8 @@ export default {
   setup(props) {
     const loading = vueRef(false);
     const { currentGame, createNewGame, watchCurrentGame, getGameById } =
-      useCurrentGame();
+      useCurrentGame(props.config);
+
     let unsubscribeCurrentGame = () => {};
 
     onMounted(async () => {

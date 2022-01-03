@@ -43,7 +43,13 @@
 import useSamples from "@/composables/gameplay/useSamples";
 import useUserSeenSamples from "@/composables/gameplay/useUserSeenSamples";
 import WordSwipe from "@/components/Widgets/WordSwipe/WordSwipe.vue";
-import { getDatabase, ref, runTransaction } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  runTransaction,
+  update,
+  increment,
+} from "firebase/database";
 import { onMounted, toRaw, reactive, watch, ref as vueRef } from "vue";
 import useVote from "@/composables/gameplay/useVote";
 
@@ -73,7 +79,6 @@ export default {
       GAME_OVER: "gameOver",
       IN_PROGRESS: "inProgress",
     };
-
     const gameState = vueRef(GAME_STATES.IN_PROGRESS);
     const db = getDatabase();
     onMounted(async () => {
@@ -108,7 +113,18 @@ export default {
         return currentGame;
       });
     };
-
+    const calculateNewAverage = ({ response, sampleId }) => {
+      const { averageVote, totalSeenCount } = toRaw(allSamples.value)[sampleId];
+      return (averageVote + response) / (totalSeenCount + 1);
+    };
+    const updateSample = async ({ response, sampleId }) => {
+      const newAverage = calculateNewAverage({ response, sampleId });
+      const sampleRef = ref(db, `samples/${sampleId}`);
+      const updates = {};
+      updates.totalSeenCount = increment(1);
+      updates.averageVote = newAverage;
+      update(sampleRef, updates);
+    };
     const submitVote = async ({ response, sampleId }) => {
       const vote = {
         response,
@@ -116,12 +132,13 @@ export default {
         gameId: props.currentGameId,
         sampleId,
       };
-      await sendVote(vote);
-      await updateUserSeenSamples(props.currentGame.userId, sampleId);
+
+      sendVote(vote);
+      updateSample({ response, sampleId });
+      updateUserSeenSamples(props.currentGame.userId, sampleId);
       await displayNextCard();
     };
 
-    const showFeedback = () => {};
     const startNewGame = () => {
       context.emit("startNewGame");
     };
@@ -130,7 +147,7 @@ export default {
       submitVote,
       displayedSamples,
       displayNextCard,
-      showFeedback,
+
       allSamples,
       startNewGame,
       GAME_STATES,

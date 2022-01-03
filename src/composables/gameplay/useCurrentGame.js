@@ -12,12 +12,12 @@ import useGenerateDeck from "@/composables/gameplay/useGenerateDeck";
 import useUserSeenSamples from "@/composables/gameplay/useUserSeenSamples";
 import useSamples from "@/composables/gameplay/useSamples";
 
-export default function useCurrentGame() {
+export default function useCurrentGame(config) {
   const db = getDatabase();
   const currentGame = vueRef(null);
-  const { generateLeastSeenDeck } = useGenerateDeck();
+  const { generateLeastSeenDeck, generateRandomDeck } = useGenerateDeck();
   const { userSeenSamples, getUserSeenSamples } = useUserSeenSamples();
-  const { getSampleListByLeastSeen, leastSeenSamplesList } = useSamples();
+  const { getAllSamples, allSamples } = useSamples();
 
   const getGameById = async gameId => {
     const gameRef = ref(db, `games/${gameId}`);
@@ -45,12 +45,24 @@ export default function useCurrentGame() {
     const newGameRef = await push(gamesRef);
     const userRef = ref(db, `users/${userId}`);
     await getUserSeenSamples(userId);
-    await getSampleListByLeastSeen();
-    const newDeck = await generateLeastSeenDeck(
-      leastSeenSamplesList,
-      toRaw(userSeenSamples.value),
-      10
-    );
+
+    await getAllSamples();
+
+    let newDeck = [];
+
+    if (config.shufflingMethod === "leastSeen") {
+      newDeck = await generateLeastSeenDeck({
+        allSamples: toRaw(allSamples.value),
+        userSeenSamples: toRaw(userSeenSamples.value),
+        deckSize: config.deckSize,
+      });
+    } else {
+      newDeck = await generateRandomDeck({
+        allSamples: toRaw(allSamples.value),
+        deckSize: config.deckSize,
+      });
+    }
+
     await set(newGameRef, {
       userId,
       sampleIds: newDeck,

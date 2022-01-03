@@ -8,11 +8,11 @@
 
     <div class="wordswipe__cards">
       <Card
-        v-for="(sample, index) in displayedSamples"
-        :key="sample.sampleId"
+        v-for="(sampleId, index) in displayedSamples"
+        :key="sampleId"
         :isCurrent="index === 0"
         :isNext="index === 1"
-        :sample="sample"
+        :sampleId="sampleId"
         @removeTopCard="submitResponse"
       />
     </div>
@@ -61,14 +61,14 @@ export default {
       context.emit("submitVote", {
         response,
         duration,
-        sampleId: currentSample.value.sampleId,
+        sampleId: currentSampleId.value,
       });
     };
-    const currentSample = computed(() => {
+    const currentSampleId = computed(() => {
       return props.displayedSamples[0];
     });
     const evaluateVote = async response => {
-      if (currentSample.value.actualValue === response) {
+      if (props.allSamples[currentSampleId.value].actualValue === response) {
         await runTransaction(
           ref(db, `games/${props.currentGameId}`),
           currentGame => {
@@ -80,7 +80,7 @@ export default {
         );
       }
     };
-    return { submitResponse, evaluateVote, currentSample };
+    return { submitResponse, evaluateVote, currentSampleId };
   },
 };
 </script>

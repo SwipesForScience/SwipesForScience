@@ -10,7 +10,7 @@
     }"
     :style="{ transform: transformString }"
   >
-    {{ sample.sampleId }}
+    {{ sampleId }}
   </div>
 </template>
 
@@ -23,8 +23,8 @@ const X_THRESHOLD = 20;
 export default {
   name: "Card",
   props: {
-    sample: {
-      type: Object,
+    sampleId: {
+      type: String,
       required: true,
     },
     isCurrent: {
