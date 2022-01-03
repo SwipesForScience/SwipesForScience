@@ -11,7 +11,7 @@
           "usernames": {
             ".read": true,
             "$username": {
-              ".write": "$username === auth.token.name"
+              ".write": "auth !== null && !data.exists()"
             }
           },
           "games": {
