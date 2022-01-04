@@ -15,7 +15,7 @@ export default {
   },
   // shufflingMethod: "random",
   shufflingMethod: "leastSeen",
-  needsTutorial: true,
+  needsTutorial: false,
   manifestUrl: "",
   widgetType: "WordSwipe",
   mode: "Assessment", // "Data Annotation"

@@ -68,7 +68,6 @@ export default function useCurrentGame(config) {
       sampleIds: newDeck,
       score: 0,
       currentSampleIndex: 0,
-      completed: false,
     });
     const updates = {};
     updates["/currentGameId"] = newGameRef.key;
