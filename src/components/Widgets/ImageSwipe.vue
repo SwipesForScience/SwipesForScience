@@ -86,6 +86,7 @@
     region: 'global',
   },
   );
+  const xhr = new XMLHttpRequest();
 
   export default {
     name: 'ImageSwipe',
@@ -195,15 +196,16 @@
         // updating the data elements
         this.imgUrl = url;
         this.imgKey = urlKey;
-
-        // const xhr = new XMLHttpRequest();
-        // xhr.open('POST', '/', true);
-        // xhr.setRequestHeader('Content-Type', 'application/json');
-        // xhr.send(JSON.stringify({
-        //   pointer: 'sub-726893_ses-14mo_task-rest_run-002_desc-T2InTask',
-        // }));
-
-        // console.log(this.userInfo);
+        
+        xhr.open('POST', '/', true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+          pointer: pointer,
+          user: this.userInfo.uid,
+        }));
+        xhr.response.then(response => {
+          console.log(response);
+        });
       },
       /**
        * Show a tutorial step
