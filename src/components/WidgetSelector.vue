@@ -16,6 +16,7 @@
       v-on:widgetRating="widgetRating"
       v-on:updateUserSettings="updateUserSettings"
       :playMode="playMode"
+      :userInfo="userInfo"
       />
 
       <ImageSoundSwipe
@@ -215,6 +216,13 @@
       serverSecret: {
         type: String,
         required: false,
+      },
+      /**
+       * the authenticated user object from firebase
+       */
+      userInfo: {
+        type: Object,
+        required: true,
       },
     },
     components: {

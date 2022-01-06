@@ -136,6 +136,13 @@
         type: Number,
         required: false,
       },
+      /**
+       * the authenticated user object from firebase
+       */
+      userInfo: {
+        type: Object,
+        required: true,
+      },
     },
     components: { VueHammer, GridLoader },
     directives: {
@@ -188,6 +195,15 @@
         // updating the data elements
         this.imgUrl = url;
         this.imgKey = urlKey;
+
+        // const xhr = new XMLHttpRequest();
+        // xhr.open('POST', '/', true);
+        // xhr.setRequestHeader('Content-Type', 'application/json');
+        // xhr.send(JSON.stringify({
+        //   pointer: 'sub-726893_ses-14mo_task-rest_run-002_desc-T2InTask',
+        // }));
+
+        // console.log(this.userInfo);
       },
       /**
        * Show a tutorial step

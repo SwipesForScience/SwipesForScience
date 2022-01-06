@@ -42,6 +42,7 @@
          :serverSecret="serverSecret"
          v-on:widgetRating="sendWidgetResponse"
          v-on:updateUserSettings="updateUserSettings"
+         :userInfo="userInfo"
          :playMode="'play'"
          ref="widget"
         />
