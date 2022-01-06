@@ -86,7 +86,7 @@
     region: 'global',
   },
   );
-  const xhr = new XMLHttpRequest();
+  // const xhr = new XMLHttpRequest();
 
   export default {
     name: 'ImageSwipe',
@@ -177,6 +177,19 @@
       await this.createUrl(this.widgetPointer);
     },
     methods: {
+      postRequest(pointer, user) {
+        return new Promise(function (resolve, reject) {
+          const xhr = new XMLHttpRequest();
+          xhr.open('POST', '/', true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.onload = resolve;
+          xhr.onerror = reject;
+          xhr.send(JSON.stringify({
+            pointer: pointer,
+            user: user,
+          }));
+        });
+      },
       /**
        * Creates the Signed URL for accessing brainswipes s3 bucket on MSI
        */
@@ -196,16 +209,20 @@
         // updating the data elements
         this.imgUrl = url;
         this.imgKey = urlKey;
-        
-        xhr.open('POST', '/', true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({
-          pointer: pointer,
-          user: this.userInfo.uid,
-        }));
-        xhr.response.then(response => {
-          console.log(response);
+
+        this.postRequest(pointer, this.userInfo.uid).then(data => {
+          console.log(data);
+          console.log(data.currentTarget.responseText);
         });
+        // xhr.open('POST', '/', true);
+        // xhr.setRequestHeader('Content-Type', 'application/json');
+        // xhr.send(JSON.stringify({
+        //   pointer: pointer,
+        //   user: this.userInfo.uid,
+        // }));
+        // xhr.response.then(response => {
+        //   console.log(response);
+        // });
       },
       /**
        * Show a tutorial step
