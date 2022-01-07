@@ -19,114 +19,7 @@
       :userInfo="userInfo"
       />
 
-      <ImageSoundSwipe
-      ref="ImageSoundSwipe"
-      v-else-if="widgetType=='ImageSoundSwipe'"
-      :widgetPointer="widgetPointer"
-      :widgetProperties="widgetProperties"
-      :userSettings="userSettings"
-      :widgetSummary="widgetSummary"
-      :tutorialStep="tutorialStep"
-      v-on:widgetRating="widgetRating"
-      v-on:updateUserSettings="updateUserSettings"
-      :playMode="playMode"
-      />
-
-      <PubMedNLP  v-else-if="widgetType=='PubMedNLP'"
-      ref="PubMedNLP"
-      :widgetPointer="widgetPointer"
-      :widgetProperties="widgetProperties"
-      :userSettings="userSettings"
-      :widgetSummary="widgetSummary"
-      :tutorialStep="tutorialStep"
-      v-on:widgetRating="widgetRating"
-      v-on:updateUserSettings="updateUserSettings"
-      :playMode="playMode"
-      />
-
-      <ImageSplat  v-else-if="widgetType=='ImageSplat'"
-      ref="ImageSplat"
-      :widgetPointer="widgetPointer"
-      :widgetProperties="widgetProperties"
-      :userSettings="userSettings"
-      :widgetSummary="widgetSummary"
-      :tutorialStep="tutorialStep"
-      v-on:widgetRating="widgetRating"
-      v-on:updateUserSettings="updateUserSettings"
-      :playMode="playMode"
-      />
-
-      <TextTagger v-else-if="widgetType=='TextTagger'"
-      ref="TextTagger"
-      :widgetPointer="widgetPointer"
-      :widgetProperties="widgetProperties"
-      :userSettings="userSettings"
-      :widgetSummary="widgetSummary"
-      :tutorialStep="tutorialStep"
-      v-on:widgetRating="widgetRating"
-      v-on:updateUserSettings="updateUserSettings"
-      :playMode="playMode"
-      />
-
-      <ImageSwipeChoices  v-else-if="widgetType=='ImageSwipeChoices'"
-      ref="ImageSwipeChoices"
-      :widgetPointer="widgetPointer"
-      :widgetProperties="widgetProperties"
-      :userSettings="userSettings"
-      :widgetSummary="widgetSummary"
-      :tutorialStep="tutorialStep"
-      v-on:widgetRating="widgetRating"
-      v-on:updateUserSettings="updateUserSettings"
-      :playMode="playMode"
-      />
-
-      <BranchingTemplateWidget v-else-if="widgetType=='BranchingTemplateWidget'"
-        ref="BranchingTemplateWidget"
-        :widgetPointer="widgetPointer"
-        :widgetProperties="widgetProperties"
-        :userSettings="userSettings"
-        :widgetSummary="widgetSummary"
-        :tutorialStep="tutorialStep"
-        v-on:widgetRating="widgetRating"
-        v-on:updateUserSettings="updateUserSettings"
-        :playMode="playMode"
-        />
-
-        <TextBinarySwipe v-else-if="widgetType=='TextBinarySwipe'"
-          ref="TextBinarySwipe"
-          :widgetPointer="widgetPointer"
-          :widgetProperties="widgetProperties"
-          :userSettings="userSettings"
-          :widgetSummary="widgetSummary"
-          :tutorialStep="tutorialStep"
-          v-on:widgetRating="widgetRating"
-          v-on:updateUserSettings="updateUserSettings"
-          :playMode="playMode"
-          />
-
-      <EvalNHA v-else-if="widgetType=='EvalNHA'"
-        ref="EvalNHAWidget"
-        :widgetPointer="widgetPointer"
-        :widgetProperties="widgetProperties"
-        :userSettings="userSettings"
-        :widgetSummary="widgetSummary"
-        :tutorialStep="tutorialStep"
-        v-on:widgetRating="widgetRating"
-        v-on:updateUserSettings="updateUserSettings"
-        :playMode="playMode"
-        />
-
-      <TemplateWidget v-else
-        ref="TemplateWidget"
-        :widgetPointer="widgetPointer"
-        :widgetProperties="widgetProperties"
-        :userSettings="userSettings"
-        :widgetSummary="widgetSummary"
-        :tutorialStep="tutorialStep"
-        v-on:widgetRating="widgetRating"
-        v-on:updateUserSettings="updateUserSettings"
-        :playMode="playMode"
-        />
+      
     </Secret>
   </div>
 </template>
@@ -138,17 +31,7 @@
  * the specific widget to the parent.
  */
   import ImageSwipe from './Widgets/ImageSwipe';
-  import ImageSwipeChoices from './Widgets/ImageSwipeChoices';
-  import ImageSoundSwipe from './Widgets/ImageSoundSwipe';
-  import PubMedNLP from './Widgets/PubMedNLP';
-  import TemplateWidget from './Widgets/TemplateWidget';
-  import ImageSplat from './Widgets/ImageSplat';
-  import TextTagger from './Widgets/TextTagger';
-  import BranchingTemplateWidget from './Widgets/BranchingTemplateWidget';
-  import TextBinarySwipe from './Widgets/TextBinarySwipe';
-  import EvalNHA from './Widgets/EvalNha';
-  import Secret from './Widgets/Secret';
-
+  
   export default {
     name: 'WidgetSelector',
     props: {
@@ -227,16 +110,6 @@
     },
     components: {
       ImageSwipe,
-      ImageSoundSwipe,
-      PubMedNLP,
-      TemplateWidget,
-      ImageSplat,
-      ImageSwipeChoices,
-      TextTagger,
-      BranchingTemplateWidget,
-      TextBinarySwipe,
-      EvalNHA,
-      Secret,
     },
     methods: {
       /**
