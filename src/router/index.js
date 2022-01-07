@@ -25,7 +25,7 @@ const router = new Router({
     // return desired position
     return { x: 0, y: 0 };
   },
-  // mode: 'history',
+  mode: 'history',
   routes: [
     {
       path: '*', // redirect to login view
