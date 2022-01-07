@@ -86,7 +86,7 @@
   "home": {
     "title": "BrainSwipes by DCAN",
     "tagline": "Choose a dataset to QC",
-    "backgroundUrl": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/choose/src/assets/UMN_logos2_PRINT-09.svg"
+    "backgroundUrl": "https://raw.githubusercontent.com/DCAN-Labs/SwipesForScience/server/src/assets/UMN_logos2_PRINT-09.svg"
   },
   "play": {
     "blankImage": "https://raw.githubusercontent.com/SwipesForScience/testConfig/master/images/undraw_blank_canvas.svg?sanitize=true"
