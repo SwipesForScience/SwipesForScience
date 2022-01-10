@@ -137,24 +137,20 @@ router.beforeEach((to, from, next) => {
   const dbRef = ref(getDatabase());
   if (requiresAuth && !currentUser) {
     next({ path: "/login", query: from.query });
-  }
-  // make sure the user has take the tutorial
-  if (to.name === "Play" && currentUser) {
-    get(child(dbRef, `/users/${currentUser.displayName}`)).then(snapshot => {
+  } else if (to.name === "Play" && currentUser) {
+    get(child(dbRef, `/users/${currentUser.uid}`)).then(snapshot => {
       const userData = snapshot.val();
       if (!userData.taken_tutorial && config.needsTutorial) {
         next({ path: "/tutorial", query: from.query });
-      }
+      } else next();
     });
+  } else if (requiresAdmin) {
+    get(child(dbRef, `/settings/admins/${currentUser.uid}`)).then(snapshot => {
+      if (!snapshot.exists()) next("unauthorized");
+    });
+  } else {
+    next();
   }
-  if (requiresAdmin) {
-    get(child(dbRef, `/settings/admins/${currentUser.displayName}`)).then(
-      snapshot => {
-        if (!snapshot.exists()) next("unauthorized");
-      }
-    );
-  }
-  next();
 });
 
 export default router;

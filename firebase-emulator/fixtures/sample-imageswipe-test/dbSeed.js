@@ -16,11 +16,11 @@ var db = admin.database();
 
 function initSamples() {
   console.log("Initializing samples");
-  const sampleSummaryRef = db.ref("sampleSummary");
+  const samplesRef = db.ref("samples");
   const promises = manifest.map(sampleId => {
-    return sampleSummaryRef.push().set({
-      sampleId,
-      count: 0,
+    const sampleRef = samplesRef.child(sampleId);
+    return sampleRef.set({
+      totalSeenCount: 0,
       averageVote: 0,
     });
   });

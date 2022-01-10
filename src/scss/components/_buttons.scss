@@ -52,6 +52,38 @@ $landing-btn-variants: (
   font-family: $primary-font;
   font-weight: $bold;
   border: 1px solid $landing-primary;
-  border-radius: $border-radius-md;
+  border-radius: $border-radius-xs;
   transition: box-shadow 0.2s ease-in;
+}
+
+.btn-game-hollow {
+  min-width: 6rem;
+  padding: space(1) space(2);
+  color: $game-font-light;
+  font-weight: $bold;
+  border: 2px solid $amethyst-smoke;
+  border-radius: 1rem;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  min-width: 6rem;
+}
+
+.btn-game--primary-solid {
+  color: $game-font-light;
+  font-family: $primary-font;
+  font-weight: $bold;
+  background-color: $game-primary-solid;
+  border: none;
+  border-radius: $border-radius-md;
+  padding: space(2);
+}
+.btn-game--secondary-solid {
+  color: $game-font-light;
+  background-color: $game-secondary-solid;
+  font-family: $primary-font;
+  font-weight: $bold;
+  border: none;
+  border-radius: $border-radius-md;
+  padding: space(2);
 }

@@ -35,6 +35,7 @@ if (process.env.VUE_APP_PROJECT_ID === "wordswipe-test") {
 }
 
 initializeApp(config.firebaseKeys);
+
 const auth = getAuth();
 const db = getDatabase();
 if (process.env.NODE_ENV === "development") {

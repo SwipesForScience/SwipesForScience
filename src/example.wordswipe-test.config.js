@@ -5,14 +5,29 @@ export default {
     databaseURL: "https://wordswipe-test-default-rtdb.firebaseio.com",
     projectId: "wordswipe-test",
     storageBucket: "wordswipe-test.appspot.com",
+    messagingSenderId: "934860809801",
+    appId: "1:934860809801:web:b59be557ac5a62105a4198",
+    measurementId: "G-0MCHLFQVZ9",
   },
   home: {
     title: "Rapid Online Assessment of Reading",
     tagline: "Are the words real or fake?",
   },
-  needsTutorial: true,
+  /* shufflingMethod: Determines the method of choosing samples in a deck from total pool of samples
+  shufflingMethod: random Randomly picked
+  leastSeen: Prioritize samples that the user has not seen, then priortize samples that have been least seen overall */
+  // shufflingMethod: "random",
+  shufflingMethod: "leastSeen",
+  needsTutorial: false,
   manifestUrl: "",
-  widgetType: "TimedWordSwipe",
+  widgetType: "WordSwipe",
+  /* mode: Determines how each vote is evaluated and scored. 
+  Assessment: Verify vote against actualValue of sample
+  "Data Annotation": Verify vote against average value of sample
+  */
+  //  mode: "Data Annotation"
+  mode: "Assessment",
+  deckSize: 10,
   widgetProperties: {
     baseUrlTemplate: "",
     delimiter: "__",
@@ -48,8 +63,8 @@ export default {
     },
     1: {
       level: 1,
-      min: 101,
-      max: 350,
+      min: 20,
+      max: 50,
       character: "fish",
       img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F41F.svg?sanitize=true",
       img_grey:
@@ -57,8 +72,8 @@ export default {
     },
     2: {
       level: 2,
-      min: 351,
-      max: 750,
+      min: 51,
+      max: 100,
       character: "frog",
       img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F438.svg?sanitize=true",
       img_grey:
@@ -66,8 +81,8 @@ export default {
     },
     3: {
       level: 3,
-      min: 751,
-      max: 1000,
+      min: 101,
+      max: 150,
       character: "duck",
       img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F986.svg?sanitize=true",
       img_grey:
@@ -75,8 +90,8 @@ export default {
     },
     4: {
       level: 4,
-      min: 1001,
-      max: 1500,
+      min: 151,
+      max: 200,
       character: "koala",
       img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F428.svg?sanitize=true",
       img_grey:
@@ -84,8 +99,8 @@ export default {
     },
     5: {
       level: 5,
-      min: 1501,
-      max: 2000,
+      min: 201,
+      max: 250,
       character: "cat",
       img: "https://raw.githubusercontent.com/hfg-gmuend/openmoji/master/color/svg/1F408.svg?sanitize=true",
       img_grey:
@@ -102,4 +117,9 @@ export default {
     },
   },
   tutorial: {},
+  play: {
+    question: "Are these words real or fake?",
+    swipeRightLabel: "Swipe right for real words",
+    swipeLeftLabel: "Swipe left for fake words",
+  },
 };

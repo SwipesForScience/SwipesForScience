@@ -3,44 +3,40 @@
         "rules": {
           "users": {
             ".read": true,
-            ".write": true,
-            "$displayName": {
+            "$uid": {
               ".read": true,
-              ".write": "$displayName === auth.token.name"
+              ".write": "auth.uid == $uid"
             }
           },
-          "userSettings": {
-            ".read": false,
-            ".write": "auth !== null && data.exists()",
-            "$displayName": {
-              ".read": "$displayName === auth.token.name",
-              ".write": "$displayName === auth.token.name"
+          "usernames": {
+            ".read": true,
+            "$username": {
+              ".write": "auth !== null && !data.exists()"
             }
           },
-          "chats": {
+          "games": {
+            "$gameId": {
+              ".read": "root.child('games').child($gameId).child('userId').val() === auth.uid",
+              ".write": "root.child('users').child(auth.uid).child('currentGameId').val() === $gameId"
+            }
+          },
+          "samples": {
+            ".indexOn": ["totalSeenCount", "averageVote"],
             ".read": true,
             ".write": "auth !== null && data.exists()"
           },
-          "sampleCounts": {
-            ".read": true,
-            ".write": "auth !== null && data.exists()"
-          },
-          "sampleSummary": {
-            ".read": true,
-            ".write": "auth !== null && data.exists()"
-          },
-          "settings": {
-            ".read": true
-          },
+
           "userSeenSamples": {
-            ".read": true,
-            "$displayName": {
-              ".write": "$displayName === auth.token.name"
+            "$uid": {
+              ".read":"$uid === auth.uid",
+              ".write": "$uid === auth.uid"
             }
           },
           "votes": {
-            ".write": "data.exists()",
-            ".read": "auth !== null"
+            ".read": true,
+            "$uid": {
+              ".write": "!data.exists()"
+            }
           }
         }
       }
