@@ -13,12 +13,20 @@ export default {
     title: "Rapid Online Assessment of Reading",
     tagline: "Are the words real or fake?",
   },
+  /* shufflingMethod: Determines the method of choosing samples in a deck from total pool of samples
+  shufflingMethod: random Randomly picked
+  leastSeen: Prioritize samples that the user has not seen, then priortize samples that have been least seen overall */
   // shufflingMethod: "random",
   shufflingMethod: "leastSeen",
   needsTutorial: false,
   manifestUrl: "",
   widgetType: "WordSwipe",
-  mode: "Assessment", // "Data Annotation"
+  /* mode: Determines how each vote is evaluated and scored. 
+  Assessment: Verify vote against actualValue of sample
+  "Data Annotation": Verify vote against average value of sample
+  */
+  //  mode: "Data Annotation"
+  mode: "Assessment",
   deckSize: 10,
   widgetProperties: {
     baseUrlTemplate: "",
