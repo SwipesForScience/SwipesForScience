@@ -77,6 +77,13 @@
     max-width: 500px;
   }
 
+  @media (max-height: 683px){
+    .container {
+      padding-bottom: 12.5vh;
+    }
+  }
+
+
 </style>
 
 <script>
