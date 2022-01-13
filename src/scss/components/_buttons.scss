@@ -87,3 +87,11 @@ $landing-btn-variants: (
   border-radius: $border-radius-md;
   padding: space(2);
 }
+.btn-game-transparent {
+  color: $game-font-light;
+  background-color: transparent;
+  font-family: $primary-font;
+  font-weight: $bold;
+  border: none;
+  padding: space(2);
+}
