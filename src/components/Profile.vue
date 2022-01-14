@@ -2,33 +2,37 @@
   <div class="frame frame--game">
     <div class="profile">
       <div class="profile__content">
-        <h1>Profile</h1>
-        <div class="profile__tiles" v-if="config.mode === 'Assessment'">
-          <div class="profile__tile">
-            <span>Best Score</span>
-            <img
-              src="@/assets/profile/score.svg"
-              alt="Grade card"
-              class="profile__tile-icon"
-            />
-            {{ userData.bestScore }} / {{ config.deckSize }}
-          </div>
-          <div class="profile__tile">
-            <span>Time / response</span>
-            <img
-              src="@/assets/profile/hourglass.svg"
-              alt="Hourglass"
-              class="profile__tile-icon"
-            />
-            {{ userData.bestScore }} seconds
-          </div>
-        </div>
-
         <div>
-          <div>Total accumulated score: 100 points</div>
+          <h1>Profile</h1>
+          <h2>Total cards swiped correctly: {{ userData.cumulativeScore }}</h2>
+          <div class="profile__tiles">
+            <div class="profile__tile">
+              <span>Best Score</span>
+              <img
+                src="@/assets/profile/score.svg"
+                alt="Grade card"
+                class="profile__tile-icon"
+              />
+              {{ userData.bestScore }} / {{ config.deckSize }}
+            </div>
+            <div class="profile__tile">
+              <span>Time / response</span>
+              <img
+                src="@/assets/profile/hourglass.svg"
+                alt="Hourglass"
+                class="profile__tile-icon"
+              />
+              {{ userData.bestScore }} seconds
+            </div>
+          </div>
         </div>
-        <h2>Achievements unlocked</h2>
-        <Carousel :levels="levels" />
+        <div class="profile__badges">
+          <h2>Achievements unlocked</h2>
+          <LevelCarousel
+            :levelThresholds="config.levelThresholds"
+            :totalScore="100"
+          />
+        </div>
       </div>
       <div class="buttons">
         <router-link :to="{ name: 'Play' }">
@@ -53,11 +57,11 @@
  * @author Anisha Keshavan
  * @license Apache 2.0
  */
-import Carousel from "./LevelCarousel.vue";
+import LevelCarousel from "./LevelCarousel.vue";
 
 export default {
   name: "profile",
-  components: { Carousel },
+  components: { LevelCarousel },
   props: {
     /**
      * the computed user data object based on userInfo
@@ -116,6 +120,7 @@ export default {
 .profile__content {
   width: 100%;
   text-align: center;
+  flex-grow: 1;
 }
 h1 {
   @include font-size("sm");
@@ -124,17 +129,17 @@ h1 {
 }
 h2 {
   @include font-size("s");
-  font-weight: $bold;
+  font-weight: $semibold;
   margin-bottom: space(3);
 }
 .profile__tiles {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: space(2);
-  width: 100%;
+  margin-bottom: space(3);
   @include media("≥tablet") {
-    width: 90%;
+    padding: 0 5%;
+    align-items: center;
   }
 }
 .profile__tile {
@@ -153,10 +158,13 @@ h2 {
 }
 .profile__tile-icon {
   width: 2.6rem;
-  max-height: 2.6rem;
+  max-height: 2.8rem;
   margin: space(3) 0;
 }
 .buttons {
   width: 100%;
+}
+.profile__badges {
+  margin-top: 9vh;
 }
 </style>

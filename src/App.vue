@@ -136,7 +136,7 @@ export default {
   },
   provide() {
     return {
-      currentDeck: this.userData?.currentDeck || "provided",
+      currentDeck: this.userData?.currentDeck,
     };
   },
   beforeUnmount() {
@@ -198,7 +198,7 @@ export default {
      * eventually, this should be abstracted out into the config variable.
      */
     levels() {
-      return this.config.levels;
+      return Object.values(this.config.levels);
     },
     /**
      * the current user's level.
