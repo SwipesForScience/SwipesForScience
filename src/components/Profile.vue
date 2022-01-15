@@ -4,16 +4,15 @@
       <div class="profile__content">
         <div>
           <h1>Profile</h1>
-          <h2>Total cards swiped correctly: {{ userData.cumulativeScore }}</h2>
           <div class="profile__tiles">
             <div class="profile__tile">
-              <span>Best Score</span>
+              <span>Score</span>
               <img
                 src="@/assets/profile/score.svg"
                 alt="Grade card"
                 class="profile__tile-icon"
               />
-              {{ userData.bestScore }} / {{ config.deckSize }}
+              {{ userData.cumulativeScore }} points
             </div>
             <div class="profile__tile">
               <span>Time / response</span>
