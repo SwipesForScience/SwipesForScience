@@ -2,36 +2,31 @@
   <div class="frame frame--game">
     <div class="profile">
       <div class="profile__content">
-        <div>
-          <h1>Profile</h1>
-          <div class="profile__tiles">
-            <div class="profile__tile">
-              <span>Score</span>
-              <img
-                src="@/assets/profile/score.svg"
-                alt="Grade card"
-                class="profile__tile-icon"
-              />
-              {{ userData.cumulativeScore }} points
-            </div>
-            <div class="profile__tile">
-              <span>Time / response</span>
-              <img
-                src="@/assets/profile/hourglass.svg"
-                alt="Hourglass"
-                class="profile__tile-icon"
-              />
-              {{ userData.bestScore }} seconds
-            </div>
+        <h1>Profile</h1>
+        <div class="profile__tiles">
+          <div class="profile__tile">
+            <span>Score</span>
+            <img
+              src="@/assets/profile/score.svg"
+              alt="Grade card"
+              class="profile__tile-icon"
+            />
+            {{ userData.cumulativeScore }} points
+          </div>
+          <div class="profile__tile">
+            <span>Time / response</span>
+            <img
+              src="@/assets/profile/hourglass.svg"
+              alt="Hourglass"
+              class="profile__tile-icon"
+            />
+            {{ userData.bestScore }} seconds
           </div>
         </div>
-        <div class="profile__badges">
-          <h2>Achievements unlocked</h2>
-          <LevelCarousel
-            :levelThresholds="config.levelThresholds"
-            :totalScore="100"
-          />
-        </div>
+        <LevelCarousel
+          :levelThresholds="config.levelThresholds"
+          :totalScore="100"
+        />
       </div>
       <div class="buttons">
         <router-link :to="{ name: 'Play' }">
@@ -78,14 +73,6 @@ export default {
       required: true,
     },
     /**
-     * the user's current level
-     */
-    currentLevel: {
-      type: Object,
-      required: true,
-    },
-
-    /**
      * The config object that is loaded from src/config.js.
      * It defines how the app is configured, including
      * any content that needs to be displayed (app title, images, etc)
@@ -95,31 +82,18 @@ export default {
       type: Object,
       required: true,
     },
-    /**
-     * the intialized firebase database
-     */
-    db: {
-      type: Object,
-      required: true,
-    },
   },
   setup() {},
-  methods: {
-    getBadgeImageUrl(filename) {
-      return require("../assets/badges/" + filename + ".svg");
-    },
-  },
 };
 </script>
 <style lang="scss" scoped>
 .profile {
   height: 100%;
+  text-align: center;
   @include centralize-children;
 }
 .profile__content {
   width: 100%;
-  text-align: center;
-  flex-grow: 1;
 }
 h1 {
   @include font-size("sm");
@@ -135,17 +109,17 @@ h2 {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: space(3);
+  margin-bottom: 9vh;
   @include media("≥tablet") {
     padding: 0 5%;
     align-items: center;
   }
 }
 .profile__tile {
+  width: calc(50% - 0.5rem);
   padding: space(3) space(0);
   border-radius: $border-radius-sm;
   border: 2px solid $amethyst-smoke;
-  width: calc(50% - 0.5rem);
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -162,8 +136,5 @@ h2 {
 }
 .buttons {
   width: 100%;
-}
-.profile__badges {
-  margin-top: 9vh;
 }
 </style>

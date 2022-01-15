@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>Achievements unlocked</h2>
     <div class="flickity" ref="root">
       <div
         v-for="(level, index) in levelCopy"
@@ -74,8 +75,12 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 @import "~flickity/dist/flickity.css";
+h2 {
+  font-weight: $semibold;
+  margin-bottom: space(3);
+}
 .carousel-cell {
   width: 6rem;
   height: 6rem;
