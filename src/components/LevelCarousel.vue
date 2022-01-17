@@ -9,22 +9,21 @@
       >
         <img
           :src="require('@/assets/badges/' + level.filename)"
-          alt="Achievement Badge"
+          :alt="`Achievement Badge for ${level.name}`"
           class="carousel__badge"
           v-bind:class="{
-            'carousel__badge--greyscale':
-              levelThresholds[index] > cumulativeScore,
+            'carousel__badge--greyscale': levels[index] > cumulativeScore,
           }"
           @click="select(index)"
         />
       </div>
     </div>
-    <div v-if="levelThresholds[selected] <= cumulativeScore">
+    <div v-if="levels[selected] <= cumulativeScore">
       {{ levelCopy[selected].caption }}
     </div>
     <div v-else>
-      You need to swipe {{ levelThresholds[selected] - cumulativeScore }} more
-      cards to get this badge
+      You need to swipe {{ levels[selected] - cumulativeScore }} more cards to
+      get this badge
     </div>
   </div>
 </template>
@@ -40,7 +39,7 @@ export default {
       type: Number,
       required: true,
     },
-    levelThresholds: {
+    levels: {
       type: Object,
       required: true,
     },

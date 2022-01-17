@@ -20,11 +20,11 @@
               alt="Hourglass"
               class="profile__tile-icon"
             />
-            {{ userData.bestScore }} seconds
+            10 seconds
           </div>
         </div>
         <LevelCarousel
-          :levelThresholds="config.levelThresholds"
+          :levels="config.levels"
           :cumulativeScore="userData.cumulativeScore"
         />
       </div>

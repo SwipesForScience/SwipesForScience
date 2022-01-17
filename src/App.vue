@@ -16,7 +16,6 @@
           :currentUser="currentUser"
           :userData="userData"
           :allUsers="allUsers"
-          :levels="levels"
           :currentLevel="currentLevel"
           :config="config"
           :db="db"
@@ -40,9 +39,6 @@ import gsap from "gsap";
 import firebase from "firebase/compat/app";
 import { getDatabase, ref, update, onValue } from "firebase/database";
 import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
-
-// useful library for objects and arrays
-import _ from "lodash";
 
 // Animate on scroll, for the tutorial
 import "bootstrap/dist/css/bootstrap.css";
@@ -190,28 +186,6 @@ export default {
      */
     needsTutorial() {
       return this.config.needsTutorial;
-    },
-
-    /**
-     * The levels are defined based on score bins. Each level also defines
-     * a character image that a user can "unlock" when the annotate enough samples.
-     * eventually, this should be abstracted out into the config variable.
-     */
-    levels() {
-      return Object.values(this.config.levels);
-    },
-    /**
-     * the current user's level.
-     */
-    currentLevel() {
-      let clev = {};
-      _.mapValues(this.levels, val => {
-        if (this.userData.score >= val.min && this.userData.score <= val.max) {
-          clev = val;
-        }
-      });
-
-      return clev;
     },
     /**
      * router query
