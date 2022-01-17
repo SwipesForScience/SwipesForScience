@@ -42,6 +42,9 @@
 <script>
 import useSamples from "@/composables/gameplay/useSamples";
 import useUserSeenSamples from "@/composables/gameplay/useUserSeenSamples";
+import useUsers from "@/composables/gameplay/useUsers";
+import useVote from "@/composables/gameplay/useVote";
+import useCurrentGame from "@/composables/gameplay/useCurrentGame";
 import WordSwipe from "@/components/Widgets/WordSwipe/WordSwipe.vue";
 import {
   getDatabase,
@@ -51,7 +54,6 @@ import {
   increment,
 } from "firebase/database";
 import { onMounted, toRaw, reactive, watch, ref as vueRef } from "vue";
-import useVote from "@/composables/gameplay/useVote";
 
 export default {
   components: { WordSwipe },
@@ -71,6 +73,8 @@ export default {
   setup(props, context) {
     const { allSamples, getAllSamples } = useSamples();
     const { updateUserSeenSamples } = useUserSeenSamples();
+    const { updateUserCumulativeScore } = useUsers();
+    const { updateGameScore } = useCurrentGame();
     const { sendVote } = useVote();
     const displayedSamples = reactive([]);
     const GAME_STATES = {
@@ -125,17 +129,19 @@ export default {
       updates.averageVote = newAverage;
       update(sampleRef, updates);
     };
-    const submitVote = async ({ response, sampleId }) => {
+    const submitVote = async ({ response, sampleId, pointsEarned }) => {
       const vote = {
         response,
         userId: props.currentGame.userId,
         gameId: props.currentGameId,
         sampleId,
       };
-
       sendVote(vote);
       updateSample({ response, sampleId });
+      updateGameScore(props.currentGameId, pointsEarned);
+      updateUserCumulativeScore(props.currentGame.userId, pointsEarned);
       updateUserSeenSamples(props.currentGame.userId, sampleId);
+
       await displayNextCard();
     };
 
@@ -147,11 +153,9 @@ export default {
       submitVote,
       displayedSamples,
       displayNextCard,
-
       allSamples,
       startNewGame,
       GAME_STATES,
-
       gameState,
     };
   },

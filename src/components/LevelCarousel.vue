@@ -12,18 +12,19 @@
           alt="Achievement Badge"
           class="carousel__badge"
           v-bind:class="{
-            'carousel__badge--greyscale': levelThresholds[index] > totalScore,
+            'carousel__badge--greyscale':
+              levelThresholds[index] > cumulativeScore,
           }"
           @click="select(index)"
         />
       </div>
     </div>
-    <div v-if="levelThresholds[selected] <= totalScore">
+    <div v-if="levelThresholds[selected] <= cumulativeScore">
       {{ levelCopy[selected].caption }}
     </div>
     <div v-else>
-      You need to swipe {{ levelThresholds[selected] - totalScore }} more cards
-      to get this badge
+      You need to swipe {{ levelThresholds[selected] - cumulativeScore }} more
+      cards to get this badge
     </div>
   </div>
 </template>
@@ -35,7 +36,7 @@ import LEVELS from "@/constants/levels";
 
 export default {
   props: {
-    totalScore: {
+    cumulativeScore: {
       type: Number,
       required: true,
     },

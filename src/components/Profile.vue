@@ -25,7 +25,7 @@
         </div>
         <LevelCarousel
           :levelThresholds="config.levelThresholds"
-          :totalScore="100"
+          :cumulativeScore="userData.cumulativeScore"
         />
       </div>
       <div class="buttons">

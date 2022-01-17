@@ -22,7 +22,11 @@
       <p>{{ config?.play?.swipeRightLabel }}</p>
       <p>{{ config?.play?.swipeLeftLabel }}</p>
     </div>
-    <div class="wordswipe__contact">Not sure? Ask the researcher</div>
+    <router-link to="/profile"
+      ><button class="btn-game-transparent btn-full-size">
+        View your profile
+      </button></router-link
+    >
   </div>
 </template>
 
@@ -30,7 +34,6 @@
 import Card from "./Card";
 import WidgetHeader from "@/components/Widgets/WidgetHeader";
 import { computed } from "vue";
-import { getDatabase, ref, runTransaction } from "firebase/database";
 
 export default {
   components: { WidgetHeader, Card },
@@ -54,13 +57,12 @@ export default {
     },
   },
   setup(props, context) {
-    const db = getDatabase();
-
     const submitResponse = async ({ response, duration }) => {
-      await evaluateVote(response);
+      const pointsEarned = await evaluateVote(response);
       context.emit("submitVote", {
         response,
         duration,
+        pointsEarned,
         sampleId: currentSampleId.value,
       });
     };
@@ -68,17 +70,8 @@ export default {
       return props.displayedSamples[0];
     });
     const evaluateVote = async response => {
-      if (props.allSamples[currentSampleId.value].actualValue === response) {
-        await runTransaction(
-          ref(db, `games/${props.currentGameId}`),
-          currentGame => {
-            if (currentGame) {
-              currentGame.score++;
-            }
-            return currentGame;
-          }
-        );
-      }
+      if (props.allSamples[currentSampleId.value].actualValue === response)
+        return 1;
     };
     return { submitResponse, evaluateVote, currentSampleId };
   },
