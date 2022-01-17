@@ -51,7 +51,7 @@ export default {
     name: "openmoji",
     url: "http://openmoji.org",
   },
-  levelThresholds: [20, 50, 100, 150, 200, 2000],
+  levelThresholds: [20, 50, 100, 150, 200, 300, 500, 800, 1200],
   levels: {
     1: {
       level: 1,

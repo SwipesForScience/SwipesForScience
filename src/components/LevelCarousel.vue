@@ -9,7 +9,7 @@
       >
         <img
           :src="require('@/assets/badges/' + level.filename)"
-          :alt="`Badge for ${level.name}`"
+          alt="Achievement Badge"
           class="carousel__badge"
           v-bind:class="{
             'carousel__badge--greyscale': levelThresholds[index] > totalScore,
