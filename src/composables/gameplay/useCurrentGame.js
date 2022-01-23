@@ -6,6 +6,7 @@ import {
   push,
   onValue,
   update,
+  runTransaction,
 } from "firebase/database";
 import { ref as vueRef, toRaw } from "vue";
 import useGenerateDeck from "@/composables/gameplay/useGenerateDeck";
@@ -78,6 +79,15 @@ export default function useCurrentGame(config) {
     const currentGameRef = ref(db, `games/${gameId}`);
     await update(currentGameRef, { completed: true });
   };
+  const updateGameScore = async (gameId, pointsEarned) => {
+    if (pointsEarned === 0) return;
+    await runTransaction(ref(db, `games/${gameId}`), currentGame => {
+      if (currentGame) {
+        currentGame.score += pointsEarned;
+      }
+      return currentGame;
+    });
+  };
 
   return {
     currentGame,
@@ -85,5 +95,6 @@ export default function useCurrentGame(config) {
     watchCurrentGame,
     completeGame,
     getGameById,
+    updateGameScore,
   };
 }

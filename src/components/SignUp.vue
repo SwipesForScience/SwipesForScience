@@ -124,7 +124,6 @@ export default {
       const additionalUserData = omit(values, ["password", "email"]);
       return set(ref(getDatabase(), "users/" + uid), {
         ...additionalUserData,
-        score: 0,
         level: 0,
         admin: false,
         cumulativeScore: 0,
