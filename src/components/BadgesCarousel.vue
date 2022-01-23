@@ -3,27 +3,28 @@
     <h2>Achievements unlocked</h2>
     <div class="flickity" ref="root">
       <div
-        v-for="(level, index) in levelCopy"
-        :key="level.name"
+        v-for="(badge, index) in BADGES_COPY"
+        :key="badge.name"
         class="carousel-cell"
       >
         <img
-          :src="require('@/assets/badges/' + level.filename)"
-          :alt="`Achievement Badge for ${level.name}`"
+          :src="require('@/assets/badges/' + badge.filename)"
+          :alt="`Achievement Badge for ${badge.name}`"
           class="carousel__badge"
           v-bind:class="{
-            'carousel__badge--greyscale': levels[index] > cumulativeScore,
+            'carousel__badge--greyscale':
+              badgeUnlockScores[index] > cumulativeScore,
           }"
           @click="select(index)"
         />
       </div>
     </div>
-    <div v-if="levels[selected] <= cumulativeScore">
-      {{ levelCopy[selected].caption }}
+    <div v-if="badgeUnlockScores[selected] <= cumulativeScore">
+      {{ BADGES[selected].caption }}
     </div>
     <div v-else>
-      You need to swipe {{ levels[selected] - cumulativeScore }} more cards to
-      get this badge
+      You need to swipe {{ badgeUnlockScores[selected] - cumulativeScore }} more
+      cards to get this badge
     </div>
   </div>
 </template>
@@ -31,21 +32,22 @@
 <script>
 import Flickity from "flickity";
 import { ref as vueRef, onMounted, onUnmounted } from "vue";
-import LEVELS from "@/constants/levels";
+import BADGES_COPY from "@/constants/badges";
 
 export default {
+  name: "BadgesCarousel",
   props: {
     cumulativeScore: {
       type: Number,
       required: true,
+      default: 0,
     },
-    levels: {
+    badgeUnlockScores: {
       type: Object,
       required: true,
     },
   },
   setup() {
-    const levelCopy = LEVELS;
     const root = vueRef(null);
     let flickity;
     const selected = vueRef(0);
@@ -70,7 +72,7 @@ export default {
     const select = index => {
       flickity.select(index);
     };
-    return { root, select, selected, levelCopy };
+    return { root, select, selected, BADGES_COPY };
   },
 };
 </script>

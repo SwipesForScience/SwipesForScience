@@ -16,7 +16,6 @@
           :currentUser="currentUser"
           :userData="userData"
           :allUsers="allUsers"
-          :currentLevel="currentLevel"
           :config="config"
           :db="db"
           v-on:taken_tutorial="setTutorial"

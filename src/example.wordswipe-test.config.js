@@ -51,8 +51,8 @@ export default {
     name: "openmoji",
     url: "http://openmoji.org",
   },
-  // Each value denotes the minimum amount of cumulative points needed to attain that level
-  levels: [20, 50, 100, 150, 200, 300, 500, 800, 1200],
+  // Each value denotes the minimum amount of cumulative points needed to attain that badge
+  badgeUnlockScores: [20, 50, 100, 150, 200, 300, 500, 800, 1200],
   tutorial: {},
   play: {
     question: "Are these words real or fake?",

@@ -23,8 +23,8 @@
             10 seconds
           </div>
         </div>
-        <LevelCarousel
-          :levels="config.levels"
+        <BadgesCarousel
+          :badgeUnlockScores="config.badgeUnlockScores"
           :cumulativeScore="userData.cumulativeScore"
         />
       </div>
@@ -51,24 +51,16 @@
  * @author Anisha Keshavan
  * @license Apache 2.0
  */
-import LevelCarousel from "./LevelCarousel.vue";
+import BadgesCarousel from "./BadgesCarousel.vue";
 
 export default {
   name: "profile",
-  components: { LevelCarousel },
+  components: { BadgesCarousel },
   props: {
     /**
      * the computed user data object based on userInfo
      */
     userData: {
-      type: Object,
-      required: true,
-    },
-    /**
-     * the various levels, the points need to reach the levels,
-     * and the badges (colored and greyed out) to display
-     */
-    levels: {
       type: Object,
       required: true,
     },

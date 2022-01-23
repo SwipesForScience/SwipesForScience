@@ -1,4 +1,4 @@
-const LEVELS = [
+const BADGES = [
   {
     name: "Level 1",
     filename: "turtle.svg",
@@ -46,4 +46,4 @@ const LEVELS = [
   },
 ];
 
-export default LEVELS;
+export default BADGES;
