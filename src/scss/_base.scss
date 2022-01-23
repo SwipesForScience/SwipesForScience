@@ -35,3 +35,18 @@ a,
 a:hover {
   text-decoration: none;
 }
+
+.heading {
+  @include font-size("sm");
+  font-weight: $bold;
+  margin-bottom: space(2);
+  text-align: center;
+}
+.subheading {
+  @include font-size("xs");
+  margin-bottom: space(2);
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  font-weight: $bold;
+  text-align: center;
+}

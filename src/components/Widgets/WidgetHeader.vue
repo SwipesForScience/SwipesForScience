@@ -56,10 +56,6 @@ export default {
 }
 
 .widget-header__score {
-  display: flex;
-  font-weight: $bold;
-  justify-content: space-between;
-  align-items: center;
   min-width: 6rem;
   grid-column: 1 / span 1;
   span {

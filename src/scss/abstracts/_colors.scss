@@ -2,6 +2,7 @@ $white: #fff;
 $black: #1f1d21;
 $black-rock: rgba(23, 6, 60, 0.6);
 $selago-white: #f4f6fd;
+$alto: #d8d8d8;
 
 $lavender-mist: #e6e2fe;
 $violet: #8551ce;
@@ -43,6 +44,9 @@ $landing-success-border: $landing-primary;
 $landing-success-fill: $landing-hollow-fill;
 $game-bg-color: $indigo;
 $game-primary-gradient: linear-gradient(to bottom, #b6a1a8, #ed254e);
+
+$carousel-dots-active: $plum;
+$carousel-dots-inactive: $alto;
 
 $game-font-light: $white;
 $landing-font-dark: $amethyst-smoke;

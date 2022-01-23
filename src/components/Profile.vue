@@ -2,7 +2,7 @@
   <div class="frame frame--game">
     <div class="profile">
       <div class="profile__content">
-        <h1>Profile</h1>
+        <h1 class="heading">Profile</h1>
         <div class="profile__tiles">
           <div class="profile__tile">
             <span>Score</span>
@@ -87,11 +87,7 @@ export default {
 .profile__content {
   width: 100%;
 }
-h1 {
-  @include font-size("sm");
-  font-weight: $bold;
-  margin-bottom: space(2);
-}
+
 h2 {
   @include font-size("s");
   font-weight: $semibold;
