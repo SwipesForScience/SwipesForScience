@@ -8,9 +8,9 @@
       :ref="`slide_${index}`"
     >
       <h2 class="subheading">{{ slide.title }}</h2>
-      <div class="slide__text">
+      <p class="slide__text">
         {{ slide.text }}
-      </div>
+      </p>
       <div v-if="slide.img" class="slide__image">
         <img
           :src="slide.img.url"

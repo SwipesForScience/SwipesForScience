@@ -7,14 +7,28 @@
       @nextStep="nextStep"
     />
     <div v-if="currentStep === 1">
-      {{ config.tutorial.right.text }}
+      <h2 class="subheading">{{ config.tutorial.right.title }}</h2>
+      <p>{{ config.tutorial.right.text }}</p>
       <WordSwipeTrial
         :sampleWord="config.tutorial.right.rightCard.text"
-        :isRight="true"
+        :value="1"
+        @nextStep="nextStep"
       />
     </div>
-    <div v-if="currentStep === 2">Left Swipe</div>
-    <div v-if="currentStep === 3">Conclusion</div>
+    <div v-if="currentStep === 2">
+      <h2 class="subheading">{{ config.tutorial.left.title }}</h2>
+      <p>{{ config.tutorial.left.text }}</p>
+      <WordSwipeTrial
+        :sampleWord="config.tutorial.left.leftCard.text"
+        :value="0"
+        @nextStep="nextStep"
+      />
+    </div>
+    <div v-if="currentStep === 3">
+      <h2 class="subheading">{{ config.tutorial.summary.title }}</h2>
+      <p>{{ config.tutorial.summary.text }}</p>
+      <button class="btn-game--primary-solid btn-full-size">Play</button>
+    </div>
     <ul class="dots">
       <div>
         <li class="dot"></li>
@@ -76,6 +90,11 @@ export default {
 .tutorial {
   display: grid;
   grid-template-rows: auto 1fr auto;
+}
+p {
+  margin-bottom: space(3);
+  white-space: pre-wrap;
+  line-height: 1.625rem;
 }
 
 .dots {
