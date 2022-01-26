@@ -7,30 +7,41 @@
       @nextStep="nextStep"
     />
     <div v-if="currentStep === 1">
-      <h2 class="subheading">{{ config.tutorial.right.title }}</h2>
-      <p>{{ config.tutorial.right.text }}</p>
-      <WordSwipeTrial
-        :sampleWord="config.tutorial.right.rightCard.text"
+      <TutorialCard
+        :title="config.tutorial.right.title"
+        :text="config.tutorial.right.text"
+        :sampleId="config.tutorial.right.card.sampleId"
         :value="1"
         @nextStep="nextStep"
       />
     </div>
     <div v-if="currentStep === 2">
-      <h2 class="subheading">{{ config.tutorial.left.title }}</h2>
-      <p>{{ config.tutorial.left.text }}</p>
-      <WordSwipeTrial
-        :sampleWord="config.tutorial.left.leftCard.text"
+      <TutorialCard
+        :title="config.tutorial.left.title"
+        :text="config.tutorial.left.text"
+        :sampleId="config.tutorial.left.card.sampleId"
         :value="0"
         @nextStep="nextStep"
       />
     </div>
     <div v-if="currentStep === 3">
+      <WordSwipeTraining
+        :title="config.tutorial.training.title"
+        :text="config.tutorial.training.text"
+        :trainingCards="config.tutorial.training.trainingCards"
+        :config="config"
+        @nextStep="nextStep"
+      />
+    </div>
+
+    <div v-if="currentStep === 4">
       <h2 class="subheading">{{ config.tutorial.summary.title }}</h2>
       <p>{{ config.tutorial.summary.text }}</p>
       <button class="btn-game--primary-solid btn-full-size">Play</button>
     </div>
-    <ul class="dots">
+    <ul class="tutorial-slide-dots">
       <div>
+        <li class="dot"></li>
         <li class="dot"></li>
         <li class="dot"></li>
         <li class="dot"></li>
@@ -43,10 +54,11 @@
 <script>
 import { ref as vueRef } from "vue";
 import IntroductionSlides from "@/components/Tutorial/IntroductionSlides.vue";
-import WordSwipeTrial from "@/components/Tutorial/WordSwipe/WordSwipeTrial.vue";
+import TutorialCard from "@/components/Tutorial/WordSwipe/TutorialCard.vue";
+import WordSwipeTraining from "@/components/Tutorial/WordSwipe/WordSwipeTraining.vue";
 export default {
   name: "Tutorial",
-  components: { IntroductionSlides, WordSwipeTrial },
+  components: { IntroductionSlides, WordSwipeTraining, TutorialCard },
   props: {
     /**
      * The config object that is loaded from src/config.js.
@@ -60,8 +72,8 @@ export default {
     },
   },
   setup() {
-    const currentStep = vueRef(1);
-    const highestStepPassed = vueRef(1);
+    const currentStep = vueRef(3);
+    const highestStepPassed = vueRef(3);
     const updateHighestStepPassed = stepNumber => {
       if (stepNumber > highestStepPassed.value)
         highestStepPassed.value = stepNumber;
@@ -86,29 +98,29 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .tutorial {
   display: grid;
   grid-template-rows: auto 1fr auto;
 }
-p {
+p.tutorial-instructions {
   margin-bottom: space(3);
   white-space: pre-wrap;
   line-height: 1.625rem;
 }
 
-.dots {
+.tutorial-slide-dots {
   display: flex;
   justify-content: space-around;
   padding-top: space(2);
-}
-.dot {
-  display: inline-block;
-  width: 0.6rem;
-  height: 0.6rem;
-  margin: 0 0.5rem;
-  background: $carousel-dots-inactive;
-  border-radius: 50%;
-  cursor: pointer;
+  .dot {
+    display: inline-block;
+    width: 0.6rem;
+    height: 0.6rem;
+    margin: 0 0.5rem;
+    background: $carousel-dots-inactive;
+    border-radius: 50%;
+    cursor: pointer;
+  }
 }
 </style>

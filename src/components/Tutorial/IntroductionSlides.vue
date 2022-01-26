@@ -28,7 +28,7 @@
       </button>
       <button
         class="btn-game--primary-solid btn-full-size"
-        @click="next()"
+        @click="$emit('nextStep')"
         v-else
       >
         Ready to train?
@@ -48,11 +48,8 @@ const BUTTON_COPY = [
 ];
 
 export default {
-  setup(props, context) {
-    const next = () => {
-      context.emit("nextStep");
-    };
-    return { BUTTON_COPY, next };
+  setup() {
+    return { BUTTON_COPY };
   },
   props: {
     slides: {
@@ -60,6 +57,7 @@ export default {
       required: true,
     },
   },
+  emits: ["nextStep"],
   methods: {
     scrollToNextSlide(nextEl) {
       let el = document.querySelector(`#slide-${nextEl}`);

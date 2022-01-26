@@ -89,20 +89,34 @@ export default {
     },
     right: {
       title: "05 Real words",
-      rightCard: {
-        text: "sun",
+      card: {
+        sampleId: "sun",
       },
       text: "When you come across a word that exists in the English language, swipe to the right.\nSun is a real word, so you’d swipe right.",
     },
     left: {
-      leftCard: {
-        text: "bulbet",
+      card: {
+        sampleId: "bulbet",
       },
       title: "06 - Fake words",
       text: "When you come across a word that is made up, swipe to the left.\nBulbet is not a real word, so you’d go ahead and swipe left.",
     },
+    training: {
+      title: "07 - Training",
+      text: "Swipe all cards correctly to pass the tutorial.",
+      trainingCards: [
+        {
+          sampleId: "jasmine",
+          value: 1,
+        },
+        { sampleId: "bulbet", value: 0 },
+        { sampleId: "sun", value: 1 },
+        { sampleId: "ecoline", value: 0 },
+        { sampleId: "dylly", value: 0 },
+      ],
+    },
     summary: {
-      title: "07 - Conclusion",
+      title: "08 - Conclusion",
       buttonText: "Let's play!",
       text: "So that covers how to play the ROAR game!\nPlaying through the rounds will unlock achievements.\nPlaying through the rounds will unlock achievements and rank you on a leaderboard.",
     },

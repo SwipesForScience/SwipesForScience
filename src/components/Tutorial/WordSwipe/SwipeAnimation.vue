@@ -29,7 +29,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  name: "SwipeAnimation",
+};
 </script>
 
 <style scoped lang="scss">
@@ -37,6 +39,27 @@ svg {
   opacity: 0.3;
 }
 #swipe-stroke {
-  stroke-dasharray: 4 1 2 3;
+  animation-delay: 1s;
+  stroke-dasharray: 180 180;
+  stroke-dashoffset: 180;
+  animation-duration: 2s;
+  animation-name: swipein;
+  animation-direction: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+@keyframes swipein {
+  0% {
+    stroke-dashoffset: 180;
+  }
+  50% {
+    stroke-dashoffset: -180;
+    opacity: 0;
+  }
+  100% {
+    stroke-dashoffset: -180;
+    opacity: 0;
+  }
 }
 </style>
