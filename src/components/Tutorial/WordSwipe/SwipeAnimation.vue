@@ -39,7 +39,6 @@ svg {
   opacity: 0.3;
 }
 #swipe-stroke {
-  animation-delay: 1s;
   stroke-dasharray: 180 180;
   stroke-dashoffset: 180;
   animation-duration: 2s;

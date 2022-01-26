@@ -1,8 +1,8 @@
 <template>
   <div class="wordswipe-training">
     <h2 class="subheading">{{ title }}</h2>
-    <p class="tutorial-instructions">{{ text }}</p>
     <div v-if="displayedSamples.length > 0">
+      <p class="tutorial-instructions">{{ text }}</p>
       <div class="card-container">
         <Card
           v-for="({ sampleId }, index) in displayedSamples"
@@ -20,12 +20,17 @@
     </div>
     <div v-else>
       <div v-if="currentScore === trainingCards.length">
-        Congratulations! You passed!
-        <button>Next</button>
+        <h3>Well done! You passed!</h3>
+        <button class="btn-game--primary-solid btn-full-size">Next</button>
       </div>
       <div v-else>
-        You scored {{ currentScore }} / {{ trainingCards.length }}
-        <button @click="resetDeck">Try again</button>
+        <h3>You scored {{ currentScore }} / {{ trainingCards.length }}</h3>
+        <button
+          @click="resetDeck"
+          class="btn-game--primary-solid btn-full-size"
+        >
+          Try again?
+        </button>
       </div>
     </div>
   </div>
@@ -85,6 +90,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+h3 {
+  text-align: center;
+  font-weight: $semibold;
+  @include font-size("sm");
+  margin-bottom: space(3);
+}
 .wordswipe-training {
   height: 100%;
 }
@@ -95,7 +106,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   .word-card {
     height: inherit;
     width: 300px;
@@ -104,7 +114,6 @@ export default {
 
 .wordswipe__instructions {
   @include font-size("sm");
-
   font-family: $primary-font;
   font-weight: $semibold;
   text-align: center;

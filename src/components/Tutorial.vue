@@ -33,19 +33,27 @@
         @nextStep="nextStep"
       />
     </div>
-
     <div v-if="currentStep === 4">
       <h2 class="subheading">{{ config.tutorial.summary.title }}</h2>
-      <p>{{ config.tutorial.summary.text }}</p>
-      <button class="btn-game--primary-solid btn-full-size">Play</button>
+      <p class="tutorial-instructions">{{ config.tutorial.summary.text }}</p>
+      <router-link to="/play"
+        ><button class="btn-game--primary-solid btn-full-size">
+          Let's play
+        </button></router-link
+      >
     </div>
     <ul class="tutorial-slide-dots">
       <div>
-        <li class="dot"></li>
-        <li class="dot"></li>
-        <li class="dot"></li>
-        <li class="dot"></li>
-        <li class="dot"></li>
+        <li
+          class="dot"
+          v-for="index in [0, 1, 2, 3, 4]"
+          :key="`tutorial-dot-${index}`"
+          @click="updateCurrentStep(index)"
+          :class="{
+            'dot--active': currentStep === index,
+            'dot--disabled': index > highestStepPassed,
+          }"
+        ></li>
       </div>
     </ul>
   </div>
@@ -72,8 +80,8 @@ export default {
     },
   },
   setup() {
-    const currentStep = vueRef(3);
-    const highestStepPassed = vueRef(3);
+    const currentStep = vueRef(1);
+    const highestStepPassed = vueRef(1);
     const updateHighestStepPassed = stepNumber => {
       if (stepNumber > highestStepPassed.value)
         highestStepPassed.value = stepNumber;
@@ -87,12 +95,14 @@ export default {
       highestStepPassed.value = currentStep.value + 1;
       updateCurrentStep(currentStep.value + 1);
     };
+    const updateUserTutorialStatus = () => {};
     return {
       currentStep,
       highestStepPassed,
       updateHighestStepPassed,
       updateCurrentStep,
       nextStep,
+      updateUserTutorialStatus,
     };
   },
 };
@@ -121,6 +131,12 @@ p.tutorial-instructions {
     background: $carousel-dots-inactive;
     border-radius: 50%;
     cursor: pointer;
+    &--active {
+      background: $carousel-dots-active;
+    }
+    &--disabled {
+      opacity: 0.3;
+    }
   }
 }
 </style>
