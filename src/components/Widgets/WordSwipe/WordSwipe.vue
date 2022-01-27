@@ -72,6 +72,7 @@ export default {
     const evaluateVote = async response => {
       if (props.allSamples[currentSampleId.value].actualValue === response)
         return 1;
+      return 0;
     };
     return { submitResponse, evaluateVote, currentSampleId };
   },
