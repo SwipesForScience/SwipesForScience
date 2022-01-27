@@ -18,7 +18,7 @@ export default {
   leastSeen: Prioritize samples that the user has not seen, then priortize samples that have been least seen overall */
   // shufflingMethod: "random",
   shufflingMethod: "leastSeen",
-  needsTutorial: false,
+  needsTutorial: true,
   manifestUrl: "",
   widgetType: "WordSwipe",
   /* mode: Determines how each vote is evaluated and scored. 
