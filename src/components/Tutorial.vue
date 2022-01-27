@@ -31,6 +31,7 @@
         :trainingCards="config.tutorial.training.trainingCards"
         :config="config"
         @nextStep="nextStep"
+        @trainingCompleted="trainingCompleted"
       />
     </div>
     <div v-if="currentStep === 4">
@@ -42,8 +43,8 @@
         </button></router-link
       >
     </div>
-    <ul class="tutorial-slide-dots">
-      <div>
+    <div class="tutorial-step-dots">
+      <ul>
         <li
           class="dot"
           v-for="index in [0, 1, 2, 3, 4]"
@@ -54,13 +55,14 @@
             'dot--disabled': index > highestStepPassed,
           }"
         ></li>
-      </div>
-    </ul>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
 import { ref as vueRef } from "vue";
+import useCurrentUser from "@/composables/gameplay/useCurrentUser";
 import IntroductionSlides from "@/components/Tutorial/IntroductionSlides.vue";
 import TutorialCard from "@/components/Tutorial/WordSwipe/TutorialCard.vue";
 import WordSwipeTraining from "@/components/Tutorial/WordSwipe/WordSwipeTraining.vue";
@@ -68,20 +70,23 @@ export default {
   name: "Tutorial",
   components: { IntroductionSlides, WordSwipeTraining, TutorialCard },
   props: {
-    /**
-     * The config object that is loaded from src/config.js.
-     * It defines how the app is configured, including
-     * any content that needs to be displayed (app title, images, etc)
-     * and also the type of widget and where to update pointers to data
-     */
     config: {
       type: Object,
       required: true,
     },
+    currentUser: {
+      type: Object,
+      required: true,
+    },
+    userData: {
+      type: Object,
+      required: true,
+    },
   },
-  setup() {
-    const currentStep = vueRef(1);
-    const highestStepPassed = vueRef(1);
+  setup(props) {
+    const { updateTutorialStatus } = useCurrentUser();
+    const currentStep = vueRef(0);
+    const highestStepPassed = vueRef(0);
     const updateHighestStepPassed = stepNumber => {
       if (stepNumber > highestStepPassed.value)
         highestStepPassed.value = stepNumber;
@@ -95,14 +100,18 @@ export default {
       highestStepPassed.value = currentStep.value + 1;
       updateCurrentStep(currentStep.value + 1);
     };
-    const updateUserTutorialStatus = () => {};
+    const trainingCompleted = () => {
+      if (!props.userData.taken_tutorial) {
+        updateTutorialStatus(props.currentUser.uid);
+      }
+    };
     return {
       currentStep,
       highestStepPassed,
       updateHighestStepPassed,
       updateCurrentStep,
       nextStep,
-      updateUserTutorialStatus,
+      trainingCompleted,
     };
   },
 };
@@ -119,18 +128,18 @@ p.tutorial-instructions {
   line-height: 1.625rem;
 }
 
-.tutorial-slide-dots {
+.tutorial-step-dots {
   display: flex;
   justify-content: space-around;
   padding-top: space(2);
   .dot {
-    display: inline-block;
-    width: 0.6rem;
-    height: 0.6rem;
-    margin: 0 0.5rem;
-    background: $carousel-dots-inactive;
-    border-radius: 50%;
     cursor: pointer;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 10px;
+    background: $carousel-dots-inactive;
+    border-radius: 60%;
     &--active {
       background: $carousel-dots-active;
     }

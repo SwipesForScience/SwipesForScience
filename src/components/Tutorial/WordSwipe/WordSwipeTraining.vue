@@ -21,7 +21,9 @@
     <div v-else>
       <div v-if="currentScore === trainingCards.length">
         <h3>Well done! You passed!</h3>
-        <button class="btn-game--primary-solid btn-full-size">Next</button>
+        <button @click="next" class="btn-game--primary-solid btn-full-size">
+          Next
+        </button>
       </div>
       <div v-else>
         <h3>You scored {{ currentScore }} / {{ trainingCards.length }}</h3>
@@ -62,7 +64,8 @@ export default {
       required: true,
     },
   },
-  setup(props) {
+  emits: ["nextStep", "trainingCompleted"],
+  setup(props, context) {
     const currentScore = vueRef(0);
     const answerKey = new Map();
     props.trainingCards.forEach(({ sampleId, value }) => {
@@ -79,11 +82,16 @@ export default {
       displayedSamples.push(...props.trainingCards);
       currentScore.value = 0;
     };
+    const next = () => {
+      context.emit("trainingCompleted");
+      context.emit("nextStep");
+    };
     return {
       displayedSamples,
       removeTopCard,
       currentScore,
       resetDeck,
+      next,
     };
   },
 };
@@ -91,9 +99,9 @@ export default {
 
 <style scoped lang="scss">
 h3 {
+  @include font-size("sm");
   text-align: center;
   font-weight: $semibold;
-  @include font-size("sm");
   margin-bottom: space(3);
 }
 .wordswipe-training {

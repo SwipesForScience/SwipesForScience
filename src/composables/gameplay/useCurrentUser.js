@@ -1,6 +1,6 @@
-import { getDatabase, ref, runTransaction } from "firebase/database";
+import { getDatabase, ref, runTransaction, update } from "firebase/database";
 
-export default function useUserScore() {
+export default function useCurrentUser() {
   const db = getDatabase();
 
   const updateUserCumulativeScore = async (userId, pointsEarned) => {
@@ -13,8 +13,13 @@ export default function useUserScore() {
       return currentUser;
     });
   };
+  const updateTutorialStatus = async userId => {
+    const userRef = ref(db, `users/${userId}`);
+    return update(userRef, { taken_tutorial: true });
+  };
 
   return {
     updateUserCumulativeScore,
+    updateTutorialStatus,
   };
 }
