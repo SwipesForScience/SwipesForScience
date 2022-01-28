@@ -103,6 +103,9 @@ const router = createRouter({
       path: "/tutorial",
       name: "Tutorial",
       component: Tutorial,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: "/chats",

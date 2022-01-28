@@ -17,7 +17,6 @@
           class="tutorial__step-image"
           :alt="slide.img.caption"
         />
-        <div class="slide__image-caption">{{ slide.img.caption }}</div>
       </div>
       <button
         class="btn-game--primary-solid btn-full-size"
@@ -90,8 +89,11 @@ export default {
 
 .tutorial__step-image {
   width: 100%;
-  @include media("aspect-ratio-3/2") {
+  @include media("<=tablet", "aspect-ratio-9/20") {
     width: 60%;
+  }
+  @include media("height<=large", ">=tablet") {
+    width: 70%;
   }
 }
 .slide__image {
