@@ -41,7 +41,7 @@
 <script>
 import Card from "@/components/Widgets/WordSwipe/Card.vue";
 
-import { ref as vueRef, reactive } from "vue";
+import { ref as vueRef, reactive, onMounted, onUnmounted } from "vue";
 
 export default {
   name: "WordSwipeTraining",
@@ -66,6 +66,19 @@ export default {
   },
   emits: ["nextStep", "trainingCompleted"],
   setup(props, context) {
+    const handleKeyDown = e => {
+      if (e.key === "ArrowRight") {
+        removeTopCard({ response: 1 });
+      } else if (e.key === "ArrowLeft") {
+        removeTopCard({ response: 0 });
+      }
+    };
+    onMounted(() => {
+      window.addEventListener("keydown", handleKeyDown);
+    });
+    onUnmounted(() => {
+      window.removeEventListener("keydown", handleKeyDown);
+    });
     const currentScore = vueRef(0);
     const answerKey = new Map();
     props.trainingCards.forEach(({ sampleId, value }) => {
