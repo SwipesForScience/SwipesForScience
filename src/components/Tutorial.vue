@@ -47,7 +47,7 @@
       <ul>
         <li
           class="dot"
-          v-for="index in [0, 1, 2, 3, 4]"
+          v-for="index in [...Array(5).keys()]"
           :key="`tutorial-dot-${index}`"
           @click="updateCurrentStep(index)"
           :class="{
