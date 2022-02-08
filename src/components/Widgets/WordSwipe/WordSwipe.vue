@@ -82,7 +82,7 @@ export default {
     const currentSampleId = computed(() => {
       return props.displayedSamples[0];
     });
-    const evaluateVote = async response => {
+    const evaluateVote = response => {
       if (props.allSamples[currentSampleId.value].actualValue === response)
         return 1;
       return 0;
