@@ -20,7 +20,7 @@
       </div>
     </div>
     <div v-if="badgeUnlockScores[selected] <= cumulativeScore">
-      {{ BADGES[selected].caption }}
+      {{ BADGES_COPY[selected]?.caption }}
     </div>
     <div v-else>
       You need to swipe {{ badgeUnlockScores[selected] - cumulativeScore }} more

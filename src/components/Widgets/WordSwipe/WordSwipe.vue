@@ -33,7 +33,7 @@
 <script>
 import Card from "./Card";
 import WidgetHeader from "@/components/Widgets/WidgetHeader";
-import { computed } from "vue";
+import { computed, onMounted, onUnmounted } from "vue";
 
 export default {
   components: { WidgetHeader, Card },
@@ -57,6 +57,19 @@ export default {
     },
   },
   setup(props, context) {
+    const handleKeyDown = e => {
+      if (e.key === "ArrowRight") {
+        submitResponse({ response: 1, duration: 100 });
+      } else if (e.key === "ArrowLeft") {
+        submitResponse({ response: 0, duration: 100 });
+      }
+    };
+    onMounted(() => {
+      window.addEventListener("keydown", handleKeyDown);
+    });
+    onUnmounted(() => {
+      window.removeEventListener("keydown", handleKeyDown);
+    });
     const submitResponse = async ({ response, duration }) => {
       const pointsEarned = await evaluateVote(response);
       context.emit("submitVote", {
@@ -69,9 +82,10 @@ export default {
     const currentSampleId = computed(() => {
       return props.displayedSamples[0];
     });
-    const evaluateVote = async response => {
+    const evaluateVote = response => {
       if (props.allSamples[currentSampleId.value].actualValue === response)
         return 1;
+      return 0;
     };
     return { submitResponse, evaluateVote, currentSampleId };
   },

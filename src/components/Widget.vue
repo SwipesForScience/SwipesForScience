@@ -42,7 +42,7 @@
 <script>
 import useSamples from "@/composables/gameplay/useSamples";
 import useUserSeenSamples from "@/composables/gameplay/useUserSeenSamples";
-import useUsers from "@/composables/gameplay/useUsers";
+import useCurrentUser from "@/composables/gameplay/useCurrentUser";
 import useVote from "@/composables/gameplay/useVote";
 import useCurrentGame from "@/composables/gameplay/useCurrentGame";
 import WordSwipe from "@/components/Widgets/WordSwipe/WordSwipe.vue";
@@ -73,7 +73,7 @@ export default {
   setup(props, context) {
     const { allSamples, getAllSamples } = useSamples();
     const { updateUserSeenSamples } = useUserSeenSamples();
-    const { updateUserCumulativeScore } = useUsers();
+    const { updateUserCumulativeScore } = useCurrentUser();
     const { updateGameScore } = useCurrentGame();
     const { sendVote } = useVote();
     const displayedSamples = reactive([]);

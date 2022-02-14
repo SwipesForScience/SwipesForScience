@@ -1,5 +1,15 @@
 $breakpoints: (
+  // Width-based media queries
   mobile: 320px,
   tablet: 568px,
   desktop: 996px,
+  // Height-based media queries
+  small: 600px,
+  medium: 768px,
+  large: 900px,
 );
+
+$media-expressions: (
+  'landscape': '(orientation: landscape)',
+  'aspect-ratio-9/20': '(min-aspect-ratio: 9/20)'
+)

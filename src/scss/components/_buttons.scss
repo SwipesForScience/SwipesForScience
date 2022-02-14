@@ -31,7 +31,7 @@ $landing-btn-variants: (
   border-radius: $border-radius-md;
   transition: box-shadow 0.2s ease-in;
   &:focus {
-    outline: none;
+    outline: $plum;
     box-shadow: 0 0 0 2px $white;
   }
 }
@@ -77,6 +77,9 @@ $landing-btn-variants: (
   border: none;
   border-radius: $border-radius-md;
   padding: space(2);
+  &:focus {
+    border: 2px solid $white;
+  }
 }
 .btn-game--secondary-solid {
   color: $game-font-light;
@@ -94,4 +97,7 @@ $landing-btn-variants: (
   font-weight: $bold;
   border: none;
   padding: space(2);
+  &:focus {
+    text-decoration: underline;
+  }
 }
