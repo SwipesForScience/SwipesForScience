@@ -71,10 +71,9 @@ export default {
   position: relative;
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
   &::-webkit-scrollbar {
-    display: none; /* Safari and Chrome */
+    display: none;
   }
 }
 .slide__text {
