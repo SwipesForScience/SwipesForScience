@@ -10,6 +10,15 @@
         :displayedSamples="displayedSamples"
         @submitVote="submitVote"
       />
+      <ImageSwipe
+        v-if="config.widgetType === 'ImageSwipe'"
+        :config="config"
+        :currentGame="currentGame"
+        :currentGameId="currentGameId"
+        :allSamples="allSamples"
+        :displayedSamples="displayedSamples"
+        @submitVote="submitVote"
+      />
     </div>
     <div v-if="gameState === GAME_STATES.GAME_OVER" class="widget__game-over">
       Game Completed! You scored
@@ -46,6 +55,7 @@ import useCurrentUser from "@/composables/gameplay/useCurrentUser";
 import useVote from "@/composables/gameplay/useVote";
 import useCurrentGame from "@/composables/gameplay/useCurrentGame";
 import WordSwipe from "@/components/Widgets/WordSwipe/WordSwipe.vue";
+import ImageSwipe from "@/components/Widgets/ImageSwipe/ImageSwipe.vue";
 import {
   getDatabase,
   ref,
@@ -56,7 +66,7 @@ import {
 import { onMounted, toRaw, reactive, watch, ref as vueRef } from "vue";
 
 export default {
-  components: { WordSwipe },
+  components: { WordSwipe, ImageSwipe },
   props: {
     config: {
       type: Object,
