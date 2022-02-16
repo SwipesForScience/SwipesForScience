@@ -30,8 +30,6 @@ export default {
   mode: "Assessment",
   deckSize: 10,
   widgetProperties: {
-    baseUrlTemplate: "",
-    delimiter: "__",
     showFixationCross: true,
     leftSwipe: {
       label: "Fake Word",
