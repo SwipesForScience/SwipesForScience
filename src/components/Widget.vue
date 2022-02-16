@@ -7,7 +7,12 @@
         :currentGame="currentGame"
         :currentGameId="currentGameId"
         :allSamples="allSamples"
-        :displayedSamples="displayedSamples"
+        :displayedSamples="
+          currentGame.sampleIds.slice(
+            currentGame.currentSampleIndex,
+            currentGame.currentSampleIndex + 4
+          )
+        "
         @submitVote="submitVote"
       />
       <ImageSwipe
@@ -16,7 +21,12 @@
         :currentGame="currentGame"
         :currentGameId="currentGameId"
         :allSamples="allSamples"
-        :displayedSamples="displayedSamples"
+        :displayedSamples="
+          currentGame.sampleIds.slice(
+            currentGame.currentSampleIndex,
+            currentGame.currentSampleIndex + 4
+          )
+        "
         @submitVote="submitVote"
       />
     </div>
@@ -63,7 +73,7 @@ import {
   update,
   increment,
 } from "firebase/database";
-import { onMounted, toRaw, reactive, watch, ref as vueRef } from "vue";
+import { onMounted, toRaw, watch, ref as vueRef } from "vue";
 
 export default {
   components: { WordSwipe, ImageSwipe },
@@ -86,7 +96,6 @@ export default {
     const { updateUserCumulativeScore } = useCurrentUser();
     const { updateGameScore } = useCurrentGame();
     const { sendVote } = useVote();
-    const displayedSamples = reactive([]);
     const GAME_STATES = {
       LEVEL_UP: "levelUp",
       PAUSED: "paused",
@@ -97,10 +106,6 @@ export default {
     const db = getDatabase();
     onMounted(async () => {
       await getAllSamples();
-      const samples = toRaw(props.currentGame.sampleIds).slice(
-        props.currentGame.currentSampleIndex
-      );
-      displayedSamples.push(...samples);
     });
 
     watch(
@@ -111,7 +116,6 @@ export default {
     );
 
     const displayNextCard = async () => {
-      displayedSamples.shift();
       const currentGameRef = ref(db, `/games/${props.currentGameId}`);
       await runTransaction(currentGameRef, currentGame => {
         if (currentGame) {
@@ -161,7 +165,6 @@ export default {
 
     return {
       submitVote,
-      displayedSamples,
       displayNextCard,
       allSamples,
       startNewGame,

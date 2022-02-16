@@ -22,9 +22,9 @@
       <p>{{ config?.play?.swipeRightLabel }}</p>
       <p>{{ config?.play?.swipeLeftLabel }}</p>
     </div>
-    <router-link to="/profile"
+    <router-link to="/tutorial"
       ><button class="btn-game-transparent btn-full-size">
-        View your profile
+        View Tutorial
       </button></router-link
     >
   </div>

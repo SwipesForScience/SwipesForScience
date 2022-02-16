@@ -99,4 +99,9 @@ export default {
   badgeUnlockScores: [20, 50, 100, 150, 200, 300, 500, 800, 1200],
   sampleUrlTemplate:
     "https://imageswipe-test.s3.us-west-1.amazonaws.com/_SAMPLE_ID_.jpeg",
+  play: {
+    question: "Is this a passing image?",
+    swipeRightLabel: "Swipe right for Pass",
+    swipeLeftLabel: "Swipe left for Fail",
+  },
 };

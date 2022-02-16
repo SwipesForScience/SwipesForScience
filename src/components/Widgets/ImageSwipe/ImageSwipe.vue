@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="imageswipe">
     <WidgetHeader
       :currentScore="currentGame.score"
       :totalSamples="currentGame.sampleIds.length"
@@ -16,6 +16,16 @@
         :baseUrlTemplate="config.sampleUrlTemplate"
       />
     </div>
+    <div class="imageswipe__instructions">
+      <div class="imageswipe__question">{{ config?.play?.question }}</div>
+      <p>{{ config?.play?.swipeRightLabel }}</p>
+      <p>{{ config?.play?.swipeLeftLabel }}</p>
+    </div>
+    <router-link to="/tutorial"
+      ><button class="btn-game-transparent btn-full-size">
+        View Tutorial
+      </button></router-link
+    >
   </div>
 </template>
 
@@ -81,4 +91,39 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.imageswipe {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.imageswipe__cards {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 100%;
+}
+.imageswipe__question {
+  font-weight: $bold;
+  margin-bottom: space(2);
+}
+.imageswipe__instructions {
+  @include font-size("sm");
+  font-family: $primary-font;
+  font-weight: $semibold;
+  text-align: center;
+  grid-column: 2 / span 1;
+  p {
+    @include font-size("s");
+    color: $landing-font-dark;
+  }
+  @include media("≥tablet") {
+    @include font-size("md");
+  }
+}
+</style>
