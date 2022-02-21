@@ -17,6 +17,7 @@
 <script>
 import { computed } from "vue";
 import interact from "interactjs";
+
 const MAX_ROTATION = 30;
 const X_OFFSCREEN_COORDINATE = 1000;
 const X_THRESHOLD = 20;
@@ -58,7 +59,6 @@ export default {
       autoScroll: true,
       modifiers: [
         interact.modifiers.restrictRect({
-          restriction: "parent",
           endOnly: true,
         }),
       ],
@@ -91,6 +91,7 @@ export default {
       } else {
         rotation = Math.max(-MAX_ROTATION, this.position.x * 2);
       }
+
       this.setPosition({ x: x, y: y, rotation: rotation });
     },
     setPosition(coordinates) {
