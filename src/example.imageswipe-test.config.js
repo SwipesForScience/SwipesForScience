@@ -17,7 +17,7 @@ export default {
       slides: [
         {
           title: "01 - Introduction",
-          text: "Test your reading reflexes and identify which words are real and which are fake!\nCompete against your classmates, or work to improve your reading ability, all while unlocking trophies!\nPlaying is simple - swipe right for real words, swipe left for fake ones! On a desktop, use the arrow keys instead.",
+          text: 'Your objective is to classify these slices as "Pass" or "Fail" by swiping right or left - swipe right for Passing Images, swipe left for Failing Images! On a desktop, use the arrow keys instead.',
         },
         {
           title: "02 - Types of Brain Matter",
@@ -80,6 +80,8 @@ export default {
       text: "So that covers how to play the ROAR game!\nPlaying through the rounds will unlock achievements.\nPlaying through the rounds will unlock achievements and rank you on a leaderboard.",
     },
   },
+  shufflingMethod: "leastSeen",
+  mode: "Data Annotation",
   widgetType: "ImageSwipe",
   widgetProperties: {
     baseUrlTemplate:
@@ -104,4 +106,5 @@ export default {
     swipeRightLabel: "Swipe right for Pass",
     swipeLeftLabel: "Swipe left for Fail",
   },
+  deckSize: 10,
 };
