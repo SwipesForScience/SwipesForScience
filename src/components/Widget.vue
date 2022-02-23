@@ -1,18 +1,19 @@
 <template>
   <div class="widget-container">
     <div class="widget" v-if="gameState === GAME_STATES.IN_PROGRESS">
+      <WidgetHeader
+        :currentScore="currentGame.score"
+        :totalSamples="currentGame.sampleIds.length"
+        :currentSampleIndex="currentGame.currentSampleIndex"
+        @pauseGame="pauseGame"
+      />
       <WordSwipe
         v-if="config.widgetType === 'WordSwipe'"
         :config="config"
         :currentGame="currentGame"
         :currentGameId="currentGameId"
         :allSamples="allSamples"
-        :displayedSamples="
-          currentGame.sampleIds.slice(
-            currentGame.currentSampleIndex,
-            currentGame.currentSampleIndex + 4
-          )
-        "
+        :displayedSamples="displayedSamples"
         @submitVote="submitVote"
       />
       <ImageSwipe
@@ -21,12 +22,7 @@
         :currentGame="currentGame"
         :currentGameId="currentGameId"
         :allSamples="allSamples"
-        :displayedSamples="
-          currentGame.sampleIds.slice(
-            currentGame.currentSampleIndex,
-            currentGame.currentSampleIndex + 4
-          )
-        "
+        :displayedSamples="displayedSamples"
         @submitVote="submitVote"
       />
     </div>
@@ -42,18 +38,25 @@
     </div>
     <div v-if="gameState === GAME_STATES.PAUSED">
       <div>Game Paused</div>
-      <button class="btn-game--primary-solid btn-full-size">
+      <button
+        class="btn-game--primary-solid btn-full-size"
+        @click="unpauseGame"
+      >
         Continue Playing
       </button>
-      <button class="btn-game--primary-solid btn-full-size">
-        Save and Quit
-      </button>
+      <router-link :to="{ name: 'Home' }" class="game__link"
+        ><button class="btn-game--primary-solid btn-full-size">
+          Save and Quit
+        </button></router-link
+      >
       <div>Read tutorial</div>
     </div>
     <div v-if="gameState === GAME_STATES.LEVEL_UP">
       Level up
-      <button>Continue Playing</button>
-      <button>Save and Quit</button>
+      <button @click="unpauseGame">Continue Playing</button>
+      <router-link :to="{ name: 'Home' }" class="game__link"
+        ><button>Save and Quit</button></router-link
+      >
     </div>
   </div>
 </template>
@@ -66,6 +69,7 @@ import useVote from "@/composables/gameplay/useVote";
 import useCurrentGame from "@/composables/gameplay/useCurrentGame";
 import WordSwipe from "@/components/Widgets/WordSwipe/WordSwipe.vue";
 import ImageSwipe from "@/components/Widgets/ImageSwipe/ImageSwipe.vue";
+import WidgetHeader from "@/components/Widgets/WidgetHeader";
 import {
   getDatabase,
   ref,
@@ -73,10 +77,10 @@ import {
   update,
   increment,
 } from "firebase/database";
-import { onMounted, toRaw, watch, ref as vueRef } from "vue";
+import { onMounted, toRaw, watch, computed, ref as vueRef } from "vue";
 
 export default {
-  components: { WordSwipe, ImageSwipe },
+  components: { WidgetHeader, WordSwipe, ImageSwipe },
   props: {
     config: {
       type: Object,
@@ -102,10 +106,20 @@ export default {
       GAME_OVER: "gameOver",
       IN_PROGRESS: "inProgress",
     };
+
+    const displayedSamples = computed(() => {
+      return props.currentGame.sampleIds.slice(
+        props.currentGame.currentSampleIndex,
+        props.currentGame.currentSampleIndex + 4
+      );
+    });
     const gameState = vueRef(GAME_STATES.IN_PROGRESS);
+    const currentCardStartTime = vueRef(null);
+    const currentCardState = vueRef(null);
     const db = getDatabase();
     onMounted(async () => {
       await getAllSamples();
+      currentCardStartTime.value = new Date();
     });
 
     watch(
@@ -117,6 +131,7 @@ export default {
 
     const displayNextCard = async () => {
       const currentGameRef = ref(db, `/games/${props.currentGameId}`);
+      currentCardStartTime.value = new Date();
       await runTransaction(currentGameRef, currentGame => {
         if (currentGame) {
           if (
@@ -144,11 +159,13 @@ export default {
       update(sampleRef, updates);
     };
     const submitVote = async ({ response, sampleId, pointsEarned }) => {
+      const duration = new Date() - currentCardStartTime.value;
       const vote = {
         response,
         userId: props.currentGame.userId,
         gameId: props.currentGameId,
         sampleId,
+        duration,
       };
       sendVote(vote);
       updateSample({ response, sampleId });
@@ -163,13 +180,25 @@ export default {
       context.emit("startNewGame");
     };
 
+    const pauseGame = () => {
+      gameState.value = GAME_STATES.PAUSED;
+    };
+    const unpauseGame = () => {
+      gameState.value = GAME_STATES.IN_PROGRESS;
+      currentCardStartTime.value = new Date();
+    };
+
     return {
       submitVote,
       displayNextCard,
+      displayedSamples,
       allSamples,
       startNewGame,
       GAME_STATES,
       gameState,
+      pauseGame,
+      unpauseGame,
+      currentCardState,
     };
   },
 };

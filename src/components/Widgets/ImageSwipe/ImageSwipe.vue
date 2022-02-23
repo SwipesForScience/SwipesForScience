@@ -1,10 +1,5 @@
 <template>
   <div class="imageswipe">
-    <WidgetHeader
-      :currentScore="currentGame.score"
-      :totalSamples="currentGame.sampleIds.length"
-      :currentSampleIndex="currentGame.currentSampleIndex"
-    />
     <div class="imageswipe__cards">
       <Card
         v-for="(sampleId, index) in displayedSamples"
@@ -31,11 +26,11 @@
 
 <script>
 import Card from "./Card";
-import WidgetHeader from "@/components/Widgets/WidgetHeader";
+
 import { computed, onMounted, onUnmounted } from "vue";
 
 export default {
-  components: { WidgetHeader, Card },
+  components: { Card },
   props: {
     config: {
       type: Object,
@@ -58,9 +53,9 @@ export default {
   setup(props, context) {
     const handleKeyDown = e => {
       if (e.key === "ArrowRight") {
-        submitResponse({ response: 1, duration: 100 });
+        submitResponse({ response: 1 });
       } else if (e.key === "ArrowLeft") {
-        submitResponse({ response: 0, duration: 100 });
+        submitResponse({ response: -1 });
       }
     };
     onMounted(() => {
@@ -69,14 +64,13 @@ export default {
     onUnmounted(() => {
       window.removeEventListener("keydown", handleKeyDown);
     });
-    const submitResponse = async ({ response, duration }) => {
+    const submitResponse = async ({ response }) => {
       const pointsEarned =
         props.config.mode === "Assessment"
           ? evaluateVoteByActualValue(response)
           : evaluateVoteByAverage(response);
       context.emit("submitVote", {
         response,
-        duration,
         pointsEarned,
         sampleId: currentSampleId.value,
       });
@@ -97,7 +91,7 @@ export default {
       if (
         (response === 1 &&
           props.allSamples[currentSampleId.value].averageVote > 0.7) ||
-        (response === 0 &&
+        (response === -1 &&
           props.allSamples[currentSampleId.value].averageVote < 0.3)
       ) {
         return 1;
@@ -117,10 +111,11 @@ export default {
 <style lang="scss" scoped>
 .imageswipe {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 6.75rem);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 }
 .imageswipe__cards {
   display: flex;
@@ -130,6 +125,10 @@ export default {
   align-items: center;
   width: 100%;
   margin-bottom: 100%;
+  @include media("≥tablet") {
+    width: 80%;
+    margin-bottom: 70%;
+  }
 }
 .imageswipe__question {
   font-weight: $bold;

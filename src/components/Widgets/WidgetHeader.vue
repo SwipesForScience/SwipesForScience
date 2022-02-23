@@ -8,7 +8,7 @@
       <div class="btn-game-hollow widget-header__score">
         Score <span>{{ currentScore }}</span>
       </div>
-      <PauseButton />
+      <PauseButton @click="$emit('pauseGame')" />
     </div>
   </header>
 </template>
@@ -30,6 +30,7 @@ export default {
       type: Number,
     },
   },
+  emits: ["pauseGame"],
   setup() {
     const { GAME_STATES, currentGameState, updateGameState } = useCurrentGame();
     return { GAME_STATES, updateGameState, currentGameState };
@@ -38,7 +39,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.widget__header {
+.widget-header {
   margin-bottom: space(4);
 }
 .widget-header__counter {
