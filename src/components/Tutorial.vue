@@ -26,6 +26,16 @@
     </div>
     <div v-if="currentStep === 3">
       <WordSwipeTraining
+        v-if="config.widgetType === 'WordSwipe'"
+        :title="config.tutorial.training.title"
+        :text="config.tutorial.training.text"
+        :trainingCards="config.tutorial.training.trainingCards"
+        :config="config"
+        @nextStep="nextStep"
+        @trainingCompleted="trainingCompleted"
+      />
+      <ImageSwipeTraining
+        v-if="config.widgetType === 'ImageSwipe'"
         :title="config.tutorial.training.title"
         :text="config.tutorial.training.text"
         :trainingCards="config.tutorial.training.trainingCards"
@@ -66,9 +76,15 @@ import useCurrentUser from "@/composables/gameplay/useCurrentUser";
 import IntroductionSlides from "@/components/Tutorial/IntroductionSlides.vue";
 import TutorialCard from "@/components/Tutorial/WordSwipe/TutorialCard.vue";
 import WordSwipeTraining from "@/components/Tutorial/WordSwipe/WordSwipeTraining.vue";
+import ImageSwipeTraining from "@/components/Tutorial/ImageSwipe/ImageSwipeTraining.vue";
 export default {
   name: "Tutorial",
-  components: { IntroductionSlides, WordSwipeTraining, TutorialCard },
+  components: {
+    IntroductionSlides,
+    WordSwipeTraining,
+    ImageSwipeTraining,
+    TutorialCard,
+  },
   props: {
     config: {
       type: Object,
@@ -85,7 +101,7 @@ export default {
   },
   setup(props) {
     const { updateTutorialStatus } = useCurrentUser();
-    const currentStep = vueRef(0);
+    const currentStep = vueRef(3);
     const highestStepPassed = vueRef(0);
     const updateHighestStepPassed = stepNumber => {
       if (stepNumber > highestStepPassed.value)

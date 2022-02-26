@@ -167,8 +167,8 @@ export default {
   cursor: move;
   transform: scale(1);
   opacity: 1;
-  z-index: 2;
   touch-action: none;
+  z-index: 2;
 }
 .image-card--disabled {
   transform: scale(0.9) translatey(30px);

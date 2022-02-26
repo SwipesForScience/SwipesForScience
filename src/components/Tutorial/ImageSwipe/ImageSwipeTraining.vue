@@ -1,19 +1,20 @@
 <template>
-  <div class="wordswipe-training">
+  <div class="imageswipe-training">
     <h2 class="subheading">{{ title }}</h2>
     <div v-if="displayedSamples.length > 0">
       <p class="tutorial-instructions">{{ text }}</p>
       <div class="card-container">
         <Card
-          v-for="({ sampleId }, index) in displayedSamples"
-          :key="sampleId"
-          :sampleId="sampleId"
+          v-for="(sample, index) in displayedSamples"
+          :key="sample.sampleId"
           :isCurrent="index === 0"
           :isNext="index === 1"
+          :sampleId="sample.sampleId"
           @removeTopCard="removeTopCard"
+          :baseUrlTemplate="config.sampleUrlTemplate"
         />
       </div>
-      <div class="wordswipe__instructions">
+      <div class="imageswipe__instructions">
         <p>{{ config?.play?.swipeRightLabel }}</p>
         <p>{{ config?.play?.swipeLeftLabel }}</p>
       </div>
@@ -39,12 +40,12 @@
 </template>
 
 <script>
-import Card from "@/components/Widgets/WordSwipe/Card.vue";
+import Card from "@/components/Widgets/ImageSwipe/Card.vue";
 
 import { ref as vueRef, reactive, onMounted, onUnmounted } from "vue";
 
 export default {
-  name: "WordSwipeTraining",
+  name: "imageswipeTraining",
   components: { Card },
   props: {
     title: {
@@ -117,12 +118,14 @@ h3 {
   font-weight: $semibold;
   margin-bottom: space(3);
 }
-.wordswipe-training {
+.imageswipe-training {
   height: 100%;
 }
 .card-container {
+  width: 80%;
+  margin: auto;
+  margin-bottom: calc(80% + space(6));
   display: flex;
-  height: 10rem;
   position: relative;
   flex-direction: column;
   justify-content: center;
@@ -131,15 +134,17 @@ h3 {
     height: inherit;
     width: 300px;
   }
+  @include media("≥tablet") {
+    width: 60%;
+    margin-bottom: calc(60% + space(6));
+  }
 }
 
-.wordswipe__instructions {
+.imageswipe__instructions {
   @include font-size("sm");
   font-family: $primary-font;
   font-weight: $semibold;
   text-align: center;
-  grid-column: 2 / span 1;
-  margin-top: space(6);
   p {
     @include font-size("s");
     color: $landing-font-dark;

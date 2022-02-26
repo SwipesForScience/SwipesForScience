@@ -123,11 +123,11 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  margin-bottom: 100%;
+  width: 80%;
+  margin-bottom: 80%;
   @include media("≥tablet") {
-    width: 80%;
-    margin-bottom: 70%;
+    width: 60%;
+    margin-bottom: calc(60% + space(3));
   }
 }
 .imageswipe__question {
