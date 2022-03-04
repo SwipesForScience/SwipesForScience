@@ -71,10 +71,7 @@ export default {
       window.removeEventListener("keydown", handleKeyDown);
     });
     const submitResponse = async ({ response, duration }) => {
-      const pointsEarned =
-        props.config.mode === "Assessment"
-          ? evaluateVoteByActualValue(response)
-          : evaluateVoteByAverage(response);
+      const pointsEarned = evaluateVoteByAverage(response);
       context.emit("submitVote", {
         response,
         duration,
@@ -85,13 +82,7 @@ export default {
     const currentSampleId = computed(() => {
       return props.displayedSamples[0];
     });
-    const evaluateVoteByActualValue = response => {
-      if (props.allSamples[currentSampleId.value].actualValue === response)
-        return 1;
-      return 0;
-    };
     const evaluateVoteByAverage = response => {
-      // when there have been less than 4 people have voted on the sample, any answer is taken correct
       if (props.allSamples[currentSampleId.value].totalSeenCount < 4) {
         return 1;
       }
@@ -107,7 +98,6 @@ export default {
     };
     return {
       submitResponse,
-      evaluateVoteByActualValue,
       evaluateVoteByAverage,
       currentSampleId,
     };
