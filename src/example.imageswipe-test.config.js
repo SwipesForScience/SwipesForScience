@@ -47,18 +47,24 @@ export default {
       buttonText: "Ready to train?",
     },
     right: {
-      title: "05 Real words",
+      title: "05 Identifying a Passing Image",
       card: {
-        sampleId: "sun",
+        sampleId: "braindrPass.15676b8",
+        img: {
+          url: "https://braindr.us/static/img/braindrPass.15676b8.png",
+        },
       },
-      text: "When you come across a word that exists in the English language, swipe to the right.\nSun is a real word, so you’d swipe right.",
+      text: "Swipe Right (or press right arrow) to Pass this image",
     },
     left: {
+      title: "06 - Identifying a Failing Image",
       card: {
-        sampleId: "bulbet",
+        sampleId: "braindrFail.2c2eceb",
+        img: {
+          url: "https://braindr.us/static/img/braindrFail.2c2eceb.png",
+        },
       },
-      title: "06 - Fake words",
-      text: "When you come across a word that is made up, swipe to the left.\nBulbet is not a real word, so you’d go ahead and swipe left.",
+      text: "Swipe Left (or press left arrow) to Fail this image",
     },
     training: {
       title: "07 - Training",

@@ -158,7 +158,6 @@ export default {
 .image-card__image {
   border-radius: $border-radius-sm;
   width: 100%;
-
   @include media("≥tablet") {
     min-width: 100%;
   }

@@ -10,8 +10,9 @@
       <TutorialCard
         :title="config.tutorial.right.title"
         :text="config.tutorial.right.text"
-        :sampleId="config.tutorial.right.card.sampleId"
+        :card="config.tutorial.left.card"
         :value="1"
+        :widgetType="config.widgetType"
         @nextStep="nextStep"
       />
     </div>
@@ -19,8 +20,9 @@
       <TutorialCard
         :title="config.tutorial.left.title"
         :text="config.tutorial.left.text"
-        :sampleId="config.tutorial.left.card.sampleId"
+        :card="config.tutorial.left.card"
         :value="0"
+        :widgetType="config.widgetType"
         @nextStep="nextStep"
       />
     </div>
@@ -71,10 +73,10 @@
 </template>
 
 <script>
-import { ref as vueRef } from "vue";
+import { ref as vueRef, watchEffect } from "vue";
 import useCurrentUser from "@/composables/gameplay/useCurrentUser";
 import IntroductionSlides from "@/components/Tutorial/IntroductionSlides.vue";
-import TutorialCard from "@/components/Tutorial/WordSwipe/TutorialCard.vue";
+import TutorialCard from "@/components/Tutorial/TutorialCard.vue";
 import WordSwipeTraining from "@/components/Tutorial/WordSwipe/WordSwipeTraining.vue";
 import ImageSwipeTraining from "@/components/Tutorial/ImageSwipe/ImageSwipeTraining.vue";
 export default {
@@ -101,8 +103,12 @@ export default {
   },
   setup(props) {
     const { updateTutorialStatus } = useCurrentUser();
-    const currentStep = vueRef(3);
-    const highestStepPassed = vueRef(0);
+    const currentStep = vueRef(0);
+    const highestStep = 4;
+    const highestStepPassed = vueRef(
+      props.userData.taken_tutorial ? highestStep : 0
+    );
+
     const updateHighestStepPassed = stepNumber => {
       if (stepNumber > highestStepPassed.value)
         highestStepPassed.value = stepNumber;
@@ -121,6 +127,10 @@ export default {
         updateTutorialStatus(props.currentUser.uid);
       }
     };
+    watchEffect(() => {
+      highestStepPassed.value = props.userData.taken_tutorial ? highestStep : 0;
+    });
+
     return {
       currentStep,
       highestStepPassed,

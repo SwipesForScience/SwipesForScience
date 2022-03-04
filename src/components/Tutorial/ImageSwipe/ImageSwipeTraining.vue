@@ -9,6 +9,7 @@
           :key="sample.sampleId"
           :isCurrent="index === 0"
           :isNext="index === 1"
+          :imageUrl="sample.imageUrl"
           :sampleId="sample.sampleId"
           @removeTopCard="removeTopCard"
           :baseUrlTemplate="config.sampleUrlTemplate"
