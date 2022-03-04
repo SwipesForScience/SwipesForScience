@@ -149,7 +149,7 @@ export default {
         });
         await insertUser(values, userCredential.user.uid);
         await insertUsername(values.username, userCredential.user.uid);
-        if (props.config.needsTutorial) {
+        if (props.config.tutorial.needsTutorial) {
           router.push({
             name: "Tutorial",
           });

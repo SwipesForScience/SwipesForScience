@@ -10,7 +10,7 @@
       <TutorialCard
         :title="config.tutorial.right.title"
         :text="config.tutorial.right.text"
-        :card="config.tutorial.left.card"
+        :card="config.tutorial.right.card"
         :value="1"
         :widgetType="config.widgetType"
         @nextStep="nextStep"

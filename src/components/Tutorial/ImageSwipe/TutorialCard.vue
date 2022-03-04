@@ -17,8 +17,8 @@ export default {
 .image-card {
   border-radius: $border-radius-sm;
   width: 100%;
-  @include media("≥tablet") {
-    min-width: 60%;
+  @include media("≥mobile") {
+    width: 70%;
   }
 }
 </style>

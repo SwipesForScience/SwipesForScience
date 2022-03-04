@@ -12,7 +12,7 @@
           :imageUrl="sample.imageUrl"
           :sampleId="sample.sampleId"
           @removeTopCard="removeTopCard"
-          :baseUrlTemplate="config.sampleUrlTemplate"
+          :baseUrlTemplate="config.widgetProperties.sampleUrlTemplate"
         />
       </div>
       <div class="imageswipe__instructions">

@@ -4,15 +4,14 @@ export default {
     authDomain: "imageswipe-test.firebaseapp.com",
     databaseURL: "https://imageswipe-test-default-rtdb.firebaseio.com/",
     projectId: "imageswipe-test",
-    storageBucket: "imageswipe-test.appspot.com",
   },
   home: {
     title: "Braindr",
     tagline:
       "Any similarities to the Tinder dating app are completely coincidental",
   },
-  needsTutorial: true,
   tutorial: {
+    needsTutorial: true,
     introduction: {
       slides: [
         {
@@ -51,7 +50,7 @@ export default {
       card: {
         sampleId: "braindrPass.15676b8",
         img: {
-          url: "https://braindr.us/static/img/braindrPass.15676b8.png",
+          url: "https://braindr.us/static/img/braindrIntro.9230f64.png",
         },
       },
       text: "Swipe Right (or press right arrow) to Pass this image",
@@ -87,34 +86,21 @@ export default {
     },
   },
   shufflingMethod: "leastSeen",
-  mode: "Data Annotation",
+  deckSize: 10,
   widgetType: "ImageSwipe",
   widgetProperties: {
-    baseUrlTemplate:
-      "https://s3-us-west-2.amazonaws.com/akeshavan-mindcontrol/hbnSplat/{0}/tiles/base_{1}.png",
-    delimiter: "__",
-    showFixationCross: false,
+    question: "Is this a passing image?",
+    sampleUrlTemplate:
+      "https://imageswipe-test.s3.us-west-1.amazonaws.com/_SAMPLE_ID_.jpeg",
     leftSwipe: {
-      label: "Fail",
+      label: "Swipe left for Fail",
       value: -1,
     },
     rightSwipe: {
-      label: "Pass",
+      label: "Swipe right for Pass",
       value: 1,
     },
   },
   // Each value denotes the minimum amount of cumulative points needed to attain that badge
   badgeUnlockScores: [20, 50, 100, 150, 200, 300, 500, 800, 1200],
-  sampleUrlTemplate:
-    "https://imageswipe-test.s3.us-west-1.amazonaws.com/_SAMPLE_ID_.jpeg",
-  play: {
-    question: "Is this a passing image?",
-    swipeRightLabel: "Swipe right for Pass",
-    swipeLeftLabel: "Swipe left for Fail",
-  },
-  deckSize: 10,
-  interstimuliDuration: 1000,
-  showFixationCross: true,
-  fixationCrossDuration: 500,
-  stimulusDuration: 1000,
 };

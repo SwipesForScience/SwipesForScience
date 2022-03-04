@@ -143,7 +143,7 @@ router.beforeEach((to, from, next) => {
   } else if (to.name === "Play" && currentUser) {
     get(child(dbRef, `/users/${currentUser.uid}`)).then(snapshot => {
       const userData = snapshot.val();
-      if (!userData.taken_tutorial && config.needsTutorial) {
+      if (!userData.taken_tutorial && config.tutorial.needsTutorial) {
         next({ path: "/tutorial", query: from.query });
       } else next();
     });

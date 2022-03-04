@@ -59,9 +59,9 @@ export default {
   setup(props, context) {
     const handleKeyDown = e => {
       if (e.key === "ArrowRight") {
-        submitResponse({ response: 1, duration: 100 });
+        submitResponse({ response: 1 });
       } else if (e.key === "ArrowLeft") {
-        submitResponse({ response: 0, duration: 100 });
+        submitResponse({ response: 0 });
       }
     };
     onMounted(() => {
@@ -70,11 +70,10 @@ export default {
     onUnmounted(() => {
       window.removeEventListener("keydown", handleKeyDown);
     });
-    const submitResponse = async ({ response, duration }) => {
-      const pointsEarned = evaluateVoteByAverage(response);
+    const submitResponse = async ({ response }) => {
+      const pointsEarned = calculatePointsEarned(response);
       context.emit("submitVote", {
         response,
-        duration,
         pointsEarned,
         sampleId: currentSampleId.value,
       });
@@ -82,7 +81,7 @@ export default {
     const currentSampleId = computed(() => {
       return props.displayedSamples[0];
     });
-    const evaluateVoteByAverage = response => {
+    const calculatePointsEarned = response => {
       if (props.allSamples[currentSampleId.value].totalSeenCount < 4) {
         return 1;
       }
@@ -98,7 +97,7 @@ export default {
     };
     return {
       submitResponse,
-      evaluateVoteByAverage,
+      calculatePointsEarned,
       currentSampleId,
     };
   },

@@ -8,13 +8,15 @@
         :isNext="index === 1"
         :sampleId="sampleId"
         @removeTopCard="submitResponse"
-        :baseUrlTemplate="config.sampleUrlTemplate"
+        :baseUrlTemplate="config.widgetProperties.sampleUrlTemplate"
       />
     </div>
     <div class="imageswipe__instructions">
-      <div class="imageswipe__question">{{ config?.play?.question }}</div>
-      <p>{{ config?.play?.swipeRightLabel }}</p>
-      <p>{{ config?.play?.swipeLeftLabel }}</p>
+      <div class="imageswipe__question">
+        {{ config?.widgetProperties?.question }}
+      </div>
+      <p>{{ config?.widgetProperties?.rightSwipe?.label }}</p>
+      <p>{{ config?.widgetProperties?.leftSwipe?.label }}</p>
     </div>
     <router-link to="/tutorial"
       ><button class="btn-game-transparent btn-full-size">
@@ -117,8 +119,8 @@ export default {
   width: 80%;
   margin-bottom: 80%;
   @include media("≥tablet") {
-    width: 60%;
-    margin-bottom: calc(60% + space(3));
+    width: 65%;
+    margin-bottom: calc(65% + space(3));
   }
 }
 .imageswipe__question {
