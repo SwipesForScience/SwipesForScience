@@ -32,7 +32,7 @@
         <router-link :to="{ name: 'Play' }">
           <button class="btn-game--primary-solid btn-full-size">Back</button>
         </router-link>
-        <router-link :to="{ name: 'Home' }" class="game__link"
+        <router-link :to="{ name: 'Home' }"
           ><button class="btn-game-transparent btn-full-size">Home</button>
         </router-link>
       </div>
@@ -124,5 +124,9 @@ h2 {
 }
 .buttons {
   width: 100%;
+  a:first-of-type {
+    display: block;
+    margin-bottom: space(1);
+  }
 }
 </style>

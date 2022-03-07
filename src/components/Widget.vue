@@ -36,25 +36,14 @@
         Play again
       </button>
     </div>
-    <div v-if="gameState === GAME_STATES.PAUSED">
-      <div>Game Paused</div>
-      <button
-        class="btn-game--primary-solid btn-full-size"
-        @click="unpauseGame"
-      >
-        Continue Playing
-      </button>
-      <router-link :to="{ name: 'Home' }" class="game__link"
-        ><button class="btn-game--primary-solid btn-full-size">
-          Save and Quit
-        </button></router-link
-      >
-      <div>Read tutorial</div>
-    </div>
+    <PauseScreen
+      v-if="gameState === GAME_STATES.PAUSED"
+      @unpauseGame="unpauseGame"
+    />
     <div v-if="gameState === GAME_STATES.LEVEL_UP">
       Level up
       <button @click="unpauseGame">Continue Playing</button>
-      <router-link :to="{ name: 'Home' }" class="game__link"
+      <router-link :to="{ name: 'Profile' }"
         ><button>Save and Quit</button></router-link
       >
     </div>
@@ -70,6 +59,8 @@ import useCurrentGame from "@/composables/gameplay/useCurrentGame";
 import WordSwipe from "@/components/Widgets/WordSwipe/WordSwipe.vue";
 import ImageSwipe from "@/components/Widgets/ImageSwipe/ImageSwipe.vue";
 import WidgetHeader from "@/components/Widgets/WidgetHeader";
+import PauseScreen from "@/components/PauseScreen";
+
 import {
   getDatabase,
   ref,
@@ -80,7 +71,7 @@ import {
 import { onMounted, toRaw, watch, computed, ref as vueRef } from "vue";
 
 export default {
-  components: { WidgetHeader, WordSwipe, ImageSwipe },
+  components: { WidgetHeader, WordSwipe, ImageSwipe, PauseScreen },
   props: {
     config: {
       type: Object,
