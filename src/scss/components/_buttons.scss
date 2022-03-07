@@ -101,3 +101,9 @@ $landing-btn-variants: (
     text-decoration: underline;
   }
 }
+
+.btn--game-back {
+  color: $game-font-light;
+  background: transparent;
+  border: none;
+}

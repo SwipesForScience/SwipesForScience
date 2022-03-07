@@ -1,5 +1,12 @@
 <template>
   <div class="frame frame--game tutorial">
+    <div class="tutorial__back" v-if="trainingCompleted">
+      <router-link :to="{ name: 'Play' }">
+        <button class="btn--game-back">
+          <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to gameplay
+        </button>
+      </router-link>
+    </div>
     <h1 class="heading">Tutorial</h1>
     <IntroductionSlides
       :slides="config.tutorial.introduction.slides"
@@ -146,7 +153,10 @@ export default {
 <style lang="scss">
 .tutorial {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto auto 1fr auto;
+}
+.tutorial__back {
+  margin-bottom: space(2);
 }
 p.tutorial-instructions {
   margin-bottom: space(3);
