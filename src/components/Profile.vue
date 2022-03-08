@@ -20,7 +20,11 @@
               alt="Hourglass"
               class="profile__tile-icon"
             />
-            10 seconds
+            {{
+              averageDuration
+                ? (averageDuration / 1000).toPrecision(3) + " seconds"
+                : "None yet"
+            }}
           </div>
         </div>
         <BadgesCarousel
@@ -52,6 +56,9 @@
  * @license Apache 2.0
  */
 import BadgesCarousel from "./BadgesCarousel.vue";
+import { onMounted, ref as vueRef } from "vue";
+import { toArray } from "lodash";
+import useVote from "@/composables/gameplay/useVote";
 
 export default {
   name: "profile",
@@ -61,6 +68,10 @@ export default {
      * the computed user data object based on userInfo
      */
     userData: {
+      type: Object,
+      required: true,
+    },
+    currentUser: {
       type: Object,
       required: true,
     },
@@ -75,7 +86,20 @@ export default {
       required: true,
     },
   },
-  setup() {},
+  setup(props) {
+    const { getUserVotes } = useVote();
+    const averageDuration = vueRef(null);
+    onMounted(async () => {
+      const allUserVotes = await getUserVotes(props.currentUser.uid);
+      const allUserVotesList = toArray(allUserVotes);
+      console.log({ allUserVotesList });
+      const total = allUserVotesList.reduce((acc, vote) => {
+        return (acc += vote.duration);
+      }, 0);
+      averageDuration.value = total / allUserVotesList.length;
+    });
+    return { averageDuration };
+  },
 };
 </script>
 <style lang="scss" scoped>

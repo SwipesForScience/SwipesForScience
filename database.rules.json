@@ -2,7 +2,8 @@
       {
         "rules": {
           "users": {
-            ".read": true,
+            ".indexOn" : "cumulativeScore",
+            ".read" : false,
             "$uid": {
               ".read": true,
               ".write": "auth.uid == $uid"
@@ -33,6 +34,7 @@
             }
           },
           "votes": {
+            ".indexOn": "userId",
             ".read": true,
             "$uid": {
               ".write": "!data.exists()"
