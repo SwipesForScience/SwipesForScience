@@ -2,7 +2,7 @@
   <div class="imageswipe-training">
     <h2 class="subheading">{{ title }}</h2>
     <div v-if="displayedSamples.length > 0">
-      <p class="tutorial-instructions">{{ text }}</p>
+      <p class="tutorial-instructions mb-3">{{ text }}</p>
       <div class="card-container">
         <Card
           v-for="(sample, index) in displayedSamples"
@@ -15,9 +15,12 @@
           :baseUrlTemplate="config.widgetProperties.sampleUrlTemplate"
         />
       </div>
-      <div class="imageswipe__instructions">
-        <p>{{ config?.play?.swipeRightLabel }}</p>
-        <p>{{ config?.play?.swipeLeftLabel }}</p>
+      <div class="imageswipe__instructions mb-3">
+        <div class="imageswipe__question">
+          {{ config?.widgetProperties?.question }}
+        </div>
+        <p>{{ config?.widgetProperties?.rightSwipe?.label }}</p>
+        <p>{{ config?.widgetProperties?.leftSwipe?.label }}</p>
       </div>
     </div>
     <div v-else>
@@ -133,7 +136,7 @@ h3 {
   align-items: center;
   .word-card {
     height: inherit;
-    width: 300px;
+    width: 18rem;
   }
   @include media("≥tablet") {
     width: 60%;

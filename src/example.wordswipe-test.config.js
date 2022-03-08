@@ -8,6 +8,8 @@ export default {
   home: {
     title: "Rapid Online Assessment of Reading",
     tagline: "Are the words real or fake?",
+    disclaimer:
+      "Some little disclaimer here that this game was brought to you by your school or educational institution!",
   },
   tutorial: {
     needsTutorial: true,
@@ -66,10 +68,10 @@ export default {
           sampleId: "jasmine",
           value: 1,
         },
-        { sampleId: "bulbet", value: 0 },
+        { sampleId: "bulbet", value: -1 },
         { sampleId: "sun", value: 1 },
-        { sampleId: "ecoline", value: 0 },
-        { sampleId: "dylly", value: 0 },
+        { sampleId: "ecoline", value: -1 },
+        { sampleId: "dylly", value: -1 },
       ],
     },
     summary: {
@@ -92,7 +94,7 @@ export default {
       value: -1,
     },
     rightSwipe: {
-      label: "Real Word",
+      label: "Swipe Right for fake words",
       value: 1,
     },
   },

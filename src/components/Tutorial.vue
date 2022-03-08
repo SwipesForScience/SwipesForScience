@@ -1,8 +1,8 @@
 <template>
   <div class="frame frame--game tutorial">
-    <div class="tutorial__back" v-if="userData.taken_tutorial">
+    <div v-if="userData.taken_tutorial">
       <router-link :to="{ name: 'Play' }">
-        <button class="btn--game-back btn-game-transparent">
+        <button class="btn-game-transparent btn--game-back">
           <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to gameplay
         </button>
       </router-link>
@@ -55,7 +55,9 @@
     </div>
     <div v-if="currentStep === 4">
       <h2 class="subheading">{{ config.tutorial.summary.title }}</h2>
-      <p class="tutorial-instructions">{{ config.tutorial.summary.text }}</p>
+      <p class="tutorial-instructions mb-3">
+        {{ config.tutorial.summary.text }}
+      </p>
       <router-link to="/play"
         ><button class="btn-game--primary-solid btn-full-size">
           Let's play
@@ -150,20 +152,22 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.btn--game-back {
+  padding-left: 0;
+  @include media("≥tablet") {
+    padding: 0;
+  }
+}
 .tutorial {
   display: grid;
   grid-template-rows: auto auto 1fr auto;
 }
-.tutorial__back {
-  margin-bottom: space(2);
-}
+
 p.tutorial-instructions {
-  margin-bottom: space(3);
   white-space: pre-wrap;
   line-height: 1.625rem;
 }
-
 .tutorial-step-dots {
   display: flex;
   justify-content: space-around;

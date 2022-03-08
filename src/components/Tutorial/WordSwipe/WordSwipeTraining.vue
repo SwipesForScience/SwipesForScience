@@ -2,7 +2,7 @@
   <div class="wordswipe-training">
     <h2 class="subheading">{{ title }}</h2>
     <div v-if="displayedSamples.length > 0">
-      <p class="tutorial-instructions">{{ text }}</p>
+      <p class="tutorial-instructions mb-3">{{ text }}</p>
       <div class="card-container">
         <Card
           v-for="({ sampleId }, index) in displayedSamples"
@@ -13,9 +13,12 @@
           @removeTopCard="removeTopCard"
         />
       </div>
-      <div class="wordswipe__instructions">
-        <p>{{ config?.play?.swipeRightLabel }}</p>
-        <p>{{ config?.play?.swipeLeftLabel }}</p>
+      <div class="wordswipe__instructions mb-3">
+        <div class="wordswipe__question">
+          {{ config?.widgetProperties?.question }}
+        </div>
+        <p>{{ config?.widgetProperties?.rightSwipe?.label }}</p>
+        <p>{{ config?.widgetProperties?.leftSwipe?.label }}</p>
       </div>
     </div>
     <div v-else>
@@ -129,8 +132,11 @@ h3 {
   align-items: center;
   .word-card {
     height: inherit;
-    width: 300px;
+    width: 20rem;
   }
+}
+.wordswipe__question {
+  font-weight: $bold;
 }
 
 .wordswipe__instructions {

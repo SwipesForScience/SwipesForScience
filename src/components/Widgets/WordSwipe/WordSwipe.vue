@@ -1,11 +1,5 @@
 <template>
   <div class="wordswipe" v-if="currentGame.currentSampleIndex >= 0">
-    <WidgetHeader
-      :currentScore="currentGame.score"
-      :totalSamples="currentGame.sampleIds.length"
-      :currentSampleIndex="currentGame.currentSampleIndex"
-    />
-
     <div class="wordswipe__cards">
       <Card
         v-for="(sampleId, index) in displayedSamples"
@@ -16,11 +10,12 @@
         @removeTopCard="submitResponse"
       />
     </div>
-
     <div class="wordswipe__instructions">
-      <div class="wordswipe__question">{{ config?.play?.question }}</div>
-      <p>{{ config?.play?.swipeRightLabel }}</p>
-      <p>{{ config?.play?.swipeLeftLabel }}</p>
+      <div class="wordswipe__question mb-2">
+        {{ config?.widgetProperties?.question }}
+      </div>
+      <p>{{ config?.widgetProperties?.rightSwipe?.label }}</p>
+      <p>{{ config?.widgetProperties?.leftSwipe?.label }}</p>
     </div>
     <router-link to="/tutorial"
       ><button class="btn-game-transparent btn-full-size">
@@ -32,11 +27,10 @@
 
 <script>
 import Card from "./Card";
-import WidgetHeader from "@/components/Widgets/WidgetHeader";
 import { computed, onMounted, onUnmounted } from "vue";
 
 export default {
-  components: { WidgetHeader, Card },
+  components: { Card },
   props: {
     config: {
       type: Object,
@@ -107,7 +101,7 @@ export default {
 <style scoped lang="scss">
 .wordswipe {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 6.75rem);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -124,7 +118,6 @@ export default {
 
 .wordswipe__question {
   font-weight: $bold;
-  margin-bottom: space(2);
 }
 .wordswipe__instructions {
   @include font-size("sm");

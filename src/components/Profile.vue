@@ -152,9 +152,5 @@ h2 {
 }
 .buttons {
   width: 100%;
-  a:first-of-type {
-    display: block;
-    margin-bottom: space(1);
-  }
 }
 </style>

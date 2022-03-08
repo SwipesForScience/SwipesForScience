@@ -26,8 +26,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 0;
   user-select: none;
 }
 </style>

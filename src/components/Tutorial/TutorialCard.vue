@@ -1,8 +1,8 @@
 <template>
   <div>
     <h2 class="subheading">{{ title }}</h2>
-    <p class="tutorial-instructions">{{ text }}</p>
-    <div class="tutorial-card">
+    <p class="tutorial-instructions mb-3">{{ text }}</p>
+    <div class="tutorial-card mb-3">
       <WordTutorialCard
         :sampleId="card.sampleId"
         v-if="widgetType === 'WordSwipe'"
@@ -71,7 +71,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: space(3);
 }
 svg {
   @include z-index("above-base");

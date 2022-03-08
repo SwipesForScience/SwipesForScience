@@ -2,7 +2,7 @@
   <div class="pause">
     <div class="pause__header">
       <img src="@/assets/badges/dna.svg" />
-      <h2>Game Paused</h2>
+      <h2 class="mt-5">Game Paused</h2>
     </div>
     <div class="pause__footer">
       <button
@@ -11,7 +11,7 @@
       >
         Continue Playing
       </button>
-      <router-link :to="{ name: 'Profile' }"
+      <router-link :to="{ name: 'Profile' }" class="mt-3"
         ><button class="btn-game--secondary-solid btn-full-size">
           Save and view Profile
         </button></router-link
@@ -43,10 +43,6 @@ export default {
   align-items: center;
   justify-content: center;
   grid-row: 1 / span 1;
-
-  h2 {
-    margin-top: space(6);
-  }
 }
 .pause__footer {
   width: 100%;
@@ -55,8 +51,6 @@ export default {
   a:first-of-type {
     display: block;
     width: 100%;
-    margin-top: space(4);
-    margin-bottom: space(1);
   }
 }
 h2 {
