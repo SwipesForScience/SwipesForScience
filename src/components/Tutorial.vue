@@ -1,8 +1,8 @@
 <template>
   <div class="frame frame--game tutorial">
-    <div class="tutorial__back" v-if="trainingCompleted">
+    <div class="tutorial__back" v-if="userData.taken_tutorial">
       <router-link :to="{ name: 'Play' }">
-        <button class="btn--game-back">
+        <button class="btn--game-back btn-game-transparent">
           <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to gameplay
         </button>
       </router-link>

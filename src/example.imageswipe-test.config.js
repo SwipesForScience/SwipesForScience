@@ -9,6 +9,8 @@ export default {
     title: "Braindr",
     tagline:
       "Any similarities to the Tinder dating app are completely coincidental",
+    disclaimer:
+      "Some little disclaimer here that this game was brought to you by your school or educational institution!",
   },
   tutorial: {
     needsTutorial: true,
