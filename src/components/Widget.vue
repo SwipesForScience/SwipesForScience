@@ -44,7 +44,7 @@
       Level up
       <button @click="unpauseGame">Continue Playing</button>
       <router-link :to="{ name: 'Profile' }"
-        ><button>Save and Quit</button></router-link
+        ><button>Save and view Profile</button></router-link
       >
     </div>
   </div>

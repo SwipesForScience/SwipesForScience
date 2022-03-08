@@ -36,9 +36,12 @@
         <router-link :to="{ name: 'Play' }">
           <button class="btn-game--primary-solid btn-full-size">Back</button>
         </router-link>
-        <router-link :to="{ name: 'Home' }"
-          ><button class="btn-game-transparent btn-full-size">Home</button>
-        </router-link>
+        <button
+          class="btn-game-transparent btn-full-size"
+          @click="$emit('logout')"
+        >
+          Logout
+        </button>
       </div>
     </div>
   </div>
@@ -63,6 +66,7 @@ import useVote from "@/composables/gameplay/useVote";
 export default {
   name: "profile",
   components: { BadgesCarousel },
+  emits: ["logout"],
   props: {
     /**
      * the computed user data object based on userInfo

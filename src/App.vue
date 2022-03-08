@@ -20,6 +20,7 @@
           :db="db"
           v-on:taken_tutorial="setTutorial"
           :routerQuery="routerQuery"
+          @logout="logout"
         />
       </router-view>
     </div>

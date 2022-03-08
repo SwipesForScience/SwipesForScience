@@ -13,7 +13,7 @@
       </button>
       <router-link :to="{ name: 'Profile' }"
         ><button class="btn-game--secondary-solid btn-full-size">
-          Save and Quit
+          Save and view Profile
         </button></router-link
       >
       <router-link :to="{ name: 'Tutorial' }">
