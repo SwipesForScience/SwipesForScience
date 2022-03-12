@@ -62,16 +62,16 @@ export default {
     },
     training: {
       title: "07 - Training",
-      text: "Swipe all cards correctly to pass the tutorial.",
+      text: "Swipe all cards correctly to pass the tutorial. (right, left, right, left, left)",
       trainingCards: [
         {
           sampleId: "jasmine",
           value: 1,
         },
-        { sampleId: "bulbet", value: -1 },
+        { sampleId: "bulbet", value: 0 },
         { sampleId: "sun", value: 1 },
-        { sampleId: "ecoline", value: -1 },
-        { sampleId: "dylly", value: -1 },
+        { sampleId: "ecoline", value: 0 },
+        { sampleId: "dylly", value: 0 },
       ],
     },
     summary: {
@@ -91,7 +91,7 @@ export default {
     question: "Are these words real or fake?",
     leftSwipe: {
       label: "Swipe left for fake words",
-      value: -1,
+      value: 0,
     },
     rightSwipe: {
       label: "Swipe Right for fake words",

@@ -96,7 +96,6 @@ export default {
     onMounted(async () => {
       const allUserVotes = await getUserVotes(props.currentUser.uid);
       const allUserVotesList = toArray(allUserVotes);
-      console.log({ allUserVotesList });
       const total = allUserVotesList.reduce((acc, vote) => {
         return (acc += vote.duration);
       }, 0);

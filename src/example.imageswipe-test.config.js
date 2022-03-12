@@ -69,16 +69,16 @@ export default {
     },
     training: {
       title: "07 - Training",
-      text: "Swipe all cards correctly to pass the tutorial.",
+      text: "Swipe all cards correctly to pass the tutorial. (left, left, right, left, left)",
       trainingCards: [
         {
           sampleId: "sub-NDARMJ334ZK3_T1w__ax_65",
-          value: -1,
+          value: 0,
         },
-        { sampleId: "sub-NDARLN778RYN_T1w__ax_170", value: -1 },
+        { sampleId: "sub-NDARLN778RYN_T1w__ax_170", value: 0 },
         { sampleId: "sub-NDARLZ104NDT_T1w__ax_109", value: 1 },
-        { sampleId: "sub-NDARME656MTN_T1w__ax_111", value: -1 },
-        { sampleId: "sub-NDARMG196KV4_T1w__ax_163", value: -1 },
+        { sampleId: "sub-NDARME656MTN_T1w__ax_111", value: 0 },
+        { sampleId: "sub-NDARMG196KV4_T1w__ax_163", value: 0 },
       ],
     },
     summary: {
@@ -96,7 +96,7 @@ export default {
       "https://imageswipe-test.s3.us-west-1.amazonaws.com/_SAMPLE_ID_.jpeg",
     leftSwipe: {
       label: "Swipe left for Fail",
-      value: -1,
+      value: 0,
     },
     rightSwipe: {
       label: "Swipe right for Pass",

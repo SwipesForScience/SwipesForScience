@@ -73,7 +73,7 @@ export default {
       if (e.key === "ArrowRight") {
         removeTopCard({ response: 1 });
       } else if (e.key === "ArrowLeft") {
-        removeTopCard({ response: -1 });
+        removeTopCard({ response: 0 });
       }
     };
     onMounted(() => {

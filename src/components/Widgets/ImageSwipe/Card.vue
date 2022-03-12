@@ -108,7 +108,7 @@ export default {
     sendCardToLeft() {
       this.setPosition({ x: -X_OFFSCREEN_COORDINATE, rotation: 0 });
       setTimeout(() => {
-        this.$emit("remove-top-card", { response: -1 });
+        this.$emit("remove-top-card", { response: 0 });
       }, 100);
     },
     sendCardToRight() {

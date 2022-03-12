@@ -57,7 +57,7 @@ export default {
       if (e.key === "ArrowRight") {
         submitResponse({ response: 1 });
       } else if (e.key === "ArrowLeft") {
-        submitResponse({ response: -1 });
+        submitResponse({ response: 0 });
       }
     };
     onMounted(() => {
@@ -85,7 +85,7 @@ export default {
       if (
         (response === 1 &&
           props.allSamples[currentSampleId.value].averageVote > 0.7) ||
-        (response === -1 &&
+        (response === 0 &&
           props.allSamples[currentSampleId.value].averageVote < 0.3)
       ) {
         return 1;
