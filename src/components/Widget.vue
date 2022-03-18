@@ -139,7 +139,7 @@ export default {
     };
     const calculateNewAverage = ({ response, sampleId }) => {
       const { averageVote, totalSeenCount } = toRaw(allSamples.value)[sampleId];
-      return (averageVote + response) / (totalSeenCount + 1);
+      return (averageVote * totalSeenCount + response) / (totalSeenCount + 1);
     };
     const updateSample = async ({ response, sampleId }) => {
       const newAverage = calculateNewAverage({ response, sampleId });
