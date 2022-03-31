@@ -19,12 +19,10 @@
           class="btn--landing-cta btn-full-size"
           @click="onPlay"
         >
-          Play
+          {{ userData?.currentGameId ? "Resume Game" : "Play" }}
         </button>
-
         <div class="disclaimer">
-          Some little disclaimer here that this game was brought to you by your
-          school or educational institution!
+          {{ config.home.disclaimer }}
         </div>
       </div>
     </div>
@@ -130,6 +128,15 @@ export default {
     },
     routerQuery: {
       type: Object,
+      required: true,
+    },
+    userData: {
+      type: Object,
+      required: false,
+    },
+    currentUser: {
+      type: Object,
+      required: false,
     },
   },
   computed: {
@@ -160,7 +167,6 @@ export default {
   .frame {
     background-image: $landing-primary-gradient;
   }
-
   .cloud {
     position: absolute;
     left: 0;
@@ -184,7 +190,6 @@ export default {
     }
   }
 }
-
 .frame__content {
   height: 100%;
   position: relative;

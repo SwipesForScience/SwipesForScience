@@ -1,8 +1,23 @@
 <template>
   <div class="widget-container">
     <div class="widget" v-if="gameState === GAME_STATES.IN_PROGRESS">
+      <WidgetHeader
+        :currentScore="currentGame.score"
+        :totalSamples="currentGame.sampleIds.length"
+        :currentSampleIndex="currentGame.currentSampleIndex"
+        @pauseGame="pauseGame"
+      />
       <WordSwipe
         v-if="config.widgetType === 'WordSwipe'"
+        :config="config"
+        :currentGame="currentGame"
+        :currentGameId="currentGameId"
+        :allSamples="allSamples"
+        :displayedSamples="displayedSamples"
+        @submitVote="submitVote"
+      />
+      <ImageSwipe
+        v-if="config.widgetType === 'ImageSwipe'"
         :config="config"
         :currentGame="currentGame"
         :currentGameId="currentGameId"
@@ -21,20 +36,16 @@
         Play again
       </button>
     </div>
-    <div v-if="gameState === GAME_STATES.PAUSED">
-      <div>Game Paused</div>
-      <button class="btn-game--primary-solid btn-full-size">
-        Continue Playing
-      </button>
-      <button class="btn-game--primary-solid btn-full-size">
-        Save and Quit
-      </button>
-      <div>Read tutorial</div>
-    </div>
+    <PauseScreen
+      v-if="gameState === GAME_STATES.PAUSED"
+      @unpauseGame="unpauseGame"
+    />
     <div v-if="gameState === GAME_STATES.LEVEL_UP">
       Level up
-      <button>Continue Playing</button>
-      <button>Save and Quit</button>
+      <button @click="unpauseGame">Continue Playing</button>
+      <router-link :to="{ name: 'Profile' }"
+        ><button>Save and view Profile</button></router-link
+      >
     </div>
   </div>
 </template>
@@ -46,6 +57,10 @@ import useCurrentUser from "@/composables/gameplay/useCurrentUser";
 import useVote from "@/composables/gameplay/useVote";
 import useCurrentGame from "@/composables/gameplay/useCurrentGame";
 import WordSwipe from "@/components/Widgets/WordSwipe/WordSwipe.vue";
+import ImageSwipe from "@/components/Widgets/ImageSwipe/ImageSwipe.vue";
+import WidgetHeader from "@/components/Widgets/WidgetHeader";
+import PauseScreen from "@/components/PauseScreen";
+
 import {
   getDatabase,
   ref,
@@ -53,10 +68,10 @@ import {
   update,
   increment,
 } from "firebase/database";
-import { onMounted, toRaw, reactive, watch, ref as vueRef } from "vue";
+import { onMounted, toRaw, watch, computed, ref as vueRef } from "vue";
 
 export default {
-  components: { WordSwipe },
+  components: { WidgetHeader, WordSwipe, ImageSwipe, PauseScreen },
   props: {
     config: {
       type: Object,
@@ -76,21 +91,26 @@ export default {
     const { updateUserCumulativeScore } = useCurrentUser();
     const { updateGameScore } = useCurrentGame();
     const { sendVote } = useVote();
-    const displayedSamples = reactive([]);
     const GAME_STATES = {
       LEVEL_UP: "levelUp",
       PAUSED: "paused",
       GAME_OVER: "gameOver",
       IN_PROGRESS: "inProgress",
     };
+
+    const displayedSamples = computed(() => {
+      return props.currentGame.sampleIds.slice(
+        props.currentGame.currentSampleIndex,
+        props.currentGame.currentSampleIndex + 4
+      );
+    });
     const gameState = vueRef(GAME_STATES.IN_PROGRESS);
+    const currentCardStartTime = vueRef(null);
+    const currentCardState = vueRef(null);
     const db = getDatabase();
     onMounted(async () => {
       await getAllSamples();
-      const samples = toRaw(props.currentGame.sampleIds).slice(
-        props.currentGame.currentSampleIndex
-      );
-      displayedSamples.push(...samples);
+      currentCardStartTime.value = new Date();
     });
 
     watch(
@@ -101,8 +121,8 @@ export default {
     );
 
     const displayNextCard = async () => {
-      displayedSamples.shift();
       const currentGameRef = ref(db, `/games/${props.currentGameId}`);
+      currentCardStartTime.value = new Date();
       await runTransaction(currentGameRef, currentGame => {
         if (currentGame) {
           if (
@@ -119,7 +139,7 @@ export default {
     };
     const calculateNewAverage = ({ response, sampleId }) => {
       const { averageVote, totalSeenCount } = toRaw(allSamples.value)[sampleId];
-      return (averageVote + response) / (totalSeenCount + 1);
+      return (averageVote * totalSeenCount + response) / (totalSeenCount + 1);
     };
     const updateSample = async ({ response, sampleId }) => {
       const newAverage = calculateNewAverage({ response, sampleId });
@@ -130,11 +150,13 @@ export default {
       update(sampleRef, updates);
     };
     const submitVote = async ({ response, sampleId, pointsEarned }) => {
+      const duration = new Date() - currentCardStartTime.value;
       const vote = {
         response,
         userId: props.currentGame.userId,
         gameId: props.currentGameId,
         sampleId,
+        duration,
       };
       sendVote(vote);
       updateSample({ response, sampleId });
@@ -149,14 +171,25 @@ export default {
       context.emit("startNewGame");
     };
 
+    const pauseGame = () => {
+      gameState.value = GAME_STATES.PAUSED;
+    };
+    const unpauseGame = () => {
+      gameState.value = GAME_STATES.IN_PROGRESS;
+      currentCardStartTime.value = new Date();
+    };
+
     return {
       submitVote,
-      displayedSamples,
       displayNextCard,
+      displayedSamples,
       allSamples,
       startNewGame,
       GAME_STATES,
       gameState,
+      pauseGame,
+      unpauseGame,
+      currentCardState,
     };
   },
 };

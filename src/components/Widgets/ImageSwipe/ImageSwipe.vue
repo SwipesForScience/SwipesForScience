@@ -1,6 +1,6 @@
 <template>
-  <div class="wordswipe" v-if="currentGame.currentSampleIndex >= 0">
-    <div class="wordswipe__cards">
+  <div class="imageswipe">
+    <div class="imageswipe__cards">
       <Card
         v-for="(sampleId, index) in displayedSamples"
         :key="sampleId"
@@ -8,10 +8,11 @@
         :isNext="index === 1"
         :sampleId="sampleId"
         @removeTopCard="submitResponse"
+        :baseUrlTemplate="config.widgetProperties.sampleUrlTemplate"
       />
     </div>
-    <div class="wordswipe__instructions">
-      <div class="wordswipe__question mb-2">
+    <div class="imageswipe__instructions">
+      <div class="imageswipe__question">
         {{ config?.widgetProperties?.question }}
       </div>
       <p>{{ config?.widgetProperties?.rightSwipe?.label }}</p>
@@ -27,6 +28,7 @@
 
 <script>
 import Card from "./Card";
+
 import { computed, onMounted, onUnmounted } from "vue";
 
 export default {
@@ -65,7 +67,7 @@ export default {
       window.removeEventListener("keydown", handleKeyDown);
     });
     const submitResponse = async ({ response }) => {
-      const pointsEarned = calculatePointsEarned(response);
+      const pointsEarned = evaluateVoteByAverage(response);
       context.emit("submitVote", {
         response,
         pointsEarned,
@@ -75,7 +77,8 @@ export default {
     const currentSampleId = computed(() => {
       return props.displayedSamples[0];
     });
-    const calculatePointsEarned = response => {
+    const evaluateVoteByAverage = response => {
+      // when there have been less than 4 people have voted on the sample, any answer is taken correct
       if (props.allSamples[currentSampleId.value].totalSeenCount < 4) {
         return 1;
       }
@@ -91,35 +94,40 @@ export default {
     };
     return {
       submitResponse,
-      calculatePointsEarned,
+      evaluateVoteByAverage,
       currentSampleId,
     };
   },
 };
 </script>
 
-<style scoped lang="scss">
-.wordswipe {
+<style lang="scss" scoped>
+.imageswipe {
   width: 100%;
   height: calc(100% - 6.75rem);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
 }
-
-.wordswipe__cards {
+.imageswipe__cards {
   display: flex;
-  height: 12rem;
   position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 80%;
+  margin-bottom: 80%;
+  @include media("≥tablet") {
+    width: 65%;
+    margin-bottom: calc(65% + space(3));
+  }
 }
-
-.wordswipe__question {
+.imageswipe__question {
   font-weight: $bold;
+  margin-bottom: space(2);
 }
-.wordswipe__instructions {
+.imageswipe__instructions {
   @include font-size("sm");
   font-family: $primary-font;
   font-weight: $semibold;
@@ -132,8 +140,5 @@ export default {
   @include media("≥tablet") {
     @include font-size("md");
   }
-}
-.wordswipe__contact {
-  text-align: center;
 }
 </style>

@@ -1,27 +1,28 @@
 <template>
   <div
-    class="word-card"
+    class="image-card"
     ref="card"
     :class="{
-      'word-card--current': isCurrent,
-      'word-card--disabled': !isCurrent,
-      'word-card--next': isNext,
+      'image-card--current': isCurrent,
+      'image-card--disabled': !isCurrent,
+      'image-card--next': isNext,
       isAnimating: isAnimating,
     }"
     :style="{ transform: transformString }"
   >
-    {{ sampleId }}
+    <img :src="imageUrl" class="image-card__image" />
   </div>
 </template>
 
 <script>
+import { computed } from "vue";
 import interact from "interactjs";
+
 const MAX_ROTATION = 30;
 const X_OFFSCREEN_COORDINATE = 1000;
 const X_THRESHOLD = 20;
 
 export default {
-  name: "Card",
   props: {
     sampleId: {
       type: String,
@@ -33,6 +34,10 @@ export default {
     },
     isNext: {
       type: Boolean,
+      required: true,
+    },
+    baseUrlTemplate: {
+      type: String,
       required: true,
     },
   },
@@ -54,7 +59,6 @@ export default {
       autoScroll: true,
       modifiers: [
         interact.modifiers.restrictRect({
-          restriction: "parent",
           endOnly: true,
         }),
       ],
@@ -87,6 +91,7 @@ export default {
       } else {
         rotation = Math.max(-MAX_ROTATION, this.position.x * 2);
       }
+
       this.setPosition({ x: x, y: y, rotation });
     },
     setPosition(coordinates) {
@@ -127,18 +132,17 @@ export default {
       return null;
     },
   },
+  setup(props) {
+    const imageUrl = computed(() => {
+      return props.baseUrlTemplate.replace("_SAMPLE_ID_", props.sampleId);
+    });
+    return { imageUrl };
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.word-card {
-  @include font-size("lg");
-  font-weight: $semibold;
-  background: $game-primary-gradient;
-  border-radius: $border-radius-sm;
-  width: 85%;
-  height: 12rem;
-  display: flex;
+.image-card {
   position: absolute;
   top: 0;
   justify-content: center;
@@ -146,21 +150,31 @@ export default {
   cursor: pointer;
   user-select: none;
   touch-action: none;
+  width: 100%;
+  @include media("≥tablet") {
+    width: 100%;
+  }
 }
-
-.word-card--current {
+.image-card__image {
+  border-radius: $border-radius-sm;
+  width: 100%;
+  @include media("≥tablet") {
+    min-width: 100%;
+  }
+}
+.image-card--current {
   cursor: move;
   transform: scale(1);
   opacity: 1;
-  z-index: 2;
   touch-action: none;
+  z-index: 2;
 }
-.word-card--disabled {
+.image-card--disabled {
   transform: scale(0.9) translatey(30px);
   opacity: 0;
   pointer-events: none;
 }
-.word-card--next {
+.image-card--next {
   opacity: 0.7;
 }
 .isAnimating {

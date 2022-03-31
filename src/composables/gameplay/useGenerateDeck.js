@@ -3,7 +3,7 @@ import { shuffle } from "lodash";
 export default function useGenerateDeck() {
   const generateRandomDeck = ({ allSamples, deckSize }) => {
     let newDeck = [];
-    newDeck = shuffle(Object.keys(allSamples.value));
+    newDeck = shuffle(Object.keys(allSamples));
     if (deckSize) {
       return newDeck.slice(0, deckSize);
     }

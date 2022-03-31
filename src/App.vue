@@ -20,6 +20,7 @@
           :db="db"
           v-on:taken_tutorial="setTutorial"
           :routerQuery="routerQuery"
+          @logout="logout"
         />
       </router-view>
     </div>
@@ -184,7 +185,7 @@ export default {
      * whether or not the user is forced to take the tutorial.
      */
     needsTutorial() {
-      return this.config.needsTutorial;
+      return this.config.tutorial.needsTutorial;
     },
     /**
      * router query
