@@ -87,7 +87,7 @@ export default {
       } else {
         rotation = Math.max(-MAX_ROTATION, this.position.x * 2);
       }
-      this.setPosition({ x: x, y: y, rotation: rotation });
+      this.setPosition({ x: x, y: y, rotation });
     },
     setPosition(coordinates) {
       const { x = 0, y = 0, rotation = 0 } = coordinates;
